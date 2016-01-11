@@ -1,0 +1,186 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="win32">
+      <UniqueIdentifier>{84a8ebd7-7cf0-47f6-b75e-d441df67da40}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Classes">
+      <UniqueIdentifier>{20545893-551c-4f10-ae10-8d1be8921597}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Classes\libqrencode">
+      <UniqueIdentifier>{0046b835-bd74-433b-8b34-4512a1426b9e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Classes\utils">
+      <UniqueIdentifier>{b1f5e1c8-29a6-4a15-9432-d7f0561d03b6}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp">
+      <Filter>win32</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\AppDelegate.cpp">
+      <Filter>Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\FirstViewController.cpp">
+      <Filter>Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\RootWindow.cpp">
+      <Filter>Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\LoginViewController.cpp">
+      <Filter>Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\libqrencode\bitstream.c">
+      <Filter>Classes\libqrencode</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\libqrencode\mask.c">
+      <Filter>Classes\libqrencode</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\libqrencode\mmask.c">
+      <Filter>Classes\libqrencode</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\libqrencode\mqrspec.c">
+      <Filter>Classes\libqrencode</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\libqrencode\qrencode.c">
+      <Filter>Classes\libqrencode</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\libqrencode\qrinput.c">
+      <Filter>Classes\libqrencode</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\libqrencode\qrspec.c">
+      <Filter>Classes\libqrencode</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\libqrencode\rscode.c">
+      <Filter>Classes\libqrencode</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\libqrencode\split.c">
+      <Filter>Classes\libqrencode</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\utils\HttpConnect.cpp">
+      <Filter>Classes\utils</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\CommonHttpManager.cpp">
+      <Filter>Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\MainViewController.cpp">
+      <Filter>Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\MainViewTableCell.cpp">
+      <Filter>Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\MyStatusViewController.cpp">
+      <Filter>Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\PhotoViewController.cpp">
+      <Filter>Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\PrizeViewController.cpp">
+      <Filter>Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\SessionDetailViewController.cpp">
+      <Filter>Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\SessionsSearchViewController.cpp">
+      <Filter>Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\SessionsViewController.cpp">
+      <Filter>Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\SiteViewController.cpp">
+      <Filter>Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\VoteViewController.cpp">
+      <Filter>Classes</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="main.h">
+      <Filter>win32</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\AppDelegate.h">
+      <Filter>Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\AppMacros.h">
+      <Filter>Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\FirstViewController.h">
+      <Filter>Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\RootWindow.h">
+      <Filter>Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\LoginViewController.h">
+      <Filter>Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\libqrencode\split.h">
+      <Filter>Classes\libqrencode</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\libqrencode\bitstream.h">
+      <Filter>Classes\libqrencode</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\libqrencode\mask.h">
+      <Filter>Classes\libqrencode</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\libqrencode\mmask.h">
+      <Filter>Classes\libqrencode</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\libqrencode\mqrspec.h">
+      <Filter>Classes\libqrencode</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\libqrencode\qrencode.h">
+      <Filter>Classes\libqrencode</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\libqrencode\qrencode_inner.h">
+      <Filter>Classes\libqrencode</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\libqrencode\qrinput.h">
+      <Filter>Classes\libqrencode</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\libqrencode\qrspec.h">
+      <Filter>Classes\libqrencode</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\libqrencode\rscode.h">
+      <Filter>Classes\libqrencode</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\utils\HttpConnect.h">
+      <Filter>Classes\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\CDData.h">
+      <Filter>Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\CommonHttpManager.h">
+      <Filter>Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\MainViewController.h">
+      <Filter>Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\MainViewTableCell.h">
+      <Filter>Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\MyStatusViewController.h">
+      <Filter>Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\PhotoViewController.h">
+      <Filter>Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\PrizeViewController.h">
+      <Filter>Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\SessionDetailViewController.h">
+      <Filter>Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\SessionsSearchViewController.h">
+      <Filter>Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\SessionsViewController.h">
+      <Filter>Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\SiteViewController.h">
+      <Filter>Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\VoteViewController.h">
+      <Filter>Classes</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
