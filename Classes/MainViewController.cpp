@@ -12,6 +12,7 @@
 #include "VoteViewController.h"
 #include "PhotoViewController.h"
 #include "FDataManager.h"
+#include "FServerTime.h"
 
 
 MainViewController::MainViewController()
@@ -21,7 +22,7 @@ MainViewController::MainViewController()
 , p_pLoading(NULL)
 , p_section(1)
 {
-    
+    m_msg = FDataManager::getInstance()->getSessionMsgs();
 }
 
 MainViewController::~MainViewController()
@@ -74,25 +75,18 @@ void MainViewController::viewDidLoad()
     label->setTouchEnabled(false);
 	sView->addSubview(label);
     
-    if (m_msg.empty())
+    if (m_msg->empty())
     {
-        std::map<std::string, std::string> key_value;
-        key_value["tag"] = mainViewTag[0];
-        key_value["page"] = "1";
-        key_value["limit"] = "20";
-        key_value["appid"] = "10000";
-        key_value["sign_method"] = "md5";
-        key_value["sign"] = getSign(key_value);
-        
-        CommonHttpManager::getInstance()->send_post(httpUrl, key_value, this, CommonHttpJson_selector(MainViewController::onRequestFinished));
-        
-        p_pLoading = CAActivityIndicatorView::createWithCenter(DRect(m_winSize.width / 2, m_winSize.height / 2, 50, 50));
-        this->getView()->insertSubview(p_pLoading, CAWindowZOderTop);
-        p_pLoading->setLoadingMinTime(0.5f);
-        p_pLoading->setTargetOnCancel(this, callfunc_selector(MainViewController::initMsgTableView));
+        requestSessionMsg();
     }
     else
     {
+        m_filterMsg.clear();
+        for (std::vector<sessionMsg>::iterator it = m_msg->begin(); it != m_msg->end(); it++)
+        {
+            if(it->m_stored && it->m_endTime < getTimeSecond())
+                m_filterMsg.push_back(&(*it));
+        }
         this->initMsgTableView();
     }
     
@@ -264,13 +258,29 @@ void MainViewController::showAlert()
     
 }
 
+void MainViewController::requestSessionMsg()
+{
+    std::map<std::string, std::string> key_value;
+    key_value["tag"] = sessionViewTag[0];
+    key_value["uid"] = crossapp_format_string("%d", FDataManager::getInstance()->getUserId());
+    //key_value["sign"] = getSign(key_value);
+    CommonHttpManager::getInstance()->send_post(httpUrl, key_value, this, CommonHttpJson_selector(MainViewController::onRequestFinished));
+    {
+        p_pLoading = CAActivityIndicatorView::createWithCenter(DRect(m_winSize.width / 2, m_winSize.height / 2, 50, 50));
+        this->getView()->insertSubview(p_pLoading, CAWindowZOderTop);
+        p_pLoading->setLoadingMinTime(0.5f);
+        p_pLoading->setTargetOnCancel(this, callfunc_selector(MainViewController::initMsgTableView));
+    }
+}
+
 void MainViewController::onRequestFinished(const HttpResponseStatus& status, const CSJson::Value& json)
 {
-    if (status == HttpResponseSucceed)
+    if (status == HttpResponseSucceed && !json.empty())
     {
         const CSJson::Value& value = json["result"];
         int length = value["pag"].size();
-        m_msg.clear();
+        m_msg->clear();
+        m_filterMsg.clear();
         m_page.clear();
         FDataManager::getInstance()->setDiffServerTime(value["srt"].asInt64());
         for (int i = 0; i < length; i++) {
@@ -283,7 +293,7 @@ void MainViewController::onRequestFinished(const HttpResponseStatus& status, con
         length = value["nws"].size();
         for (int index = 0; index < length; index++)
         {
-            newsMsg temp_msg;
+            sessionMsg temp_msg;
             temp_msg.m_sessionId = value["nws"][index]["sid"].asInt();
             temp_msg.m_title = value["nws"][index]["til"].asString();
             temp_msg.m_location = value["nws"][index]["loc"].asString();
@@ -296,13 +306,23 @@ void MainViewController::onRequestFinished(const HttpResponseStatus& status, con
             temp_msg.m_endTime = value["nws"][index]["drt"].asInt();
             temp_msg.m_likeNum = value["nws"][index]["lkn"].asInt();
             temp_msg.m_imageUrl = value["nws"][index]["img"].asString();
-            m_msg.push_back(temp_msg);
+            m_msg->push_back(temp_msg);
         }
-        
+        quickSort(m_msg, 0, (int)m_msg->size() - 1);
+        for (std::vector<sessionMsg>::iterator it = m_msg->begin(); it != m_msg->end(); it++)
+        {
+            if(it->m_stored && it->m_endTime < getTimeSecond())
+                m_filterMsg.push_back(&(*it));
+        }
+    }
+    else
+    {
+        showAlert();
     }
     
     {
-        m_msg.clear();
+        m_msg->clear();
+        m_filterMsg.clear();
         m_page.clear();
         for (int i = 0; i < 3; i++) {
             char title[8];
@@ -325,10 +345,10 @@ void MainViewController::onRequestFinished(const HttpResponseStatus& status, con
             
             m_page.push_back(temp_page);
         }
-        
+        srand((int)getTimeSecond());
         for (int i = 0; i < 7; i++)
         {
-            newsMsg temp_msg;
+            sessionMsg temp_msg;
             temp_msg.m_sessionId = 200 + i;
             temp_msg.m_title = "Customer Success";
             
@@ -342,12 +362,19 @@ void MainViewController::onRequestFinished(const HttpResponseStatus& status, con
             temp_msg.m_format = "Dev Faire";
             cc_timeval ct;
             CCTime::gettimeofdayCrossApp(&ct, NULL);
-            temp_msg.m_startTime = ct.tv_sec + 3500;
+            temp_msg.m_startTime = ct.tv_sec + rand() % 3500;
+            temp_msg.m_endTime = ct.tv_sec + 3500;
             temp_msg.m_likeNum = 20;
             temp_msg.m_imageUrl =
                 "http://imgsrc.baidu.com/forum/pic/item/53834466d0160924a41f433bd50735fae6cd3452.jpg";
             //"http://img1.gtimg.com/14/1468/146894/14689486_980x1200_0.png";
-            m_msg.push_back(temp_msg);
+            m_msg->push_back(temp_msg);
+        }
+        quickSort(m_msg, 0, (int)m_msg->size() - 1);
+        for (std::vector<sessionMsg>::iterator it = m_msg->begin(); it != m_msg->end(); it++)
+        {
+            if(it->m_stored && it->m_endTime < getTimeSecond())
+                m_filterMsg.push_back(&(*it));
         }
     }
     
@@ -368,7 +395,7 @@ void MainViewController::onRefreshRequestFinished(const HttpResponseStatus& stat
     {
         const CSJson::Value& value = json["result"];
         int length = value.size();
-        m_msg.clear();
+        m_msg->clear();
         m_page.clear();
         for (int i = 0; i<3; i++) {
             newsPage temp_page;
@@ -379,7 +406,7 @@ void MainViewController::onRefreshRequestFinished(const HttpResponseStatus& stat
         }
         for (int index = 3; index < length; index++)
         {
-            newsMsg temp_msg;
+            sessionMsg temp_msg;
             temp_msg.m_sessionId = value[index]["sid"].asInt();
             temp_msg.m_title = value[index]["title"].asString();
             temp_msg.m_lecturer = value[index]["lct"].asString();
@@ -389,7 +416,7 @@ void MainViewController::onRefreshRequestFinished(const HttpResponseStatus& stat
             temp_msg.m_endTime = value[index]["drt"].asInt();
             temp_msg.m_likeNum = value[index]["lkn"].asInt();
             temp_msg.m_imageUrl = value[index]["image"].asString();
-            m_msg.push_back(temp_msg);
+            m_msg->push_back(temp_msg);
         }
     }
     
@@ -492,7 +519,7 @@ CATableViewCell* MainViewController::tableCellAtIndex(CATableView* table, const 
         cell = MainViewTableCell::create("CrossApp", DRect(0, 0, _size.width, _size.height));
         cell->initWithCell();
     }
-    cell->setModel(m_msg[row]);
+    cell->setModel(m_msg->at(row));
     
     return cell;
 }
@@ -504,7 +531,7 @@ unsigned int MainViewController::numberOfSections(CATableView *table)
 
 unsigned int MainViewController::numberOfRowsInSection(CATableView *table, unsigned int section)
 {
-    return m_msg.size();
+    return m_msg->size();
 }
 
 unsigned int MainViewController::tableViewHeightForRowAtIndexPath(CATableView* table, unsigned int section, unsigned int row)
@@ -538,7 +565,7 @@ void MainViewController::pageViewDidSelectedPageAtIndex(CAPageView* pageView, un
 
 void MainViewController::tableViewDidSelectRowAtIndexPath(CATableView* table, unsigned int section, unsigned int row)
 {
-    SessionDetailViewController* vc = new SessionDetailViewController(m_msg[row]);
+    SessionDetailViewController* vc = new SessionDetailViewController(m_msg->at(row));
     vc->init();
     RootWindow::getInstance()->getRootNavigationController()->pushViewController(vc, true);
 }

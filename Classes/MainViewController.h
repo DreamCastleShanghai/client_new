@@ -31,6 +31,8 @@ public:
 	void initMsgTableView();
 
 	void initPageView();
+    
+    void requestSessionMsg();
 
 	void showAlert();
 
@@ -58,8 +60,9 @@ public:
 	virtual void tableViewDidSelectRowAtIndexPath(CATableView* table, unsigned int section, unsigned int row);
     virtual void tableViewDidDeselectRowAtIndexPath(CATableView* table, unsigned int section, unsigned int row);
 private:
-
-	std::vector<newsMsg>									m_msg;
+    
+	std::vector<sessionMsg>*								m_msg;
+    std::vector<sessionMsg*>								m_filterMsg;
 	std::vector<newsPage>									m_page;
 
     CAImageView*                                            m_timeNoticeImageView;

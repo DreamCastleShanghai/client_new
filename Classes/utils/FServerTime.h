@@ -11,8 +11,14 @@
 
 #include <iostream>
 #include "CrossApp.h"
+#include "CDData.h"
 
-int gettimeofdayCrossApp(struct cc_timeval *tp, void *tzp);
+int getTimeval(struct cc_timeval *tp, void *tzp);
+
+time_t getTimeSecond();
+
 std::string timeToString(time_t second);
+
+void quickSort(std::vector<sessionMsg>* msg,int s,int t);
 
 #endif /* HttpConnect_hpp */

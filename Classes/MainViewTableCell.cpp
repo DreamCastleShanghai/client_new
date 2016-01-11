@@ -105,7 +105,7 @@ void MainViewTableCell::initWithCell()
     this->getContentView()->addSubview(storeBtn);
 }
 
-void MainViewTableCell::setModel(newsMsg &cellmodel)
+void MainViewTableCell::setModel(sessionMsg &cellmodel)
 {
     m_msgInfo = &cellmodel;
     

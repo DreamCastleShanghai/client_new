@@ -18,7 +18,7 @@ public:
 	virtual void selectedTableViewCell();
 
 	void initWithCell();
-	void setModel(newsMsg& cellmodel);
+	void setModel(sessionMsg& cellmodel);
     
     void storeBtnCallBack(CAControl* btn, DPoint point);
     void onStoreRequestFinished(const HttpResponseStatus& status, const CSJson::Value& json);
@@ -33,7 +33,7 @@ private:
     CAImageView*                            m_storeBtnImage;
     CommonUrlImageView*						m_urlImageView;
     
-    struct newsMsg*							m_msgInfo;
+    struct sessionMsg*							m_msgInfo;
     bool									m_isStore;
     bool									m_canStore;
 };

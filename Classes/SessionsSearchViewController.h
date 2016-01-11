@@ -55,7 +55,7 @@ private:
 	CAView*													m_pageViewCell;
 	CAView*													m_alertView;
 	CAActivityIndicatorView*								m_pLoading;
-	std::vector<newsMsg>									m_msg;
+	std::vector<sessionMsg>									m_msg;
 	CATableView*											m_msgTableView;
 	int														m_section;
 	

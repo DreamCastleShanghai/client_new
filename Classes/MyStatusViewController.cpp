@@ -13,7 +13,10 @@ MyStatusViewController::MyStatusViewController()
 , p_pLoading(NULL)
 , m_navType(0)
 {
-    
+    for (int i = 0; i< 2; i++)
+    {
+        m_segView[i] = NULL;
+    }
 }
 
 MyStatusViewController::~MyStatusViewController()
@@ -154,7 +157,7 @@ void MyStatusViewController::onRequestFinished(const HttpResponseStatus& status,
         
         for (int index = 3; index < length; index++)
         {
-            newsMsg temp_msg;
+            sessionMsg temp_msg;
             temp_msg.m_sessionId = value[index]["sid"].asInt();
             temp_msg.m_title = value[index]["til"].asString();
             temp_msg.m_location = value[index]["loc"].asString();
@@ -175,7 +178,7 @@ void MyStatusViewController::onRequestFinished(const HttpResponseStatus& status,
         m_msg.clear();
         for (int i = 0; i < 7; i++)
         {
-            newsMsg temp_msg;
+            sessionMsg temp_msg;
             temp_msg.m_sessionId = 200 + i;
             temp_msg.m_title = "Customer Success";
             

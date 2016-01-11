@@ -52,6 +52,9 @@ protected:
 	void onRequestFinished(const HttpResponseStatus& status, const CSJson::Value& json);
 
     
+    virtual void scrollViewHeaderBeginRefreshing(CAScrollView* view);
+    
+    
     virtual void listViewDidSelectCellAtIndex(CAListView *listView, unsigned int index);
     virtual void listViewDidDeselectCellAtIndex(CAListView *listView, unsigned int index);
     virtual unsigned int numberOfIndex(CAListView *listView);
@@ -72,8 +75,8 @@ private:
 	DSize													m_winSize;
     bool                                                    m_canTouch;
     
-    std::vector<newsMsg>									m_msg;
-    std::vector<newsMsg>									m_msgFilter;
+    std::vector<sessionMsg>*								m_msg;
+    std::vector<sessionMsg*>								m_msgFilter;
     
     CAView*													p_alertView;
     CAActivityIndicatorView*								p_pLoading;

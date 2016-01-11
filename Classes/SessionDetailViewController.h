@@ -14,7 +14,7 @@ class SessionDetailViewController :
     
 public:
 
-	SessionDetailViewController(newsMsg& msg);
+	SessionDetailViewController(sessionMsg& msg);
     
 	virtual ~SessionDetailViewController();
     
@@ -42,7 +42,7 @@ private:
 
 	DSize													m_winSize;
 
-    newsMsg*                                                m_msg;
+    sessionMsg*                                                m_msg;
     bool                                                    m_canStore;
     bool                                                    m_isStore;
     CAImageView*                                            m_storeBtnImage;

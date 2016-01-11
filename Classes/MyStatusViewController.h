@@ -49,8 +49,9 @@ private:
 
 	DSize													m_winSize;
 
-    std::vector<newsMsg>									m_msg;
+    std::vector<sessionMsg>									m_msg;
     
+    CAView*                                                 m_segView[2];
     CAView*													p_alertView;
     CAActivityIndicatorView*								p_pLoading;
 	CATableView*											m_msgTableView;

@@ -7,7 +7,7 @@
 #include "SessionDetailViewController.h"
 #include "FServerTime.h"
 
-SessionDetailViewController::SessionDetailViewController(newsMsg& msg)
+SessionDetailViewController::SessionDetailViewController(sessionMsg& msg)
 : m_msg(&msg),
   m_canStore(true)
 {

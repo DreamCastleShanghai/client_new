@@ -37,7 +37,7 @@ private:
 
 	DSize													m_winSize;
 
-	struct newsMsg											m_msg;
+	struct sessionMsg											m_msg;
 	CAView*													m_alertView;
 	CAActivityIndicatorView*								m_pLoading;
 	

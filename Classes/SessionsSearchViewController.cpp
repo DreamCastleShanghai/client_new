@@ -201,7 +201,7 @@ void SessionsSearchViewController::onRequestFinished(const HttpResponseStatus& s
 
 		for (int index = 3; index < length; index++)
 		{
-			newsMsg temp_msg;
+			sessionMsg temp_msg;
 			temp_msg.m_sessionId = value[index]["sid"].asInt();
 			temp_msg.m_title = value[index]["title"].asString();
 			temp_msg.m_lecturer = value[index]["lct"].asString();
@@ -223,7 +223,7 @@ void SessionsSearchViewController::onRequestFinished(const HttpResponseStatus& s
 		m_msg.clear();
 		for (int i = 0; i < 7; i++)
 		{
-			newsMsg temp_msg;
+			sessionMsg temp_msg;
 			temp_msg.m_sessionId = 200 + i;
 			temp_msg.m_title = "Customer Success";
 			temp_msg.m_lecturer = "Lisa Chen";

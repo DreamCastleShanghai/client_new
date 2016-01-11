@@ -18,6 +18,7 @@ SessionsViewController::SessionsViewController()
     {
         m_listButton[i] = NULL;
     }
+    m_msg = FDataManager::getInstance()->getSessionMsgs();
 }
 
 SessionsViewController::~SessionsViewController()
@@ -64,7 +65,7 @@ void SessionsViewController::viewDidLoad()
     label->setFontName("fonts/arial.ttf");
     sView->addSubview(label);
     
-    if (m_msg.empty())
+    if (m_msg->empty())
     {
         requestMsg();
     }
@@ -84,7 +85,7 @@ void SessionsViewController::viewDidUnload()
 
 void SessionsViewController::initMsgTableView()
 {
-    if (m_msg.empty())
+    if (m_msg->empty())
     {
         showAlert();
         return;
@@ -128,6 +129,10 @@ void SessionsViewController::initMsgTableView()
     m_msgTableView->setSeparatorColor(ccc4(200, 200, 200, 80));
     //m_msgTableView->setSeparatorViewHeight(_px(2));
     this->getView()->addSubview(m_msgTableView);
+    
+    CAPullToRefreshView *refreshDiscount = CAPullToRefreshView::create(CAPullToRefreshView::CAPullToRefreshTypeFooter);
+    refreshDiscount->setLabelColor(CAColor_black);
+    m_msgTableView->setFooterRefreshView(refreshDiscount);
 }
 
 void SessionsViewController::requestMsg()
@@ -158,7 +163,7 @@ void SessionsViewController::buttonCallBack(CAControl* btn, DPoint point)
     }
     else if (btn->getTag() == 200)
     {
-        if (m_msg.empty()) return;
+        if (m_msg->empty()) return;
         if(m_navType == 0) return;
         m_navType = 0;
         m_filterListView->setVisible(false);
@@ -171,7 +176,7 @@ void SessionsViewController::buttonCallBack(CAControl* btn, DPoint point)
     }
     else if (btn->getTag() == 201)
     {
-        if (m_msg.empty()) return;
+        if (m_msg->empty()) return;
         if(m_navType == 1) return;
         m_navType = 1;
         m_listView->setVisible(false);
@@ -209,11 +214,11 @@ void SessionsViewController::onRequestFinished(const HttpResponseStatus& status,
     {
         const CSJson::Value& value = json["result"];
         int length = value.size();
-        m_msg.clear();
+        m_msg->clear();
         
         for (int index = 3; index < length; index++)
         {
-            newsMsg temp_msg;
+            sessionMsg temp_msg;
             temp_msg.m_sessionId = value[index]["SessionId"].asInt();
             temp_msg.m_title = value[index]["SessionTitle"].asString();
             temp_msg.m_location = value[index]["Location"].asString();
@@ -226,35 +231,35 @@ void SessionsViewController::onRequestFinished(const HttpResponseStatus& status,
             temp_msg.m_endTime = value[index]["EndTime"].asInt();
             temp_msg.m_likeNum = 20;//value[index]["lkn"].asInt();
             temp_msg.m_imageUrl = "http://imgsrc.baidu.com/forum/pic/item/53834466d0160924a41f433bd50735fae6cd3452.jpg";//value[index]["img"].asString();
-            m_msg.push_back(temp_msg);
+            m_msg->push_back(temp_msg);
         }
     }
-//    {
-//        m_msg.clear();
-//        for (int i = 0; i < 2; i++)
-//        {
-//            newsMsg temp_msg;
-//            temp_msg.m_sessionId = 200 + i;
-//            temp_msg.m_title = "Customer Success";
-//            
-//            temp_msg.m_location = "Lisa Chen";
-//            temp_msg.m_detail = "This is Photoshop's version of Lorem Ipsum. \
-//            This is Photoshop's version of Lorem Ipsum. \
-//            This is Photoshop's version of Lorem Ipsum. ";
-//            temp_msg.m_lecturer = "Lisa Chen";
-//            temp_msg.m_lecturerEmail = "coostein@hotmail.com";
-//            temp_msg.m_track = "Customer";
-//            temp_msg.m_format = "Dev Faire";
-//            cc_timeval ct;
-//            CCTime::gettimeofdayCrossApp(&ct, NULL);
-//            temp_msg.m_startTime = 46800;//ct.tv_sec + 3500;
-//            temp_msg.m_likeNum = 20;
-//            temp_msg.m_imageUrl = "http://imgsrc.baidu.com/forum/pic/item/53834466d0160924a41f433bd50735fae6cd3452.jpg";
-//            //"http://img1.gtimg.com/14/1468/146894/14689486_980x1200_0.png";
-//            m_msg.push_back(temp_msg);
-//        }
-//        
-//    }
+    {
+        m_msg->clear();
+        for (int i = 0; i < 2; i++)
+        {
+            sessionMsg temp_msg;
+            temp_msg.m_sessionId = 200 + i;
+            temp_msg.m_title = "Customer Success";
+            
+            temp_msg.m_location = "Lisa Chen";
+            temp_msg.m_detail = "This is Photoshop's version of Lorem Ipsum. \
+            This is Photoshop's version of Lorem Ipsum. \
+            This is Photoshop's version of Lorem Ipsum. ";
+            temp_msg.m_lecturer = "Lisa Chen";
+            temp_msg.m_lecturerEmail = "coostein@hotmail.com";
+            temp_msg.m_track = "Customer";
+            temp_msg.m_format = "Dev Faire";
+            cc_timeval ct;
+            CCTime::gettimeofdayCrossApp(&ct, NULL);
+            temp_msg.m_startTime = 46800;//ct.tv_sec + 3500;
+            temp_msg.m_likeNum = 20;
+            temp_msg.m_imageUrl = "http://imgsrc.baidu.com/forum/pic/item/53834466d0160924a41f433bd50735fae6cd3452.jpg";
+            //"http://img1.gtimg.com/14/1468/146894/14689486_980x1200_0.png";
+            m_msg->push_back(temp_msg);
+        }
+        
+    }
     
     if (p_pLoading)
     {
@@ -324,16 +329,18 @@ void SessionsViewController::refreshTableByTime(int index)
     m_msgFilter.clear();
     if (index == 0)
     {
-        m_msgFilter = m_msg;
+        for (std::vector<sessionMsg>::iterator it = m_msg->begin(); it != m_msg->end(); it++)
+        {
+            m_msgFilter.push_back(&(*it));
+        }
     }
     else
     {
-        for (int i = 0; i < m_msg.size(); i++)
+        for (std::vector<sessionMsg>::iterator it = m_msg->begin(); it != m_msg->end(); it++)
         {
-            if(m_msg[i].m_startTime >= 3600 * (index + 8) && m_msg[i].m_startTime < 3600 * (index + 9))
-                m_msgFilter.push_back(m_msg[i]);
+            if(it->m_startTime >= 3600 * (index + 8) && it->m_startTime < 3600 * (index + 9))
+                m_msgFilter.push_back(&(*it));
         }
-        
     }
     if (m_msgTableView)
     {
@@ -346,15 +353,18 @@ void SessionsViewController::refreshTableByFormat(int format)
     m_msgFilter.clear();
     if(format == -1)
     {
-        m_msgFilter = m_msg;
+        for (std::vector<sessionMsg>::iterator it = m_msg->begin(); it != m_msg->end(); it++)
+        {
+            m_msgFilter.push_back(&(*it));
+        }
     }
     else
     {
-        for (int i = 0; i < m_msg.size(); i++)
+        for (std::vector<sessionMsg>::iterator it = m_msg->begin(); it != m_msg->end(); it++)
         {
-            if (!strcmp(m_msg[i].m_track.c_str(), filterItem[format]))
+            if (!strcmp(it->m_track.c_str(), filterItem[format]))
             {
-                m_msgFilter.push_back(m_msg[i]);
+                m_msgFilter.push_back(&(*it));
             }
         }
     }
@@ -365,6 +375,10 @@ void SessionsViewController::refreshTableByFormat(int format)
     }
 }
 
+void SessionsViewController::scrollViewHeaderBeginRefreshing(CrossApp::CAScrollView *view)
+{
+    requestMsg();
+}
 
 void SessionsViewController::listViewDidSelectCellAtIndex(CAListView *listView, unsigned int index)
 {
@@ -511,7 +525,7 @@ CATableViewCell* SessionsViewController::tableCellAtIndex(CATableView* table, co
         cell = MainViewTableCell::create("CrossApp", DRect(0, 0, _size.width, _size.height));
         cell->initWithCell();
     }
-    cell->setModel(m_msgFilter[row]);
+    cell->setModel(*m_msgFilter[row]);
     
     return cell;
     
@@ -535,7 +549,7 @@ unsigned int SessionsViewController::tableViewHeightForRowAtIndexPath(CATableVie
 
 void SessionsViewController::tableViewDidSelectRowAtIndexPath(CATableView* table, unsigned int section, unsigned int row)
 {
-    SessionDetailViewController* vc = new SessionDetailViewController(m_msg[row]);
+    SessionDetailViewController* vc = new SessionDetailViewController(m_msg->at(row));
     vc->init();
     RootWindow::getInstance()->getRootNavigationController()->pushViewController(vc, true);
 }

@@ -389,7 +389,7 @@ void VoteViewController::onRequestFinished(const HttpResponseStatus& status, con
     
     {
         struct cc_timeval tp;
-        gettimeofdayCrossApp(&tp, NULL);
+        getTimeval(&tp, NULL);
         for (int index = 0; index < 3; index++)
         {
             voteMsg temp_msg;
