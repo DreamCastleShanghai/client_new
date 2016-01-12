@@ -36,6 +36,10 @@ protected:
     void viewDidLoad();
     
     void viewDidUnload();
+    
+    virtual void viewDidAppear();
+    
+    virtual void viewDidDisappear();
 
     void initMsgTableView();
     

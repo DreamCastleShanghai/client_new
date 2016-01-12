@@ -17,6 +17,7 @@ MyStatusViewController::MyStatusViewController()
     {
         m_segView[i] = NULL;
     }
+    m_msg = FDataManager::getInstance()->getSessionMsgs();
 }
 
 MyStatusViewController::~MyStatusViewController()
@@ -33,13 +34,22 @@ void MyStatusViewController::viewDidLoad()
     sView->setFrame(DRect(_px(0), _px(0), m_winSize.width, _px(120)));
     this->getView()->addSubview(sView);
     
-    CAButton* button = CAButton::createWithFrame(DRect(_px(0), _px(20), _px(100), _px(100)), CAButtonTypeCustom);
+    m_searchButton = CAButton::createWithFrame(DRect(_px(0), _px(20), _px(100), _px(100)), CAButtonTypeCustom);
     CAImageView* imageView = CAImageView::createWithImage(CAImage::create("common/nav_search.png"));
     imageView->setImageViewScaleType(CAImageViewScaleTypeFitImageXY);
-    button->setBackGroundViewForState(CAControlStateAll, imageView);
-    button->addTarget(this, CAControl_selector(MyStatusViewController::buttonCallBack), CAControlEventTouchUpInSide);
-    button->setTag(20);
-    this->getView()->addSubview(button);
+    m_searchButton->setBackGroundViewForState(CAControlStateAll, imageView);
+    m_searchButton->addTarget(this, CAControl_selector(MyStatusViewController::buttonCallBack), CAControlEventTouchUpInSide);
+    m_searchButton->setTag(20);
+    this->getView()->addSubview(m_searchButton);
+    
+    m_pointButton = CAButton::createWithFrame(DRect(m_winSize.width - _px(140), _px(20), _px(100), _px(100)), CAButtonTypeCustom);
+    imageView = CAImageView::createWithImage(CAImage::create("common/nav_search.png"));
+    imageView->setImageViewScaleType(CAImageViewScaleTypeFitImageXY);
+    m_pointButton->setBackGroundViewForState(CAControlStateAll, imageView);
+    m_pointButton->addTarget(this, CAControl_selector(MyStatusViewController::buttonCallBack), CAControlEventTouchUpInSide);
+    m_pointButton->setTag(30);
+    m_pointButton->setVisible(false);
+    this->getView()->addSubview(m_pointButton);
     
     FSegmentView* seg =
         FSegmentView::createWithFrame(DRect((m_winSize.width - 400) / 2, 40, 400, 60), 2);
@@ -49,22 +59,16 @@ void MyStatusViewController::viewDidLoad()
     seg->setTag(200, 0);
     seg->setTag(201, 1);
     this->getView()->addSubview(seg);
-    
     m_navType = 0;
-    m_navTimeType = 0;
-    m_navFormatType = 0;
-//    
-//    CALabel* label = CALabel::createWithCenter(DRect(m_winSize.width / 2, _px(70), m_winSize.width, _px(40)));
-//    label->setTextAlignment(CATextAlignmentCenter);
-//    label->setColor(CAColor_white);
-//    label->setFontSize(_px(40));
-//    label->setText("Agenda");
-//    label->setFontName("fonts/arial.ttf");
-//    sView->addSubview(label);
     
-    if (m_msg.empty())
+    if (m_msg->empty())
     {
         requestMsg();
+        {
+            p_pLoading = CAActivityIndicatorView::createWithCenter(DRect(m_winSize.width / 2, m_winSize.height / 2, 50, 50));
+            this->getView()->insertSubview(p_pLoading, CAWindowZOderTop);
+            p_pLoading->setLoadingMinTime(0.5f);
+        }
     }
     else
     {
@@ -82,7 +86,7 @@ void MyStatusViewController::viewDidUnload()
 
 void MyStatusViewController::initMsgTableView()
 {
-    if (m_msg.empty())
+    if (m_msg->empty())
     {
         showAlert();
         return;
@@ -93,7 +97,7 @@ void MyStatusViewController::initMsgTableView()
         m_msgTableView = NULL;
     }
     
-    m_msgTableView = CATableView::createWithFrame(DRect(0, _px(180), m_winSize.width, m_winSize.height - _px(180)));
+    m_msgTableView = CATableView::createWithFrame(DRect(0, _px(120), m_winSize.width, m_winSize.height - _px(120)));
     m_msgTableView->setTableViewDataSource(this);
     m_msgTableView->setTableViewDelegate(this);
     m_msgTableView->setScrollViewDelegate(this);
@@ -113,18 +117,21 @@ void MyStatusViewController::requestMsg()
     key_value["limit"] = "20";
     key_value["sign"] = getSign(key_value);
     CommonHttpManager::getInstance()->send_post(httpUrl, key_value, this, CommonHttpJson_selector(MyStatusViewController::onRequestFinished));
-    {
-        p_pLoading = CAActivityIndicatorView::createWithCenter(DRect(m_winSize.width / 2, m_winSize.height / 2, 50, 50));
-        this->getView()->insertSubview(p_pLoading, CAWindowZOderTop);
-        p_pLoading->setLoadingMinTime(0.5f);
-        //p_pLoading->setTargetOnCancel(this, callfunc_selector(MyStatusViewController::initMsgTableView));
-    }
 }
 
 void MyStatusViewController::buttonCallBack(CAControl* btn, DPoint point)
 {
-    
-    if (btn->getTag() == 100)
+    if(btn->getTag() == 20)
+    {
+        SessionsSearchViewController* vc = new SessionsSearchViewController(1);
+        vc->init();
+        RootWindow::getInstance()->getRootNavigationController()->pushViewController(vc, true);
+    }
+    else if(btn->getTag() == 30)
+    {
+        
+    }
+    else if (btn->getTag() == 100)
     {
         this->getView()->removeSubview(p_alertView);
         p_alertView = NULL;

@@ -26,6 +26,10 @@ public:
     
     void viewDidUnload();
     
+    virtual void viewDidAppear();
+    
+    virtual void viewDidDisappear();
+    
     void update(float dt);
     
 	void initMsgTableView();
@@ -75,7 +79,8 @@ private:
 	CALabel*												m_pageViewTitle;
 	CAView*													p_alertView;
 	CAActivityIndicatorView*								p_pLoading;
-	int														p_section;
+    int														m_pastSection;
+	int														m_nextSection;
 
 	DSize													m_winSize;
 };

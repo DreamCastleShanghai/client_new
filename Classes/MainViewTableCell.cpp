@@ -116,9 +116,16 @@ void MainViewTableCell::setModel(sessionMsg &cellmodel)
     m_likeNumLabel->setText(crossapp_format_string("%d", cellmodel.m_likeNum));
     m_urlImageView->setUrl(cellmodel.m_imageUrl);
     
-    m_isStore = true;
+    m_isStore = cellmodel.m_stored;
     m_canStore = true;
-    
+    if (m_isStore)
+    {
+        m_storeBtnImage->setImage(CAImage::create("common/btn_collect_pre.png"));
+    }
+    else
+    {
+        m_storeBtnImage->setImage(CAImage::create("common/btn_collect.png"));
+    }
 }
 
 void MainViewTableCell::storeBtnCallBack(CAControl* btn, DPoint point)

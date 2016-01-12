@@ -11,13 +11,12 @@ USING_NS_CC;
 class SessionsSearchViewController :
 	public CAViewController,
 	public CATableViewDelegate,
-	public CATableViewDataSource,
-	public CAScrollViewDelegate
+	public CATableViewDataSource
 {
     
 public:
 
-	SessionsSearchViewController();
+	SessionsSearchViewController(int type);
     
 	virtual ~SessionsSearchViewController();
     
@@ -31,14 +30,6 @@ protected:
 
 	void showAlert();
 
-	void requestMsg();
-	void requestApendMsg();
-
-	void onRequestFinished(const HttpResponseStatus& status, const CSJson::Value& json);
-
-	virtual void scrollViewHeaderBeginRefreshing(CAScrollView* view);
-	virtual void scrollViewFooterBeginRefreshing(CAScrollView* view);
-
 	virtual CATableViewCell* tableCellAtIndex(CATableView* table, const DSize& cellSize, unsigned int section, unsigned int row);
 	virtual unsigned int numberOfRowsInSection(CATableView *table, unsigned int section);
 	virtual unsigned int numberOfSections(CATableView *table);
@@ -50,14 +41,15 @@ protected:
 private:
 
 	DSize													m_winSize;
-
+    int                                                     m_type;
 	CATextField*											m_searchTextField;
-	CAView*													m_pageViewCell;
+
 	CAView*													m_alertView;
 	CAActivityIndicatorView*								m_pLoading;
-	std::vector<sessionMsg>									m_msg;
+	std::vector<sessionMsg>*								m_msg;
+    std::vector<sessionMsg*>								m_msgFilter;
 	CATableView*											m_msgTableView;
-	int														m_section;
+    
 	
 };
 

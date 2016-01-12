@@ -6,12 +6,15 @@
 #include "utils/HttpConnect.h"
 #include "SessionDetailViewController.h"
 #include "FSegmentView.h"
+#include "FDataManager.h"
+#include "FServerTime.h"
 
 SessionsViewController::SessionsViewController()
 : m_msgTableView(NULL)
 , p_alertView(NULL)
 , p_pLoading(NULL)
 , m_navType(0)
+, m_canTouch(false)
 {
     
     for (int i = 0; i < m_filterNum; i++)
@@ -24,6 +27,16 @@ SessionsViewController::SessionsViewController()
 SessionsViewController::~SessionsViewController()
 {
 
+}
+
+void SessionsViewController::viewDidAppear()
+{
+    
+}
+
+void SessionsViewController::viewDidDisappear()
+{
+    
 }
 
 void SessionsViewController::viewDidLoad()
@@ -68,10 +81,22 @@ void SessionsViewController::viewDidLoad()
     if (m_msg->empty())
     {
         requestMsg();
+        {
+            p_pLoading = CAActivityIndicatorView::createWithCenter(DRect(m_winSize.width / 2, m_winSize.height / 2, 50, 50));
+            this->getView()->insertSubview(p_pLoading, CAWindowZOderTop);
+            p_pLoading->setLoadingMinTime(0.5f);
+            //p_pLoading->setTargetOnCancel(this, callfunc_selector(SessionsViewController::initMsgTableView));
+        }
+        initMsgTableView();
     }
     else
     {
-        this->initMsgTableView();
+        m_msgFilter.clear();
+        for (std::vector<sessionMsg>::iterator it = m_msg->begin(); it != m_msg->end(); it++)
+        {
+            m_msgFilter.push_back(&(*it));
+        }
+        initMsgTableView();
     }
     
     CCLog("%f", CAApplication::getApplication()->getWinSize().width);
@@ -95,7 +120,7 @@ void SessionsViewController::initMsgTableView()
         this->getView()->removeSubview(m_msgTableView);
         m_msgTableView = NULL;
     }
-    
+    m_canTouch = true;
     m_listView = CAListView::createWithFrame(DRect(0,_px(120),m_winSize.width,_px(60)));
     m_listView->setListViewDelegate(this);
     m_listView->setListViewDataSource(this);
@@ -130,9 +155,9 @@ void SessionsViewController::initMsgTableView()
     //m_msgTableView->setSeparatorViewHeight(_px(2));
     this->getView()->addSubview(m_msgTableView);
     
-    CAPullToRefreshView *refreshDiscount = CAPullToRefreshView::create(CAPullToRefreshView::CAPullToRefreshTypeFooter);
+    CAPullToRefreshView *refreshDiscount = CAPullToRefreshView::create(CAPullToRefreshView::CAPullToRefreshTypeHeader);
     refreshDiscount->setLabelColor(CAColor_black);
-    m_msgTableView->setFooterRefreshView(refreshDiscount);
+    m_msgTableView->setHeaderRefreshView(refreshDiscount);
 }
 
 void SessionsViewController::requestMsg()
@@ -144,22 +169,28 @@ void SessionsViewController::requestMsg()
     key_value["uid"] = crossapp_format_string("%d", FDataManager::getInstance()->getUserId());
     //key_value["sign"] = getSign(key_value);
     CommonHttpManager::getInstance()->send_post(httpUrl, key_value, this, CommonHttpJson_selector(SessionsViewController::onRequestFinished));
-    {
-        p_pLoading = CAActivityIndicatorView::createWithCenter(DRect(m_winSize.width / 2, m_winSize.height / 2, 50, 50));
-        this->getView()->insertSubview(p_pLoading, CAWindowZOderTop);
-        p_pLoading->setLoadingMinTime(0.5f);
-        //p_pLoading->setTargetOnCancel(this, callfunc_selector(SessionsViewController::initMsgTableView));
-    }
 }
 
 void SessionsViewController::buttonCallBack(CAControl* btn, DPoint point)
 {
-    
-    if (btn->getTag() == 100)
+    if(btn->getTag() == 20)
+    {
+        SessionsSearchViewController* vc = new SessionsSearchViewController(0);
+        vc->init();
+        RootWindow::getInstance()->getRootNavigationController()->pushViewController(vc, true);
+    }
+    else if (btn->getTag() == 100)
     {
         this->getView()->removeSubview(p_alertView);
         p_alertView = NULL;
         requestMsg();
+        {
+            p_pLoading = CAActivityIndicatorView::createWithCenter(DRect(m_winSize.width / 2, m_winSize.height / 2, 50, 50));
+            this->getView()->insertSubview(p_pLoading, CAWindowZOderTop);
+            p_pLoading->setLoadingMinTime(0.5f);
+            //p_pLoading->setTargetOnCancel(this, callfunc_selector(SessionsViewController::initMsgTableView));
+        }
+        initMsgTableView();
     }
     else if (btn->getTag() == 200)
     {
@@ -215,7 +246,7 @@ void SessionsViewController::onRequestFinished(const HttpResponseStatus& status,
         const CSJson::Value& value = json["result"];
         int length = value.size();
         m_msg->clear();
-        
+        m_msgFilter.clear();
         for (int index = 3; index < length; index++)
         {
             sessionMsg temp_msg;
@@ -231,12 +262,17 @@ void SessionsViewController::onRequestFinished(const HttpResponseStatus& status,
             temp_msg.m_endTime = value[index]["EndTime"].asInt();
             temp_msg.m_likeNum = 20;//value[index]["lkn"].asInt();
             temp_msg.m_imageUrl = "http://imgsrc.baidu.com/forum/pic/item/53834466d0160924a41f433bd50735fae6cd3452.jpg";//value[index]["img"].asString();
+            temp_msg.m_stored = value[index]["Stored"].asBool();
+            temp_msg.m_done = value[index]["Done"].asBool();
             m_msg->push_back(temp_msg);
         }
+        quickSort(m_msg, 0, (int)m_msg->size() - 1);
     }
     {
         m_msg->clear();
-        for (int i = 0; i < 2; i++)
+        m_msgFilter.clear();
+        srand((int)getTimeSecond());
+        for (int i = 0; i < 12; i++)
         {
             sessionMsg temp_msg;
             temp_msg.m_sessionId = 200 + i;
@@ -250,40 +286,22 @@ void SessionsViewController::onRequestFinished(const HttpResponseStatus& status,
             temp_msg.m_lecturerEmail = "coostein@hotmail.com";
             temp_msg.m_track = "Customer";
             temp_msg.m_format = "Dev Faire";
-            cc_timeval ct;
-            CCTime::gettimeofdayCrossApp(&ct, NULL);
-            temp_msg.m_startTime = 46800;//ct.tv_sec + 3500;
+            temp_msg.m_startTime = getTimeSecond() + ((rand() % 10) - 5) * 3600;//ct.tv_sec + 3500;
+            temp_msg.m_endTime = temp_msg.m_startTime + rand() % 3600;
             temp_msg.m_likeNum = 20;
+            temp_msg.m_stored = (bool)(rand() % 2);
             temp_msg.m_imageUrl = "http://imgsrc.baidu.com/forum/pic/item/53834466d0160924a41f433bd50735fae6cd3452.jpg";
             //"http://img1.gtimg.com/14/1468/146894/14689486_980x1200_0.png";
+            temp_msg.m_stored = (bool)(rand() % 2);
+            temp_msg.m_done = (bool)(rand() % 2);
             m_msg->push_back(temp_msg);
         }
-        
+        quickSort(m_msg, 0, (int)m_msg->size() - 1);
     }
     
     if (p_pLoading)
     {
         p_pLoading->stopAnimating();
-    }
-    
-    initMsgTableView();
-
-    if (m_navType == 0)
-    {
-        if (m_msgTableView)
-        {
-            m_msgTableView->setFrame(DRect(0, _px(180), m_winSize.width, m_winSize.height - _px(180)));
-            refreshTableByTime(m_navTimeType);
-        }
-        
-    }
-    else if (m_navType == 1)
-    {
-        if (m_msgTableView)
-        {
-            m_msgTableView->setFrame(DRect(0, _px(250), m_winSize.width, m_winSize.height - _px(250)));
-            refreshTableByFormat(m_navFormatType);
-        }
     }
     
 }
@@ -338,7 +356,9 @@ void SessionsViewController::refreshTableByTime(int index)
     {
         for (std::vector<sessionMsg>::iterator it = m_msg->begin(); it != m_msg->end(); it++)
         {
-            if(it->m_startTime >= 3600 * (index + 8) && it->m_startTime < 3600 * (index + 9))
+            struct tm* time = localtime(&(it->m_startTime));
+            
+            if(time->tm_hour >= (index + 8) && time->tm_hour < (index + 9))
                 m_msgFilter.push_back(&(*it));
         }
     }
@@ -378,6 +398,24 @@ void SessionsViewController::refreshTableByFormat(int format)
 void SessionsViewController::scrollViewHeaderBeginRefreshing(CrossApp::CAScrollView *view)
 {
     requestMsg();
+    
+    if (m_navType == 0)
+    {
+        if (m_msgTableView)
+        {
+            m_msgTableView->setFrame(DRect(0, _px(180), m_winSize.width, m_winSize.height - _px(180)));
+            refreshTableByTime(m_navTimeType);
+        }
+        
+    }
+    else if (m_navType == 1)
+    {
+        if (m_msgTableView)
+        {
+            m_msgTableView->setFrame(DRect(0, _px(250), m_winSize.width, m_winSize.height - _px(250)));
+            refreshTableByFormat(m_navFormatType);
+        }
+    }
 }
 
 void SessionsViewController::listViewDidSelectCellAtIndex(CAListView *listView, unsigned int index)
@@ -538,8 +576,7 @@ unsigned int SessionsViewController::numberOfSections(CATableView *table)
 
 unsigned int SessionsViewController::numberOfRowsInSection(CATableView *table, unsigned int section)
 {
-    int num = m_msgFilter.size();
-    return num;
+    return (int)m_msgFilter.size();
 }
 
 unsigned int SessionsViewController::tableViewHeightForRowAtIndexPath(CATableView* table, unsigned int section, unsigned int row)

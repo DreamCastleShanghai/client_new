@@ -14,13 +14,15 @@
 #include "FDataManager.h"
 #include "FServerTime.h"
 
+#define REFRESH_STEP 5
 
 MainViewController::MainViewController()
 : m_pageView(NULL)
 , m_msgTableView(NULL)
 , p_alertView(NULL)
 , p_pLoading(NULL)
-, p_section(1)
+, m_pastSection(0)
+, m_nextSection(1)
 {
     m_msg = FDataManager::getInstance()->getSessionMsgs();
 }
@@ -33,6 +35,39 @@ MainViewController::~MainViewController()
 void MainViewController::update(float dt)
 {
     CAViewController::update(dt);
+}
+
+void MainViewController::viewDidAppear()
+{
+    if (m_msg->empty())
+    {
+        requestSessionMsg();
+        p_pLoading = CAActivityIndicatorView::createWithCenter(DRect(m_winSize.width / 2, m_winSize.height / 2, 50, 50));
+        this->getView()->insertSubview(p_pLoading, CAWindowZOderTop);
+        p_pLoading->setLoadingMinTime(0.5f);
+        p_pLoading->setTargetOnCancel(this, callfunc_selector(MainViewController::initMsgTableView));
+    }
+    else
+    {
+        m_filterMsg.clear();
+        for (std::vector<sessionMsg>::iterator it = m_msg->begin(); it != m_msg->end(); it++)
+        {
+            if(it->m_stored && it->m_endTime > getTimeSecond())
+            {
+                m_filterMsg.push_back(&(*it));
+            }
+            if (m_filterMsg.size() == REFRESH_STEP)
+            {
+                break;
+            }
+        }
+        this->initMsgTableView();
+    }
+}
+
+void MainViewController::viewDidDisappear()
+{
+
 }
 
 void MainViewController::viewDidLoad()
@@ -75,20 +110,6 @@ void MainViewController::viewDidLoad()
     label->setTouchEnabled(false);
 	sView->addSubview(label);
     
-    if (m_msg->empty())
-    {
-        requestSessionMsg();
-    }
-    else
-    {
-        m_filterMsg.clear();
-        for (std::vector<sessionMsg>::iterator it = m_msg->begin(); it != m_msg->end(); it++)
-        {
-            if(it->m_stored && it->m_endTime < getTimeSecond())
-                m_filterMsg.push_back(&(*it));
-        }
-        this->initMsgTableView();
-    }
     
 }
 
@@ -101,32 +122,86 @@ void MainViewController::viewDidUnload()
 
 void MainViewController::scrollViewHeaderBeginRefreshing(CrossApp::CAScrollView *view)
 {
-    std::map<std::string, std::string> key_value;
-    key_value["tag"] = mainViewTag[0];
-    key_value["page"] = "1";
-    key_value["limit"] = "20";
-    key_value["appid"] = "10000";
-    key_value["sign_method"] = "md5";
-    key_value["sign"] = getSign(key_value);
-    CommonHttpManager::getInstance()->send_post(httpUrl, key_value, this, CommonHttpJson_selector(MainViewController::onRequestFinished));
+    if (m_msg->size() - m_filterMsg.size() > 0)
+    {
+        int count = 0;
+        for (int i = (int)m_msg->size() - 1; i >= 0; i--)
+        {
+            if (m_msg->at(i).m_stored &&
+                (m_filterMsg.size() < REFRESH_STEP ||
+                m_msg->at(i).m_startTime <= m_filterMsg[0]->m_startTime))
+            {
+                bool notSame = true;
+                std::vector<sessionMsg*>::iterator it = m_filterMsg.begin();
+                while (it++ != m_filterMsg.end())
+                {
+                    if (*it == &(m_msg->at(i)))
+                    {
+                        notSame = false;
+                        break;
+                    }
+                }
+                if (notSame)
+                {
+                    m_filterMsg.insert(m_filterMsg.begin(), &(m_msg->at(i)));
+                    count++;
+                }
+            }
+            if (count == REFRESH_STEP)
+            {
+                break;
+            }
+        }
+
+    }
+    if (m_msgTableView)
+    {
+        m_msgTableView->reloadData();
+    }
 }
 
 void MainViewController::scrollViewFooterBeginRefreshing(CAScrollView* view)
 {
-    p_section++;
-    std::map<std::string, std::string> key_value;
-    key_value["tag"] = mainViewTag[0];
-    key_value["page"] = crossapp_format_string("%d", p_section);
-    key_value["limit"] = "20";
-    key_value["appid"] = "10000";
-    key_value["sign_method"] = "md5";
-    key_value["sign"] = getSign(key_value);
-    CommonHttpManager::getInstance()->send_post(httpUrl, key_value, this, CommonHttpJson_selector(MainViewController::onRefreshRequestFinished));
+    if (m_msg->size() - m_filterMsg.size() > 0)
+    {
+        int count = 0;
+        for (int i = 0; i < (int)m_msg->size() - 1; i++)
+        {
+            if (m_msg->at(i).m_stored &&
+                (m_msg->at(i).m_startTime >= m_filterMsg[m_filterMsg.size() - 1]->m_startTime))
+            {
+                bool notSame = true;
+                std::vector<sessionMsg*>::iterator it = m_filterMsg.begin();
+                while (it++ != m_filterMsg.end())
+                {
+                    if (*it == &(m_msg->at(i)))
+                    {
+                        notSame = false;
+                        break;
+                    }
+                }
+                if (notSame)
+                {
+                    m_filterMsg.push_back(&(m_msg->at(i)));
+                    count++;
+                }
+                
+            }
+            if (count == REFRESH_STEP)
+            {
+                break;
+            }
+        }
+    }
+    if (m_msgTableView)
+    {
+        m_msgTableView->reloadData();
+    }
 }
 
 void MainViewController::initMsgTableView()
 {
-    if (m_page.empty())
+    if (m_msg->empty())
     {
         showAlert();
         return;
@@ -136,6 +211,8 @@ void MainViewController::initMsgTableView()
         this->getView()->removeSubview(m_msgTableView);
         m_msgTableView = NULL;
     }
+    m_pastSection = 0;
+    m_nextSection = 1;
     
     m_msgTableView = CATableView::createWithFrame(DRect(0, _px(120), m_winSize.width, m_winSize.height - _px(120)));
     m_msgTableView->setTableViewDataSource(this);
@@ -265,12 +342,6 @@ void MainViewController::requestSessionMsg()
     key_value["uid"] = crossapp_format_string("%d", FDataManager::getInstance()->getUserId());
     //key_value["sign"] = getSign(key_value);
     CommonHttpManager::getInstance()->send_post(httpUrl, key_value, this, CommonHttpJson_selector(MainViewController::onRequestFinished));
-    {
-        p_pLoading = CAActivityIndicatorView::createWithCenter(DRect(m_winSize.width / 2, m_winSize.height / 2, 50, 50));
-        this->getView()->insertSubview(p_pLoading, CAWindowZOderTop);
-        p_pLoading->setLoadingMinTime(0.5f);
-        p_pLoading->setTargetOnCancel(this, callfunc_selector(MainViewController::initMsgTableView));
-    }
 }
 
 void MainViewController::onRequestFinished(const HttpResponseStatus& status, const CSJson::Value& json)
@@ -294,30 +365,39 @@ void MainViewController::onRequestFinished(const HttpResponseStatus& status, con
         for (int index = 0; index < length; index++)
         {
             sessionMsg temp_msg;
-            temp_msg.m_sessionId = value["nws"][index]["sid"].asInt();
-            temp_msg.m_title = value["nws"][index]["til"].asString();
-            temp_msg.m_location = value["nws"][index]["loc"].asString();
-            temp_msg.m_detail = value["nws"][index]["dtl"].asString();
-            temp_msg.m_lecturer = value["nws"][index]["lct"].asString();
-            temp_msg.m_lecturerEmail = value["nws"][index]["eml"].asString();
-            temp_msg.m_track = value["nws"][index]["trk"].asString();
-            temp_msg.m_format = value["nws"][index]["fmt"].asString();
-            temp_msg.m_startTime = value["nws"][index]["trk"].asInt64();
-            temp_msg.m_endTime = value["nws"][index]["drt"].asInt();
-            temp_msg.m_likeNum = value["nws"][index]["lkn"].asInt();
-            temp_msg.m_imageUrl = value["nws"][index]["img"].asString();
+            temp_msg.m_sessionId = value[index]["SessionId"].asInt();
+            temp_msg.m_title = value[index]["SessionTitle"].asString();
+            temp_msg.m_location = value[index]["Location"].asString();
+            temp_msg.m_detail = value[index]["SessionDescription"].asString();
+            temp_msg.m_lecturer = crossapp_format_string("%s %s", value[index]["FirstName"].asString().c_str(), value[index]["LastName"].asString().c_str());
+            temp_msg.m_lecturerEmail = value[index]["Email"].asString();
+            temp_msg.m_track = value[index]["Track"].asString();
+            temp_msg.m_format = value[index]["Format"].asString();
+            temp_msg.m_startTime = value[index]["StarTime"].asInt64();
+            temp_msg.m_endTime = value[index]["EndTime"].asInt();
+            temp_msg.m_likeNum = 20;//value[index]["lkn"].asInt();
+            temp_msg.m_imageUrl = "http://imgsrc.baidu.com/forum/pic/item/53834466d0160924a41f433bd50735fae6cd3452.jpg";//value[index]["img"].asString();
+            temp_msg.m_stored = value[index]["Stored"].asBool();
+            temp_msg.m_done = value[index]["Done"].asBool();
             m_msg->push_back(temp_msg);
         }
         quickSort(m_msg, 0, (int)m_msg->size() - 1);
+        m_filterMsg.clear();
         for (std::vector<sessionMsg>::iterator it = m_msg->begin(); it != m_msg->end(); it++)
         {
-            if(it->m_stored && it->m_endTime < getTimeSecond())
+            if(it->m_stored && it->m_endTime > getTimeSecond())
+            {
                 m_filterMsg.push_back(&(*it));
+            }
+            if (m_filterMsg.size() == REFRESH_STEP)
+            {
+                break;
+            }
         }
     }
     else
     {
-        showAlert();
+        //showAlert();
     }
     
     {
@@ -346,7 +426,7 @@ void MainViewController::onRequestFinished(const HttpResponseStatus& status, con
             m_page.push_back(temp_page);
         }
         srand((int)getTimeSecond());
-        for (int i = 0; i < 7; i++)
+        for (int i = 0; i < 17; i++)
         {
             sessionMsg temp_msg;
             temp_msg.m_sessionId = 200 + i;
@@ -360,32 +440,35 @@ void MainViewController::onRequestFinished(const HttpResponseStatus& status, con
             temp_msg.m_lecturerEmail = "coostein@hotmail.com";
             temp_msg.m_track = "Customer";
             temp_msg.m_format = "Dev Faire";
-            cc_timeval ct;
-            CCTime::gettimeofdayCrossApp(&ct, NULL);
-            temp_msg.m_startTime = ct.tv_sec + rand() % 3500;
-            temp_msg.m_endTime = ct.tv_sec + 3500;
+            temp_msg.m_startTime = getTimeSecond() + ((rand() % 10) - 5) * 3600;
+            temp_msg.m_endTime = temp_msg.m_startTime + rand() % 3900;
             temp_msg.m_likeNum = 20;
+            temp_msg.m_stored = (bool)(rand() % 2);
             temp_msg.m_imageUrl =
                 "http://imgsrc.baidu.com/forum/pic/item/53834466d0160924a41f433bd50735fae6cd3452.jpg";
             //"http://img1.gtimg.com/14/1468/146894/14689486_980x1200_0.png";
+            temp_msg.m_stored = (bool)(rand() % 2);
+            temp_msg.m_done = (bool)(rand() % 2);
             m_msg->push_back(temp_msg);
         }
         quickSort(m_msg, 0, (int)m_msg->size() - 1);
+        m_filterMsg.clear();
         for (std::vector<sessionMsg>::iterator it = m_msg->begin(); it != m_msg->end(); it++)
         {
-            if(it->m_stored && it->m_endTime < getTimeSecond())
+            if(it->m_stored && it->m_endTime > getTimeSecond())
+            {
                 m_filterMsg.push_back(&(*it));
+            }
+            if (m_filterMsg.size() == REFRESH_STEP)
+            {
+                break;
+            }
         }
     }
     
     if (p_pLoading)
     {
         p_pLoading->stopAnimating();
-    }
-    
-    if (m_msgTableView)
-    {
-        m_msgTableView->reloadData();
     }
 }
 
@@ -519,7 +602,7 @@ CATableViewCell* MainViewController::tableCellAtIndex(CATableView* table, const 
         cell = MainViewTableCell::create("CrossApp", DRect(0, 0, _size.width, _size.height));
         cell->initWithCell();
     }
-    cell->setModel(m_msg->at(row));
+    cell->setModel(*m_filterMsg[row]);
     
     return cell;
 }
@@ -531,7 +614,7 @@ unsigned int MainViewController::numberOfSections(CATableView *table)
 
 unsigned int MainViewController::numberOfRowsInSection(CATableView *table, unsigned int section)
 {
-    return m_msg->size();
+    return m_filterMsg.size();
 }
 
 unsigned int MainViewController::tableViewHeightForRowAtIndexPath(CATableView* table, unsigned int section, unsigned int row)

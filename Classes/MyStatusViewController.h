@@ -49,15 +49,16 @@ private:
 
 	DSize													m_winSize;
 
-    std::vector<sessionMsg>									m_msg;
+    std::vector<sessionMsg>*								m_msg;
+    std::vector<sessionMsg*>								m_msgFilter;
     
+    CAButton*                                               m_searchButton;
+    CAButton*                                               m_pointButton;
     CAView*                                                 m_segView[2];
     CAView*													p_alertView;
     CAActivityIndicatorView*								p_pLoading;
 	CATableView*											m_msgTableView;
     int                                                     m_navType;
-    int                                                     m_navTimeType;
-    int                                                     m_navFormatType;
     
 };
 

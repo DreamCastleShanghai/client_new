@@ -58,6 +58,7 @@ void LoginViewController::viewDidLoad()
 	m_pPassword->setPlaceHolder("Password");
     m_pPassword->setFontName("fonts/arial.ttf");
 	m_pPassword->setInputType(KEY_BOARD_INPUT_PASSWORD);
+    m_pPassword->setKeyboardReturnType(KEY_BOARD_RETURN_DONE);
     m_pPassword->setTextColor(CAColor_gray);
 	loginView->addSubview(m_pPassword);
 

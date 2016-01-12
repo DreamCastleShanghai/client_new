@@ -46,13 +46,11 @@ void quickSort(std::vector<sessionMsg>* msg,int s,int t)
         {
             while(i < j && msg->at(j).m_startTime >= temp.m_startTime)
                 j--;
-            if (i < j)
-                msg->at(i++) = msg->at(j);
+                msg->at(i) = msg->at(j);
             
             while(i < j && msg->at(i).m_startTime < temp.m_startTime)
                 i++;
-            if (i < j)
-                msg->at(j--) = msg->at(i);
+                msg->at(j) = msg->at(i);
         }
         msg->at(i) = temp;
         quickSort(msg, s, i-1);
