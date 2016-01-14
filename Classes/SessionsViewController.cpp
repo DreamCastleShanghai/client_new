@@ -31,7 +31,15 @@ SessionsViewController::~SessionsViewController()
 
 void SessionsViewController::viewDidAppear()
 {
-    
+    if (!m_msg->empty())
+    {
+        m_msgFilter.clear();
+        for (std::vector<sessionMsg>::iterator it = m_msg->begin(); it != m_msg->end(); it++)
+        {
+            m_msgFilter.push_back(&(*it));
+        }
+        m_msgTableView->reloadData();
+    }
 }
 
 void SessionsViewController::viewDidDisappear()
@@ -85,20 +93,13 @@ void SessionsViewController::viewDidLoad()
             p_pLoading = CAActivityIndicatorView::createWithCenter(DRect(m_winSize.width / 2, m_winSize.height / 2, 50, 50));
             this->getView()->insertSubview(p_pLoading, CAWindowZOderTop);
             p_pLoading->setLoadingMinTime(0.5f);
-            //p_pLoading->setTargetOnCancel(this, callfunc_selector(SessionsViewController::initMsgTableView));
+            p_pLoading->setTargetOnCancel(this, callfunc_selector(SessionsViewController::initMsgTableView));
         }
-        initMsgTableView();
     }
     else
     {
-        m_msgFilter.clear();
-        for (std::vector<sessionMsg>::iterator it = m_msg->begin(); it != m_msg->end(); it++)
-        {
-            m_msgFilter.push_back(&(*it));
-        }
         initMsgTableView();
     }
-    
     CCLog("%f", CAApplication::getApplication()->getWinSize().width);
 }
 
@@ -115,55 +116,58 @@ void SessionsViewController::initMsgTableView()
         showAlert();
         return;
     }
-    if (m_msgTableView != NULL)
+    if (m_msgTableView == NULL)
     {
-        this->getView()->removeSubview(m_msgTableView);
-        m_msgTableView = NULL;
+        m_canTouch = true;
+        m_listView = CAListView::createWithFrame(DRect(0,_px(120),m_winSize.width,_px(60)));
+        m_listView->setListViewDelegate(this);
+        m_listView->setListViewDataSource(this);
+        m_listView->setAllowsSelection(true);
+        m_listView->setAllowsMultipleSelection(false);
+        m_listView->setListViewOrientation(CAListViewOrientationHorizontal);
+        m_listView->setShowsScrollIndicators(false);
+        m_listView->setSeparatorColor(ccc4(0xf6, 0xf6, 0xf6, 0xff));
+        m_listView->setBackGroundImage(CAImage::create("common/gray_bg.png"));
+        m_listView->setTag(1);
+        this->getView()->addSubview(m_listView);
+        
+        m_filterListView = CAListView::createWithFrame(DRect(_px(0),_px(120),m_winSize.width,_px(130)));
+        m_filterListView->setListViewDataSource(this);
+        m_filterListView->setAllowsSelection(false);
+        m_filterListView->setListViewOrientation(CAListViewOrientationHorizontal);
+        m_filterListView->setShowsScrollIndicators(false);
+        m_filterListView->setSeparatorColor(CAColor_clear);
+        m_filterListView->setVisible(false);
+        m_filterListView->setTag(2);
+        m_filterListView->setBackGroundColor(ccc4(0xf6, 0xf6, 0xf6, 0xff));
+        //m_filterListView->setScrollEnabled(false);
+        
+        this->getView()->addSubview(m_filterListView);
+        
+        m_msgTableView = CATableView::createWithFrame(DRect(0, _px(180), m_winSize.width, m_winSize.height - _px(180)));
+        m_msgTableView->setTableViewDataSource(this);
+        m_msgTableView->setTableViewDelegate(this);
+        m_msgTableView->setScrollViewDelegate(this);
+        m_msgTableView->setAllowsSelection(true);
+        m_msgTableView->setSeparatorColor(ccc4(200, 200, 200, 80));
+        //m_msgTableView->setSeparatorViewHeight(_px(2));
+        this->getView()->addSubview(m_msgTableView);
+        
+        CAPullToRefreshView *refreshDiscount = CAPullToRefreshView::create(CAPullToRefreshView::CAPullToRefreshTypeHeader);
+        refreshDiscount->setLabelColor(CAColor_black);
+        m_msgTableView->setHeaderRefreshView(refreshDiscount);
+
     }
-    m_canTouch = true;
-    m_listView = CAListView::createWithFrame(DRect(0,_px(120),m_winSize.width,_px(60)));
-    m_listView->setListViewDelegate(this);
-    m_listView->setListViewDataSource(this);
-    m_listView->setAllowsSelection(true);
-    m_listView->setAllowsMultipleSelection(false);
-    m_listView->setListViewOrientation(CAListViewOrientationHorizontal);
-    m_listView->setShowsScrollIndicators(false);
-    m_listView->setSeparatorColor(ccc4(0xf6, 0xf6, 0xf6, 0xff));
-    m_listView->setBackGroundImage(CAImage::create("common/gray_bg.png"));
-    m_listView->setTag(1);
-    this->getView()->addSubview(m_listView);
-    
-    m_filterListView = CAListView::createWithFrame(DRect(_px(0),_px(120),m_winSize.width,_px(130)));
-    m_filterListView->setListViewDataSource(this);
-    m_filterListView->setAllowsSelection(false);
-    m_filterListView->setListViewOrientation(CAListViewOrientationHorizontal);
-    m_filterListView->setShowsScrollIndicators(false);
-    m_filterListView->setSeparatorColor(CAColor_clear);
-    m_filterListView->setVisible(false);
-    m_filterListView->setTag(2);
-    m_filterListView->setBackGroundColor(ccc4(0xf6, 0xf6, 0xf6, 0xff));
-    //m_filterListView->setScrollEnabled(false);
-    
-    this->getView()->addSubview(m_filterListView);
-    
-    m_msgTableView = CATableView::createWithFrame(DRect(0, _px(180), m_winSize.width, m_winSize.height - _px(180)));
-    m_msgTableView->setTableViewDataSource(this);
-    m_msgTableView->setTableViewDelegate(this);
-    m_msgTableView->setScrollViewDelegate(this);
-    m_msgTableView->setAllowsSelection(true);
-    m_msgTableView->setSeparatorColor(ccc4(200, 200, 200, 80));
-    //m_msgTableView->setSeparatorViewHeight(_px(2));
-    this->getView()->addSubview(m_msgTableView);
-    
-    CAPullToRefreshView *refreshDiscount = CAPullToRefreshView::create(CAPullToRefreshView::CAPullToRefreshTypeHeader);
-    refreshDiscount->setLabelColor(CAColor_black);
-    m_msgTableView->setHeaderRefreshView(refreshDiscount);
 }
 
 void SessionsViewController::requestMsg()
 {
-    this->getView()->removeSubview(p_alertView);
-    p_alertView = NULL;
+    if(p_alertView)
+    {
+        this->getView()->removeSubview(p_alertView);
+        p_alertView = NULL;
+    }
+    
     std::map<std::string, std::string> key_value;
     key_value["tag"] = sessionViewTag[0];
     key_value["uid"] = crossapp_format_string("%d", FDataManager::getInstance()->getUserId());
@@ -241,8 +245,12 @@ void SessionsViewController::buttonCallBack(CAControl* btn, DPoint point)
 
 void SessionsViewController::onRequestFinished(const HttpResponseStatus& status, const CSJson::Value& json)
 {
-    if (status == HttpResponseSucceed)
+    if (status == HttpResponseSucceed && !json.empty())
     {
+        CSJson::FastWriter writer;
+        string tempjson = writer.write(json);
+        CCLog("receive json == %s",tempjson.c_str());
+        
         const CSJson::Value& value = json["result"];
         int length = value.size();
         m_msg->clear();
@@ -508,7 +516,8 @@ CAListViewCell* SessionsViewController::listViewCellAtIndex(CAListView *listView
             CAScale9ImageView* sView = CAScale9ImageView::createWithFrame(DRect(_px(0), _px(0), _px(120), _px(40)));
             sView->setImage(CAImage::create("common/seggreen_bg.png"));
             sView->setTouchEnabled(false);
-            button->setBackGroundViewForState(CAControlStateAll, sView);
+            button->addSubview(sView);
+            //button->setBackGroundViewForState(CAControlStateAll, sView);
             sView = CAScale9ImageView::createWithFrame(DRect(_px(0), _px(0), _px(120), _px(40)));
             sView->setImage(CAImage::create("common/seggreen_bg.png"));
             sView->setColor(ccc4(0x86, 0xBD, 0x45, 0xff));
@@ -526,8 +535,9 @@ CAListViewCell* SessionsViewController::listViewCellAtIndex(CAListView *listView
             sView = CAScale9ImageView::createWithFrame(DRect(_px(0), _px(0), _px(120), _px(40)));
             sView->setImage(CAImage::create("common/seggreen_bg.png"));
             sView->setTouchEnabled(false);
-            //button->setBackGroundViewForState(CAControlStateAll, sView);
             button->addSubview(sView);
+            //button->setBackGroundViewForState(CAControlStateAll, sView);
+            //button->addSubview(sView);
             //button->setBackGroundViewForState(CAControlStateAll, sView);
             sView = CAScale9ImageView::createWithFrame(DRect(_px(0), _px(0), _px(120), _px(40)));
             sView->setImage(CAImage::create("common/btn_round.png"));
@@ -542,10 +552,10 @@ CAListViewCell* SessionsViewController::listViewCellAtIndex(CAListView *listView
             m_listButton[index * 2 + 1] = button;
             cell->addSubview(button);
             
-            sView = CAScale9ImageView::createWithImage(CAImage::create("common/gray_bg.png"));
-            sView->setFrame(DRect(_px(0), _px(0), _size.width, _size.height));
+            //sView = CAScale9ImageView::createWithImage(CAImage::create("common/gray_bg.png"));
+            //sView->setFrame(DRect(_px(0), _px(0), _size.width, _size.height));
             //sView->setColor(CAColor_clear);
-            cell->setAlpha(0);
+            //cell->setAlpha(0);
             //cell->setBackgroundView(sView);
                             
         }

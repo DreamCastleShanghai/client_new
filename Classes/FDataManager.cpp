@@ -17,6 +17,8 @@ FDataManager::FDataManager()
     m_diffServerTime(0)
 {
     m_sessionMsgs.clear();
+    m_userId = 1;
+    m_userInfo.m_userId = 1;
 }
 
 FDataManager::~FDataManager()

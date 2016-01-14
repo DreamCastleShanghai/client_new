@@ -11,6 +11,7 @@
 #include "MapViewController.h"
 #include "VoteViewController.h"
 #include "PhotoViewController.h"
+#include "NoticeViewController.h"
 #include "FDataManager.h"
 #include "FServerTime.h"
 
@@ -39,15 +40,7 @@ void MainViewController::update(float dt)
 
 void MainViewController::viewDidAppear()
 {
-    if (m_msg->empty())
-    {
-        requestSessionMsg();
-        p_pLoading = CAActivityIndicatorView::createWithCenter(DRect(m_winSize.width / 2, m_winSize.height / 2, 50, 50));
-        this->getView()->insertSubview(p_pLoading, CAWindowZOderTop);
-        p_pLoading->setLoadingMinTime(0.5f);
-        p_pLoading->setTargetOnCancel(this, callfunc_selector(MainViewController::initMsgTableView));
-    }
-    else
+    if (!m_msg->empty())
     {
         m_filterMsg.clear();
         for (std::vector<sessionMsg>::iterator it = m_msg->begin(); it != m_msg->end(); it++)
@@ -61,7 +54,7 @@ void MainViewController::viewDidAppear()
                 break;
             }
         }
-        this->initMsgTableView();
+        m_msgTableView->reloadData();
     }
 }
 
@@ -110,7 +103,18 @@ void MainViewController::viewDidLoad()
     label->setTouchEnabled(false);
 	sView->addSubview(label);
     
-    
+    if (m_msg->empty())
+    {
+        requestSessionMsg();
+        p_pLoading = CAActivityIndicatorView::createWithCenter(DRect(m_winSize.width / 2, m_winSize.height / 2, 50, 50));
+        this->getView()->insertSubview(p_pLoading, CAWindowZOderTop);
+        p_pLoading->setLoadingMinTime(0.5f);
+        p_pLoading->setTargetOnCancel(this, callfunc_selector(MainViewController::initMsgTableView));
+    }
+    else
+    {
+        this->initMsgTableView();
+    }
 }
 
 void MainViewController::viewDidUnload()
@@ -128,24 +132,11 @@ void MainViewController::scrollViewHeaderBeginRefreshing(CrossApp::CAScrollView 
         for (int i = (int)m_msg->size() - 1; i >= 0; i--)
         {
             if (m_msg->at(i).m_stored &&
-                (m_filterMsg.size() < REFRESH_STEP ||
-                m_msg->at(i).m_startTime <= m_filterMsg[0]->m_startTime))
+                m_msg->at(i).m_startTime <= m_filterMsg[0]->m_startTime &&
+                m_msg->at(i).m_sessionId != m_filterMsg[0]->m_sessionId)
             {
-                bool notSame = true;
-                std::vector<sessionMsg*>::iterator it = m_filterMsg.begin();
-                while (it++ != m_filterMsg.end())
-                {
-                    if (*it == &(m_msg->at(i)))
-                    {
-                        notSame = false;
-                        break;
-                    }
-                }
-                if (notSame)
-                {
-                    m_filterMsg.insert(m_filterMsg.begin(), &(m_msg->at(i)));
-                    count++;
-                }
+                m_filterMsg.insert(m_filterMsg.begin(), &(m_msg->at(i)));
+                count++;
             }
             if (count == REFRESH_STEP)
             {
@@ -168,24 +159,11 @@ void MainViewController::scrollViewFooterBeginRefreshing(CAScrollView* view)
         for (int i = 0; i < (int)m_msg->size() - 1; i++)
         {
             if (m_msg->at(i).m_stored &&
-                (m_msg->at(i).m_startTime >= m_filterMsg[m_filterMsg.size() - 1]->m_startTime))
+                m_msg->at(i).m_startTime >= m_filterMsg[m_filterMsg.size() - 1]->m_startTime &&
+                m_msg->at(i).m_sessionId != m_filterMsg[m_filterMsg.size() - 1]->m_sessionId)
             {
-                bool notSame = true;
-                std::vector<sessionMsg*>::iterator it = m_filterMsg.begin();
-                while (it++ != m_filterMsg.end())
-                {
-                    if (*it == &(m_msg->at(i)))
-                    {
-                        notSame = false;
-                        break;
-                    }
-                }
-                if (notSame)
-                {
-                    m_filterMsg.push_back(&(m_msg->at(i)));
-                    count++;
-                }
-                
+                m_filterMsg.push_back(&(m_msg->at(i)));
+                count++;
             }
             if (count == REFRESH_STEP)
             {
@@ -337,17 +315,26 @@ void MainViewController::showAlert()
 
 void MainViewController::requestSessionMsg()
 {
+    if (p_alertView) {
+        this->getView()->removeSubview(p_alertView);
+        p_alertView = NULL;
+    }
     std::map<std::string, std::string> key_value;
     key_value["tag"] = sessionViewTag[0];
     key_value["uid"] = crossapp_format_string("%d", FDataManager::getInstance()->getUserId());
+    CCLog("requestSessionMsg %d", FDataManager::getInstance()->getUserId());
     //key_value["sign"] = getSign(key_value);
     CommonHttpManager::getInstance()->send_post(httpUrl, key_value, this, CommonHttpJson_selector(MainViewController::onRequestFinished));
 }
 
 void MainViewController::onRequestFinished(const HttpResponseStatus& status, const CSJson::Value& json)
 {
-    if (status == HttpResponseSucceed && !json.empty())
+    if (status == HttpResponseSucceed)
     {
+        CSJson::FastWriter writer;
+        string tempjson = writer.write(json);
+        CCLog("receive json == %s",tempjson.c_str());
+        
         const CSJson::Value& value = json["result"];
         int length = value["pag"].size();
         m_msg->clear();
@@ -361,26 +348,37 @@ void MainViewController::onRequestFinished(const HttpResponseStatus& status, con
             temp_page.m_imageUrl = value["pag"][i]["url"].asString();
             m_page.push_back(temp_page);
         }
-        length = value["nws"].size();
+        
+        const CSJson::Value& v1 = json["result"]["sel"];
+        length = v1.size();
         for (int index = 0; index < length; index++)
         {
             sessionMsg temp_msg;
-            temp_msg.m_sessionId = value[index]["SessionId"].asInt();
-            temp_msg.m_title = value[index]["SessionTitle"].asString();
-            temp_msg.m_location = value[index]["Location"].asString();
-            temp_msg.m_detail = value[index]["SessionDescription"].asString();
-            temp_msg.m_lecturer = crossapp_format_string("%s %s", value[index]["FirstName"].asString().c_str(), value[index]["LastName"].asString().c_str());
-            temp_msg.m_lecturerEmail = value[index]["Email"].asString();
-            temp_msg.m_track = value[index]["Track"].asString();
-            temp_msg.m_format = value[index]["Format"].asString();
-            temp_msg.m_startTime = value[index]["StarTime"].asInt64();
-            temp_msg.m_endTime = value[index]["EndTime"].asInt();
+            temp_msg.m_sessionId = v1[index]["SessionId"].asInt();
+            temp_msg.m_title = v1[index]["SessionTitle"].asString();
+            temp_msg.m_location = v1[index]["Location"].asString();
+            temp_msg.m_detail = v1[index]["SessionDescription"].asString();
+            temp_msg.m_lecturer = crossapp_format_string("%s %s", v1[index]["FirstName"].asString().c_str(), v1[index]["LastName"].asString().c_str());
+            temp_msg.m_lecturerEmail = v1[index]["Email"].asString();
+            temp_msg.m_track = v1[index]["Track"].asString();
+            temp_msg.m_format = v1[index]["Format"].asString();
+            temp_msg.m_startTime = v1[index]["StarTime"].asInt64();
+            temp_msg.m_endTime = v1[index]["EndTime"].asInt();
             temp_msg.m_likeNum = 20;//value[index]["lkn"].asInt();
             temp_msg.m_imageUrl = "http://imgsrc.baidu.com/forum/pic/item/53834466d0160924a41f433bd50735fae6cd3452.jpg";//value[index]["img"].asString();
-            temp_msg.m_stored = value[index]["Stored"].asBool();
-            temp_msg.m_done = value[index]["Done"].asBool();
+            temp_msg.m_stored = v1[index]["Stored"].asBool();
+            temp_msg.m_done = v1[index]["Done"].asBool();
+            temp_msg.m_point = v1[index]["Point"].asBool();
             m_msg->push_back(temp_msg);
         }
+        const CSJson::Value& v2 = json["result"]["usr"];
+        userInfo uInfo;
+        uInfo.m_userId = FDataManager::getInstance()->getUserId();
+        uInfo.m_userName = crossapp_format_string("%s %s", v2["FirstName"].asString().c_str(), v2["LastName"].asString().c_str());
+        uInfo.m_point = v2["Rank"].asInt();
+        uInfo.m_imageUrl = "http://imgsrc.baidu.com/forum/pic/item/53834466d0160924a41f433bd50735fae6cd3452.jpg";
+        FDataManager::getInstance()->setUserInfo(uInfo);
+        
         quickSort(m_msg, 0, (int)m_msg->size() - 1);
         m_filterMsg.clear();
         for (std::vector<sessionMsg>::iterator it = m_msg->begin(); it != m_msg->end(); it++)
@@ -400,9 +398,9 @@ void MainViewController::onRequestFinished(const HttpResponseStatus& status, con
         //showAlert();
     }
     
-    {
-        m_msg->clear();
-        m_filterMsg.clear();
+//    {
+        //m_msg->clear();
+        //m_filterMsg.clear();
         m_page.clear();
         for (int i = 0; i < 3; i++) {
             char title[8];
@@ -425,46 +423,55 @@ void MainViewController::onRequestFinished(const HttpResponseStatus& status, con
             
             m_page.push_back(temp_page);
         }
-        srand((int)getTimeSecond());
-        for (int i = 0; i < 17; i++)
-        {
-            sessionMsg temp_msg;
-            temp_msg.m_sessionId = 200 + i;
-            temp_msg.m_title = "Customer Success";
-            
-            temp_msg.m_location = "Lisa Chen";
-            temp_msg.m_detail = "This is Photoshop's version of Lorem Ipsum. \
-                This is Photoshop's version of Lorem Ipsum. \
-                This is Photoshop's version of Lorem Ipsum. ";
-            temp_msg.m_lecturer = "Lisa Chen";
-            temp_msg.m_lecturerEmail = "coostein@hotmail.com";
-            temp_msg.m_track = "Customer";
-            temp_msg.m_format = "Dev Faire";
-            temp_msg.m_startTime = getTimeSecond() + ((rand() % 10) - 5) * 3600;
-            temp_msg.m_endTime = temp_msg.m_startTime + rand() % 3900;
-            temp_msg.m_likeNum = 20;
-            temp_msg.m_stored = (bool)(rand() % 2);
-            temp_msg.m_imageUrl =
-                "http://imgsrc.baidu.com/forum/pic/item/53834466d0160924a41f433bd50735fae6cd3452.jpg";
-            //"http://img1.gtimg.com/14/1468/146894/14689486_980x1200_0.png";
-            temp_msg.m_stored = (bool)(rand() % 2);
-            temp_msg.m_done = (bool)(rand() % 2);
-            m_msg->push_back(temp_msg);
-        }
-        quickSort(m_msg, 0, (int)m_msg->size() - 1);
-        m_filterMsg.clear();
-        for (std::vector<sessionMsg>::iterator it = m_msg->begin(); it != m_msg->end(); it++)
-        {
-            if(it->m_stored && it->m_endTime > getTimeSecond())
-            {
-                m_filterMsg.push_back(&(*it));
-            }
-            if (m_filterMsg.size() == REFRESH_STEP)
-            {
-                break;
-            }
-        }
-    }
+//        srand((int)getTimeSecond());
+//        for (int i = 0; i < 17; i++)
+//        {
+//            sessionMsg temp_msg;
+//            temp_msg.m_sessionId = 200 + i;
+//            temp_msg.m_title = "Customer Success";
+//            
+//            temp_msg.m_location = "Lisa Chen";
+//            temp_msg.m_detail = "This is Photoshop's version of Lorem Ipsum. \
+//                This is Photoshop's version of Lorem Ipsum. \
+//                This is Photoshop's version of Lorem Ipsum. ";
+//            temp_msg.m_lecturer = "Lisa Chen";
+//            temp_msg.m_lecturerEmail = "coostein@hotmail.com";
+//            temp_msg.m_track = "Customer";
+//            temp_msg.m_format = "Dev Faire";
+//            temp_msg.m_startTime = getTimeSecond() + ((rand() % 10) - 5) * 3600;
+//            temp_msg.m_endTime = temp_msg.m_startTime + rand() % 3900;
+//            temp_msg.m_likeNum = 20;
+//            temp_msg.m_stored = (bool)(rand() % 2);
+//            temp_msg.m_imageUrl =
+//                "http://imgsrc.baidu.com/forum/pic/item/53834466d0160924a41f433bd50735fae6cd3452.jpg";
+//            //"http://img1.gtimg.com/14/1468/146894/14689486_980x1200_0.png";
+//            temp_msg.m_stored = (bool)(rand() % 2);
+//            temp_msg.m_done = (bool)(rand() % 2);
+//            temp_msg.m_point = 22;
+//            m_msg->push_back(temp_msg);
+//            
+//            userInfo uInfo;
+//            uInfo.m_userId = 101;
+//            uInfo.m_userName = "Alex Chen";
+//            uInfo.m_point = 100;
+//            uInfo.m_pointRank = 20;
+//            uInfo.m_imageUrl = "http://imgsrc.baidu.com/forum/pic/item/53834466d0160924a41f433bd50735fae6cd3452.jpg";
+//            FDataManager::getInstance()->setUserInfo(uInfo);
+//        }
+//        quickSort(m_msg, 0, (int)m_msg->size() - 1);
+//        m_filterMsg.clear();
+//        for (std::vector<sessionMsg>::iterator it = m_msg->begin(); it != m_msg->end(); it++)
+//        {
+//            if(it->m_stored && it->m_endTime > getTimeSecond())
+//            {
+//                m_filterMsg.push_back(&(*it));
+//            }
+//            if (m_filterMsg.size() == REFRESH_STEP)
+//            {
+//                break;
+//            }
+//        }
+//    }
     
     if (p_pLoading)
     {
@@ -521,7 +528,10 @@ void MainViewController::buttonCallBack(CAControl* btn, DPoint point)
 {
 	if (btn->getTag() == 20) // note
 	{
-        CADevice::sendLocalNotification("hello", "hello world", 10, "notice id");
+        //CADevice::sendLocalNotification("hello", "hello world", 10, "notice id");
+        NoticeViewController* vc = new NoticeViewController();
+        vc->init();
+        RootWindow::getInstance()->getRootNavigationController()->pushViewController(vc, true);
 	}
 	else if (btn->getTag() == 30) // prize
 	{
@@ -531,22 +541,11 @@ void MainViewController::buttonCallBack(CAControl* btn, DPoint point)
 	}
 	else if (btn->getTag() == 100)
     {
-        this->getView()->removeSubview(p_alertView);
-        p_alertView = NULL;
-        std::map<std::string, std::string> key_value;
-        key_value["tag"] = mainViewTag[0];
-        key_value["page"] = "1";
-        key_value["limit"] = "20";
-        key_value["appid"] = "10000";
-        key_value["sign_method"] = "md5";
-        key_value["sign"] = getSign(key_value);
-        CommonHttpManager::getInstance()->send_post(httpUrl, key_value, this, CommonHttpJson_selector(MainViewController::onRequestFinished));
-        {
-            p_pLoading = CAActivityIndicatorView::createWithCenter(DRect(m_winSize.width / 2, m_winSize.height / 2, 50, 50));
-            this->getView()->insertSubview(p_pLoading, CAWindowZOderTop);
-            p_pLoading->setLoadingMinTime(0.5f);
-            p_pLoading->setTargetOnCancel(this, callfunc_selector(MainViewController::initMsgTableView));
-        }
+        requestSessionMsg();
+        p_pLoading = CAActivityIndicatorView::createWithCenter(DRect(m_winSize.width / 2, m_winSize.height / 2, 50, 50));
+        this->getView()->insertSubview(p_pLoading, CAWindowZOderTop);
+        p_pLoading->setLoadingMinTime(0.5f);
+        p_pLoading->setTargetOnCancel(this, callfunc_selector(MainViewController::initMsgTableView));
     }
     else if (btn->getTag() == 200)
     {
@@ -614,7 +613,7 @@ unsigned int MainViewController::numberOfSections(CATableView *table)
 
 unsigned int MainViewController::numberOfRowsInSection(CATableView *table, unsigned int section)
 {
-    return m_filterMsg.size();
+    return (int)m_filterMsg.size();
 }
 
 unsigned int MainViewController::tableViewHeightForRowAtIndexPath(CATableView* table, unsigned int section, unsigned int row)

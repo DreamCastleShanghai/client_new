@@ -125,6 +125,7 @@
 		3E02A50E1B85AD6000328E71 /* NOTES.txt in Resources */ = {isa = PBXBuildFile; fileRef = 3E02A4AB1B85AD6000328E71 /* NOTES.txt */; };
 		3E02A50F1B85AD6000328E71 /* TODO in Resources */ = {isa = PBXBuildFile; fileRef = 3E02A4AC1B85AD6000328E71 /* TODO */; };
 		5C31C85F1C47388000542BF3 /* FDataManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5C31C85D1C47388000542BF3 /* FDataManager.cpp */; };
+		5C31C8641C47FA0800542BF3 /* SurveyViewController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5C31C8621C47FA0800542BF3 /* SurveyViewController.cpp */; };
 		5C5DE7291C2F9E2300D9A8BC /* sound in Resources */ = {isa = PBXBuildFile; fileRef = 5C5DE7281C2F9E2300D9A8BC /* sound */; };
 		5C5DE7CA1C3035A900D9A8BC /* bitstream.c in Sources */ = {isa = PBXBuildFile; fileRef = 5C5DE7B61C3035A900D9A8BC /* bitstream.c */; };
 		5C5DE7CB1C3035A900D9A8BC /* mask.c in Sources */ = {isa = PBXBuildFile; fileRef = 5C5DE7B81C3035A900D9A8BC /* mask.c */; };
@@ -433,6 +434,8 @@
 		3E02A4AC1B85AD6000328E71 /* TODO */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = TODO; sourceTree = "<group>"; };
 		5C31C85D1C47388000542BF3 /* FDataManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = FDataManager.cpp; path = ../Classes/FDataManager.cpp; sourceTree = "<group>"; };
 		5C31C85E1C47388000542BF3 /* FDataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FDataManager.h; path = ../Classes/FDataManager.h; sourceTree = "<group>"; };
+		5C31C8621C47FA0800542BF3 /* SurveyViewController.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SurveyViewController.cpp; path = ../Classes/SurveyViewController.cpp; sourceTree = "<group>"; };
+		5C31C8631C47FA0800542BF3 /* SurveyViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SurveyViewController.h; path = ../Classes/SurveyViewController.h; sourceTree = "<group>"; };
 		5C5DE7281C2F9E2300D9A8BC /* sound */ = {isa = PBXFileReference; lastKnownFileType = folder; path = sound; sourceTree = "<group>"; };
 		5C5DE7B61C3035A900D9A8BC /* bitstream.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = bitstream.c; path = ../Classes/libqrencode/bitstream.c; sourceTree = "<group>"; };
 		5C5DE7B71C3035A900D9A8BC /* bitstream.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = bitstream.h; path = ../Classes/libqrencode/bitstream.h; sourceTree = "<group>"; };
@@ -626,6 +629,8 @@
 				5CFA82851C282B730025C9B5 /* MyStatusViewController.h */,
 				5CFA82861C282B730025C9B5 /* PrizeViewController.cpp */,
 				5CFA82871C282B730025C9B5 /* PrizeViewController.h */,
+				5C31C8621C47FA0800542BF3 /* SurveyViewController.cpp */,
+				5C31C8631C47FA0800542BF3 /* SurveyViewController.h */,
 				5CFCF7041C3EAE0F00DE4410 /* NoticeViewController.cpp */,
 				5CFCF7051C3EAE0F00DE4410 /* NoticeViewController.h */,
 				5CFA82881C282B730025C9B5 /* SiteViewController.cpp */,
@@ -1173,6 +1178,7 @@
 				3E02A50A1B85AD6000328E71 /* gameswf_text.cpp in Sources */,
 				3E02A4FF1B85AD6000328E71 /* gameswf_player.cpp in Sources */,
 				15A3DAED1682F8A6002FB0C5 /* CocosDenshion.m in Sources */,
+				5C31C8641C47FA0800542BF3 /* SurveyViewController.cpp in Sources */,
 				3E02A4BE1B85AD6000328E71 /* tu_gc_singlethreaded_marksweep.cpp in Sources */,
 				15A3DAEE1682F8A6002FB0C5 /* SimpleAudioEngine.mm in Sources */,
 				3E02A4ED1B85AD6000328E71 /* gameswf_character.cpp in Sources */,

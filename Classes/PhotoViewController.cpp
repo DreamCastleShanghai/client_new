@@ -164,7 +164,8 @@ CADrawView* PhotoViewController::getStencil(const DSize& size, int index)
 
 void PhotoViewController::getSelectedImage(CAImage *image)
 {
-    DSize winSize = m_winSize;
+    
+    DSize winSize = DSize(m_winSize.width, m_winSize.height - _px(120));
     DRect scrollRect;
     scrollRect.origin.x = 50;
     scrollRect.origin.y = winSize.height/4;
@@ -172,6 +173,7 @@ void PhotoViewController::getSelectedImage(CAImage *image)
     scrollRect.size.height = scrollRect.size.width;
     
     m_clvImage = CAClippingView::create();
+    
     m_clvImage->setStencil(getStencil(scrollRect.size, 0));
     m_clvImage->setFrame(scrollRect);
     m_clvImage->setInverted(false);

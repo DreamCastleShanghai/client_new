@@ -6,6 +6,7 @@
 #include "utils/HttpConnect.h"
 #include "SessionDetailViewController.h"
 #include "FServerTime.h"
+#include "SurveyViewController.h"
 
 SessionDetailViewController::SessionDetailViewController(sessionMsg& msg)
 : m_msg(&msg),
@@ -142,7 +143,7 @@ void SessionDetailViewController::viewDidLoad()
     button->setTitleForState(CAControlStateAll, "Attend");
     button->setTitleFontSize(_px(36));
     button->addTarget(this, CAControl_selector(SessionDetailViewController::buttonCallBack), CAControlEventTouchUpInSide);
-    button->setControlState(CAControlStateDisabled);
+    //button->setControlState(CAControlStateDisabled);
     button->setTag(200);
     this->getView()->addSubview(button);
     
@@ -168,6 +169,12 @@ void SessionDetailViewController::buttonCallBack(CAControl* btn, DPoint point)
     if (btn->getTag() == 20)
     {
         RootWindow::getInstance()->getRootNavigationController()->popViewControllerAnimated(true);
+    }
+    else if (btn->getTag() == 200)
+    {
+        SurveyViewController* vc = new SurveyViewController();
+        vc->init();
+        RootWindow::getInstance()->getRootNavigationController()->pushViewController(vc, true);
     }
 }
 

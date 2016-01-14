@@ -126,16 +126,16 @@ void PrizeViewController::onRequestFinished(const HttpResponseStatus& status, co
 {
     if (status == HttpResponseSucceed)
     {
-        const CSJson::Value& value = json["result"];
-        m_pointInfo.m_userId = value["uid"].asInt();
-        m_pointInfo.m_point = value["pnt"].asInt();
-        for (int i = 0; i < value["pid"].size(); i++)
-        {
-            m_pointInfo.m_hasPrizeId.push_back(value["pid"].asInt());
-        }
-        m_pointInfo.m_pointRank = value["prk"].asInt();
-        m_pointInfo.m_rankLimit = value["rlt"].asInt();
-        m_pointInfo.m_miLimit = value["mlt"].asInt();
+//        const CSJson::Value& value = json["result"];
+//        m_pointInfo.m_userId = value["uid"].asInt();
+//        m_pointInfo.m_point = value["pnt"].asInt();
+//        for (int i = 0; i < value["pid"].size(); i++)
+//        {
+//            m_pointInfo.m_hasPrizeId.push_back(value["pid"].asInt());
+//        }
+//        m_pointInfo.m_pointRank = value["prk"].asInt();
+//        m_pointInfo.m_rankLimit = value["rlt"].asInt();
+//        m_pointInfo.m_miLimit = value["mlt"].asInt();
     }
     else
     {

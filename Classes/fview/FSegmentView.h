@@ -23,6 +23,8 @@ public:
     
     static FSegmentView* createWithFrame(const DRect& rect, int num);
     
+    static FSegmentView* createWithFrame(const DRect &rect, int num, int type);
+    
     virtual void addTarget(CAObject* target, SEL_CAControl selector, CAControlEvents event);
     
     void buttonCallBack(CAControl* btn, DPoint point);
@@ -30,6 +32,8 @@ public:
     virtual void setItemBackGroundImage(CAImageView* imageView, int index);
 //    
     virtual void setItemTile(std::string tile, int index);
+    
+    virtual void setItemTile(std::string tile, int index, int type);
 //    
 //    virtual void setItemTileFontName(std::string fontName);
 //    
@@ -42,6 +46,8 @@ public:
     virtual std::vector<CAButton*>& getButtonList() { return m_fSegButtonList; }
     
     void addTarget(CAObject* target, SEL_FSegmentView selector);
+    
+    void resetSegment();
     
 protected:
     
@@ -56,6 +62,7 @@ private:
     CAObject*                                               m_pTarget;
     SEL_CAControl                                           m_pCallFunc;
     CAControlEvents                                         m_pEvent;
+    int                                                     m_type;
     
 };
 

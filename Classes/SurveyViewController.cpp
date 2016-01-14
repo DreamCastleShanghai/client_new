@@ -1,24 +1,24 @@
 
-#include "NoticeViewController.h"
+#include "SurveyViewController.h"
 #include "MainViewTableCell.h"
 #include "RootWindow.h"
 #include "SessionsSearchViewController.h"
 #include "utils/HttpConnect.h"
 #include "SessionDetailViewController.h"
 
-NoticeViewController::NoticeViewController()
+SurveyViewController::SurveyViewController()
 : p_alertView(NULL)
 , p_pLoading(NULL)
 {
-    m_pointMsg.m_point = -1;
+    
 }
 
-NoticeViewController::~NoticeViewController()
+SurveyViewController::~SurveyViewController()
 {
 
 }
 
-void NoticeViewController::viewDidLoad()
+void SurveyViewController::viewDidLoad()
 {
     // Do any additional setup after loading the view from its nib.
     m_winSize = this->getView()->getBounds().size;
@@ -32,24 +32,15 @@ void NoticeViewController::viewDidLoad()
     imageView->setImageViewScaleType(CAImageViewScaleTypeFitImageXY);
     imageView->setFrame(DRect(_px(20), _px(20), _px(80), _px(80)));
     button->setBackGroundViewForState(CAControlStateAll, imageView);
-    button->addTarget(this, CAControl_selector(NoticeViewController::buttonCallBack), CAControlEventTouchUpInSide);
+    button->addTarget(this, CAControl_selector(SurveyViewController::buttonCallBack), CAControlEventTouchUpInSide);
     button->setTag(20);
     this->getView()->addSubview(button);
-//    
-//    button = CAButton::createWithFrame(DRect(m_winSize.width - _px(140), _px(20), _px(100), _px(100)), CAButtonTypeCustom);
-//    imageView = CAImageView::createWithImage(CAImage::create("common/nav_forward.png"));
-//    imageView->setImageViewScaleType(CAImageViewScaleTypeFitImageXY);
-//    imageView->setFrame(DRect(_px(20), _px(20), _px(80), _px(80)));
-//    button->setBackGroundViewForState(CAControlStateAll, imageView);
-//    button->addTarget(this, CAControl_selector(NoticeViewController::buttonCallBack), CAControlEventTouchUpInSide);
-//    button->setTag(30);
-//    this->getView()->addSubview(button);
     
     CALabel* label = CALabel::createWithCenter(DRect(m_winSize.width / 2, _px(70), m_winSize.width, _px(40)));
     label->setTextAlignment(CATextAlignmentCenter);
     label->setColor(CAColor_white);
     label->setFontSize(_px(40));
-    label->setText("Notification");
+    label->setText("Sustainability Survey");
     label->setFontName("fonts/arial.ttf");
     sView->addSubview(label);
     requestMsg();
@@ -57,23 +48,18 @@ void NoticeViewController::viewDidLoad()
     CCLog("%f", CAApplication::getApplication()->getWinSize().width);
 }
 
-void NoticeViewController::viewDidUnload()
+void SurveyViewController::viewDidUnload()
 {
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
 }
 
-void NoticeViewController::initMsgTableView()
+void SurveyViewController::initMsgTableView()
 {
-    if (m_pointMsg.m_point == -1)
-    {
-        showAlert();
-        return;
-    }
 
 }
 
-void NoticeViewController::requestMsg()
+void SurveyViewController::requestMsg()
 {
     if(p_alertView)
     {
@@ -82,28 +68,23 @@ void NoticeViewController::requestMsg()
     }
     
     std::map<std::string, std::string> key_value;
-    key_value["tag"] = sessionViewTag[0];
-    key_value["page"] = "1";
-    key_value["limit"] = "20";
-    key_value["sign"] = getSign(key_value);
-    CommonHttpManager::getInstance()->send_post(httpUrl, key_value, this, CommonHttpJson_selector(NoticeViewController::onRequestFinished));
+    key_value["tag"] = userInfoTag[0];
+    key_value["uid"] = crossapp_format_string("%d", FDataManager::getInstance()->getUserId());
+    //key_value["sign"] = getSign(key_value);
+    CommonHttpManager::getInstance()->send_post(httpUrl, key_value, this, CommonHttpJson_selector(SurveyViewController::onRequestFinished));
     {
         p_pLoading = CAActivityIndicatorView::createWithCenter(DRect(m_winSize.width / 2, m_winSize.height / 2, 50, 50));
         this->getView()->insertSubview(p_pLoading, CAWindowZOderTop);
         p_pLoading->setLoadingMinTime(0.5f);
-        p_pLoading->setTargetOnCancel(this, callfunc_selector(NoticeViewController::initMsgTableView));
+        p_pLoading->setTargetOnCancel(this, callfunc_selector(SurveyViewController::initMsgTableView));
     }
 }
 
-void NoticeViewController::buttonCallBack(CAControl* btn, DPoint point)
+void SurveyViewController::buttonCallBack(CAControl* btn, DPoint point)
 {
     if (btn->getTag() == 20)
     {
         RootWindow::getInstance()->getRootNavigationController()->popViewControllerAnimated(true);
-    }
-    else if (btn->getTag() == 30)
-    {
-        
     }
     else if (btn->getTag() == 100)
     {
@@ -111,14 +92,17 @@ void NoticeViewController::buttonCallBack(CAControl* btn, DPoint point)
         p_alertView = NULL;
         requestMsg();
     }
+    else if (btn->getTag() == 200)
+    {
+        
+    }
 }
 
-void NoticeViewController::onRequestFinished(const HttpResponseStatus& status, const CSJson::Value& json)
+void SurveyViewController::onRequestFinished(const HttpResponseStatus& status, const CSJson::Value& json)
 {
     if (status == HttpResponseSucceed)
     {
         const CSJson::Value& value = json["result"];
-        m_pointMsg.m_point = value["pnt"].asInt();
     }
     else
     {
@@ -126,8 +110,7 @@ void NoticeViewController::onRequestFinished(const HttpResponseStatus& status, c
     }
     
     {
-        m_pointMsg.m_point = 200;
-        m_pointMsg.m_hasPrizeId.push_back(0);
+
     }
     
     if (p_pLoading)
@@ -137,7 +120,7 @@ void NoticeViewController::onRequestFinished(const HttpResponseStatus& status, c
 }
 
 
-void NoticeViewController::showAlert()
+void SurveyViewController::showAlert()
 {
     if (p_alertView) {
         this->getView()->removeSubview(p_alertView);
@@ -147,7 +130,7 @@ void NoticeViewController::showAlert()
     p_alertView = CAView::createWithFrame(DRect(_px(0), _px(120), m_winSize.width, m_winSize.height - _px(120)));
     this->getView()->addSubview(p_alertView);
     
-    CAImageView* bg = CAImageView::createWithFrame(DRect(_px(0), _px(120), m_winSize.width, m_winSize.height - _px(120)));
+    CAImageView* bg = CAImageView::createWithFrame(DRect(_px(0), _px(0), m_winSize.width, m_winSize.height - _px(120)));
     bg->setImageViewScaleType(CAImageViewScaleTypeFitImageCrop);
     bg->setImage(CAImage::create("common/bg.png"));
     
@@ -157,7 +140,7 @@ void NoticeViewController::showAlert()
     btn5->setTitleColorForState(CAControlStateNormal, CAColor_white);
     btn5->setBackGroundViewForState(CAControlStateNormal, bg);
     btn5->setBackGroundViewForState(CAControlStateHighlighted, bg);
-    btn5->addTarget(this, CAControl_selector(NoticeViewController::buttonCallBack), CAControlEventTouchUpInSide);
+    btn5->addTarget(this, CAControl_selector(SurveyViewController::buttonCallBack), CAControlEventTouchUpInSide);
     p_alertView->addSubview(btn5);
     
     CALabel* test = CALabel::createWithCenter(DRect(m_winSize.width / 2, m_winSize.height - _px(400), m_winSize.width, _px(30)));
@@ -168,48 +151,4 @@ void NoticeViewController::showAlert()
     test->setText("Network cannot connect!");
     p_alertView->addSubview(test);
 
-}
-
-
-CATableViewCell* NoticeViewController::tableCellAtIndex(CATableView* table, const DSize& cellSize, unsigned int section, unsigned int row)
-{
-    DSize _size = cellSize;
-    
-    CATableViewCell* cell = dynamic_cast<CATableViewCell*>(table->dequeueReusableCellWithIdentifier("CrossApp"));
-    if (cell == NULL)
-    {
-        cell = MainViewTableCell::create("CrossApp", DRect(0, 0, _size.width, _size.height));
-        CAScale9ImageView* sView = CAScale9ImageView::createWithImage(CAImage::create("common/gray_bg.png"));
-        sView->setFrame(DRect(_px(0), _px(0), _size.width, _size.height));
-        cell->setBackgroundView(sView);
-    }
-    //cell->setModel(m_msgFilter[row]);
-    
-    return cell;
-    
-}
-
-unsigned int NoticeViewController::numberOfSections(CATableView *table)
-{
-    return 1;
-}
-
-unsigned int NoticeViewController::numberOfRowsInSection(CATableView *table, unsigned int section)
-{
-    return 2;
-}
-
-unsigned int NoticeViewController::tableViewHeightForRowAtIndexPath(CATableView* table, unsigned int section, unsigned int row)
-{
-    return _px(240);
-}
-
-void NoticeViewController::tableViewDidSelectRowAtIndexPath(CATableView* table, unsigned int section, unsigned int row)
-{
-
-}
-
-void NoticeViewController::tableViewDidDeselectRowAtIndexPath(CATableView* table, unsigned int section, unsigned int row)
-{
-    
 }

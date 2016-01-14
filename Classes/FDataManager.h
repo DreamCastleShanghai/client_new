@@ -8,10 +8,13 @@
 struct userInfo
 {
     int         m_userId;
+    std::string m_userName;
     int         m_point;
     int         m_pointRank;
+    int         m_lastPointRank;
     vector<int> m_hasPrizeId;
     int         m_voteProjectId;
+    std::string m_imageUrl;
 };
 
 struct pointMsg
@@ -48,7 +51,7 @@ struct sessionMsg
     std::string m_imageUrl;
     bool        m_stored;
     bool        m_done;
-    int         m_sessionPoint;
+    int         m_point;
 };
 
 struct voteMsg
@@ -69,6 +72,12 @@ struct newsImage
     std::string m_title;
     std::vector<std::string > m_imageUrl;
     std::vector<std::string > m_imageDesc;
+};
+
+struct rankMsg
+{
+    int         m_userId;
+    std::string m_imageUrl;
 };
 
 class FDataManager
@@ -95,6 +104,8 @@ public:
     time_t getDiffServerTime() { return m_diffServerTime; }
     
     vector<sessionMsg>* getSessionMsgs() { return &m_sessionMsgs; }
+    userInfo* getUserInfo() { return &m_userInfo; }
+    void setUserInfo(userInfo& ui) { m_userInfo = ui; }
     
 private:
     
@@ -103,6 +114,7 @@ private:
 	bool                        m_sessionNotice;
     time_t                      m_diffServerTime;
     vector<sessionMsg>          m_sessionMsgs;
+    userInfo                    m_userInfo;
 };
 
 

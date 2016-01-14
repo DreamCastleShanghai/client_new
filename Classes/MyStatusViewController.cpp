@@ -6,18 +6,18 @@
 #include "utils/HttpConnect.h"
 #include "SessionDetailViewController.h"
 #include "FSegmentView.h"
+#include "FServerTime.h"
+#include "FDataManager.h"
 
 MyStatusViewController::MyStatusViewController()
 : m_msgTableView(NULL)
 , p_alertView(NULL)
 , p_pLoading(NULL)
+, m_pointView(NULL)
 , m_navType(0)
+, m_pointType(0)
 , m_canSwitchSeg(true)
 {
-    for (int i = 0; i< 2; i++)
-    {
-        m_segView[i] = NULL;
-    }
     m_msg = FDataManager::getInstance()->getSessionMsgs();
 }
 
@@ -52,28 +52,84 @@ void MyStatusViewController::viewDidLoad()
     m_pointButton->setVisible(false);
     this->getView()->addSubview(m_pointButton);
     
-    FSegmentView* seg =
+    m_navSegmentView =
         FSegmentView::createWithFrame(DRect((m_winSize.width - 400) / 2, 40, 400, 60), 2);
-    seg->addTarget(this, CAControl_selector(MyStatusViewController::buttonCallBack), CAControlEventTouchUpInSide);
-    seg->setItemTile("Favourites", 0);
-    seg->setItemTile("Point", 1);
-    seg->setTag(200, 0);
-    seg->setTag(201, 1);
-    this->getView()->addSubview(seg);
+    m_navSegmentView->addTarget(this, CAControl_selector(MyStatusViewController::buttonCallBack), CAControlEventTouchUpInSide);
+    m_navSegmentView->setItemTile("Favourites", 0);
+    m_navSegmentView->setItemTile("Point", 1);
+    m_navSegmentView->setTag(200, 0);
+    m_navSegmentView->setTag(201, 1);
+    this->getView()->addSubview(m_navSegmentView);
     m_navType = 0;
+    
+    m_pointView = CAView::createWithFrame(DRect(0, _px(120), m_winSize.width, _px(300)));
+    m_pointView->setColor(ccc4(0, 0xa8, 0xfc, 0xff));
+    m_pointView->setVisible(false);
+    this->getView()->addSubview(m_pointView);
+    
+    m_urlImageView = CommonUrlImageView::createWithImage(CAImage::create("common/head_bg.png"));
+    //createWithFrame(DRect(_px(30), _px(40), _px(80), _px(80)));
+    m_urlImageView->setFrame(DRect((m_winSize.width - _px(120)) / 2, _px(30), _px(120), _px(120)));
+    m_urlImageView->setImageViewScaleType(CAImageViewScaleTypeFitImageCrop);
+    m_urlImageView->setImage(CAImage::create("common/bg.png"));
+    m_pointView->addSubview(m_urlImageView);
+    m_nameLabel = CALabel::createWithFrame(DRect((m_winSize.width - _px(200)) / 2, _px(170), _px(200), _px(35)));
+    m_nameLabel->setFontSize(_px(30));
+    m_nameLabel->setColor(CAColor_white);
+    m_nameLabel->setVerticalTextAlignmet(CAVerticalTextAlignmentCenter);
+    m_nameLabel->setTextAlignment(CATextAlignmentCenter);
+    m_pointView->addSubview(m_nameLabel);
+    
+    m_pointSegmentView = FSegmentView::createWithFrame(DRect(0, _px(200), m_winSize.width, _px(100)), 2, 1);
+    m_pointSegmentView->addTarget(this, CAControl_selector(MyStatusViewController::buttonCallBack), CAControlEventTouchUpInSide);
+    m_pointSegmentView->setTag(300, 0);
+    m_pointSegmentView->setTag(301, 1);
+    m_pointView->addSubview(m_pointSegmentView);
+    for (int i = 0; i < 2; i++)
+    {
+        m_pointLabel[i] = CALabel::createWithFrame(DRect(i * m_winSize.width / 2, _px(200), m_winSize.width / 2, _px(60)));
+        m_pointLabel[i]->setTextAlignment(CATextAlignmentCenter);
+        m_pointLabel[i]->setVerticalTextAlignmet(CAVerticalTextAlignmentCenter);
+        m_pointLabel[i]->setFontSize(_px(50));
+        m_pointLabel[i]->setTouchEnabled(false);
+        m_pointLabel[i]->setColor(CAColor_white);
+        m_pointView->addSubview(m_pointLabel[i]);
+        m_rankLabel[i] = CALabel::createWithFrame(DRect(i * m_winSize.width / 2, _px(260), m_winSize.width / 2, _px(35)));
+        m_rankLabel[i]->setTextAlignment(CATextAlignmentCenter);
+        m_rankLabel[i]->setVerticalTextAlignmet(CAVerticalTextAlignmentCenter);
+        m_rankLabel[i]->setFontSize(_px(30));
+        m_rankLabel[i]->setTouchEnabled(false);
+        m_rankLabel[i]->setColor(CAColor_white);
+        m_pointView->addSubview(m_rankLabel[i]);
+    }
+    m_rankLabel[0]->setText("Credit Point");
+    m_rankLabel[1]->setText("Ranking");
+    m_pointLabel[0]->setColor(ccc4(0xce, 0xea, 0xfd, 0xff));
+    m_rankLabel[0]->setColor(ccc4(0xce, 0xea, 0xfd, 0xff));
+    userInfo* info = FDataManager::getInstance()->getUserInfo();
+    if (info->m_userId > 0)
+    {
+        m_urlImageView->setUrl(info->m_imageUrl);
+        m_nameLabel->setText(info->m_userName);
+        m_pointLabel[0]->setText(crossapp_format_string("%d", info->m_point));
+    }
     
     if (m_msg->empty())
     {
         m_canSwitchSeg = false;
         requestMsg();
-        {
-            p_pLoading = CAActivityIndicatorView::createWithCenter(DRect(m_winSize.width / 2, m_winSize.height / 2, 50, 50));
-            this->getView()->insertSubview(p_pLoading, CAWindowZOderTop);
-            p_pLoading->setLoadingMinTime(0.5f);
-        }
+        showLoading();
     }
     else
     {
+        m_filterMsg.clear();
+        for (std::vector<sessionMsg>::iterator it = m_msg->begin(); it != m_msg->end(); it++)
+        {
+            if(it->m_stored)
+            {
+                m_filterMsg.push_back(&(*it));
+            }
+        }
         this->initMsgTableView();
     }
     
@@ -93,31 +149,49 @@ void MyStatusViewController::initMsgTableView()
         showAlert();
         return;
     }
-    if (m_msgTableView != NULL)
+    m_canSwitchSeg = true;
+    if (m_msgTableView == NULL)
     {
-        this->getView()->removeSubview(m_msgTableView);
-        m_msgTableView = NULL;
+        m_msgTableView = CATableView::createWithFrame(DRect(0, _px(120), m_winSize.width, m_winSize.height - _px(120)));
+        m_msgTableView->setTableViewDataSource(this);
+        m_msgTableView->setTableViewDelegate(this);
+        m_msgTableView->setScrollViewDelegate(this);
+        m_msgTableView->setAllowsSelection(true);
+        m_msgTableView->setSeparatorColor(ccc4(200, 200, 200, 80));
+        //m_msgTableView->setSeparatorViewHeight(_px(2));
+        this->getView()->addSubview(m_msgTableView);
     }
-    
-    m_msgTableView = CATableView::createWithFrame(DRect(0, _px(120), m_winSize.width, m_winSize.height - _px(120)));
-    m_msgTableView->setTableViewDataSource(this);
-    m_msgTableView->setTableViewDelegate(this);
-    m_msgTableView->setScrollViewDelegate(this);
-    m_msgTableView->setAllowsSelection(true);
-    m_msgTableView->setSeparatorColor(ccc4(200, 200, 200, 80));
-    //m_msgTableView->setSeparatorViewHeight(_px(2));
-    this->getView()->addSubview(m_msgTableView);
+
 }
 
 void MyStatusViewController::requestMsg()
 {
-    this->getView()->removeSubview(p_alertView);
-    p_alertView = NULL;
+    if (p_alertView)
+    {
+        this->getView()->removeSubview(p_alertView);
+        p_alertView = NULL;
+    }
+    
     std::map<std::string, std::string> key_value;
     key_value["tag"] = sessionViewTag[0];
     key_value["uid"] = crossapp_format_string("%d", FDataManager::getInstance()->getUserId());
     //key_value["sign"] = getSign(key_value);
     CommonHttpManager::getInstance()->send_post(httpUrl, key_value, this, CommonHttpJson_selector(MyStatusViewController::onRequestFinished));
+}
+
+void MyStatusViewController::requestRankMsg()
+{
+    if (p_alertView)
+    {
+        this->getView()->removeSubview(p_alertView);
+        p_alertView = NULL;
+    }
+    
+    std::map<std::string, std::string> key_value;
+    key_value["tag"] = rankViewTag[0];
+    key_value["uid"] = crossapp_format_string("%d", FDataManager::getInstance()->getUserId());
+    //key_value["sign"] = getSign(key_value);
+    CommonHttpManager::getInstance()->send_post(httpUrl, key_value, this, CommonHttpJson_selector(MyStatusViewController::onRequestRankFinished));
 }
 
 void MyStatusViewController::buttonCallBack(CAControl* btn, DPoint point)
@@ -141,17 +215,34 @@ void MyStatusViewController::buttonCallBack(CAControl* btn, DPoint point)
     else if (btn->getTag() == 200)
     {
         m_navType = 0;
-        if (m_msgTableView) {
-            m_msgTableView->setFrame(DRect(0, _px(180), m_winSize.width, m_winSize.height - _px(180)));
-        }
-        
+        switchNavType(m_navType);
     }
     else if (btn->getTag() == 201)
     {
-        m_navType = 1;
-        if (m_msgTableView) {
-            m_msgTableView->setFrame(DRect(0, _px(250), m_winSize.width, m_winSize.height - _px(250)));
+        if (!m_canSwitchSeg)
+        {
+            m_navSegmentView->resetSegment();
+            return;
         }
+        m_navType = m_pointType + 1;
+        switchNavType(m_navType);
+    }
+    else if (btn->getTag() == 300)
+    {
+        m_pointType = 0;
+        m_navType = 1;
+        switchNavType(m_navType);
+    }
+    else if (btn->getTag() == 301)
+    {
+        if (!m_canSwitchPoint)
+        {
+            m_pointSegmentView->resetSegment();
+            return;
+        }
+        m_pointType = 1;
+        m_navType = 2;
+        switchNavType(m_navType);
     }
 }
 
@@ -159,33 +250,67 @@ void MyStatusViewController::onRequestFinished(const HttpResponseStatus& status,
 {
     if (status == HttpResponseSucceed)
     {
+        CSJson::FastWriter writer;
+        string tempjson = writer.write(json);
+        CCLog("receive json == %s",tempjson.c_str());
+        
         const CSJson::Value& value = json["result"];
         int length = value.size();
         m_msg->clear();
-        
-        for (int index = 3; index < length; index++)
+        m_filterMsg.clear();
+        for (int index = 0; index < length; index++)
         {
             sessionMsg temp_msg;
-            temp_msg.m_sessionId = value[index]["sid"].asInt();
-            temp_msg.m_title = value[index]["til"].asString();
-            temp_msg.m_location = value[index]["loc"].asString();
-            temp_msg.m_detail = value[index]["dtl"].asString();
-            temp_msg.m_lecturer = value[index]["lct"].asString();
-            temp_msg.m_lecturerEmail = value[index]["eml"].asString();
-            temp_msg.m_track = value[index]["trk"].asString();
-            temp_msg.m_format = value[index]["fmt"].asString();
-            temp_msg.m_startTime = value[index]["trk"].asInt64();
-            temp_msg.m_endTime = value[index]["drt"].asInt();
-            temp_msg.m_likeNum = value[index]["lkn"].asInt();
-            temp_msg.m_imageUrl = value[index]["img"].asString();
+            temp_msg.m_sessionId = value[index]["SessionId"].asInt();
+            temp_msg.m_title = value[index]["SessionTitle"].asString();
+            temp_msg.m_location = value[index]["Location"].asString();
+            temp_msg.m_detail = value[index]["SessionDescription"].asString();
+            temp_msg.m_lecturer = crossapp_format_string("%s %s", value[index]["FirstName"].asString().c_str(), value[index]["LastName"].asString().c_str());
+            temp_msg.m_lecturerEmail = value[index]["Email"].asString();
+            temp_msg.m_track = value[index]["Track"].asString();
+            temp_msg.m_format = value[index]["Format"].asString();
+            temp_msg.m_startTime = value[index]["StarTime"].asInt64();
+            temp_msg.m_endTime = value[index]["EndTime"].asInt();
+            temp_msg.m_likeNum = 20;//value[index]["lkn"].asInt();
+            temp_msg.m_imageUrl = "http://imgsrc.baidu.com/forum/pic/item/53834466d0160924a41f433bd50735fae6cd3452.jpg";//value[index]["img"].asString();
+            temp_msg.m_stored = value[index]["Stored"].asBool();
+            temp_msg.m_done = value[index]["Done"].asBool();
             m_msg->push_back(temp_msg);
         }
-        m_canSwitchSeg = true;
+        userInfo uInfo;
+        uInfo.m_userId = 101;
+        uInfo.m_userName = "Alex Chen";
+        uInfo.m_point = 100;
+        uInfo.m_pointRank = 20;
+        uInfo.m_imageUrl = "http://imgsrc.baidu.com/forum/pic/item/53834466d0160924a41f433bd50735fae6cd3452.jpg";
+        FDataManager::getInstance()->setUserInfo(uInfo);
+        
+        quickSort(m_msg, 0, (int)m_msg->size() - 1);
+        for (std::vector<sessionMsg>::iterator it = m_msg->begin(); it != m_msg->end(); it++)
+        {
+            if(it->m_stored)
+            {
+                m_filterMsg.push_back(&(*it));
+            }
+        }
+        userInfo* info = FDataManager::getInstance()->getUserInfo();
+        if (info->m_userId > 0)
+        {
+            m_urlImageView->setUrl(info->m_imageUrl);
+            m_nameLabel->setText(info->m_userName);
+            m_pointLabel[0]->setText(crossapp_format_string("%d", info->m_point));
+        }
+    }
+    else
+    {
+        //showAlert();
     }
     
     {
         m_msg->clear();
-        for (int i = 0; i < 7; i++)
+        m_filterMsg.clear();
+        srand((int)getTimeSecond());
+        for (int i = 0; i < 17; i++)
         {
             sessionMsg temp_msg;
             temp_msg.m_sessionId = 200 + i;
@@ -199,41 +324,162 @@ void MyStatusViewController::onRequestFinished(const HttpResponseStatus& status,
             temp_msg.m_lecturerEmail = "coostein@hotmail.com";
             temp_msg.m_track = "Customer";
             temp_msg.m_format = "Dev Faire";
-            cc_timeval ct;
-            CCTime::gettimeofdayCrossApp(&ct, NULL);
-            temp_msg.m_startTime = 46800;//ct.tv_sec + 3500;
+            temp_msg.m_startTime = getTimeSecond() + ((rand() % 10) - 5) * 3600;
+            temp_msg.m_endTime = temp_msg.m_startTime + rand() % 3900;
             temp_msg.m_likeNum = 20;
-            temp_msg.m_imageUrl = "http://imgsrc.baidu.com/forum/pic/item/53834466d0160924a41f433bd50735fae6cd3452.jpg";
+            temp_msg.m_stored = (bool)(rand() % 2);
+            temp_msg.m_imageUrl =
+            "http://imgsrc.baidu.com/forum/pic/item/53834466d0160924a41f433bd50735fae6cd3452.jpg";
             //"http://img1.gtimg.com/14/1468/146894/14689486_980x1200_0.png";
+            temp_msg.m_stored = (bool)(rand() % 2);
+            temp_msg.m_done = (bool)(rand() % 2);
             m_msg->push_back(temp_msg);
+            
+            userInfo uInfo;
+            uInfo.m_userId = 101;
+            uInfo.m_userName = "Alex Chen";
+            uInfo.m_point = 100;
+            uInfo.m_pointRank = 20;
+            uInfo.m_imageUrl = "http://imgsrc.baidu.com/forum/pic/item/53834466d0160924a41f433bd50735fae6cd3452.jpg";
+            FDataManager::getInstance()->setUserInfo(uInfo);
+            
+            userInfo* info = FDataManager::getInstance()->getUserInfo();
+            if (info->m_userId > 0)
+            {
+                m_urlImageView->setUrl(info->m_imageUrl);
+                m_nameLabel->setText(info->m_userName);
+                m_pointLabel[0]->setText(crossapp_format_string("%d", info->m_point));
+            }
+        }
+        quickSort(m_msg, 0, (int)m_msg->size() - 1);
+        for (std::vector<sessionMsg>::iterator it = m_msg->begin(); it != m_msg->end(); it++)
+        {
+            if(it->m_stored)
+            {
+                m_filterMsg.push_back(&(*it));
+            }
         }
     }
-    
+    initMsgTableView();
     if (p_pLoading)
     {
         p_pLoading->stopAnimating();
     }
     
-    initMsgTableView();
+}
 
-    if (m_navType == 0)
+void MyStatusViewController::onRequestRankFinished(const HttpResponseStatus& status, const CSJson::Value& json)
+{
+    if (status == HttpResponseSucceed)
     {
-        if (m_msgTableView)
+        m_canSwitchPoint = true;
+        const CSJson::Value& v2 = json["result"]["rl"];
+        int length = v2.size();
+        m_rankMsg.clear();
+        for (int i = 0; i < length; i++)
         {
-            m_msgTableView->setFrame(DRect(0, _px(180), m_winSize.width, m_winSize.height - _px(180)));
+            userInfo tmpInfo;
+            tmpInfo.m_userName = crossapp_format_string("%s %s", v2[i]["FirstName"].asString().c_str(), v2[i]["LastName"].asString().c_str());
+            m_rankMsg.push_back(tmpInfo);
+            tmpInfo.m_pointRank = i;
+            tmpInfo.m_point = v2[i]["Rank"].asInt();
+        }
+        //sort
+    }
+    else
+    {
+        //showAlert();
+    }
+    
+    {
+        m_canSwitchPoint = true;
+        m_rankMsg.clear();
+        for (int i = 0; i < 10; i++)
+        {
+            userInfo tmpInfo;
+            tmpInfo.m_userId = 10;
+            tmpInfo.m_userName = "Alxm Chen";
+            tmpInfo.m_point = 251 - i;
+            tmpInfo.m_pointRank = i + 1;
+            tmpInfo.m_imageUrl = "http://imgsrc.baidu.com/forum/pic/item/53834466d0160924a41f433bd50735fae6cd3452.jpg";
+            m_rankMsg.push_back(tmpInfo);
+        }
+        userInfo* info = FDataManager::getInstance()->getUserInfo();
+        if (info->m_userId > 0)
+        {
+            m_pointLabel[1]->setText(crossapp_format_string("%d", m_rankMsg[9].m_point - info->m_point));
         }
         
     }
-    else if (m_navType == 1)
-    {
-        if (m_msgTableView)
-        {
-            m_msgTableView->setFrame(DRect(0, _px(250), m_winSize.width, m_winSize.height - _px(250)));
-        }
-    }
-    
 }
 
+void MyStatusViewController::switchNavType(int index)
+{
+    if (index == 0)
+    {
+        m_pointView->setVisible(false);
+        m_searchButton->setVisible(true);
+        m_pointButton->setVisible(false);
+
+        m_filterMsg.clear();
+        for (std::vector<sessionMsg>::iterator it = m_msg->begin(); it != m_msg->end(); it++)
+        {
+            if(it->m_stored)
+            {
+                m_filterMsg.push_back(&(*it));
+            }
+        }
+        m_msgTableView->setFrame(DRect(0, _px(120), m_winSize.width, m_winSize.height - _px(120)));
+        m_msgTableView->reloadData();
+
+    }
+    else if(index == 1)
+    {
+        if (m_rankMsg.empty())
+        {
+            requestRankMsg();
+        }
+        m_pointLabel[0]->setColor(ccc4(0xce, 0xea, 0xfd, 0xff));
+        m_rankLabel[0]->setColor(ccc4(0xce, 0xea, 0xfd, 0xff));
+        m_pointLabel[1]->setColor(CAColor_white);
+        m_rankLabel[1]->setColor(CAColor_white);
+        m_pointView->setVisible(true);
+        m_searchButton->setVisible(false);
+        m_pointButton->setVisible(true);
+        m_filterMsg.clear();
+        for (std::vector<sessionMsg>::iterator it = m_msg->begin(); it != m_msg->end(); it++)
+        {
+            if(it->m_done)
+            {
+                m_filterMsg.push_back(&(*it));
+            }
+        }
+        m_msgTableView->setFrame(DRect(0, _px(420), m_winSize.width, m_winSize.height - _px(420)));
+        m_msgTableView->reloadData();
+        
+    }
+    else if(index == 2)
+    {
+        m_pointLabel[0]->setColor(CAColor_white);
+        m_rankLabel[0]->setColor(CAColor_white);
+        m_pointLabel[1]->setColor(ccc4(0xce, 0xea, 0xfd, 0xff));
+        m_rankLabel[1]->setColor(ccc4(0xce, 0xea, 0xfd, 0xff));
+        m_pointView->setVisible(true);
+        m_searchButton->setVisible(false);
+        m_pointButton->setVisible(true);
+        m_msgTableView->setFrame(DRect(0, _px(420), m_winSize.width, m_winSize.height - _px(420)));
+        m_msgTableView->reloadData();
+        
+    }
+}
+
+void MyStatusViewController::showLoading()
+{
+    p_pLoading = CAActivityIndicatorView::createWithCenter(DRect(m_winSize.width / 2, m_winSize.height / 2, 50, 50));
+    this->getView()->insertSubview(p_pLoading, CAWindowZOderTop);
+    p_pLoading->setLoadingMinTime(0.5f);
+    //p_pLoading->setTargetOnCancel(this, callfunc_selector(MyStatusViewController::initMsgTableView));
+}
 
 void MyStatusViewController::showAlert()
 {
@@ -271,38 +517,201 @@ void MyStatusViewController::showAlert()
 CATableViewCell* MyStatusViewController::tableCellAtIndex(CATableView* table, const DSize& cellSize, unsigned int section, unsigned int row)
 {
     DSize _size = cellSize;
-    MainViewTableCell* cell = dynamic_cast<MainViewTableCell*>(table->dequeueReusableCellWithIdentifier("CrossApp"));
-    if (cell == NULL)
+    CATableViewCell* cell = NULL;
+    if (m_navType == 0)
     {
-        cell = MainViewTableCell::create("CrossApp", DRect(0, 0, _size.width, _size.height));
-        cell->initWithCell();
+
+        //cell = dynamic_cast<CATableViewCell*>(table->dequeueReusableCellWithIdentifier("CrossApp0"));
+        if(cell == NULL && !m_filterMsg.empty())
+        {
+            int count = 0;
+            for (int i = 0; i < section; i++) {
+                count += m_rowNumOfSection[i].rowNum;
+            }
+            for (int i = 0; i < m_rowNumOfSection[section].rowNum; i++)
+            {
+                sessionMsg* msg = m_filterMsg[count + i];
+                cell = CATableViewCell::create("CrossApp0");
+                CALabel* label = CALabel::createWithFrame(DRect(_px(40), _px(0), _px(300), _px(50)));
+                label->setText(msg->m_title);
+                label->setFontSize(_px(25));
+                label->setVerticalTextAlignmet(CAVerticalTextAlignmentCenter);
+                label->setColor(ccc4(0x3f, 0x3f, 0x3f, 0xff));
+                cell->addSubview(label);
+            }
+        }
     }
-    cell->setModel(m_msg->at(row));
-    
+    else if(m_navType == 1 && !m_filterMsg.empty())
+    {
+        //cell = dynamic_cast<CATableViewCell*>(table->dequeueReusableCellWithIdentifier("CrossApp1"));
+        if(cell == NULL)
+        {
+            sessionMsg* msg = m_filterMsg[row];
+            cell = CATableViewCell::create("CrossApp1");
+            CALabel* label = CALabel::createWithFrame(DRect(_px(40), _px(0), _px(300), _px(50)));
+            label->setText(crossapp_format_string("+%d", msg->m_point));
+            label->setFontSize(_px(25));
+            label->setVerticalTextAlignmet(CAVerticalTextAlignmentCenter);
+            label->setColor(ccc4(0x3f, 0x3f, 0x3f, 0xff));
+            cell->addSubview(label);
+            label = CALabel::createWithFrame(DRect(_px(120), _px(0), _px(300), _px(50)));
+            label->setText(msg->m_title);
+            label->setFontSize(_px(25));
+            label->setVerticalTextAlignmet(CAVerticalTextAlignmentCenter);
+            label->setColor(ccc4(0x3f, 0x3f, 0x3f, 0xff));
+            cell->addSubview(label);
+        }
+    }
+    else if(m_navType == 2 && !m_rankMsg.empty())
+    {
+        //cell = dynamic_cast<CATableViewCell*>(table->dequeueReusableCellWithIdentifier("CrossApp2"));
+        if(cell == NULL)
+        {
+            cell = CATableViewCell::create("CrossApp2");
+            CommonUrlImageView* urlImageView = CommonUrlImageView::createWithImage(CAImage::create("common/head_bg.png"));
+            //createWithFrame(DRect(_px(30), _px(40), _px(80), _px(80)));
+            urlImageView->setFrame(DRect(_px(40), _px(5), _px(40), _px(40)));
+            urlImageView->setImageViewScaleType(CAImageViewScaleTypeFitImageCrop);
+            urlImageView->setImage(CAImage::create("common/bg.png"));
+            urlImageView->setUrl(m_rankMsg[row].m_imageUrl);
+            cell->addSubview(urlImageView);
+            
+            CALabel* label = CALabel::createWithFrame(DRect(_px(100), _px(0), _px(300), _px(50)));
+            label->setText(m_rankMsg[row].m_userName);
+            label->setFontSize(_px(25));
+            label->setVerticalTextAlignmet(CAVerticalTextAlignmentCenter);
+            label->setColor(ccc4(0x3f, 0x3f, 0x3f, 0xff));
+            cell->addSubview(label);
+            
+            label = CALabel::createWithFrame(DRect(m_winSize.width / 2, _px(0), _px(300), _px(50)));
+            label->setText(crossapp_format_string("%d", m_rankMsg[row].m_point));
+            label->setFontSize(_px(25));
+            label->setVerticalTextAlignmet(CAVerticalTextAlignmentCenter);
+            label->setColor(ccc4(0x3f, 0x3f, 0x3f, 0xff));
+            cell->addSubview(label);
+            
+            label = CALabel::createWithFrame(DRect(m_winSize.width - _px(100), _px(0), _px(300), _px(50)));
+            label->setText(crossapp_format_string("%d", m_rankMsg[row].m_pointRank));
+            label->setFontSize(_px(25));
+            label->setVerticalTextAlignmet(CAVerticalTextAlignmentCenter);
+            label->setColor(ccc4(0x3f, 0x3f, 0x3f, 0xff));
+            cell->addSubview(label);
+        }
+    }
     return cell;
     
 }
 
+CAView* MyStatusViewController::tableViewSectionViewForHeaderInSection(CATableView* table, const DSize& viewSize, unsigned int section)
+{
+    CAView* view = NULL;
+    if (m_navType == 0)
+    {
+        view = CAView::createWithColor(ccc4(0xf3, 0xf3, 0xf3, 0xf3));
+        
+        CALabel* label = CALabel::createWithFrame(DRect(_px(40), _px(0), _px(300), _px(50)));
+        int hour = m_rowNumOfSection[section].hour;
+        label->setText(crossapp_format_string("%02d:00 - %02d:00", hour, hour + 1));
+        CCLog("head %d %d", section, hour);
+        label->setFontSize(_px(25));
+        label->setColor(ccc4(0, 0xa8, 0xfc, 0xff));
+        label->setVerticalTextAlignmet(CAVerticalTextAlignmentCenter);
+        view->addSubview(label);
+    }
+    return view;
+}
+
 unsigned int MyStatusViewController::numberOfSections(CATableView *table)
 {
-	return 1;
+    int num = 1;
+    if (m_navType == 0)
+    {
+        m_rowNumOfSection.clear();
+        if (!m_filterMsg.empty())
+        {
+            tm* time = localtime(&m_filterMsg[0]->m_startTime);
+            int tmp = time->tm_hour;
+            int rowNum = 0;
+            secVec sv;
+            for (int i = 0; i < m_filterMsg.size(); i++)
+            {
+                time = localtime(&m_filterMsg[i]->m_startTime);
+                if (tmp != time->tm_hour)
+                {
+                    sv.rowNum = rowNum;
+                    sv.hour = tmp;
+                    CCLog("row %d %d", rowNum, tmp);
+                    m_rowNumOfSection.push_back(sv);
+                    rowNum = 1;
+                    num++;
+                    tmp = time->tm_hour;
+                }
+                else
+                {
+                    rowNum++;
+                }
+                
+            }
+            sv.rowNum = rowNum;
+            sv.hour = tmp;
+            m_rowNumOfSection.push_back(sv);
+        }
+        else
+        {
+            secVec sv;
+            sv.rowNum = 1;
+            sv.hour = 8;
+            m_rowNumOfSection.push_back(sv);
+        }
+    }
+
+	return num;
 }
 
 unsigned int MyStatusViewController::numberOfRowsInSection(CATableView *table, unsigned int section)
 {
-    return (int)m_msg->size();
+    int num = 0;
+    if (m_navType == 0)
+    {
+        CCLog("s:%d", section);
+        num = m_rowNumOfSection[section].rowNum;
+    }
+    else if(m_navType == 1)
+    {
+        num = (int)m_filterMsg.size();
+    }
+    else if(m_navType == 2)
+    {
+        num = (int)m_rankMsg.size();
+        CCLog("num %d", num);
+    }
+    return num;
+}
+
+unsigned int MyStatusViewController::tableViewHeightForHeaderInSection(CATableView* table, unsigned int section)
+{
+    int hight = 0;
+    if (m_navType == 0)
+    {
+        hight = _px(50);
+    }
+    return hight;
 }
 
 unsigned int MyStatusViewController::tableViewHeightForRowAtIndexPath(CATableView* table, unsigned int section, unsigned int row)
 {
-	return _px(240);
+	return _px(50);
 }
 
 void MyStatusViewController::tableViewDidSelectRowAtIndexPath(CATableView* table, unsigned int section, unsigned int row)
 {
-    SessionDetailViewController* vc = new SessionDetailViewController(m_msg->at(row));
-    vc->init();
-    RootWindow::getInstance()->getRootNavigationController()->pushViewController(vc, true);
+    if (m_navType == 0 || m_navType == 1)
+    {
+        SessionDetailViewController* vc = new SessionDetailViewController(m_msg->at(row));
+        vc->init();
+        RootWindow::getInstance()->getRootNavigationController()->pushViewController(vc, true);
+    }
+    
 }
 
 void MyStatusViewController::tableViewDidDeselectRowAtIndexPath(CATableView* table, unsigned int section, unsigned int row)

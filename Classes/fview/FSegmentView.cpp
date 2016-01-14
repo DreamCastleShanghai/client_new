@@ -2,6 +2,7 @@
 #include "FSegmentView.h"
 
 FSegmentView::FSegmentView()
+: m_type(0)
 {
     m_fSegButtonList.clear();
 }
@@ -47,6 +48,40 @@ FSegmentView* FSegmentView::createWithFrame(const DRect &rect, int num)
     return pRet;
 }
 
+FSegmentView* FSegmentView::createWithFrame(const DRect &rect, int num, int type)
+{
+    FSegmentView * pRet = new FSegmentView();
+    if (pRet && pRet->initWithFrame(rect))
+    {
+        pRet->m_type = type;
+        pRet->setColor(CAColor_clear);
+        for (int i = 0; i < num; i++)
+        {
+            DRect r((i + _px(1)) +  (rect.size.width - num - _px(1)) * i / num, _px(1), (rect.size.width - num) / num, rect.size.height - _px(2));
+            CAButton* button = CAButton::createWithFrame(r, CAButtonTypeCustom);
+            button->setAllowsSelected(true);
+            pRet->m_fSegButtonList.push_back(button);
+            pRet->addSubview(button);
+        }
+        pRet->m_fSegButtonList[0]->setControlState(CAControlStateSelected);
+        pRet->autorelease();
+    }
+    else
+    {
+        CC_SAFE_DELETE(pRet);
+    }
+    return pRet;
+}
+
+void FSegmentView::resetSegment()
+{
+    m_fSegButtonList[0]->setControlState(CAControlStateSelected);
+    for (int i = 1; i < m_fSegButtonList.size(); i++)
+    {
+        m_fSegButtonList[i]->setControlState(CAControlStateNormal);
+    }
+}
+
 void FSegmentView::setItemTile(std::string tile, int index)
 {
     if(m_fSegButtonList.size() > index)
@@ -63,6 +98,13 @@ void FSegmentView::setItemTile(std::string tile, int index)
         label->setTouchEnabled(false);
         m_fSegButtonList[index]->insertSubview(label, 11);
     }
+}
+
+void FSegmentView::setItemTile(std::string tile, int index, int type)
+{
+    m_fSegButtonList[index]->setTitleForState(CAControlStateAll, tile);
+    m_fSegButtonList[index]->setTitleColorForState(CAControlStateAll, CAColor_white);
+    m_fSegButtonList[index]->setTitleColorForState(CAControlStateSelected, ccc4(0xce, 0xea, 0xfd, 0xff));
 }
 
 void FSegmentView::setItemBackGroundImage(CAImageView* imageView, int index)
