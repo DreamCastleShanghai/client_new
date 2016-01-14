@@ -445,11 +445,11 @@ unsigned int SessionsViewController::numberOfIndex(CAListView *listView)
     int num = 0;
     if (listView->getTag() == 1)
     {
-        num = m_filterNum;
+        num = 12;
     }
     else if(listView->getTag() == 2)
     {
-        num = 4;
+        num = m_filterNum;
     }
     return num;
 }

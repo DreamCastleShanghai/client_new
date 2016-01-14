@@ -37,6 +37,10 @@ protected:
     
 	void buttonCallBack(CAControl* btn, DPoint point);
 
+    virtual void viewDidAppear();
+    
+    virtual void viewDidDisappear();
+    
 	void showAlert();
     
     void showLoading();

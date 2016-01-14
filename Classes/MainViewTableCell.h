@@ -33,7 +33,7 @@ private:
     CAImageView*                            m_storeBtnImage;
     CommonUrlImageView*						m_urlImageView;
     
-    struct sessionMsg*							m_msgInfo;
+    struct sessionMsg*						m_msgInfo;
     bool									m_isStore;
     bool									m_canStore;
 };

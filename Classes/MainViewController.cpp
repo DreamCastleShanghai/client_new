@@ -132,9 +132,17 @@ void MainViewController::scrollViewHeaderBeginRefreshing(CrossApp::CAScrollView 
         for (int i = (int)m_msg->size() - 1; i >= 0; i--)
         {
             if (m_msg->at(i).m_stored &&
-                m_msg->at(i).m_startTime <= m_filterMsg[0]->m_startTime &&
-                m_msg->at(i).m_sessionId != m_filterMsg[0]->m_sessionId)
+                m_msg->at(i).m_startTime <= m_filterMsg[0]->m_startTime)
             {
+                bool same = false;
+                for (int j = 0; j < m_filterMsg.size(); j++)
+                {
+                    if(m_msg->at(i).m_sessionId == m_filterMsg[j]->m_sessionId)
+                        same = true;
+                }
+                if (same) {
+                    break;
+                }
                 m_filterMsg.insert(m_filterMsg.begin(), &(m_msg->at(i)));
                 count++;
             }
@@ -159,9 +167,17 @@ void MainViewController::scrollViewFooterBeginRefreshing(CAScrollView* view)
         for (int i = 0; i < (int)m_msg->size() - 1; i++)
         {
             if (m_msg->at(i).m_stored &&
-                m_msg->at(i).m_startTime >= m_filterMsg[m_filterMsg.size() - 1]->m_startTime &&
-                m_msg->at(i).m_sessionId != m_filterMsg[m_filterMsg.size() - 1]->m_sessionId)
+                m_msg->at(i).m_startTime >= m_filterMsg[m_filterMsg.size() - 1]->m_startTime)
             {
+                bool same = false;
+                for (int j = 0; j < m_filterMsg.size(); j++)
+                {
+                    if(m_msg->at(i).m_sessionId == m_filterMsg[j]->m_sessionId)
+                        same = true;
+                }
+                if (same) {
+                    break;
+                }
                 m_filterMsg.push_back(&(m_msg->at(i)));
                 count++;
             }
