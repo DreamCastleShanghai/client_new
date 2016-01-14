@@ -34,6 +34,8 @@ protected:
 	void showAlert();
 
 	void requestMsg();
+    
+    void requestRankMsg();
 
 	void onRequestFinished(const HttpResponseStatus& status, const CSJson::Value& json);
 
@@ -59,6 +61,7 @@ private:
     CAActivityIndicatorView*								p_pLoading;
 	CATableView*											m_msgTableView;
     int                                                     m_navType;
+    bool                                                    m_canSwitchSeg;
     
 };
 

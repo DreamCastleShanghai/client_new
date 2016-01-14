@@ -124,6 +124,7 @@
 		3E02A50D1B85AD6000328E71 /* gameswf_video_impl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3E02A4A91B85AD6000328E71 /* gameswf_video_impl.cpp */; };
 		3E02A50E1B85AD6000328E71 /* NOTES.txt in Resources */ = {isa = PBXBuildFile; fileRef = 3E02A4AB1B85AD6000328E71 /* NOTES.txt */; };
 		3E02A50F1B85AD6000328E71 /* TODO in Resources */ = {isa = PBXBuildFile; fileRef = 3E02A4AC1B85AD6000328E71 /* TODO */; };
+		5C31C85F1C47388000542BF3 /* FDataManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5C31C85D1C47388000542BF3 /* FDataManager.cpp */; };
 		5C5DE7291C2F9E2300D9A8BC /* sound in Resources */ = {isa = PBXBuildFile; fileRef = 5C5DE7281C2F9E2300D9A8BC /* sound */; };
 		5C5DE7CA1C3035A900D9A8BC /* bitstream.c in Sources */ = {isa = PBXBuildFile; fileRef = 5C5DE7B61C3035A900D9A8BC /* bitstream.c */; };
 		5C5DE7CB1C3035A900D9A8BC /* mask.c in Sources */ = {isa = PBXBuildFile; fileRef = 5C5DE7B81C3035A900D9A8BC /* mask.c */; };
@@ -142,7 +143,6 @@
 		5CC19D2F1C40BAC900594653 /* FServerTime.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5CC19D2D1C40BAC900594653 /* FServerTime.cpp */; };
 		5CCDA5281C42091F006AEC61 /* tmp in Resources */ = {isa = PBXBuildFile; fileRef = 5CCDA5271C42091F006AEC61 /* tmp */; };
 		5CCDA52C1C420953006AEC61 /* map in Resources */ = {isa = PBXBuildFile; fileRef = 5CCDA52B1C420953006AEC61 /* map */; };
-		5CCDA5321C4393A9006AEC61 /* FDataManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5CCDA5301C4393A9006AEC61 /* FDataManager.cpp */; };
 		5CF668391C194EB0009994C0 /* MainViewController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5CF668371C194EB0009994C0 /* MainViewController.cpp */; };
 		5CF6683F1C1952F0009994C0 /* HttpConnect.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5CF6683D1C1952F0009994C0 /* HttpConnect.cpp */; };
 		5CFA827F1C2824550025C9B5 /* SessionDetailViewController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5CFA82791C2824550025C9B5 /* SessionDetailViewController.cpp */; };
@@ -431,6 +431,8 @@
 		3E02A4AA1B85AD6000328E71 /* gameswf_video_impl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = gameswf_video_impl.h; sourceTree = "<group>"; };
 		3E02A4AB1B85AD6000328E71 /* NOTES.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = NOTES.txt; sourceTree = "<group>"; };
 		3E02A4AC1B85AD6000328E71 /* TODO */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = TODO; sourceTree = "<group>"; };
+		5C31C85D1C47388000542BF3 /* FDataManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = FDataManager.cpp; path = ../Classes/FDataManager.cpp; sourceTree = "<group>"; };
+		5C31C85E1C47388000542BF3 /* FDataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FDataManager.h; path = ../Classes/FDataManager.h; sourceTree = "<group>"; };
 		5C5DE7281C2F9E2300D9A8BC /* sound */ = {isa = PBXFileReference; lastKnownFileType = folder; path = sound; sourceTree = "<group>"; };
 		5C5DE7B61C3035A900D9A8BC /* bitstream.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = bitstream.c; path = ../Classes/libqrencode/bitstream.c; sourceTree = "<group>"; };
 		5C5DE7B71C3035A900D9A8BC /* bitstream.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = bitstream.h; path = ../Classes/libqrencode/bitstream.h; sourceTree = "<group>"; };
@@ -464,8 +466,6 @@
 		5CC19D2E1C40BAC900594653 /* FServerTime.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FServerTime.h; path = ../Classes/utils/FServerTime.h; sourceTree = "<group>"; };
 		5CCDA5271C42091F006AEC61 /* tmp */ = {isa = PBXFileReference; lastKnownFileType = folder; path = tmp; sourceTree = "<group>"; };
 		5CCDA52B1C420953006AEC61 /* map */ = {isa = PBXFileReference; lastKnownFileType = folder; path = map; sourceTree = "<group>"; };
-		5CCDA5301C4393A9006AEC61 /* FDataManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = FDataManager.cpp; path = ../../../projects/SapSession/Classes/FDataManager.cpp; sourceTree = "<group>"; };
-		5CCDA5311C4393A9006AEC61 /* FDataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FDataManager.h; path = ../../../projects/SapSession/Classes/FDataManager.h; sourceTree = "<group>"; };
 		5CF668371C194EB0009994C0 /* MainViewController.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MainViewController.cpp; path = ../Classes/MainViewController.cpp; sourceTree = "<group>"; };
 		5CF668381C194EB0009994C0 /* MainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MainViewController.h; path = ../Classes/MainViewController.h; sourceTree = "<group>"; };
 		5CF6683D1C1952F0009994C0 /* HttpConnect.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = HttpConnect.cpp; path = ../Classes/utils/HttpConnect.cpp; sourceTree = "<group>"; };
@@ -643,8 +643,8 @@
 				5CFA827D1C2824550025C9B5 /* SessionsViewController.cpp */,
 				5CFA827E1C2824550025C9B5 /* SessionsViewController.h */,
 				5C723CF21C1537B300B28BF3 /* CDData.h */,
-				5CCDA5301C4393A9006AEC61 /* FDataManager.cpp */,
-				5CCDA5311C4393A9006AEC61 /* FDataManager.h */,
+				5C31C85D1C47388000542BF3 /* FDataManager.cpp */,
+				5C31C85E1C47388000542BF3 /* FDataManager.h */,
 				5C723CF31C15381300B28BF3 /* CommonHttpManager.cpp */,
 				5C723CF41C15381300B28BF3 /* CommonHttpManager.h */,
 				5CF668371C194EB0009994C0 /* MainViewController.cpp */,
@@ -1196,7 +1196,7 @@
 				5CF668391C194EB0009994C0 /* MainViewController.cpp in Sources */,
 				3E02A4DB1B85AD6000328E71 /* as_mouse.cpp in Sources */,
 				3E02A4D61B85AD6000328E71 /* as_key.cpp in Sources */,
-				5CCDA5321C4393A9006AEC61 /* FDataManager.cpp in Sources */,
+				5C31C85F1C47388000542BF3 /* FDataManager.cpp in Sources */,
 				3E02A5061B85AD6000328E71 /* gameswf_sprite_def.cpp in Sources */,
 				3E02A4B31B85AD6000328E71 /* ear_clip_triangulate_sint16.cpp in Sources */,
 				5CFA828D1C282B730025C9B5 /* PrizeViewController.cpp in Sources */,

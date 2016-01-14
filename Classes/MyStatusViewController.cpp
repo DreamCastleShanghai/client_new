@@ -12,6 +12,7 @@ MyStatusViewController::MyStatusViewController()
 , p_alertView(NULL)
 , p_pLoading(NULL)
 , m_navType(0)
+, m_canSwitchSeg(true)
 {
     for (int i = 0; i< 2; i++)
     {
@@ -63,6 +64,7 @@ void MyStatusViewController::viewDidLoad()
     
     if (m_msg->empty())
     {
+        m_canSwitchSeg = false;
         requestMsg();
         {
             p_pLoading = CAActivityIndicatorView::createWithCenter(DRect(m_winSize.width / 2, m_winSize.height / 2, 50, 50));
@@ -113,9 +115,8 @@ void MyStatusViewController::requestMsg()
     p_alertView = NULL;
     std::map<std::string, std::string> key_value;
     key_value["tag"] = sessionViewTag[0];
-    key_value["page"] = "1";
-    key_value["limit"] = "20";
-    key_value["sign"] = getSign(key_value);
+    key_value["uid"] = crossapp_format_string("%d", FDataManager::getInstance()->getUserId());
+    //key_value["sign"] = getSign(key_value);
     CommonHttpManager::getInstance()->send_post(httpUrl, key_value, this, CommonHttpJson_selector(MyStatusViewController::onRequestFinished));
 }
 
@@ -160,7 +161,7 @@ void MyStatusViewController::onRequestFinished(const HttpResponseStatus& status,
     {
         const CSJson::Value& value = json["result"];
         int length = value.size();
-        m_msg.clear();
+        m_msg->clear();
         
         for (int index = 3; index < length; index++)
         {
@@ -177,12 +178,13 @@ void MyStatusViewController::onRequestFinished(const HttpResponseStatus& status,
             temp_msg.m_endTime = value[index]["drt"].asInt();
             temp_msg.m_likeNum = value[index]["lkn"].asInt();
             temp_msg.m_imageUrl = value[index]["img"].asString();
-            m_msg.push_back(temp_msg);
+            m_msg->push_back(temp_msg);
         }
+        m_canSwitchSeg = true;
     }
     
     {
-        m_msg.clear();
+        m_msg->clear();
         for (int i = 0; i < 7; i++)
         {
             sessionMsg temp_msg;
@@ -203,7 +205,7 @@ void MyStatusViewController::onRequestFinished(const HttpResponseStatus& status,
             temp_msg.m_likeNum = 20;
             temp_msg.m_imageUrl = "http://imgsrc.baidu.com/forum/pic/item/53834466d0160924a41f433bd50735fae6cd3452.jpg";
             //"http://img1.gtimg.com/14/1468/146894/14689486_980x1200_0.png";
-            m_msg.push_back(temp_msg);
+            m_msg->push_back(temp_msg);
         }
     }
     
@@ -275,7 +277,7 @@ CATableViewCell* MyStatusViewController::tableCellAtIndex(CATableView* table, co
         cell = MainViewTableCell::create("CrossApp", DRect(0, 0, _size.width, _size.height));
         cell->initWithCell();
     }
-    cell->setModel(m_msg[row]);
+    cell->setModel(m_msg->at(row));
     
     return cell;
     
@@ -288,7 +290,7 @@ unsigned int MyStatusViewController::numberOfSections(CATableView *table)
 
 unsigned int MyStatusViewController::numberOfRowsInSection(CATableView *table, unsigned int section)
 {
-    return m_msg.size();
+    return (int)m_msg->size();
 }
 
 unsigned int MyStatusViewController::tableViewHeightForRowAtIndexPath(CATableView* table, unsigned int section, unsigned int row)
@@ -298,7 +300,7 @@ unsigned int MyStatusViewController::tableViewHeightForRowAtIndexPath(CATableVie
 
 void MyStatusViewController::tableViewDidSelectRowAtIndexPath(CATableView* table, unsigned int section, unsigned int row)
 {
-    SessionDetailViewController* vc = new SessionDetailViewController(m_msg[row]);
+    SessionDetailViewController* vc = new SessionDetailViewController(m_msg->at(row));
     vc->init();
     RootWindow::getInstance()->getRootNavigationController()->pushViewController(vc, true);
 }
