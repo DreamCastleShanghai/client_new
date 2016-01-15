@@ -68,7 +68,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>$(ProjectDir)..\..\..\CrossApp;$(ProjectDir)..\..\..\CrossApp\kazmath\include;$(ProjectDir)..\..\..\CrossApp\platform\win32;$(ProjectDir)..\..\..\CrossApp\the_third_party\win32;$(ProjectDir)..\..\..\CrossApp\the_third_party\win32\OGLES;$(ProjectDir)..\..\..\CrossApp\the_third_party\win32\pthread;$(ProjectDir)..\..\..\CrossApp\the_third_party\freetype\include;$(ProjectDir)..\..\..\CrossApp\the_third_party\png\include\win32;$(ProjectDir)..\..\..\CrossApp\the_third_party\curl\include\win32;$(ProjectDir)..\..\..\external;$(ProjectDir)..\..\..\CocosDenshion\include;$(ProjectDir)..\..\..\extensions;..\Classes;..;..\Classes\libqrencode;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\..\..\CrossApp;$(ProjectDir)..\..\..\CrossApp\kazmath\include;$(ProjectDir)..\..\..\CrossApp\platform\win32;$(ProjectDir)..\..\..\CrossApp\the_third_party\win32;$(ProjectDir)..\..\..\CrossApp\the_third_party\win32\OGLES;$(ProjectDir)..\..\..\CrossApp\the_third_party\win32\pthread;$(ProjectDir)..\..\..\CrossApp\the_third_party\freetype\include;$(ProjectDir)..\..\..\CrossApp\the_third_party\png\include\win32;$(ProjectDir)..\..\..\CrossApp\the_third_party\curl\include\win32;$(ProjectDir)..\..\..\external;$(ProjectDir)..\..\..\CocosDenshion\include;$(ProjectDir)..\..\..\extensions;..\Classes;..;..\Classes\libqrencode;..\Classes\fview;..\Classes\utils;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USE_MATH_DEFINES;GL_GLEXT_PROTOTYPES;CC_ENABLE_CHIPMUNK_INTEGRATION=1;COCOS2D_DEBUG=1;_CRT_SECURE_NO_WARNINGS;_SCL_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>true</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -132,7 +132,9 @@
   <ItemGroup>
     <ClCompile Include="..\Classes\AppDelegate.cpp" />
     <ClCompile Include="..\Classes\CommonHttpManager.cpp" />
+    <ClCompile Include="..\Classes\FDataManager.cpp" />
     <ClCompile Include="..\Classes\FirstViewController.cpp" />
+    <ClCompile Include="..\Classes\fview\FSegmentView.cpp" />
     <ClCompile Include="..\Classes\libqrencode\bitstream.c" />
     <ClCompile Include="..\Classes\libqrencode\mask.c" />
     <ClCompile Include="..\Classes\libqrencode\mmask.c" />
@@ -145,7 +147,9 @@
     <ClCompile Include="..\Classes\LoginViewController.cpp" />
     <ClCompile Include="..\Classes\MainViewController.cpp" />
     <ClCompile Include="..\Classes\MainViewTableCell.cpp" />
+    <ClCompile Include="..\Classes\MapViewController.cpp" />
     <ClCompile Include="..\Classes\MyStatusViewController.cpp" />
+    <ClCompile Include="..\Classes\NoticeViewController.cpp" />
     <ClCompile Include="..\Classes\PhotoViewController.cpp" />
     <ClCompile Include="..\Classes\PrizeViewController.cpp" />
     <ClCompile Include="..\Classes\RootWindow.cpp" />
@@ -153,6 +157,8 @@
     <ClCompile Include="..\Classes\SessionsSearchViewController.cpp" />
     <ClCompile Include="..\Classes\SessionsViewController.cpp" />
     <ClCompile Include="..\Classes\SiteViewController.cpp" />
+    <ClCompile Include="..\Classes\SurveyViewController.cpp" />
+    <ClCompile Include="..\Classes\utils\FServerTime.cpp" />
     <ClCompile Include="..\Classes\utils\HttpConnect.cpp" />
     <ClCompile Include="..\Classes\VoteViewController.cpp" />
     <ClCompile Include="main.cpp" />
@@ -162,7 +168,9 @@
     <ClInclude Include="..\Classes\AppMacros.h" />
     <ClInclude Include="..\Classes\CDData.h" />
     <ClInclude Include="..\Classes\CommonHttpManager.h" />
+    <ClInclude Include="..\Classes\FDataManager.h" />
     <ClInclude Include="..\Classes\FirstViewController.h" />
+    <ClInclude Include="..\Classes\fview\FSegmentView.h" />
     <ClInclude Include="..\Classes\libqrencode\bitstream.h" />
     <ClInclude Include="..\Classes\libqrencode\mask.h" />
     <ClInclude Include="..\Classes\libqrencode\mmask.h" />
@@ -176,7 +184,9 @@
     <ClInclude Include="..\Classes\LoginViewController.h" />
     <ClInclude Include="..\Classes\MainViewController.h" />
     <ClInclude Include="..\Classes\MainViewTableCell.h" />
+    <ClInclude Include="..\Classes\MapViewController.h" />
     <ClInclude Include="..\Classes\MyStatusViewController.h" />
+    <ClInclude Include="..\Classes\NoticeViewController.h" />
     <ClInclude Include="..\Classes\PhotoViewController.h" />
     <ClInclude Include="..\Classes\PrizeViewController.h" />
     <ClInclude Include="..\Classes\RootWindow.h" />
@@ -184,6 +194,8 @@
     <ClInclude Include="..\Classes\SessionsSearchViewController.h" />
     <ClInclude Include="..\Classes\SessionsViewController.h" />
     <ClInclude Include="..\Classes\SiteViewController.h" />
+    <ClInclude Include="..\Classes\SurveyViewController.h" />
+    <ClInclude Include="..\Classes\utils\FServerTime.h" />
     <ClInclude Include="..\Classes\utils\HttpConnect.h" />
     <ClInclude Include="..\Classes\VoteViewController.h" />
     <ClInclude Include="main.h" />

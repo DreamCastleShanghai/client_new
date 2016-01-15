@@ -13,6 +13,9 @@
     <Filter Include="Classes\utils">
       <UniqueIdentifier>{b1f5e1c8-29a6-4a15-9432-d7f0561d03b6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Classes\fview">
+      <UniqueIdentifier>{d37ceca7-4909-44e1-b92d-b83b57aa5ba8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -91,6 +94,24 @@
       <Filter>Classes</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\VoteViewController.cpp">
+      <Filter>Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\fview\FSegmentView.cpp">
+      <Filter>Classes\fview</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\FDataManager.cpp">
+      <Filter>Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\utils\FServerTime.cpp">
+      <Filter>Classes\utils</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\NoticeViewController.cpp">
+      <Filter>Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\SurveyViewController.cpp">
+      <Filter>Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\MapViewController.cpp">
       <Filter>Classes</Filter>
     </ClCompile>
   </ItemGroup>
@@ -180,6 +201,24 @@
       <Filter>Classes</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\VoteViewController.h">
+      <Filter>Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\fview\FSegmentView.h">
+      <Filter>Classes\fview</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\FDataManager.h">
+      <Filter>Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\utils\FServerTime.h">
+      <Filter>Classes\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\NoticeViewController.h">
+      <Filter>Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\SurveyViewController.h">
+      <Filter>Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\MapViewController.h">
       <Filter>Classes</Filter>
     </ClInclude>
   </ItemGroup>
