@@ -30,7 +30,8 @@ MainViewController::MainViewController()
 
 MainViewController::~MainViewController()
 {
-    
+	time_t second = 124124321;
+	localtime(&second);
 }
 
 void MainViewController::update(float dt)
@@ -54,7 +55,15 @@ void MainViewController::viewDidAppear()
                 break;
             }
         }
-        m_msgTableView->reloadData();
+		if (m_msgTableView)
+		{
+			m_msgTableView->reloadData();
+		}
+		else
+		{
+			initMsgTableView();
+		}
+        
     }
 }
 
@@ -132,17 +141,9 @@ void MainViewController::scrollViewHeaderBeginRefreshing(CrossApp::CAScrollView 
         for (int i = (int)m_msg->size() - 1; i >= 0; i--)
         {
             if (m_msg->at(i).m_stored &&
-                m_msg->at(i).m_startTime <= m_filterMsg[0]->m_startTime)
+                m_msg->at(i).m_startTime <= m_filterMsg[0]->m_startTime &&
+                m_msg->at(i).m_sessionId != m_filterMsg[0]->m_sessionId)
             {
-                bool same = false;
-                for (int j = 0; j < m_filterMsg.size(); j++)
-                {
-                    if(m_msg->at(i).m_sessionId == m_filterMsg[j]->m_sessionId)
-                        same = true;
-                }
-                if (same) {
-                    break;
-                }
                 m_filterMsg.insert(m_filterMsg.begin(), &(m_msg->at(i)));
                 count++;
             }
@@ -167,17 +168,9 @@ void MainViewController::scrollViewFooterBeginRefreshing(CAScrollView* view)
         for (int i = 0; i < (int)m_msg->size() - 1; i++)
         {
             if (m_msg->at(i).m_stored &&
-                m_msg->at(i).m_startTime >= m_filterMsg[m_filterMsg.size() - 1]->m_startTime)
+                m_msg->at(i).m_startTime >= m_filterMsg[m_filterMsg.size() - 1]->m_startTime &&
+                m_msg->at(i).m_sessionId != m_filterMsg[m_filterMsg.size() - 1]->m_sessionId)
             {
-                bool same = false;
-                for (int j = 0; j < m_filterMsg.size(); j++)
-                {
-                    if(m_msg->at(i).m_sessionId == m_filterMsg[j]->m_sessionId)
-                        same = true;
-                }
-                if (same) {
-                    break;
-                }
                 m_filterMsg.push_back(&(m_msg->at(i)));
                 count++;
             }
@@ -341,6 +334,17 @@ void MainViewController::requestSessionMsg()
     CCLog("requestSessionMsg %d", FDataManager::getInstance()->getUserId());
     //key_value["sign"] = getSign(key_value);
     CommonHttpManager::getInstance()->send_post(httpUrl, key_value, this, CommonHttpJson_selector(MainViewController::onRequestFinished));
+}
+
+void MainViewController::requestIconMsg()
+{
+    std::map<std::string, std::string> key_value;
+    key_value["tag"] = iconUploadTag[0];
+    key_value["uid"] = crossapp_format_string("%d", 1);
+    key_value["ptype"] = "png";
+    CCLog("requestSessionMsg %d", FDataManager::getInstance()->getUserId());
+    //key_value["sign"] = getSign(key_value);
+    CommonHttpManager::getInstance()->send_postFile(httpUrl, key_value, "/Users/csh/Documents/developments/CrossApp-master/samples/SapSession/Resources/common/my_status_top.png", this, CommonHttpJson_selector(MainViewController::onRequestFinished));
 }
 
 void MainViewController::onRequestFinished(const HttpResponseStatus& status, const CSJson::Value& json)
@@ -544,10 +548,11 @@ void MainViewController::buttonCallBack(CAControl* btn, DPoint point)
 {
 	if (btn->getTag() == 20) // note
 	{
+        requestIconMsg();
         //CADevice::sendLocalNotification("hello", "hello world", 10, "notice id");
-        NoticeViewController* vc = new NoticeViewController();
-        vc->init();
-        RootWindow::getInstance()->getRootNavigationController()->pushViewController(vc, true);
+//        NoticeViewController* vc = new NoticeViewController();
+//        vc->init();
+//        RootWindow::getInstance()->getRootNavigationController()->pushViewController(vc, true);
 	}
 	else if (btn->getTag() == 30) // prize
 	{

@@ -38,7 +38,11 @@ void SessionsViewController::viewDidAppear()
         {
             m_msgFilter.push_back(&(*it));
         }
-        m_msgTableView->reloadData();
+		if (m_msgTableView)
+		{
+			m_msgTableView->reloadData();
+		}
+        
     }
 }
 
@@ -294,8 +298,8 @@ void SessionsViewController::onRequestFinished(const HttpResponseStatus& status,
             temp_msg.m_lecturerEmail = "coostein@hotmail.com";
             temp_msg.m_track = "Customer";
             temp_msg.m_format = "Dev Faire";
-            temp_msg.m_startTime = getTimeSecond() + ((rand() % 10) - 5) * 3600;//ct.tv_sec + 3500;
-            temp_msg.m_endTime = temp_msg.m_startTime + rand() % 3600;
+			temp_msg.m_startTime = getTimeSecond() + i * 3600; ((rand() % 10) - 5) * 3600;//ct.tv_sec + 3500;
+			temp_msg.m_endTime = temp_msg.m_startTime + (i + 1) * 3600;// rand() % 3600;
             temp_msg.m_likeNum = 20;
             temp_msg.m_stored = (bool)(rand() % 2);
             temp_msg.m_imageUrl = "http://imgsrc.baidu.com/forum/pic/item/53834466d0160924a41f433bd50735fae6cd3452.jpg";
@@ -445,11 +449,11 @@ unsigned int SessionsViewController::numberOfIndex(CAListView *listView)
     int num = 0;
     if (listView->getTag() == 1)
     {
-        num = 12;
+        num = m_filterNum;
     }
     else if(listView->getTag() == 2)
     {
-        num = m_filterNum;
+        num = 4;
     }
     return num;
 }
@@ -573,8 +577,11 @@ CATableViewCell* SessionsViewController::tableCellAtIndex(CATableView* table, co
         cell = MainViewTableCell::create("CrossApp", DRect(0, 0, _size.width, _size.height));
         cell->initWithCell();
     }
-    cell->setModel(*m_msgFilter[row]);
-    
+	if (m_msgFilter.size() > row)
+	{
+		cell->setModel(*m_msgFilter[row]);
+	}
+  
     return cell;
     
 }

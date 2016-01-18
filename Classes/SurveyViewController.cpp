@@ -9,6 +9,7 @@
 SurveyViewController::SurveyViewController()
 : p_alertView(NULL)
 , p_pLoading(NULL)
+, m_listView(NULL)
 {
     
 }
@@ -43,6 +44,7 @@ void SurveyViewController::viewDidLoad()
     label->setText("Sustainability Survey");
     label->setFontName("fonts/arial.ttf");
     sView->addSubview(label);
+
     requestMsg();
     
     CCLog("%f", CAApplication::getApplication()->getWinSize().width);
@@ -56,7 +58,36 @@ void SurveyViewController::viewDidUnload()
 
 void SurveyViewController::initMsgTableView()
 {
+	if (m_msg.empty())
+	{
+		showAlert();
+		return;
+	}
+	m_listView = CAListView::createWithFrame(DRect(_px(40), _px(120), m_winSize.width - _px(80), m_winSize.height - _px(220)));
+	m_listView->setListViewDataSource(this);
+	m_listView->setAllowsSelection(false);
+	m_listView->setListViewOrientation(CAListViewOrientationVertical);
+	//m_listView->setShowsScrollIndicators(false);
+	m_listView->setSeparatorColor(CAColor_clear);
+	m_listView->setBackGroundColor(ccc4(0xf6, 0xf6, 0xf6, 0xff));
+	//m_filterListView->setScrollEnabled(false);
 
+	this->getView()->addSubview(m_listView);
+
+	CAButton* button = CAButton::createWithFrame(DRect(_px(40), m_winSize.height - _px(160), m_winSize.width - _px(80), _px(120)), CAButtonTypeCustom);
+	CAImageView* imageView = CAImageView::createWithImage(CAImage::create("common/sky_bg.png"));
+	imageView->setImageViewScaleType(CAImageViewScaleTypeFitImageXY);
+	button->setBackGroundViewForState(CAControlStateAll, imageView);
+	imageView = CAImageView::createWithImage(CAImage::create("common/gray_bg.png"));
+	imageView->setImageViewScaleType(CAImageViewScaleTypeFitImageXY);
+	button->setBackGroundViewForState(CAControlStateDisabled, imageView);
+	button->setTitleColorForState(CAControlStateAll, CAColor_white);
+	button->setTitleForState(CAControlStateAll, "Finish");
+	button->setTitleFontSize(_px(36));
+	button->addTarget(this, CAControl_selector(SurveyViewController::buttonCallBack), CAControlEventTouchUpInSide);
+	//button->setControlState(CAControlStateDisabled);
+	button->setTag(200);
+	this->getView()->addSubview(button);
 }
 
 void SurveyViewController::requestMsg()
@@ -68,7 +99,7 @@ void SurveyViewController::requestMsg()
     }
     
     std::map<std::string, std::string> key_value;
-    key_value["tag"] = userInfoTag[0];
+	key_value["tag"] = suveyTag[0];
     key_value["uid"] = crossapp_format_string("%d", FDataManager::getInstance()->getUserId());
     //key_value["sign"] = getSign(key_value);
     CommonHttpManager::getInstance()->send_post(httpUrl, key_value, this, CommonHttpJson_selector(SurveyViewController::onRequestFinished));
@@ -110,7 +141,20 @@ void SurveyViewController::onRequestFinished(const HttpResponseStatus& status, c
     }
     
     {
-
+		for (int i = 0; i < 3; i++)
+		{
+			surveyDetail tmp;
+			tmp.m_itemId = i;
+			tmp.m_surveyId = 1;
+			tmp.m_itemDetail = "title:  This is Photoshop's version of Lorem, This is Photoshop's version of Lorem,";
+			for (int j = 0; j < 3; j++)
+			{
+				tmp.m_itemSelection[j] = "selection: This is Photoshop's version of Lorem, This is Photoshop's version of Lorem,";
+			}
+			m_msg.push_back(tmp);
+		}
+		
+		
     }
     
     if (p_pLoading)
@@ -151,4 +195,62 @@ void SurveyViewController::showAlert()
     test->setText("Network cannot connect!");
     p_alertView->addSubview(test);
 
+}
+
+
+void SurveyViewController::listViewDidSelectCellAtIndex(CAListView *listView, unsigned int index)
+{
+
+}
+
+void SurveyViewController::listViewDidDeselectCellAtIndex(CAListView *listView, unsigned int index)
+{
+
+}
+
+unsigned int SurveyViewController::numberOfIndex(CAListView *listView)
+{
+	int num = 1;
+
+	return num;
+}
+
+unsigned int SurveyViewController::listViewHeightForIndex(CAListView *listView, unsigned int index)
+{
+	int width = _px(1000);
+	return width;
+}
+
+CAListViewCell* SurveyViewController::listViewCellAtIndex(CAListView *listView, const DSize& cellSize, unsigned int index)
+{
+	DSize _size = cellSize;
+	CAListViewCell* cell = (CAListViewCell*)listView->dequeueReusableCellWithIdentifier("ListViewCell");
+	if (cell == NULL)
+	{
+		cell = CAListViewCell::create("ListViewCell");
+
+		for (int i = 0; i < 3; i++)
+		{
+			CAView* view = CAView::createWithFrame(DRect(0, _px(40) + i * _px(300), _size.width, _px(300)));
+			CALabel* label = CALabel::createWithFrame(DRect(0, 0, _size.width, _px(60)));
+			label->setText(m_msg[index].m_itemDetail);
+			label->setColor(CAColor_black);
+			label->setFontSize(_px(24));
+			label->setVerticalTextAlignmet(CAVerticalTextAlignmentTop);
+			view->addSubview(label);
+			for(int j = 0; j < 3; j++)
+			{
+				label = CALabel::createWithFrame(DRect(_px(40), _px(80) + j * _px(60), _size.width - _px(40), _px(60)));
+				label->setText(m_msg[index].m_itemSelection[i]);
+				label->setColor(CAColor_black);
+				label->setFontSize(_px(24));
+				label->setVerticalTextAlignmet(CAVerticalTextAlignmentTop);
+				view->addSubview(label);
+			}
+			cell->addSubview(view);
+		}
+		
+	}
+
+	return cell;
 }

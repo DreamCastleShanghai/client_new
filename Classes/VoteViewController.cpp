@@ -305,7 +305,7 @@ void VoteViewController::requestMsg()
     key_value["uid"] = FDataManager::getInstance()->getUserId();
     CommonHttpManager::getInstance()->send_post(httpUrl, key_value, this, CommonHttpJson_selector(VoteViewController::onRequestFinished));
     {
-        DRect r(m_winSize.width / 2, (m_winSize.height - _px(120)) / 2,
+        DRect r(m_winSize.width / 2, (m_winSize.height - _px(120)) / 2 + _px(120),
                 m_winSize.width, m_winSize.height - _px(120));
         p_pLoading = CAActivityIndicatorView::createWithCenter(r);
         p_pLoading->setLoadingMinTime(0.5f);

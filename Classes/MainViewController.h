@@ -37,6 +37,8 @@ public:
 	void initPageView();
     
     void requestSessionMsg();
+    
+    void requestIconMsg();
 
 	void showAlert();
 

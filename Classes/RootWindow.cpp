@@ -67,6 +67,7 @@ bool RootWindow::init()
     //tabBarController->setTabBarBackGroundImage(CAImage::create("common/sky_bg.png"));
     CANavigationBarItem* temp_nav = CANavigationBarItem::create("");
     temp_nav->setNagigationBarHidden(true);
+	tabBarController->setScrollEnabled(false);
     tabBarController->setNavigationBarItem(temp_nav);
     tabBarController->setTabBarTitleColorForSelected(CAColor_white);
     tabBarController->autorelease();
@@ -77,7 +78,7 @@ bool RootWindow::init()
 	m_pRootNavigationController->setNavigationBarHidden(true, false);
     m_pRootNavigationController->setScrollEnabled(false);
 
-	if (1)
+	if (0)
 	{
 		LoginViewController* _viewController = new LoginViewController();
 		_viewController->init();

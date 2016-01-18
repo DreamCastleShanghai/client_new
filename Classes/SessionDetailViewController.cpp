@@ -121,7 +121,7 @@ void SessionDetailViewController::viewDidLoad()
     CAButton* storeBtn = CAButton::createWithFrame(DRect(m_winSize.width - _px(200), _px(40) + _px(120), _px(50), _px(50)), CAButtonTypeRoundedRect);
     storeBtn->setAllowsSelected(true);
     storeBtn->setBackGroundViewForState(CAControlStateAll, m_storeBtnImage);
-    storeBtn->addTarget(this, CAControl_selector(SessionDetailViewController::storeBtnCallBack),CAControlEventTouchUpInSide);
+    storeBtn->addTarget(this, CAControl_selector(SessionDetailViewController::buttonCallBack),CAControlEventTouchUpInSide);
     if (m_msg->m_stored)
     {
         m_storeBtnImage->setImage(CAImage::create("common/btn_collect_pre.png"));
@@ -189,7 +189,7 @@ void SessionDetailViewController::storeBtnCallBack(CAControl* btn, DPoint point)
         key_value["uid"] = crossapp_format_string("%d", FDataManager::getInstance()->getUserId());
         //key_value["sto"] = crossapp_format_string("%d", m_isStore ? 1 : 0);
         //key_value["sign"] = getSign(key_value);
-        CommonHttpManager::getInstance()->send_post(httpUrl, key_value, this, CommonHttpJson_selector(SessionDetailViewController::onStoreRequestFinished));
+        CommonHttpManager::getInstance()->send_post(httpUrl, key_value, this, CommonHttpJson_selector(MainViewTableCell::onStoreRequestFinished));
         
         m_canStore = false;
     }

@@ -17,6 +17,14 @@ struct userInfo
     std::string m_imageUrl;
 };
 
+struct surveyDetail
+{
+    int m_surveyId;
+    int m_itemId;
+    std::string m_itemDetail;
+    std::vector<string> m_itemSelection;
+};
+
 struct pointMsg
 {
     int         m_userId;

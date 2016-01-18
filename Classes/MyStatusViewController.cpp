@@ -26,30 +26,6 @@ MyStatusViewController::~MyStatusViewController()
 
 }
 
-void MyStatusViewController::viewDidAppear()
-{
-    if (!m_msg->empty())
-    {
-        m_filterMsg.clear();
-        for (std::vector<sessionMsg>::iterator it = m_msg->begin(); it != m_msg->end(); it++)
-        {
-            if(it->m_stored)
-            {
-                m_filterMsg.push_back(&(*it));
-            }
-        }
-        if(m_navType == 0)
-        {
-            m_msgTableView->reloadData();
-        }
-    }
-}
-
-void MyStatusViewController::viewDidDisappear()
-{
-    
-}
-
 void MyStatusViewController::viewDidLoad()
 {
     // Do any additional setup after loading the view from its nib.
@@ -348,8 +324,9 @@ void MyStatusViewController::onRequestFinished(const HttpResponseStatus& status,
             temp_msg.m_lecturerEmail = "coostein@hotmail.com";
             temp_msg.m_track = "Customer";
             temp_msg.m_format = "Dev Faire";
-            temp_msg.m_startTime = getTimeSecond() + ((rand() % 10) - 5) * 3600;
-            temp_msg.m_endTime = temp_msg.m_startTime + rand() % 3900;
+			temp_msg.m_startTime = getTimeSecond() + i * 3600;// +((rand() % 10) - 5) * 3600;
+			CCLog("%d %ld %ld", ((rand() % 10) - 5) * 3600, getTimeSecond(), temp_msg.m_startTime);
+			temp_msg.m_endTime = temp_msg.m_startTime + (i + 1) * 3600;// +rand() % 3900;
             temp_msg.m_likeNum = 20;
             temp_msg.m_stored = (bool)(rand() % 2);
             temp_msg.m_imageUrl =
@@ -396,10 +373,6 @@ void MyStatusViewController::onRequestRankFinished(const HttpResponseStatus& sta
 {
     if (status == HttpResponseSucceed)
     {
-        CSJson::FastWriter writer;
-        string tempjson = writer.write(json);
-        CCLog("receive json == %s",tempjson.c_str());
-        
         m_canSwitchPoint = true;
         const CSJson::Value& v2 = json["result"]["rl"];
         int length = v2.size();
@@ -408,49 +381,37 @@ void MyStatusViewController::onRequestRankFinished(const HttpResponseStatus& sta
         {
             userInfo tmpInfo;
             tmpInfo.m_userName = crossapp_format_string("%s %s", v2[i]["FirstName"].asString().c_str(), v2[i]["LastName"].asString().c_str());
-            tmpInfo.m_pointRank = i + 1;
-            tmpInfo.m_point = v2[i]["Rank"].asInt();
-            tmpInfo.m_imageUrl = "http://imgsrc.baidu.com/forum/pic/item/53834466d0160924a41f433bd50735fae6cd3452.jpg";
             m_rankMsg.push_back(tmpInfo);
+            tmpInfo.m_pointRank = i;
+            tmpInfo.m_point = v2[i]["Rank"].asInt();
         }
-        
-        const CSJson::Value& v1 = json["result"]["usr"];
-        userInfo uInfo;
-        uInfo.m_userId = FDataManager::getInstance()->getUserId();
-        uInfo.m_userName = crossapp_format_string("%s %s", v1["FirstName"].asString().c_str(), v1["LastName"].asString().c_str());
-        uInfo.m_point = v1["Rank"].asInt();
-        uInfo.m_pointRank = json["result"]["urk"].asInt();
-        uInfo.m_imageUrl = "http://imgsrc.baidu.com/forum/pic/item/53834466d0160924a41f433bd50735fae6cd3452.jpg";
-        FDataManager::getInstance()->setUserInfo(uInfo);
-        
-        m_pointLabel[1]->setText(crossapp_format_string("%d", uInfo.m_pointRank + 1));
         //sort
     }
     else
     {
-        showAlert();
+        //showAlert();
     }
     
-//    {
-//        m_canSwitchPoint = true;
-//        m_rankMsg.clear();
-//        for (int i = 0; i < 10; i++)
-//        {
-//            userInfo tmpInfo;
-//            tmpInfo.m_userId = 10;
-//            tmpInfo.m_userName = "Alxm Chen";
-//            tmpInfo.m_point = 251 - i;
-//            tmpInfo.m_pointRank = i + 1;
-//            tmpInfo.m_imageUrl = "http://imgsrc.baidu.com/forum/pic/item/53834466d0160924a41f433bd50735fae6cd3452.jpg";
-//            m_rankMsg.push_back(tmpInfo);
-//        }
-//        userInfo* info = FDataManager::getInstance()->getUserInfo();
-//        if (info->m_userId > 0)
-//        {
-//            m_pointLabel[1]->setText(crossapp_format_string("%d", m_rankMsg[9].m_point - info->m_point));
-//        }
-//        
-//    }
+    {
+        m_canSwitchPoint = true;
+        m_rankMsg.clear();
+        for (int i = 0; i < 10; i++)
+        {
+            userInfo tmpInfo;
+            tmpInfo.m_userId = 10;
+            tmpInfo.m_userName = "Alxm Chen";
+            tmpInfo.m_point = 251 - i;
+            tmpInfo.m_pointRank = i + 1;
+            tmpInfo.m_imageUrl = "http://imgsrc.baidu.com/forum/pic/item/53834466d0160924a41f433bd50735fae6cd3452.jpg";
+            m_rankMsg.push_back(tmpInfo);
+        }
+        userInfo* info = FDataManager::getInstance()->getUserInfo();
+        if (info->m_userId > 0)
+        {
+            m_pointLabel[1]->setText(crossapp_format_string("%d", m_rankMsg[9].m_point - info->m_point));
+        }
+        
+    }
 }
 
 void MyStatusViewController::switchNavType(int index)
@@ -561,27 +522,29 @@ CATableViewCell* MyStatusViewController::tableCellAtIndex(CATableView* table, co
     if (m_navType == 0)
     {
 
-        cell = dynamic_cast<CATableViewCell*>(table->dequeueReusableCellWithIdentifier("CrossApp0"));
+        //cell = dynamic_cast<CATableViewCell*>(table->dequeueReusableCellWithIdentifier("CrossApp0"));
         if(cell == NULL && !m_filterMsg.empty())
         {
             int count = 0;
             for (int i = 0; i < section; i++) {
                 count += m_rowNumOfSection[i].rowNum;
             }
-            sessionMsg* msg = m_filterMsg[count + row];
-            cell = CATableViewCell::create("CrossApp0");
-            CALabel* label = CALabel::createWithFrame(DRect(_px(40), _px(0), _px(300), _px(50)));
-            label->setText(msg->m_title);
-            CCLog("%d  %s", count + row, msg->m_title.c_str());
-            label->setFontSize(_px(25));
-            label->setVerticalTextAlignmet(CAVerticalTextAlignmentCenter);
-            label->setColor(ccc4(0x3f, 0x3f, 0x3f, 0xff));
-            cell->addSubview(label);
+            for (int i = 0; i < m_rowNumOfSection[section].rowNum; i++)
+            {
+                sessionMsg* msg = m_filterMsg[count + i];
+                cell = CATableViewCell::create("CrossApp0");
+                CALabel* label = CALabel::createWithFrame(DRect(_px(40), _px(0), _px(300), _px(50)));
+                label->setText(msg->m_title);
+                label->setFontSize(_px(25));
+                label->setVerticalTextAlignmet(CAVerticalTextAlignmentCenter);
+                label->setColor(ccc4(0x3f, 0x3f, 0x3f, 0xff));
+                cell->addSubview(label);
+            }
         }
     }
     else if(m_navType == 1 && !m_filterMsg.empty())
     {
-        cell = dynamic_cast<CATableViewCell*>(table->dequeueReusableCellWithIdentifier("CrossApp1"));
+        //cell = dynamic_cast<CATableViewCell*>(table->dequeueReusableCellWithIdentifier("CrossApp1"));
         if(cell == NULL)
         {
             sessionMsg* msg = m_filterMsg[row];
@@ -602,7 +565,7 @@ CATableViewCell* MyStatusViewController::tableCellAtIndex(CATableView* table, co
     }
     else if(m_navType == 2 && !m_rankMsg.empty())
     {
-        cell = dynamic_cast<CATableViewCell*>(table->dequeueReusableCellWithIdentifier("CrossApp2"));
+        //cell = dynamic_cast<CATableViewCell*>(table->dequeueReusableCellWithIdentifier("CrossApp2"));
         if(cell == NULL)
         {
             cell = CATableViewCell::create("CrossApp2");
