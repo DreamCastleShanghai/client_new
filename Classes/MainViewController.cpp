@@ -548,11 +548,11 @@ void MainViewController::buttonCallBack(CAControl* btn, DPoint point)
 {
 	if (btn->getTag() == 20) // note
 	{
-        requestIconMsg();
+        //requestIconMsg();
         //CADevice::sendLocalNotification("hello", "hello world", 10, "notice id");
-//        NoticeViewController* vc = new NoticeViewController();
-//        vc->init();
-//        RootWindow::getInstance()->getRootNavigationController()->pushViewController(vc, true);
+        NoticeViewController* vc = new NoticeViewController();
+        vc->init();
+        RootWindow::getInstance()->getRootNavigationController()->pushViewController(vc, true);
 	}
 	else if (btn->getTag() == 30) // prize
 	{

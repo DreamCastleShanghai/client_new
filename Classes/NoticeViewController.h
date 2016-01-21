@@ -49,8 +49,9 @@ private:
 
 	DSize													m_winSize;
 
-    pointMsg                                                m_pointMsg;
-    
+	std::vector<noticeMsg>                                  m_msg;
+	CATableView*											m_msgTableView;
+
     CAView*													p_alertView;
     CAActivityIndicatorView*								p_pLoading;
 };

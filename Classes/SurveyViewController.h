@@ -9,14 +9,12 @@
 USING_NS_CC;
 
 class SurveyViewController
-: public CAViewController,
-  public CAListViewDelegate,
-  public CAListViewDataSource
+: public CAViewController
 {
     
 public:
 
-	SurveyViewController();
+	SurveyViewController(int sessionId);
     
 	virtual ~SurveyViewController();
     
@@ -25,32 +23,25 @@ protected:
     void viewDidLoad();
     
     void viewDidUnload();
-
-    void initMsgTableView();
     
 	void buttonCallBack(CAControl* btn, DPoint point);
-
-	void showAlert();
 
 	void requestMsg();
 
 	void onRequestFinished(const HttpResponseStatus& status, const CSJson::Value& json);
-    
-	virtual void listViewDidSelectCellAtIndex(CAListView *listView, unsigned int index);
-	virtual void listViewDidDeselectCellAtIndex(CAListView *listView, unsigned int index);
-	virtual unsigned int numberOfIndex(CAListView *listView);
-	virtual unsigned int listViewHeightForIndex(CAListView *listView, unsigned int index);
-	virtual CAListViewCell* listViewCellAtIndex(CAListView *listView, const DSize& cellSize, unsigned int index);
 
 private:
 
 	DSize													m_winSize;
 	std::vector<surveyDetail>								m_msg;
-
+	int														m_score;
+	int														m_sessionId;
     CAView*													p_alertView;
     CAActivityIndicatorView*								p_pLoading;
-
+	CALabel*												m_alertLabel;
+	std::vector<CAButton*>									m_scoreButtonVec;
 	CAListView*												m_listView;
+	CATextView*												m_feedBackTextView;
 };
 
 

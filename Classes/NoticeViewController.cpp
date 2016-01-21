@@ -5,12 +5,13 @@
 #include "SessionsSearchViewController.h"
 #include "utils/HttpConnect.h"
 #include "SessionDetailViewController.h"
+#include "FServerTime.h"
 
 NoticeViewController::NoticeViewController()
 : p_alertView(NULL)
 , p_pLoading(NULL)
 {
-    m_pointMsg.m_point = -1;
+
 }
 
 NoticeViewController::~NoticeViewController()
@@ -65,12 +66,18 @@ void NoticeViewController::viewDidUnload()
 
 void NoticeViewController::initMsgTableView()
 {
-    if (m_pointMsg.m_point == -1)
+	if (m_msg.empty())
     {
         showAlert();
         return;
     }
-
+	m_msgTableView = CATableView::createWithFrame(DRect(0, _px(120), m_winSize.width, m_winSize.height - _px(120)));
+	m_msgTableView->setTableViewDataSource(this);
+	m_msgTableView->setTableViewDelegate(this);
+	m_msgTableView->setAllowsSelection(true);
+	m_msgTableView->setSeparatorColor(ccc4(200, 200, 200, 80));
+	//m_msgTableView->setSeparatorViewHeight(_px(2));
+	this->getView()->addSubview(m_msgTableView);
 }
 
 void NoticeViewController::requestMsg()
@@ -82,10 +89,9 @@ void NoticeViewController::requestMsg()
     }
     
     std::map<std::string, std::string> key_value;
-    key_value["tag"] = sessionViewTag[0];
-    key_value["page"] = "1";
-    key_value["limit"] = "20";
-    key_value["sign"] = getSign(key_value);
+	key_value["tag"] = noticeTag[0];
+	key_value["uid"] = crossapp_format_string("%d", FDataManager::getInstance()->getUserId());
+    //key_value["sign"] = getSign(key_value);
     CommonHttpManager::getInstance()->send_post(httpUrl, key_value, this, CommonHttpJson_selector(NoticeViewController::onRequestFinished));
     {
         p_pLoading = CAActivityIndicatorView::createWithCenter(DRect(m_winSize.width / 2, m_winSize.height / 2, 50, 50));
@@ -118,7 +124,6 @@ void NoticeViewController::onRequestFinished(const HttpResponseStatus& status, c
     if (status == HttpResponseSucceed)
     {
         const CSJson::Value& value = json["result"];
-        m_pointMsg.m_point = value["pnt"].asInt();
     }
     else
     {
@@ -126,8 +131,17 @@ void NoticeViewController::onRequestFinished(const HttpResponseStatus& status, c
     }
     
     {
-        m_pointMsg.m_point = 200;
-        m_pointMsg.m_hasPrizeId.push_back(0);
+		for (int i = 0; i < 5; i++)
+		{
+			noticeMsg temp;
+			temp.closed = false;
+			temp.noticeType = 0;
+			temp.title = "GASS";
+			temp.startTime = getTimeSecond();
+			temp.endTime = getTimeSecond();
+			temp.noticeId = i;
+			m_msg.push_back(temp);
+		}
     }
     
     if (p_pLoading)
@@ -179,9 +193,40 @@ CATableViewCell* NoticeViewController::tableCellAtIndex(CATableView* table, cons
     if (cell == NULL)
     {
         cell = MainViewTableCell::create("CrossApp", DRect(0, 0, _size.width, _size.height));
-        CAScale9ImageView* sView = CAScale9ImageView::createWithImage(CAImage::create("common/gray_bg.png"));
-        sView->setFrame(DRect(_px(0), _px(0), _size.width, _size.height));
-        cell->setBackgroundView(sView);
+
+		CAImageView* imageView = CAImageView::createWithImage(CAImage::create(crossapp_format_string("notice/level_%d.png", row % 2)));
+		imageView->setImageViewScaleType(CAImageViewScaleTypeFitImageXY);
+		imageView->setFrame(DRect(_px(40), _px(20), _px(80), _px(80)));
+		cell->addSubview(imageView);
+
+		if (m_msg[row].closed == false)
+		{
+			imageView = CAImageView::createWithImage(CAImage::create("notice/icon_reddot.png"));
+			imageView->setImageViewScaleType(CAImageViewScaleTypeFitImageXY);
+			imageView->setFrame(DRect(_px(100), _px(20), _px(10), _px(10)));
+			cell->addSubview(imageView);
+		}
+
+		CALabel* label = CALabel::createWithFrame(DRect(_px(160), _px(20), _px(200), _px(40)));
+		label->setText(m_msg[row].title);
+		label->setFontSize(_px(35));
+		label->setColor(CAColor_black);
+		cell->addSubview(label);
+
+		label = CALabel::createWithFrame(DRect(_px(160), _px(70), _px(200), _px(30)));
+		label->setText(crossapp_format_string("%s - %s", timeToString(m_msg[row].startTime).c_str(), timeToString(m_msg[row].endTime).c_str()));
+		label->setFontSize(_px(28));
+		label->setColor(CAColor_gray);
+		cell->addSubview(label);
+
+		imageView = CAImageView::createWithImage(CAImage::create("common/btn_rightarrow.png"));
+		imageView->setImageViewScaleType(CAImageViewScaleTypeFitViewByHorizontal);
+		imageView->setFrame(DRect(_size.width - _px(90), (_size.height - _px(50)) / 2, _px(50), _px(50)));
+		cell->addSubview(imageView);
+
+        //CAScale9ImageView* sView = CAScale9ImageView::createWithImage(CAImage::create("common/gray_bg.png"));
+        //sView->setFrame(DRect(_px(0), _px(0), _size.width, _size.height));
+        //cell->setBackgroundView(sView);
     }
     //cell->setModel(m_msgFilter[row]);
     
@@ -196,12 +241,12 @@ unsigned int NoticeViewController::numberOfSections(CATableView *table)
 
 unsigned int NoticeViewController::numberOfRowsInSection(CATableView *table, unsigned int section)
 {
-    return 2;
+    return (int)m_msg.size();
 }
 
 unsigned int NoticeViewController::tableViewHeightForRowAtIndexPath(CATableView* table, unsigned int section, unsigned int row)
 {
-    return _px(240);
+    return _px(120);
 }
 
 void NoticeViewController::tableViewDidSelectRowAtIndexPath(CATableView* table, unsigned int section, unsigned int row)

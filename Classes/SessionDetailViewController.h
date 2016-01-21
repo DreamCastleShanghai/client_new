@@ -8,6 +8,12 @@
 
 USING_NS_CC;
 
+struct surveyFeedBack
+{
+	int score;
+	CHAR* detail;
+};
+
 class SessionDetailViewController :
 	public CAViewController
 {
@@ -42,10 +48,19 @@ private:
 
 	DSize													m_winSize;
 
-    sessionMsg*                                                m_msg;
+	CAView*													m_surveyButtonView[2];
+	CALabel*												m_surveyTimeLabel;
+
+	sessionMsg*                                             m_msg;
     bool                                                    m_canStore;
     bool                                                    m_isStore;
     CAImageView*                                            m_storeBtnImage;
+
+	bool                                                    m_canLike;
+	bool                                                    m_isLiked;
+	CAImageView*                                            m_likeBtnImage;
+
+	surveyFeedBack											m_feedBack;
 };
 
 

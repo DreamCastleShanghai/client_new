@@ -25,6 +25,16 @@ struct surveyDetail
     std::vector<string> m_itemSelection;
 };
 
+struct noticeMsg
+{
+	int noticeId;
+	int noticeType;
+	bool closed;
+	std::string title;
+	time_t startTime;
+	time_t endTime;
+};
+
 struct pointMsg
 {
     int         m_userId;
@@ -58,6 +68,7 @@ struct sessionMsg
     int         m_likeNum;
     std::string m_imageUrl;
     bool        m_stored;
+	bool		m_liked;
     bool        m_done;
     int         m_point;
 };
