@@ -23,3 +23,12 @@ type  AllSessionView struct {
 	SpeakerIcon string	`gorm:"column:SpeakerIcon"`
 	SpeakerDescription	string	`gorm:"column:SpeakerDescription"`
 }
+
+
+survey
+
+notice
+
+push function
+
+store & like发送时加参数 stored & liked

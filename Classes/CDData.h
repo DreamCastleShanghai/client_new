@@ -52,7 +52,7 @@ static const char* rankViewTag[2] =
 
 static const CHAR* mainShort[3] =
 {
-    _T("Share photo"), _T("Vote"), _T("Map")
+    _T("Moments"), _T("Vote"), _T("On-site Guide")
 };
 
 static const CHAR* mainBar[3] =
