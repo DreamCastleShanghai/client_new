@@ -13,9 +13,9 @@ static const std::string imgPreUrl = "http://10.88.225.37:8080/res/";
 static const char* loginTag = "L0";
 
 
-static const char* momentsTag[2] =
+static const char* momentsTag[3] =
 {
-	"PL0", "PML0"
+	"PL0", "PML0", "PS0"
 };
 
 static const char* noticeTag[2] =

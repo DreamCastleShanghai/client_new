@@ -112,10 +112,10 @@ void MomentViewController::viewDidLoad()
 
 	CAPullToRefreshView* headerRefreshView = CAPullToRefreshView::create(CAPullToRefreshView::CAPullToRefreshTypeHeader);
 	footerRefreshView = CAPullToRefreshView::create(CAPullToRefreshView::CAPullToRefreshTypeFooter);
-	m_myCollectionView->setHeaderRefreshView(headerRefreshView);
-	m_myCollectionView->setFooterRefreshView(footerRefreshView);
 	headerRefreshView->setTag(1);
 	footerRefreshView->setTag(1);
+	m_myCollectionView->setHeaderRefreshView(headerRefreshView);
+	m_myCollectionView->setFooterRefreshView(footerRefreshView);
 
     requestMsg(Type_all);
     
@@ -145,6 +145,7 @@ void MomentViewController::requestMsg(int type)
 		//key_value["uid"] = crossapp_format_string("%d", FDataManager::getInstance()->getUserId());
 		//key_value["sign"] = getSign(key_value);
 		CommonHttpManager::getInstance()->send_post(httpUrl, key_value, this, CommonHttpJson_selector(MomentViewController::onRequestAllFinished));
+		m_currentAllNum += 5;
 	}
 	else
 	{
@@ -321,7 +322,8 @@ CATableViewCell* MomentViewController::tableCellAtIndex(CATableView* table, cons
 {
     DSize _size = cellSize;
     
-    CATableViewCell* cell = dynamic_cast<CATableViewCell*>(table->dequeueReusableCellWithIdentifier("CrossApp"));
+	std::string picId = crossapp_format_string("%d", m_allMsg[row].picId);
+	CATableViewCell* cell = dynamic_cast<CATableViewCell*>(table->dequeueReusableCellWithIdentifier(picId.c_str()));
     if (cell == NULL)
     {
         cell = MainViewTableCell::create("CrossApp", DRect(0, 0, _size.width, _size.height));
@@ -338,6 +340,15 @@ CATableViewCell* MomentViewController::tableCellAtIndex(CATableView* table, cons
 		CAView* view = CAView::createWithFrame(DRect(0, _size.height - _px(120), _size.width, _px(120)));
 		view->setColor(ccc4(0, 0, 0, 128));
 		cell->addSubview(view);
+
+		temImage = CommonUrlImageView::createWithImage(CAImage::create("common/bg.png"));
+		temImage->setFrame(DRect(0, 0, _size.width, _size.height));
+		//CommonUrlImageView::createWithFrame(DRect(0, 0, _size.width, _size.height));
+		temImage->setImageViewScaleType(CAImageViewScaleTypeFitImageCrop);
+		temImage->setImage(CAImage::create("common/bg.png"));
+		temImage->setUrl(m_allMsg[row].m_imageUrl);
+		temImage->setTouchEnabled(false);
+		cell->addSubview(temImage);
     }
     
     return cell;
@@ -351,7 +362,9 @@ void MomentViewController::scrollViewHeaderBeginRefreshing(CAScrollView* view)
 
 void MomentViewController::scrollViewFooterBeginRefreshing(CAScrollView* view)
 {
-	if (view->getTag() == 0)
+	CATableView* tableView = (CATableView*)view;
+	CAView* headView = tableView->getFooterRefreshView();
+	if (headView->getTag() == 0)
 	{
 		requestMsg(Type_all);
 	}
@@ -400,7 +413,8 @@ void MomentViewController::collectionViewDidDeselectCellAtIndexPath(CACollection
 CACollectionViewCell* MomentViewController::collectionCellAtIndex(CACollectionView *collectionView, const DSize& cellSize, unsigned int section, unsigned int row, unsigned int item)
 {
 	DSize _size = cellSize;
-	CACollectionViewCell* p_Cell = collectionView->dequeueReusableCellWithIdentifier("CrossApp");
+	std::string picId = crossapp_format_string("%d", m_myMsg[row + item].picId);
+	CACollectionViewCell* p_Cell = collectionView->dequeueReusableCellWithIdentifier(picId.c_str());
 	if (p_Cell == NULL)
 	{
 		p_Cell = CACollectionViewCell::create("CrossApp");
