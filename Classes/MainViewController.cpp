@@ -14,6 +14,7 @@
 #include "NoticeViewController.h"
 #include "FDataManager.h"
 #include "FServerTime.h"
+#include "MomentViewController.h"
 
 #define REFRESH_STEP 5
 
@@ -418,9 +419,9 @@ void MainViewController::onRequestFinished(const HttpResponseStatus& status, con
         //showAlert();
     }
     
-//    {
-        //m_msg->clear();
-        //m_filterMsg.clear();
+    {
+        m_msg->clear();
+        m_filterMsg.clear();
         m_page.clear();
         for (int i = 0; i < 3; i++) {
             char title[8];
@@ -443,55 +444,55 @@ void MainViewController::onRequestFinished(const HttpResponseStatus& status, con
             
             m_page.push_back(temp_page);
         }
-//        srand((int)getTimeSecond());
-//        for (int i = 0; i < 17; i++)
-//        {
-//            sessionMsg temp_msg;
-//            temp_msg.m_sessionId = 200 + i;
-//            temp_msg.m_title = "Customer Success";
-//            
-//            temp_msg.m_location = "Lisa Chen";
-//            temp_msg.m_detail = "This is Photoshop's version of Lorem Ipsum. \
-//                This is Photoshop's version of Lorem Ipsum. \
-//                This is Photoshop's version of Lorem Ipsum. ";
-//            temp_msg.m_lecturer = "Lisa Chen";
-//            temp_msg.m_lecturerEmail = "coostein@hotmail.com";
-//            temp_msg.m_track = "Customer";
-//            temp_msg.m_format = "Dev Faire";
-//            temp_msg.m_startTime = getTimeSecond() + ((rand() % 10) - 5) * 3600;
-//            temp_msg.m_endTime = temp_msg.m_startTime + rand() % 3900;
-//            temp_msg.m_likeNum = 20;
-//            temp_msg.m_stored = (bool)(rand() % 2);
-//            temp_msg.m_imageUrl =
-//                "http://imgsrc.baidu.com/forum/pic/item/53834466d0160924a41f433bd50735fae6cd3452.jpg";
-//            //"http://img1.gtimg.com/14/1468/146894/14689486_980x1200_0.png";
-//            temp_msg.m_stored = (bool)(rand() % 2);
-//            temp_msg.m_done = (bool)(rand() % 2);
-//            temp_msg.m_point = 22;
-//            m_msg->push_back(temp_msg);
-//            
-//            userInfo uInfo;
-//            uInfo.m_userId = 101;
-//            uInfo.m_userName = "Alex Chen";
-//            uInfo.m_point = 100;
-//            uInfo.m_pointRank = 20;
-//            uInfo.m_imageUrl = "http://imgsrc.baidu.com/forum/pic/item/53834466d0160924a41f433bd50735fae6cd3452.jpg";
-//            FDataManager::getInstance()->setUserInfo(uInfo);
-//        }
-//        quickSort(m_msg, 0, (int)m_msg->size() - 1);
-//        m_filterMsg.clear();
-//        for (std::vector<sessionMsg>::iterator it = m_msg->begin(); it != m_msg->end(); it++)
-//        {
-//            if(it->m_stored && it->m_endTime > getTimeSecond())
-//            {
-//                m_filterMsg.push_back(&(*it));
-//            }
-//            if (m_filterMsg.size() == REFRESH_STEP)
-//            {
-//                break;
-//            }
-//        }
-//    }
+        srand((int)getTimeSecond());
+        for (int i = 0; i < 17; i++)
+        {
+            sessionMsg temp_msg;
+            temp_msg.m_sessionId = 200 + i;
+            temp_msg.m_title = "Customer Success";
+            
+            temp_msg.m_location = "Lisa Chen";
+            temp_msg.m_detail = "This is Photoshop's version of Lorem Ipsum. \
+                This is Photoshop's version of Lorem Ipsum. \
+                This is Photoshop's version of Lorem Ipsum. ";
+            temp_msg.m_lecturer = "Lisa Chen";
+            temp_msg.m_lecturerEmail = "coostein@hotmail.com";
+            temp_msg.m_track = "Customer";
+            temp_msg.m_format = "Dev Faire";
+            temp_msg.m_startTime = getTimeSecond();
+            temp_msg.m_endTime = temp_msg.m_startTime + 3900;
+            temp_msg.m_likeNum = 20;
+            temp_msg.m_stored = (bool)(rand() % 2);
+            temp_msg.m_imageUrl =
+                "http://imgsrc.baidu.com/forum/pic/item/53834466d0160924a41f433bd50735fae6cd3452.jpg";
+            //"http://img1.gtimg.com/14/1468/146894/14689486_980x1200_0.png";
+            temp_msg.m_stored = (bool)(rand() % 2);
+            temp_msg.m_done = (bool)(rand() % 2);
+            temp_msg.m_point = 22;
+            m_msg->push_back(temp_msg);
+            
+            userInfo uInfo;
+            uInfo.m_userId = 101;
+            uInfo.m_userName = "Alex Chen";
+            uInfo.m_point = 100;
+            uInfo.m_pointRank = 20;
+            uInfo.m_imageUrl = "http://imgsrc.baidu.com/forum/pic/item/53834466d0160924a41f433bd50735fae6cd3452.jpg";
+            FDataManager::getInstance()->setUserInfo(uInfo);
+        }
+        quickSort(m_msg, 0, (int)m_msg->size() - 1);
+        m_filterMsg.clear();
+        for (std::vector<sessionMsg>::iterator it = m_msg->begin(); it != m_msg->end(); it++)
+        {
+            if(it->m_stored && it->m_endTime > getTimeSecond())
+            {
+                m_filterMsg.push_back(&(*it));
+            }
+            if (m_filterMsg.size() == REFRESH_STEP)
+            {
+                break;
+            }
+        }
+    }
     
     if (p_pLoading)
     {
@@ -578,9 +579,13 @@ void MainViewController::buttonCallBack(CAControl* btn, DPoint point)
     }
     else if (btn->getTag() == 300)
     {
-        PhotoViewController* vc = new PhotoViewController();
-        vc->init();
-        RootWindow::getInstance()->getRootNavigationController()->pushViewController(vc, true);
+        //PhotoViewController* vc = new PhotoViewController();
+        //vc->init();
+        //RootWindow::getInstance()->getRootNavigationController()->pushViewController(vc, true);
+
+		MomentViewController* mc = new MomentViewController();
+		mc->init();
+		RootWindow::getInstance()->getRootNavigationController()->pushViewController(mc, true);
     }
     else if (btn->getTag() == 301)
     {

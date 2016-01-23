@@ -165,17 +165,17 @@ void SessionDetailViewController::viewDidLoad()
 	m_surveyButtonView[0]->addSubview(label);
 	m_surveyButtonView[0]->setVisible(false);
 
-	m_surveyButtonView[1] = CAView::createWithFrame(DRect(_px(0), _px(0), _px(400), _px(100)));
+	m_surveyButtonView[1] = CAView::createWithFrame(DRect(_px(0), _px(0), _px(300), _px(100)));
 	m_surveyButtonView[1]->setColor(CAColor_clear);
-	label = CALabel::createWithFrame(DRect(_px(0), _px(10), _px(400), _px(40)));
+	label = CALabel::createWithFrame(DRect(_px(0), _px(10), _px(300), _px(40)));
 	label->setTextAlignment(CATextAlignmentCenter);
 	label->setVerticalTextAlignmet(CAVerticalTextAlignmentCenter);
 	label->setColor(CAColor_white);
-	label->setFontSize(_px(35));
+	label->setFontSize(_px(30));
 	label->setText("Click to win point");
 	m_surveyButtonView[1]->addSubview(label);
 
-	m_surveyTimeLabel = CALabel::createWithFrame(DRect(_px(0), _px(50), _px(400), _px(30)));
+	m_surveyTimeLabel = CALabel::createWithFrame(DRect(_px(0), _px(50), _px(300), _px(30)));
 	m_surveyTimeLabel->setTextAlignment(CATextAlignmentCenter);
 	m_surveyTimeLabel->setVerticalTextAlignmet(CAVerticalTextAlignmentCenter);
 	m_surveyTimeLabel->setColor(CAColor_white);
@@ -183,7 +183,7 @@ void SessionDetailViewController::viewDidLoad()
 	m_surveyTimeLabel->setText("(Avalible in 30s)");
 	m_surveyButtonView[1]->addSubview(m_surveyTimeLabel);
 
-	button = CAButton::createWithFrame(DRect(m_winSize.width - _px(400), 0, _px(400), _px(100)), CAButtonTypeCustom);
+	button = CAButton::createWithFrame(DRect(m_winSize.width - _px(300), 0, _px(300), _px(100)), CAButtonTypeCustom);
 	imageView = CAImageView::createWithImage(CAImage::create("common/dsky_bg.png"));
 	imageView->setImageViewScaleType(CAImageViewScaleTypeFitImageXY);
 	button->setBackGroundViewForState(CAControlStateAll, imageView);

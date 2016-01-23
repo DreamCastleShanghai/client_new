@@ -17,6 +17,15 @@ struct userInfo
     std::string m_imageUrl;
 };
 
+struct photoMsg
+{
+	int picId;
+	int userId;
+	std::string m_imageUrl;
+	std::string caterory;
+	std::string comment;
+};
+
 struct surveyDetail
 {
     int m_surveyId;

@@ -6,9 +6,17 @@
 #define _T(x) L##x
 #define CHAR    wchar_t
 
-static const std::string httpUrl = "a";// "http://10.88.225.37:8080/sap";//"http://10.88.225.99:8080/login";//"http://localhost/httpUrl";
+static const std::string httpUrl = "q";// "http://10.88.225.37:8080/sap";//"http://10.88.225.99:8080/login";//"http://localhost/httpUrl";
+
+static const std::string imgPreUrl = "http://10.88.225.37:8080/res/";
 
 static const char* loginTag = "L0";
+
+
+static const char* momentsTag[2] =
+{
+	"PL0", "PML0"
+};
 
 static const char* noticeTag[2] =
 {
