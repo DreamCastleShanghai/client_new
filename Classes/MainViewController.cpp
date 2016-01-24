@@ -400,8 +400,8 @@ void MainViewController::onRequestFinished(const HttpResponseStatus& status, con
             temp_msg.m_format = v1[index]["Format"].asString();
             temp_msg.m_startTime = v1[index]["StartTime"].asInt64();
 			temp_msg.m_endTime = v1[index]["EndTime"].asInt64();
-            temp_msg.m_likeNum = value[index]["LikeCnt"].asInt64();
-            temp_msg.m_imageUrl = value[index]["Logo"].asString();
+            temp_msg.m_likeNum = v1[index]["LikeCnt"].asInt64();
+            temp_msg.m_imageUrl = v1[index]["Logo"].asString();
             temp_msg.m_stored = v1[index]["CollectionFlag"].asBool();
 			temp_msg.m_liked = v1[index]["LikeFlag"].asBool();
             //temp_msg.m_done = v1[index]["Done"].asBool();

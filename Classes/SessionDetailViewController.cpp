@@ -305,16 +305,16 @@ void SessionDetailViewController::onRequestFinished(const HttpResponseStatus& st
 		if (value["r"].asString() == "1")
 		{
 			const CSJson::Value& v1 = value["s"];
-			m_detailMsg.m_sessionId = v1["SessionId"].asInt();
-			m_detailMsg.m_detail = v1["Description"].asString();
-			const CSJson::Value& v2 = value["s"]["sp"];
+			m_detailMsg.m_sessionId = v1[0]["SessionId"].asInt();
+			m_detailMsg.m_detail = v1[0]["Description"].asString();
+			const CSJson::Value& v2 = value["sp"];
 			for (int i = 0; i < v2.size(); i++)
 			{
 				speakerMsg speaker;
-				speaker.name = crossapp_format_string("%s %s", v2["LastName"].asCString(), v2["FirstName"].asCString());
-				speaker.title = v2["Title"].asString();
-				speaker.iconUrl = v2["Icon"].asString();
-				speaker.role = v2["Role"].asString();
+				speaker.name = crossapp_format_string("%s %s", v2[i]["FirstName"].asCString(), v2[i]["LastName"].asCString());
+				speaker.title = v2[i]["Title"].asString();
+				speaker.iconUrl = v2[i]["Icon"].asString();
+				speaker.role = v2[i]["Role"].asString();
 				m_detailMsg.m_speaker.push_back(speaker);
 			}
 		}
@@ -394,7 +394,7 @@ void SessionDetailViewController::requestLike()
 		key_value["uid"] = crossapp_format_string("%d", FDataManager::getInstance()->getUserId());
 		key_value["v"] = crossapp_format_string("%d", 1);
 		//key_value["sign"] = getSign(key_value);
-		CommonHttpManager::getInstance()->send_post(httpUrl, key_value, this, CommonHttpJson_selector(SessionDetailViewController::onStoreRequestFinished));
+		CommonHttpManager::getInstance()->send_post(httpUrl, key_value, this, CommonHttpJson_selector(SessionDetailViewController::onLikeRequestFinished));
 	}
 }
 

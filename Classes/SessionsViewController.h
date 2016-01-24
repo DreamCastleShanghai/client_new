@@ -8,7 +8,7 @@
 
 USING_NS_CC;
 
-#define m_filterNum 8
+#define m_filterNum 12
 
 typedef struct
 {

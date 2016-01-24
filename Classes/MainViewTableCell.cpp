@@ -159,7 +159,7 @@ void MainViewTableCell::requestLike()
 		key_value["uid"] = crossapp_format_string("%d", FDataManager::getInstance()->getUserId());
 		key_value["v"] = crossapp_format_string("%d", 1);
 		//key_value["sign"] = getSign(key_value);
-		CommonHttpManager::getInstance()->send_post(httpUrl, key_value, this, CommonHttpJson_selector(MainViewTableCell::onStoreRequestFinished));
+		CommonHttpManager::getInstance()->send_post(httpUrl, key_value, this, CommonHttpJson_selector(MainViewTableCell::onLikeRequestFinished));
 	}
 }
 

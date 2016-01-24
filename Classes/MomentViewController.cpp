@@ -310,7 +310,7 @@ void MomentViewController::onRequestAllFinished(const HttpResponseStatus& status
     {
         //showAlert();
     }
-    
+#ifdef LOCALTEST
     {
 		for (int i = 0; i < 5; i++)
 		{
@@ -329,7 +329,7 @@ void MomentViewController::onRequestAllFinished(const HttpResponseStatus& status
 		refreshAllFilterMsg(m_currentCategory.c_str());
 		m_currentAllNum += 5;
     }
-    
+#endif
 	m_msgTableView->reloadData();
 
     if (p_pLoading)

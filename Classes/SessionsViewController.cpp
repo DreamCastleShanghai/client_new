@@ -626,10 +626,11 @@ CAListViewCell* SessionsViewController::listViewCellAtIndex(CAListView *listView
 CATableViewCell* SessionsViewController::tableCellAtIndex(CATableView* table, const DSize& cellSize, unsigned int section, unsigned int row)
 {
     DSize _size = cellSize;
-    MainViewTableCell* cell = dynamic_cast<MainViewTableCell*>(table->dequeueReusableCellWithIdentifier("CrossApp"));
+	MainViewTableCell* cell = dynamic_cast<MainViewTableCell*>(table->dequeueReusableCellWithIdentifier(crossapp_format_string("%d", m_msgFilter[row]->m_sessionId).c_str()));
+
     if (cell == NULL)
     {
-        cell = MainViewTableCell::create("CrossApp", DRect(0, 0, _size.width, _size.height));
+		cell = MainViewTableCell::create(crossapp_format_string("%d", m_msgFilter[row]->m_sessionId).c_str(), DRect(0, 0, _size.width, _size.height));
 		cell->initWithCell(*m_msgFilter[row]);
     }
   
