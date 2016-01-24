@@ -1,22 +1,21 @@
 
-#include "PhotoViewController.h"
+#include "IconUploadViewController.h"
 #include "MainViewTableCell.h"
 #include "RootWindow.h"
 #include "SessionsSearchViewController.h"
 #include "utils/HttpConnect.h"
-#include "PhotoViewController.h"
 
-PhotoViewController::PhotoViewController()
-{
-dle_ren_index = 0;
-}
-
-PhotoViewController::~PhotoViewController()
+IconUploadViewController::IconUploadViewController()
 {
 
 }
 
-void PhotoViewController::viewDidLoad()
+IconUploadViewController::~IconUploadViewController()
+{
+
+}
+
+void IconUploadViewController::viewDidLoad()
 {
     // Do any additional setup after loading the view from its nib.
     m_winSize = this->getView()->getBounds().size;
@@ -30,7 +29,7 @@ void PhotoViewController::viewDidLoad()
     imageView->setImageViewScaleType(CAImageViewScaleTypeFitImageXY);
     imageView->setFrame(DRect(_px(20), _px(20), _px(80), _px(80)));
     button->setBackGroundViewForState(CAControlStateAll, imageView);
-    button->addTarget(this, CAControl_selector(PhotoViewController::buttonCallBack), CAControlEventTouchUpInSide);
+    button->addTarget(this, CAControl_selector(IconUploadViewController::buttonCallBack), CAControlEventTouchUpInSide);
     button->setTag(20);
     this->getView()->addSubview(button);
     
@@ -39,7 +38,7 @@ void PhotoViewController::viewDidLoad()
     imageView->setImageViewScaleType(CAImageViewScaleTypeFitImageXY);
     imageView->setFrame(DRect(_px(20), _px(20), _px(80), _px(80)));
     button->setBackGroundViewForState(CAControlStateAll, imageView);
-    button->addTarget(this, CAControl_selector(PhotoViewController::buttonCallBack), CAControlEventTouchUpInSide);
+    button->addTarget(this, CAControl_selector(IconUploadViewController::buttonCallBack), CAControlEventTouchUpInSide);
     button->setTag(30);
     this->getView()->addSubview(button);
     
@@ -58,7 +57,7 @@ void PhotoViewController::viewDidLoad()
     imageView->setImageViewScaleType(CAImageViewScaleTypeFitImageXY);
     imageView->setFrame(DRect(_px(20), _px(20), _px(80), _px(80)));
     button->setBackGroundViewForState(CAControlStateAll, imageView);
-    button->addTarget(this, CAControl_selector(PhotoViewController::buttonCallBack), CAControlEventTouchUpInSide);
+    button->addTarget(this, CAControl_selector(IconUploadViewController::buttonCallBack), CAControlEventTouchUpInSide);
     button->setTag(30);
     this->getView()->addSubview(button);
     
@@ -66,14 +65,14 @@ void PhotoViewController::viewDidLoad()
     CCLog("%f", CAApplication::getApplication()->getWinSize().width);
 }
 
-void PhotoViewController::viewDidUnload()
+void IconUploadViewController::viewDidUnload()
 {
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
 }
 
 
-void PhotoViewController::buttonCallBack(CAControl* btn, DPoint point)
+void IconUploadViewController::buttonCallBack(CAControl* btn, DPoint point)
 {
     if(btn->getTag()==2) {
         DSize winSize = m_winSize;
@@ -100,7 +99,7 @@ void PhotoViewController::buttonCallBack(CAControl* btn, DPoint point)
         imageView->setImage(rm->getImageView()->getImage());
         renderImage->addSubview(imageView);
         
-        CAScheduler::schedule(schedule_selector(PhotoViewController::scheduleFuck), this, 3);
+        CAScheduler::schedule(schedule_selector(IconUploadViewController::scheduleFuck), this, 3);
     }
     else if (btn->getTag() == 20)
     {
@@ -113,11 +112,11 @@ void PhotoViewController::buttonCallBack(CAControl* btn, DPoint point)
     }
 }
 
-void PhotoViewController::scheduleFuck(float dt)
+void IconUploadViewController::scheduleFuck(float dt)
 {
     
     if (dle_ren_index>=1) {
-        CAScheduler::unschedule(schedule_selector(PhotoViewController::scheduleFuck), this);
+        CAScheduler::unschedule(schedule_selector(IconUploadViewController::scheduleFuck), this);
         if (renderImage!=NULL)
         {
             this->getView()->removeSubview(renderImage);
@@ -131,7 +130,7 @@ void PhotoViewController::scheduleFuck(float dt)
     
 }
 
-CADrawView* PhotoViewController::getStencil(const DSize& size, int index)
+CADrawView* IconUploadViewController::getStencil(const DSize& size, int index)
 {
     if (index == 0)
     {
@@ -162,7 +161,7 @@ CADrawView* PhotoViewController::getStencil(const DSize& size, int index)
     return NULL;
 }
 
-void PhotoViewController::getSelectedImage(CAImage *image)
+void IconUploadViewController::getSelectedImage(CAImage *image)
 {
     DSize winSize = DSize(m_winSize.width, m_winSize.height - _px(120));
     DRect scrollRect;
@@ -225,7 +224,7 @@ void PhotoViewController::getSelectedImage(CAImage *image)
     render_btn->setCenter(DRect(winSize.width/2, winSize.height-100, 100, 50));
     render_btn->setTitleForState(CAControlStateNormal, "Click");
     render_btn->setTitleColorForState(CAControlStateNormal, ccc4(51,204,255,255));
-    render_btn->addTarget(this, CAControl_selector(PhotoViewController::buttonCallBack), CAControlEventTouchUpInSide);
+    render_btn->addTarget(this, CAControl_selector(IconUploadViewController::buttonCallBack), CAControlEventTouchUpInSide);
     render_btn->setTag(2);
     this->getView()->addSubview(render_btn);
 }

@@ -67,12 +67,19 @@ void MyStatusViewController::viewDidLoad()
     m_pointView->setVisible(false);
     this->getView()->addSubview(m_pointView);
     
+
+	CAButton* button = CAButton::createWithFrame(DRect((m_winSize.width - _px(120)) / 2, _px(30), _px(120), _px(120)), CAButtonTypeCustom);
+	button->addTarget(this, CAControl_selector(MyStatusViewController::buttonCallBack), CAControlEventTouchUpInSide);
+	button->setTag(400);
+	m_pointView->addSubview(button);
+
     m_urlImageView = CommonUrlImageView::createWithImage(CAImage::create("common/head_bg.png"));
     //createWithFrame(DRect(_px(30), _px(40), _px(80), _px(80)));
-    m_urlImageView->setFrame(DRect((m_winSize.width - _px(120)) / 2, _px(30), _px(120), _px(120)));
+    m_urlImageView->setFrame(DRect(0, 0, _px(120), _px(120)));
     m_urlImageView->setImageViewScaleType(CAImageViewScaleTypeFitImageCrop);
     m_urlImageView->setImage(CAImage::create("common/bg.png"));
-    m_pointView->addSubview(m_urlImageView);
+	button->addSubview(m_urlImageView);
+
     m_nameLabel = CALabel::createWithFrame(DRect((m_winSize.width - _px(200)) / 2, _px(170), _px(200), _px(35)));
     m_nameLabel->setFontSize(_px(30));
     m_nameLabel->setColor(CAColor_white);
@@ -244,123 +251,138 @@ void MyStatusViewController::buttonCallBack(CAControl* btn, DPoint point)
         m_navType = 2;
         switchNavType(m_navType);
     }
+	else if (btn->getTag() == 400)
+	{
+
+	}
 }
 
 void MyStatusViewController::onRequestFinished(const HttpResponseStatus& status, const CSJson::Value& json)
 {
-    if (status == HttpResponseSucceed)
-    {
-        CSJson::FastWriter writer;
-        string tempjson = writer.write(json);
-        CCLog("receive json == %s",tempjson.c_str());
-        
-        const CSJson::Value& value = json["result"];
-        int length = value.size();
-        m_msg->clear();
-        m_filterMsg.clear();
-        for (int index = 0; index < length; index++)
-        {
-            sessionMsg temp_msg;
-            temp_msg.m_sessionId = value[index]["SessionId"].asInt();
-            temp_msg.m_title = value[index]["SessionTitle"].asString();
-            temp_msg.m_location = value[index]["Location"].asString();
-            temp_msg.m_detail = value[index]["SessionDescription"].asString();
-            temp_msg.m_lecturer = crossapp_format_string("%s %s", value[index]["FirstName"].asString().c_str(), value[index]["LastName"].asString().c_str());
-            temp_msg.m_lecturerEmail = value[index]["Email"].asString();
-            temp_msg.m_track = value[index]["Track"].asString();
-            temp_msg.m_format = value[index]["Format"].asString();
-            temp_msg.m_startTime = value[index]["StarTime"].asInt64();
-            temp_msg.m_endTime = value[index]["EndTime"].asInt();
-            temp_msg.m_likeNum = 20;//value[index]["lkn"].asInt();
-            temp_msg.m_imageUrl = "http://imgsrc.baidu.com/forum/pic/item/53834466d0160924a41f433bd50735fae6cd3452.jpg";//value[index]["img"].asString();
-            temp_msg.m_stored = value[index]["Stored"].asBool();
-            temp_msg.m_done = value[index]["Done"].asBool();
-            m_msg->push_back(temp_msg);
-        }
-        userInfo uInfo;
-        uInfo.m_userId = 101;
-        uInfo.m_userName = "Alex Chen";
-        uInfo.m_point = 100;
-        uInfo.m_pointRank = 20;
-        uInfo.m_imageUrl = "http://imgsrc.baidu.com/forum/pic/item/53834466d0160924a41f433bd50735fae6cd3452.jpg";
-        FDataManager::getInstance()->setUserInfo(uInfo);
-        
-        quickSort(m_msg, 0, (int)m_msg->size() - 1);
-        for (std::vector<sessionMsg>::iterator it = m_msg->begin(); it != m_msg->end(); it++)
-        {
-            if(it->m_stored)
-            {
-                m_filterMsg.push_back(&(*it));
-            }
-        }
-        userInfo* info = FDataManager::getInstance()->getUserInfo();
-        if (info->m_userId > 0)
-        {
-            m_urlImageView->setUrl(info->m_imageUrl);
-            m_nameLabel->setText(info->m_userName);
-            m_pointLabel[0]->setText(crossapp_format_string("%d", info->m_point));
-        }
-    }
-    else
-    {
-        //showAlert();
-    }
-    
-    {
-        m_msg->clear();
-        m_filterMsg.clear();
-        srand((int)getTimeSecond());
-        for (int i = 0; i < 17; i++)
-        {
-            sessionMsg temp_msg;
-            temp_msg.m_sessionId = 200 + i;
-            temp_msg.m_title = "Customer Success";
-            
-            temp_msg.m_location = "Lisa Chen";
-            temp_msg.m_detail = "This is Photoshop's version of Lorem Ipsum. \
-            This is Photoshop's version of Lorem Ipsum. \
-            This is Photoshop's version of Lorem Ipsum. ";
-            temp_msg.m_lecturer = "Lisa Chen";
-            temp_msg.m_lecturerEmail = "coostein@hotmail.com";
-            temp_msg.m_track = "Customer";
-            temp_msg.m_format = "Dev Faire";
-			temp_msg.m_startTime = getTimeSecond() + i * 3600;// +((rand() % 10) - 5) * 3600;
-			CCLog("%d %ld %ld", ((rand() % 10) - 5) * 3600, getTimeSecond(), temp_msg.m_startTime);
-			temp_msg.m_endTime = temp_msg.m_startTime + (i + 1) * 3600;// +rand() % 3900;
-            temp_msg.m_likeNum = 20;
-            temp_msg.m_stored = (bool)(rand() % 2);
-            temp_msg.m_imageUrl =
-            "http://imgsrc.baidu.com/forum/pic/item/53834466d0160924a41f433bd50735fae6cd3452.jpg";
-            //"http://img1.gtimg.com/14/1468/146894/14689486_980x1200_0.png";
-            temp_msg.m_stored = (bool)(rand() % 2);
-            temp_msg.m_done = (bool)(rand() % 2);
-            m_msg->push_back(temp_msg);
-            
-            userInfo uInfo;
-            uInfo.m_userId = 101;
-            uInfo.m_userName = "Alex Chen";
-            uInfo.m_point = 100;
-            uInfo.m_pointRank = 20;
-            uInfo.m_imageUrl = "http://imgsrc.baidu.com/forum/pic/item/53834466d0160924a41f433bd50735fae6cd3452.jpg";
-            FDataManager::getInstance()->setUserInfo(uInfo);
-            
-            userInfo* info = FDataManager::getInstance()->getUserInfo();
-            if (info->m_userId > 0)
-            {
-                m_urlImageView->setUrl(info->m_imageUrl);
-                m_nameLabel->setText(info->m_userName);
-                m_pointLabel[0]->setText(crossapp_format_string("%d", info->m_point));
-            }
-        }
-        quickSort(m_msg, 0, (int)m_msg->size() - 1);
-        for (std::vector<sessionMsg>::iterator it = m_msg->begin(); it != m_msg->end(); it++)
-        {
-            if(it->m_stored)
-            {
-                m_filterMsg.push_back(&(*it));
-            }
-        }
-    }
+	if (status == HttpResponseSucceed && !json.empty())
+	{
+		CSJson::FastWriter writer;
+		string tempjson = writer.write(json);
+		//CCLog("receive json == %s",tempjson.c_str());
+
+		const CSJson::Value& value = json["result"];
+		FDataManager::getInstance()->setDiffServerTime(value["stime"].asInt64());
+
+		m_msg->clear();
+		m_filterMsg.clear();
+
+		const CSJson::Value& v1 = json["result"]["sel"];
+		int length = v1.size();
+		for (int index = 0; index < length; index++)
+		{
+			sessionMsg temp_msg;
+			temp_msg.m_sessionId = v1[index]["SessionId"].asInt();
+			temp_msg.m_title = v1[index]["Title"].asString();
+			temp_msg.m_location = v1[index]["Location"].asString();
+			temp_msg.m_track = v1[index]["Track"].asString();
+			temp_msg.m_format = v1[index]["Format"].asString();
+			temp_msg.m_startTime = v1[index]["StartTime"].asInt64();
+			temp_msg.m_endTime = v1[index]["EndTime"].asInt();
+			temp_msg.m_likeNum = value[index]["LikeCnt"].asInt();
+			temp_msg.m_imageUrl = value[index]["Logo"].asString();
+			temp_msg.m_stored = v1[index]["CollectionFlag"].asBool();
+			temp_msg.m_liked = v1[index]["LikeFlag"].asBool();
+			//temp_msg.m_done = v1[index]["Done"].asBool();
+			temp_msg.m_point = v1[index]["Point"].asBool();
+			m_msg->push_back(temp_msg);
+		}
+		const CSJson::Value& v2 = json["result"]["usr"];
+		userInfo uInfo;
+		uInfo.m_loginName = v2["LoginName"].asString();
+		uInfo.m_userId = FDataManager::getInstance()->getUserId();
+		uInfo.m_userName = crossapp_format_string("%s %s", v2["LastName"].asString().c_str(), v2["FirstName"].asString().c_str());
+		uInfo.m_point = v2["Score"].asInt();
+		uInfo.m_imageUrl = v2["Icon"].asString();
+		uInfo.m_eggVoted = v2["EggVoted"].asBool();
+		uInfo.m_demoVoteIdVec.clear();
+		uInfo.m_voiceVoteIdVec.clear();
+		int voteId = v2["DemoJamId1"].asInt();
+		if (voteId != -1)
+		{
+			uInfo.m_demoVoteIdVec.push_back(voteId);
+		}
+		voteId = v2["DemoJamId2"].asInt();
+		if (voteId != -1)
+		{
+			uInfo.m_demoVoteIdVec.push_back(voteId);
+		}
+		voteId = v2["VoiceVoteId1"].asInt();
+		if (voteId != -1)
+		{
+			uInfo.m_voiceVoteIdVec.push_back(voteId);
+		}
+		voteId = v2["VoiceVoteId2"].asInt();
+		if (voteId != -1)
+		{
+			uInfo.m_voiceVoteIdVec.push_back(voteId);
+		}
+		FDataManager::getInstance()->setUserInfo(uInfo);
+
+		quickSort(m_msg, 0, (int)m_msg->size() - 1);
+
+		m_filterMsg.clear();
+		for (std::vector<sessionMsg>::iterator it = m_msg->begin(); it != m_msg->end(); it++)
+		{
+			if (it->m_stored && it->m_endTime > getTimeSecond())
+			{
+				m_filterMsg.push_back(&(*it));
+			}
+		}
+	}
+	else
+	{
+		//showAlert();
+	}
+#ifdef LOCALTEST
+	{
+		m_msg->clear();
+
+		for (int i = 0; i < 17; i++)
+		{
+			sessionMsg temp_msg;
+			temp_msg.m_sessionId = 200 + i;
+			temp_msg.m_title = "Customer Success";
+
+			temp_msg.m_location = "Lisa Chen";
+			temp_msg.m_track = "Customer";
+			temp_msg.m_format = "Dev Faire";
+			temp_msg.m_startTime = getTimeSecond();
+			temp_msg.m_endTime = temp_msg.m_startTime + 3900;
+			temp_msg.m_likeNum = 20;
+			temp_msg.m_stored = (bool)(rand() % 2);
+			temp_msg.m_imageUrl =
+				"http://imgsrc.baidu.com/forum/pic/item/53834466d0160924a41f433bd50735fae6cd3452.jpg";
+			//"http://img1.gtimg.com/14/1468/146894/14689486_980x1200_0.png";
+			temp_msg.m_liked = (bool)(rand() % 2);
+			//temp_msg.m_done = (bool)(rand() % 2);
+			temp_msg.m_point = 22;
+			m_msg->push_back(temp_msg);
+
+			userInfo uInfo;
+			uInfo.m_userId = 101;
+			uInfo.m_userName = "Alex Chen";
+			uInfo.m_point = 100;
+			uInfo.m_pointRank = 20;
+			uInfo.m_imageUrl = "http://imgsrc.baidu.com/forum/pic/item/53834466d0160924a41f433bd50735fae6cd3452.jpg";
+			FDataManager::getInstance()->setUserInfo(uInfo);
+		}
+		quickSort(m_msg, 0, (int)m_msg->size() - 1);
+		m_filterMsg.clear();
+		for (std::vector<sessionMsg>::iterator it = m_msg->begin(); it != m_msg->end(); it++)
+		{
+			if (it->m_stored && it->m_endTime > getTimeSecond())
+			{
+				m_filterMsg.push_back(&(*it));
+			}
+		}
+	}
+#endif
+
     initMsgTableView();
     if (p_pLoading)
     {

@@ -129,7 +129,7 @@ void NoticeViewController::onRequestFinished(const HttpResponseStatus& status, c
     {
         //showAlert();
     }
-    
+#ifdef LOCALTEST
     {
 		for (int i = 0; i < 5; i++)
 		{
@@ -143,7 +143,7 @@ void NoticeViewController::onRequestFinished(const HttpResponseStatus& status, c
 			m_msg.push_back(temp);
 		}
     }
-    
+#endif
     if (p_pLoading)
     {
         p_pLoading->stopAnimating();

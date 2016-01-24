@@ -5,9 +5,8 @@
 
 MainViewTableCell::MainViewTableCell()
 : m_titleLabel(NULL),
-m_lectureLabel(NULL),
-m_isStore(true),
-m_urlImageView(NULL)
+  m_isStore(true),
+  m_urlImageView(NULL)
 {
 	this->setAllowsSelected(false);
 }
@@ -40,10 +39,12 @@ void MainViewTableCell::selectedTableViewCell()
 	this->setBackgroundView(CAView::createWithColor(ccc4(0, 0, 0, 64)));
 }
 
-void MainViewTableCell::initWithCell()
+void MainViewTableCell::initWithCell(sessionMsg &msg)
 {
 	DSize _size = this->getFrame().size;
     
+	m_msg = &msg;
+
     m_urlImageView = CommonUrlImageView::createWithImage(CAImage::create("common/bg.png"));
     //createWithFrame(DRect(_px(30), _px(40), _px(80), _px(80)));
     m_urlImageView->setFrame(DRect(_px(30), _px(40), _px(80), _px(80)));
@@ -64,24 +65,23 @@ void MainViewTableCell::initWithCell()
     m_timeLabel->setFontSize(_px(28));
     this->getContentView()->addSubview(m_timeLabel);
     
-	m_lectureLabel = CALabel::createWithFrame(DRect(_px(140), _px(130), _size.width / 2, _px(25)));
-	m_lectureLabel->setColor(ccc4(0xa1, 0xa1, 0xa1, 0xff));
-	m_lectureLabel->setTextAlignment(CATextAlignmentLeft);
-	m_lectureLabel->setFontSize(_px(20));
-	this->getContentView()->addSubview(m_lectureLabel);
-    
-    m_lectureDetailLabel = CALabel::createWithFrame(DRect(_px(140), _px(165), _size.width - _px(210), _px(25)));
-    m_lectureDetailLabel->setColor(ccc4(0xa1, 0xa1, 0xa1, 0xff));
-    m_lectureDetailLabel->setTextAlignment(CATextAlignmentLeft);
-    m_lectureDetailLabel->setFontSize(_px(20));
-    this->getContentView()->addSubview(m_lectureDetailLabel);
+	m_locationLabel = CALabel::createWithFrame(DRect(_px(140), _px(165), _size.width - _px(210), _px(25)));
+	m_locationLabel->setColor(ccc4(0xa1, 0xa1, 0xa1, 0xff));
+	m_locationLabel->setTextAlignment(CATextAlignmentLeft);
+	m_locationLabel->setFontSize(_px(20));
+	this->getContentView()->addSubview(m_locationLabel);
 
     CAView* view = CAView::createWithFrame(DRect(_size.width - _px(140), _px(40), _px(100), _px(50)));
-    
-    CAImageView* likeImg = CAImageView::createWithImage(CAImage::create("common/btn_like.png"));
-    likeImg->setImageViewScaleType(CAImageViewScaleTypeFitViewByHorizontal);
-    likeImg->setFrame(DRect(0, 0, _px(50), _px(50)));
-    view->addSubview(likeImg);
+	this->getContentView()->addSubview(view);
+
+	m_likeBtnImage = CAImageView::createWithImage(CAImage::create("common/btn_like.png"));
+	m_likeBtnImage->setImageViewScaleType(CAImageViewScaleTypeFitViewByHorizontal);
+	CAButton* button = CAButton::createWithFrame(DRect(0, 0, _px(50), _px(50)), CAButtonTypeRoundedRect);
+	button->setAllowsSelected(true);
+	button->setBackGroundViewForState(CAControlStateAll, m_likeBtnImage);
+	button->setTag(300);
+	button->addTarget(this, CAControl_selector(MainViewTableCell::buttonCallback), CAControlEventTouchUpInSide);
+	view->addSubview(button);
     
     m_likeNumLabel = CALabel::createWithFrame(DRect(_px(50), _px(20), _px(50), _px(30)));
     m_likeNumLabel->setColor(ccc4(0xa1, 0xa1, 0xa1, 0xff));
@@ -89,7 +89,6 @@ void MainViewTableCell::initWithCell()
     m_likeNumLabel->setVerticalTextAlignmet(CAVerticalTextAlignmentCenter);
     m_likeNumLabel->setFontSize(_px(28));
     view->addSubview(m_likeNumLabel);
-    this->getContentView()->addSubview(view);
     
     CAImageView* imageView = CAImageView::createWithImage(CAImage::create("common/btn_rightarrow.png"));
     imageView->setImageViewScaleType(CAImageViewScaleTypeFitViewByHorizontal);
@@ -98,50 +97,83 @@ void MainViewTableCell::initWithCell()
     
     m_storeBtnImage = CAImageView::createWithImage(CAImage::create("common/btn_collect_pre.png"));
     m_storeBtnImage->setImageViewScaleType(CAImageViewScaleTypeFitViewByHorizontal);
-    CAButton* storeBtn = CAButton::createWithFrame(DRect(_size.width - _px(200), _px(40), _px(50), _px(50)), CAButtonTypeRoundedRect);
-    storeBtn->setAllowsSelected(true);
-    storeBtn->setBackGroundViewForState(CAControlStateAll, m_storeBtnImage);
-    storeBtn->addTarget(this, CAControl_selector(MainViewTableCell::storeBtnCallBack), CAControlEventTouchUpInSide);
-    this->getContentView()->addSubview(storeBtn);
+	button = CAButton::createWithFrame(DRect(_size.width - _px(200), _px(40), _px(50), _px(50)), CAButtonTypeRoundedRect);
+	button->setAllowsSelected(true);
+	button->setBackGroundViewForState(CAControlStateAll, m_storeBtnImage);
+	button->setTag(200);
+	button->addTarget(this, CAControl_selector(MainViewTableCell::buttonCallback), CAControlEventTouchUpInSide);
+	this->getContentView()->addSubview(button);
+
+	m_titleLabel->setText(m_msg->m_title);
+	m_locationLabel->setText(crossapp_format_string("Location: %s", m_msg->m_location.c_str()));
+	m_timeLabel->setText(crossapp_format_string("%s - %s", timeToString(m_msg->m_startTime).c_str(), timeToString(m_msg->m_endTime).c_str()));//%lld
+	m_likeNumLabel->setText(crossapp_format_string("%d", m_msg->m_likeNum));
+	m_urlImageView->setUrl(m_msg->m_imageUrl);
+
+	m_isStore = m_msg->m_stored;
+	m_canStore = true;
+	if (m_isStore)
+	{
+		m_storeBtnImage->setImage(CAImage::create("common/btn_collect_pre.png"));
+	}
+	else
+	{
+		m_storeBtnImage->setImage(CAImage::create("common/btn_collect.png"));
+	}
+
+	m_canLike = !(m_msg->m_liked);
+	if (m_canLike)
+	{
+		m_likeBtnImage->setImage(CAImage::create("common/btn_like.png"));
+	}
+	else
+	{
+		m_likeBtnImage->setImage(CAImage::create("common/btn_like_pre.png"));
+	}
+
 }
 
-void MainViewTableCell::setModel(sessionMsg &cellmodel)
+void MainViewTableCell::requstStore()
 {
-    m_msgInfo = &cellmodel;
-    
-    m_titleLabel->setText(cellmodel.m_title);
-    m_lectureLabel->setText(cellmodel.m_lecturer);
-    m_lectureDetailLabel->setText(cellmodel.m_detail);
-    m_timeLabel->setText(crossapp_format_string("%s - %s", timeToString(cellmodel.m_startTime).c_str(), timeToString(cellmodel.m_endTime).c_str()));//%lld
-    m_likeNumLabel->setText(crossapp_format_string("%d", cellmodel.m_likeNum));
-    m_urlImageView->setUrl(cellmodel.m_imageUrl);
-    
-    m_isStore = cellmodel.m_stored;
-    m_canStore = true;
-    if (m_isStore)
-    {
-        m_storeBtnImage->setImage(CAImage::create("common/btn_collect_pre.png"));
-    }
-    else
-    {
-        m_storeBtnImage->setImage(CAImage::create("common/btn_collect.png"));
-    }
+	if (m_canStore)
+	{
+		std::map<std::string, std::string> key_value;
+		key_value["tag"] = sessionViewTag[1];
+		key_value["sid"] = crossapp_format_string("%d", m_msg->m_sessionId);
+		key_value["uid"] = crossapp_format_string("%d", FDataManager::getInstance()->getUserId());
+		key_value["v"] = crossapp_format_string("%d", m_isStore ? 1 : 0);
+		//key_value["sign"] = getSign(key_value);
+		CommonHttpManager::getInstance()->send_post(httpUrl, key_value, this, CommonHttpJson_selector(MainViewTableCell::onStoreRequestFinished));
+
+		m_canStore = false;
+	}
 }
 
-void MainViewTableCell::storeBtnCallBack(CAControl* btn, DPoint point)
+void MainViewTableCell::requestLike()
 {
-    if (m_canStore)
-    {
-        std::map<std::string, std::string> key_value;
-        key_value["tag"] = sessionViewTag[1];
-        key_value["sid"] = crossapp_format_string("%d", m_msgInfo->m_sessionId);
-        key_value["uid"] = crossapp_format_string("%d", FDataManager::getInstance()->getUserId());
-        //key_value["sto"] = crossapp_format_string("%d", m_isStore ? 1 : 0);
-        //key_value["sign"] = getSign(key_value);
-        CommonHttpManager::getInstance()->send_post(httpUrl, key_value, this, CommonHttpJson_selector(MainViewTableCell::onStoreRequestFinished));
-        
-        m_canStore = false;
-    }
+	if (m_canLike)
+	{
+		std::map<std::string, std::string> key_value;
+		key_value["tag"] = sessionViewTag[2];
+		key_value["sid"] = crossapp_format_string("%d", m_msg->m_sessionId);
+		key_value["uid"] = crossapp_format_string("%d", FDataManager::getInstance()->getUserId());
+		key_value["v"] = crossapp_format_string("%d", 1);
+		//key_value["sign"] = getSign(key_value);
+		CommonHttpManager::getInstance()->send_post(httpUrl, key_value, this, CommonHttpJson_selector(MainViewTableCell::onStoreRequestFinished));
+	}
+}
+
+void MainViewTableCell::buttonCallback(CAControl* btn, DPoint point)
+{
+	if (btn->getTag() == 200)
+	{
+		requstStore();
+	}
+	else if (btn->getTag() == 300)
+	{
+		requestLike();
+	}
+    
 }
 
 void MainViewTableCell::onStoreRequestFinished(const HttpResponseStatus& status, const CSJson::Value& json)
@@ -154,7 +186,7 @@ void MainViewTableCell::onStoreRequestFinished(const HttpResponseStatus& status,
         CCLog("receive json == %s",tempjson.c_str());
         
         m_isStore = !m_isStore;
-        m_msgInfo->m_stored = m_isStore;
+        m_msg->m_stored = m_isStore;
         if (m_isStore)
         {
             m_storeBtnImage->setImage(CAImage::create("common/btn_collect_pre.png"));
@@ -165,4 +197,20 @@ void MainViewTableCell::onStoreRequestFinished(const HttpResponseStatus& status,
         }
     }
     m_canStore = true;
+}
+
+void MainViewTableCell::onLikeRequestFinished(const HttpResponseStatus& status, const CSJson::Value& json)
+{
+	if (status == HttpResponseSucceed)
+	{
+		m_msg->m_likeNum += 1;
+		m_msg->m_liked = true;
+		m_canLike = false;
+		m_likeNumLabel->setText(crossapp_format_string("%d", m_msg->m_likeNum));
+		m_likeBtnImage->setImage(CAImage::create("common/btn_like_pre.png"));
+	}
+	else
+	{
+		m_canLike = !(m_msg->m_liked);
+	}
 }

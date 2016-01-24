@@ -46,7 +46,7 @@ public:
 
 	void onRequestFinished(const HttpResponseStatus& status, const CSJson::Value& json);
 
-	void onRefreshRequestFinished(const HttpResponseStatus& status, const CSJson::Value& json);
+	//void onRefreshRequestFinished(const HttpResponseStatus& status, const CSJson::Value& json);
 
 	void buttonCallBack(CAControl* btn, DPoint point);
 

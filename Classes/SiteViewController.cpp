@@ -147,15 +147,6 @@ void SiteViewController::onRequestFinished(const HttpResponseStatus& status, con
 	{
 		const CSJson::Value& value = json["result"];
 
-		m_msg.m_sessionId = value["sid"].asInt();
-		m_msg.m_title = value["title"].asString();
-		m_msg.m_lecturer = value["lct"].asString();
-		m_msg.m_track = value["trk"].asString();
-		m_msg.m_format = value["fmt"].asString();
-		m_msg.m_startTime = value["trk"].asInt64();
-		m_msg.m_endTime = value["drt"].asInt();
-		m_msg.m_likeNum = value["lkn"].asInt();
-		m_msg.m_imageUrl = value["image"].asString();
 	}
 	else
 	{
@@ -163,16 +154,7 @@ void SiteViewController::onRequestFinished(const HttpResponseStatus& status, con
 	}
 
 	{
-		m_msg.m_sessionId = 200;
-		m_msg.m_title = "Customer Success";
-		m_msg.m_lecturer = "Lisa Chen";
-		m_msg.m_track = "Customer";
-		m_msg.m_format = "Dev Faire";
-		cc_timeval ct;
-		CCTime::gettimeofdayCrossApp(&ct, NULL);
-		m_msg.m_startTime = ct.tv_sec + 3500;
-		m_msg.m_likeNum = 20;
-		m_msg.m_imageUrl = "http://www.qq745.com/uploads/allimg/141220/1-141220161Z4.jpg";
+
 	}
 
 	if (m_pLoading)

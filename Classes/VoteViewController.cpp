@@ -386,7 +386,7 @@ void VoteViewController::onRequestFinished(const HttpResponseStatus& status, con
     {
         //showAlert();
     }
-    
+#ifdef LOCALTEST
     {
         struct cc_timeval tp;
         getTimeval(&tp, NULL);
@@ -438,7 +438,7 @@ void VoteViewController::onRequestFinished(const HttpResponseStatus& status, con
             }
         }
     }
-    
+#endif
     if (p_pLoading)
     {
         p_pLoading->stopAnimating();

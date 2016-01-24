@@ -123,7 +123,7 @@ void LoginViewController::btnCallBack(CAControl* btn, DPoint point)
         key_value["tag"] = loginTag;
         key_value["usr"]= accout;
         key_value["pwd"]= passwd;
-        key_value["sign_method"]="md5";
+        //key_value["sign_method"]="md5";
         //key_value["sign"] = getSign(key_value);
         CommonHttpManager::getInstance()->send_post(httpUrl, key_value, this,
                                                    CommonHttpJson_selector(LoginViewController::onRequestLoginFinished));

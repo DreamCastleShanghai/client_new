@@ -20,7 +20,7 @@ class SessionDetailViewController :
     
 public:
 
-	SessionDetailViewController(sessionMsg& msg);
+	SessionDetailViewController(sessionMsg &msg);
     
 	virtual ~SessionDetailViewController();
     
@@ -30,7 +30,7 @@ protected:
     
     void viewDidUnload();
 
-    void initMsgTableView();
+    void initView();
     
 	void buttonCallBack(CAControl* btn, DPoint point);
 
@@ -40,18 +40,21 @@ protected:
 
 	void onRequestFinished(const HttpResponseStatus& status, const CSJson::Value& json);
     
-    void storeBtnCallBack(CAControl* btn, DPoint point);
+	void requestLike();
+	void onLikeRequestFinished(const HttpResponseStatus& status, const CSJson::Value& json);
+
+    void requestStore();
     
     void onStoreRequestFinished(const HttpResponseStatus& status, const CSJson::Value& json);
     
 private:
 
 	DSize													m_winSize;
-
 	CAView*													m_surveyButtonView[2];
 	CALabel*												m_surveyTimeLabel;
 
 	sessionMsg*                                             m_msg;
+	sessionDetailMsg										m_detailMsg;
     bool                                                    m_canStore;
     bool                                                    m_isStore;
     CAImageView*                                            m_storeBtnImage;
@@ -59,8 +62,10 @@ private:
 	bool                                                    m_canLike;
 	bool                                                    m_isLiked;
 	CAImageView*                                            m_likeBtnImage;
+	CALabel*												m_likeNumLabel;
 
-	surveyFeedBack											m_feedBack;
+	CAView*													p_alertView;
+	CAActivityIndicatorView*								p_pLoading;
 };
 
 

@@ -135,6 +135,7 @@
     <ClCompile Include="..\Classes\FDataManager.cpp" />
     <ClCompile Include="..\Classes\FirstViewController.cpp" />
     <ClCompile Include="..\Classes\fview\FSegmentView.cpp" />
+    <ClCompile Include="..\Classes\IconUploadViewController.cpp" />
     <ClCompile Include="..\Classes\libqrencode\bitstream.c" />
     <ClCompile Include="..\Classes\libqrencode\mask.c" />
     <ClCompile Include="..\Classes\libqrencode\mmask.c" />
@@ -172,6 +173,7 @@
     <ClInclude Include="..\Classes\FDataManager.h" />
     <ClInclude Include="..\Classes\FirstViewController.h" />
     <ClInclude Include="..\Classes\fview\FSegmentView.h" />
+    <ClInclude Include="..\Classes\IconUploadViewController.h" />
     <ClInclude Include="..\Classes\libqrencode\bitstream.h" />
     <ClInclude Include="..\Classes\libqrencode\mask.h" />
     <ClInclude Include="..\Classes\libqrencode\mmask.h" />

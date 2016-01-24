@@ -5,23 +5,33 @@
 #include "CrossApp.h"
 #include "CommonHttpManager.h"
 
+//#define LOCALTEST
+
 struct userInfo
 {
     int         m_userId;
+	std::string m_loginName;
     std::string m_userName;
+	vector<int> m_demoVoteIdVec;
+	vector<int> m_voiceVoteIdVec;
+	bool		m_eggVoted;
+	std::string m_imageUrl;
     int         m_point;
+
     int         m_pointRank;
     int         m_lastPointRank;
     vector<int> m_hasPrizeId;
-    int         m_voteProjectId;
-    std::string m_imageUrl;
 };
 
 struct photoMsg
 {
 	int picId;
 	int userId;
+	int likeNum;
+	bool liked;
 	std::string m_imageUrl;
+	std::string m_iconUrl;
+	std::string name;
 	std::string caterory;
 	std::string comment;
 };
@@ -56,9 +66,11 @@ struct pointMsg
 
 struct newsPage
 {
+	std::string m_tag;
+	std::string m_imageUrl;
+
     int         m_titleId;
     std::string m_title;
-    std::string m_imageUrl;
 };
 
 struct sessionMsg
@@ -66,20 +78,41 @@ struct sessionMsg
     int         m_sessionId;
     time_t      m_serverTime;
     std::string m_title;
-    std::string m_detail;
-    std::string m_lecturer;
-    std::string m_lecturerEmail;
-    std::string m_location;
     std::string m_track;
     std::string m_format;
-    time_t      m_startTime;
-    time_t      m_endTime;
-    int         m_likeNum;
-    std::string m_imageUrl;
-    bool        m_stored;
+    std::string m_location;   
+	time_t      m_startTime;
+	time_t      m_endTime;
+	int         m_point;
+	std::string m_imageUrl;
 	bool		m_liked;
+    int         m_likeNum;
+    bool        m_stored;
+	
     bool        m_done;
-    int         m_point;
+};
+
+struct speakerMsg
+{
+	std::string name;
+	std::string title;
+	std::string iconUrl;
+	std::string role;
+};
+
+struct sessionDetailMsg
+{
+	int         m_sessionId;
+	std::string m_title;
+	std::string m_track;
+	std::string m_format;
+	std::string m_location;
+	time_t      m_startTime;
+	time_t      m_endTime;
+	int         m_point;
+	std::string m_imageUrl;
+	std::string m_detail;
+	std::vector<speakerMsg> m_speaker;
 };
 
 struct voteMsg

@@ -184,7 +184,7 @@ void SurveyViewController::onRequestFinished(const HttpResponseStatus& status, c
 		m_alertLabel->setVisible(true);
         //showAlert();
     }
-    
+#ifdef LOCALTEST
     {
 		for (int i = 0; i < 3; i++)
 		{
@@ -200,7 +200,7 @@ void SurveyViewController::onRequestFinished(const HttpResponseStatus& status, c
 		
 		
     }
-    
+#endif
     if (p_pLoading)
     {
         p_pLoading->stopAnimating();

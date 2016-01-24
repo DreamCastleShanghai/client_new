@@ -126,55 +126,18 @@ void MapViewController::onRequestFinished(const HttpResponseStatus& status, cons
         int length = value.size();
         m_msg.clear();
         
-        for (int index = 3; index < length; index++)
-        {
-            sessionMsg temp_msg;
-            temp_msg.m_sessionId = value[index]["sid"].asInt();
-            temp_msg.m_title = value[index]["til"].asString();
-            temp_msg.m_location = value[index]["loc"].asString();
-            temp_msg.m_detail = value[index]["dtl"].asString();
-            temp_msg.m_lecturer = value[index]["lct"].asString();
-            temp_msg.m_lecturerEmail = value[index]["eml"].asString();
-            temp_msg.m_track = value[index]["trk"].asString();
-            temp_msg.m_format = value[index]["fmt"].asString();
-            temp_msg.m_startTime = value[index]["trk"].asInt64();
-            temp_msg.m_endTime = value[index]["drt"].asInt();
-            temp_msg.m_likeNum = value[index]["lkn"].asInt();
-            temp_msg.m_imageUrl = value[index]["img"].asString();
-            m_msg.push_back(temp_msg);
-        }
     }
     else
     {
         showAlert();
     }
-    
-//    {
-//        m_msg.clear();
-//        for (int i = 0; i < 7; i++)
-//        {
-//            sessionMsg temp_msg;
-//            temp_msg.m_sessionId = 200 + i;
-//            temp_msg.m_title = "Customer Success";
-//            
-//            temp_msg.m_location = "Lisa Chen";
-//            temp_msg.m_detail = "This is Photoshop's version of Lorem Ipsum. \
-//            This is Photoshop's version of Lorem Ipsum. \
-//            This is Photoshop's version of Lorem Ipsum. ";
-//            temp_msg.m_lecturer = "Lisa Chen";
-//            temp_msg.m_lecturerEmail = "coostein@hotmail.com";
-//            temp_msg.m_track = "Customer";
-//            temp_msg.m_format = "Dev Faire";
-//            cc_timeval ct;
-//            CCTime::gettimeofdayCrossApp(&ct, NULL);
-//            temp_msg.m_startTime = ct.tv_sec + 3500;
-//            temp_msg.m_likeNum = 20;
-//            temp_msg.m_imageUrl = "http://imgsrc.baidu.com/forum/pic/item/53834466d0160924a41f433bd50735fae6cd3452.jpg";
-//            //"http://img1.gtimg.com/14/1468/146894/14689486_980x1200_0.png";
-//            m_msg.push_back(temp_msg);
-//        }
-//    }
-    
+
+#ifdef LOCALTEST
+	{
+
+	}
+#endif
+
     if (p_pLoading)
     {
         p_pLoading->stopAnimating();

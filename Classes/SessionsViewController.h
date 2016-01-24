@@ -42,6 +42,8 @@ protected:
     virtual void viewDidDisappear();
 
     void initMsgTableView();
+
+	void refreshTableData();
     
     void refreshTableByTime(int index);
     

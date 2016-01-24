@@ -6,16 +6,16 @@
 #define _T(x) L##x
 #define CHAR    wchar_t
 
-static const std::string httpUrl = "q";// "http://10.88.225.37:8080/sap";//"http://10.88.225.99:8080/login";//"http://localhost/httpUrl";
+static const std::string httpUrl = "http://139.196.195.185:8080/sap";//"http://10.88.225.99:8080/login";//"http://localhost/httpUrl";
 
-static const std::string imgPreUrl = "http://10.88.225.37:8080/res/";
+static const std::string imgPreUrl = "http://139.196.195.185:8080/res/";
 
 static const char* loginTag = "L0";
 
 
-static const char* momentsTag[3] =
+static const char* momentsTag[4] =
 {
-	"PL0", "PML0", "PS0"
+	"PL0", "PML0", "PV0", "PLIKE0"
 };
 
 static const char* noticeTag[2] =
@@ -38,9 +38,14 @@ static const char* mainViewTag[2] =
     "M0", "M1"
 };
 
-static const char* sessionViewTag[2] =
+static const char* sessionViewTag[3] =
 {
-    "S0", "VS0"
+	"SL0", "SC0", "SV0"
+};
+
+static const char* sessionDetailViewTag[2] =
+{
+	"SD0", "SD1"
 };
 
 static const char* voteViewTag[2] =
@@ -71,6 +76,12 @@ static const CHAR* mainBar[3] =
 static const char* filterItem[8] =
 {
     "Customer", "Success", "S/4HANA", "Data", "DB", "Design", "Market", "Other"
+};
+
+#define MOMENTSFILTERNUM 7
+static const char* filterMoments[MOMENTSFILTERNUM] =
+{
+	"all", "developers", "food", "demo", "Voice of SAP", "Demo Jam", "Handsome"
 };
 
 static const char* iconTag[27] =

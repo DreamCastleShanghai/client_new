@@ -141,7 +141,7 @@ void PrizeViewController::onRequestFinished(const HttpResponseStatus& status, co
     {
         //showAlert();
     }
-    
+#ifdef LOCALTEST
     {
         m_pointInfo.m_userId = 100;
         m_pointInfo.m_pointRank = 256;
@@ -150,7 +150,7 @@ void PrizeViewController::onRequestFinished(const HttpResponseStatus& status, co
         m_pointInfo.m_rankLimit = 10;
         m_pointInfo.m_miLimit = 300;
     }
-    
+#endif
     if (p_pLoading)
     {
         p_pLoading->stopAnimating();

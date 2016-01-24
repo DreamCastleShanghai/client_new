@@ -13,6 +13,7 @@ MomentViewController::MomentViewController()
 , m_segType(0)
 , m_currentAllNum(0)
 , m_currentMyNum(0)
+, m_currentCategory("all")
 {
 
 }
@@ -39,16 +40,39 @@ void MomentViewController::viewDidLoad()
     button->addTarget(this, CAControl_selector(MomentViewController::buttonCallBack), CAControlEventTouchUpInSide);
     button->setTag(20);
     this->getView()->addSubview(button);
-    
-    CALabel* label = CALabel::createWithCenter(DRect(m_winSize.width / 2, _px(70), m_winSize.width, _px(40)));
-    label->setTextAlignment(CATextAlignmentCenter);
-    label->setColor(CAColor_white);
-    label->setFontSize(_px(40));
-    label->setText("Moments");
-    label->setFontName("fonts/arial.ttf");
-    sView->addSubview(label);
 
-	label = CALabel::createWithFrame(DRect(0, _px(160), m_winSize.width / 2, _px(40)));
+	button = CAButton::createWithFrame(DRect((m_winSize.width - _px(200)) / 2, _px(20), _px(200), _px(100)), CAButtonTypeCustom);
+	button->setTitleForState(CAControlStateAll, "Moments");
+	button->setTitleFontSize(_px(40));
+	button->setTitleColorForState(CAControlStateAll, CAColor_white);
+
+	button->addTarget(this, CAControl_selector(MomentViewController::buttonCallBack), CAControlEventTouchUpInSide);
+	button->setTag(30);
+	this->getView()->addSubview(button);
+
+	imageView = CAImageView::createWithImage(CAImage::create("session/down.png"));
+	imageView->setImageViewScaleType(CAImageViewScaleTypeFitImageXY);
+	imageView->setFrame(DRect(_px(160), _px(25), _px(60), _px(60)));
+	button->addSubview(imageView);
+
+	button = CAButton::createWithFrame(DRect(m_winSize.width - _px(140), _px(20), _px(100), _px(100)), CAButtonTypeCustom);
+	imageView = CAImageView::createWithImage(CAImage::create("moments/upload_icon.png"));
+	imageView->setImageViewScaleType(CAImageViewScaleTypeFitImageXY);
+	imageView->setFrame(DRect(_px(20), _px(20), _px(80), _px(80)));
+	button->setBackGroundViewForState(CAControlStateAll, imageView);
+	button->addTarget(this, CAControl_selector(MomentViewController::buttonCallBack), CAControlEventTouchUpInSide);
+	button->setTag(40);
+	this->getView()->addSubview(button);
+    
+    //CALabel* label = CALabel::createWithCenter(DRect(m_winSize.width / 2, _px(70), m_winSize.width, _px(40)));
+    //label->setTextAlignment(CATextAlignmentCenter);
+    //label->setColor(CAColor_white);
+    //label->setFontSize(_px(40));
+    //label->setText("Moments");
+    //label->setFontName("fonts/arial.ttf");
+    //sView->addSubview(label);
+
+	CALabel* label = CALabel::createWithFrame(DRect(0, _px(160), m_winSize.width / 2, _px(40)));
 	label->setTextAlignment(CATextAlignmentCenter);
 	label->setColor(CAColor_white);
 	label->setFontSize(_px(40));
@@ -75,7 +99,7 @@ void MomentViewController::viewDidLoad()
 	this->getView()->addSubview(button);
 
 	m_browView = CAScale9ImageView::createWithFrame(DRect(0, _px(230), m_winSize.width / 2, _px(10)));
-	m_browView->setImage(CAImage::create("source_material/stepper_dec_n.png"));
+	m_browView->setImage(CAImage::create("common/gray_bg.png"));
 	this->getView()->addSubview(m_browView);
 
 	for (int i = 0; i < 2; i++)
@@ -110,12 +134,25 @@ void MomentViewController::viewDidLoad()
 	//m_myCollectionView->setVertInterval(_px(0));
 	m_segView[1]->addSubview(m_myCollectionView);
 
-	CAPullToRefreshView* headerRefreshView = CAPullToRefreshView::create(CAPullToRefreshView::CAPullToRefreshTypeHeader);
 	footerRefreshView = CAPullToRefreshView::create(CAPullToRefreshView::CAPullToRefreshTypeFooter);
-	headerRefreshView->setTag(1);
 	footerRefreshView->setTag(1);
-	m_myCollectionView->setHeaderRefreshView(headerRefreshView);
 	m_myCollectionView->setFooterRefreshView(footerRefreshView);
+
+	m_filterView = CAView::createWithFrame(DRect((m_winSize.width - _px(200)) / 2, _px(120), _px(200), _px(80) * MOMENTSFILTERNUM));
+	m_filterView->setColor(ccc4(0, 0, 0, 128));
+	this->getView()->addSubview(m_filterView);
+	m_filterView->setVisible(false);
+
+	for (int i = 0; i < MOMENTSFILTERNUM; i++)// filterMoments
+	{
+		button = CAButton::createWithFrame(DRect(_px(0), _px(100) * i, _px(200), _px(80)), CAButtonTypeCustom);
+		button->addTarget(this, CAControl_selector(MomentViewController::buttonCallBack), CAControlEventTouchUpInSide);
+		button->setTextTag(filterMoments[i]);
+		button->setTitleForState(CAControlStateAll, crossapp_format_string("\#%s", filterMoments[i]));
+		button->setTitleFontSize(_px(30));
+		button->setTitleColorForState(CAControlStateAll, CAColor_gray);
+		m_filterView->addSubview(button);
+	}
 
     requestMsg(Type_all);
     
@@ -145,7 +182,6 @@ void MomentViewController::requestMsg(int type)
 		//key_value["uid"] = crossapp_format_string("%d", FDataManager::getInstance()->getUserId());
 		//key_value["sign"] = getSign(key_value);
 		CommonHttpManager::getInstance()->send_post(httpUrl, key_value, this, CommonHttpJson_selector(MomentViewController::onRequestAllFinished));
-		m_currentAllNum += 5;
 	}
 	else
 	{
@@ -164,12 +200,32 @@ void MomentViewController::requestMsg(int type)
     }
 }
 
+
+void MomentViewController::requestLike(int index)
+{
+	std::map<std::string, std::string> key_value;
+	key_value["tag"] = momentsTag[2];
+	key_value["uid"] = crossapp_format_string("%d", FDataManager::getInstance()->getUserId());
+	key_value["psid"] = crossapp_format_string("%d", index);
+	key_value["v"] = crossapp_format_string("%d", 1);
+	CommonHttpManager::getInstance()->send_post(httpUrl, key_value, this, CommonHttpJson_selector(MomentViewController::onRequestMyFinished));
+}
+
+void MomentViewController::onRequestLikeFinished(const HttpResponseStatus& status, const CSJson::Value& json)
+{
+
+}
+
 void MomentViewController::buttonCallBack(CAControl* btn, DPoint point)
 {
     if (btn->getTag() == 20)
     {
         RootWindow::getInstance()->getRootNavigationController()->popViewControllerAnimated(true);
     }
+	else if (btn->getTag() == 30)
+	{
+		m_filterView->setVisible(!(m_filterView->isVisible()));
+	}
     else if (btn->getTag() == 100)
     {
         this->getView()->removeSubview(p_alertView);
@@ -183,6 +239,7 @@ void MomentViewController::buttonCallBack(CAControl* btn, DPoint point)
 		{
 			requestMsg(m_segType);
 		}
+		m_browView->setFrame(DRect(0, _px(230), m_winSize.width / 2, _px(10)));
 		m_segView[0]->setVisible(true);
 		m_segView[1]->setVisible(false);
     }
@@ -193,8 +250,38 @@ void MomentViewController::buttonCallBack(CAControl* btn, DPoint point)
 		{
 			requestMsg(m_segType);
 		}
+		m_browView->setFrame(DRect(m_winSize.width / 2, _px(230), m_winSize.width / 2, _px(10)));
 		m_segView[0]->setVisible(false);
 		m_segView[1]->setVisible(true);
+	}
+	else if (btn->getTag() >= 300 && btn->getTag() < 400)
+	{
+		requestLike(m_allFilterMsg[btn->getTag() - 300]->picId);
+	}
+	else // filter button
+	{
+		for (int i = 0; i < MOMENTSFILTERNUM; i++)
+		{
+			if (!strcmp(filterMoments[i], btn->getTextTag().c_str()))
+			{
+				m_currentCategory = filterMoments[i];
+				refreshAllFilterMsg(m_currentCategory.c_str());
+				m_msgTableView->reloadData();
+			}
+		}
+		m_filterView->setVisible(false);
+	}
+}
+
+void MomentViewController::refreshAllFilterMsg(const char* category)
+{
+	m_allFilterMsg.clear();
+	for (int i = 0; i < m_allMsg.size(); i++)
+	{
+		if (!(strcmp(m_allMsg[i].caterory.c_str(), category)) || !(strcmp("all", category)))
+		{
+			m_allFilterMsg.push_back(&(m_allMsg[i]));
+		}
 	}
 }
 
@@ -210,10 +297,14 @@ void MomentViewController::onRequestAllFinished(const HttpResponseStatus& status
 			temp.picId = value["pl"][i]["PictureWallId"].asInt();
 			temp.userId = value["pl"][i]["UserId"].asInt();
 			temp.m_imageUrl = crossapp_format_string("%s%s", imgPreUrl.c_str(), value["pl"][i]["Picture"].asCString());
+			temp.m_iconUrl = crossapp_format_string("%s%s", imgPreUrl.c_str(), value["pl"][i]["Icon"].asCString());
 			temp.caterory = value["pl"][i]["Category"].asString();
 			temp.comment = value["pl"][i]["Comment"].asString();
+			temp.name = crossapp_format_string("%s %s", value["pl"][i]["LastName"].asCString(), value["pl"][i]["FirstName"].asCString());
 			m_allMsg.push_back(temp);
 		}
+		refreshAllFilterMsg(m_currentCategory.c_str());
+		m_currentAllNum += length;
     }
     else
     {
@@ -227,10 +318,16 @@ void MomentViewController::onRequestAllFinished(const HttpResponseStatus& status
 			temp.picId = 1;
 			temp.userId = 2;
 			temp.m_imageUrl = "http://img1.gtimg.com/14/1468/146894/14689486_980x1200_0.png";
+			temp.m_iconUrl = "http://imgsrc.baidu.com/forum/pic/item/53834466d0160924a41f433bd50735fae6cd3452.jpg";
+			temp.liked = false;
+			temp.likeNum = 100;
 			temp.caterory = "cate";
 			temp.comment = "comment";
+			temp.name = "Alex Chen";
 			m_allMsg.push_back(temp);
 		}
+		refreshAllFilterMsg(m_currentCategory.c_str());
+		m_currentAllNum += 5;
     }
     
 	m_msgTableView->reloadData();
@@ -253,16 +350,19 @@ void MomentViewController::onRequestMyFinished(const HttpResponseStatus& status,
 			temp.picId = value["pl"][i]["PictureWallId"].asInt();
 			temp.userId = value["pl"][i]["UserId"].asInt();
 			temp.m_imageUrl = crossapp_format_string("%s%s", imgPreUrl.c_str(), value["pl"][i]["Picture"].asCString());
+			temp.m_iconUrl = crossapp_format_string("%s%s", imgPreUrl.c_str(), value["pl"][i]["Icon"].asCString());
 			temp.caterory = value["pl"][i]["Category"].asString();
 			temp.comment = value["pl"][i]["Comment"].asString();
+			temp.name = crossapp_format_string("%s %s", value["pl"][i]["LastName"].asCString(), value["pl"][i]["FirstName"].asCString());
 			m_myMsg.push_back(temp);
 		}
+		m_currentMyNum += length;
 	}
 	else
 	{
 		//showAlert();
 	}
-
+#ifdef LOCALTEST
 	{
 		for (int i = 0; i < 5; i++)
 		{
@@ -270,12 +370,17 @@ void MomentViewController::onRequestMyFinished(const HttpResponseStatus& status,
 			temp.picId = 1;
 			temp.userId = 2;
 			temp.m_imageUrl = "http://img1.gtimg.com/14/1468/146894/14689486_980x1200_0.png";
+			temp.m_iconUrl = "http://imgsrc.baidu.com/forum/pic/item/53834466d0160924a41f433bd50735fae6cd3452.jpg";
+			temp.liked = false;
+			temp.likeNum = 100;
 			temp.caterory = "cate";
 			temp.comment = "comment";
+			temp.name = "Alex Chen";
 			m_myMsg.push_back(temp);
 		}
+		m_currentMyNum += 5;
 	}
-
+#endif
 	m_myCollectionView->reloadData();
 
 	if (p_pLoading)
@@ -322,7 +427,7 @@ CATableViewCell* MomentViewController::tableCellAtIndex(CATableView* table, cons
 {
     DSize _size = cellSize;
     
-	std::string picId = crossapp_format_string("%d", m_allMsg[row].picId);
+	std::string picId = crossapp_format_string("%d", m_allFilterMsg.at(row)->picId);
 	CATableViewCell* cell = dynamic_cast<CATableViewCell*>(table->dequeueReusableCellWithIdentifier(picId.c_str()));
     if (cell == NULL)
     {
@@ -333,7 +438,7 @@ CATableViewCell* MomentViewController::tableCellAtIndex(CATableView* table, cons
 		//CommonUrlImageView::createWithFrame(DRect(0, 0, _size.width, _size.height));
 		temImage->setImageViewScaleType(CAImageViewScaleTypeFitImageCrop);
 		temImage->setImage(CAImage::create("common/bg.png"));
-		temImage->setUrl(m_allMsg[row].m_imageUrl);
+		temImage->setUrl(m_allFilterMsg.at(row)->m_imageUrl);
 		temImage->setTouchEnabled(false);
 		cell->addSubview(temImage);
 
@@ -342,22 +447,52 @@ CATableViewCell* MomentViewController::tableCellAtIndex(CATableView* table, cons
 		cell->addSubview(view);
 
 		temImage = CommonUrlImageView::createWithImage(CAImage::create("common/bg.png"));
-		temImage->setFrame(DRect(0, 0, _size.width, _size.height));
+		temImage->setFrame(DRect(_px(40), _px(20), _px(80), _px(80)));
 		//CommonUrlImageView::createWithFrame(DRect(0, 0, _size.width, _size.height));
-		temImage->setImageViewScaleType(CAImageViewScaleTypeFitImageCrop);
+		temImage->setImageViewScaleType(CAImageViewScaleTypeFitImageInside);
 		temImage->setImage(CAImage::create("common/bg.png"));
-		temImage->setUrl(m_allMsg[row].m_imageUrl);
+		temImage->setUrl(m_allFilterMsg.at(row)->m_iconUrl);
 		temImage->setTouchEnabled(false);
-		cell->addSubview(temImage);
+		view->addSubview(temImage);
+
+		CALabel* label = CALabel::createWithFrame(DRect(_px(140), _px(20), m_winSize.width - _px(140), _px(35)));
+		label->setTextAlignment(CATextAlignmentLeft);
+		label->setColor(CAColor_blue);
+		label->setFontSize(_px(30));
+		label->setText(m_allFilterMsg.at(row)->name);
+		label->setFontName("fonts/arial.ttf");
+		view->addSubview(label);
+
+		label = CALabel::createWithFrame(DRect(_px(140), _px(60), m_winSize.width - _px(140), _px(30)));
+		label->setTextAlignment(CATextAlignmentLeft);
+		label->setColor(CAColor_white);
+		label->setFontSize(_px(25));
+		label->setText(crossapp_format_string("\#%s", m_allFilterMsg.at(row)->caterory.c_str()));
+		label->setFontName("fonts/arial.ttf");
+		view->addSubview(label);
+
+		CAButton* button = CAButton::createWithFrame(DRect(m_winSize.width - _px(160), _px(40), _px(50), _px(50)), CAButtonTypeCustom);
+		CAImageView* imageView = CAImageView::createWithImage(CAImage::create("common/btn_like.png"));
+		imageView->setImageViewScaleType(CAImageViewScaleTypeFitImageXY);
+		imageView->setFrame(DRect(_px(20), _px(20), _px(80), _px(80)));
+		button->setBackGroundViewForState(CAControlStateAll, imageView);
+		button->addTarget(this, CAControl_selector(MomentViewController::buttonCallBack), CAControlEventTouchUpInSide);
+		button->setTag(300 + row);
+		view->addSubview(button);
+
+		label = CALabel::createWithFrame(DRect(m_winSize.width - _px(100), _px(50), _px(200), _px(30)));
+		label->setTextAlignment(CATextAlignmentLeft);
+		label->setColor(CAColor_white);
+		label->setFontSize(_px(25));
+		label->setText(crossapp_format_string("%d", m_allFilterMsg.at(row)->likeNum));
+		label->setFontName("fonts/arial.ttf");
+		view->addSubview(label);
+		m_likeNumLabelVec.push_back(label);
+
     }
     
     return cell;
     
-}
-
-void MomentViewController::scrollViewHeaderBeginRefreshing(CAScrollView* view)
-{
-
 }
 
 void MomentViewController::scrollViewFooterBeginRefreshing(CAScrollView* view)
@@ -381,7 +516,7 @@ unsigned int MomentViewController::numberOfSections(CATableView *table)
 
 unsigned int MomentViewController::numberOfRowsInSection(CATableView *table, unsigned int section)
 {
-    return (int)m_allMsg.size();
+	return (int)m_allFilterMsg.size();
 }
 
 unsigned int MomentViewController::tableViewHeightForRowAtIndexPath(CATableView* table, unsigned int section, unsigned int row)
@@ -427,6 +562,15 @@ CACollectionViewCell* MomentViewController::collectionCellAtIndex(CACollectionVi
 		temImage->setUrl(m_myMsg[row + item].m_imageUrl);
 		temImage->setTouchEnabled(false);
 		p_Cell->addSubview(temImage);
+
+		CAButton* button = CAButton::createWithFrame(DRect(m_winSize.width - _px(160), _px(40), _px(50), _px(50)), CAButtonTypeCustom);
+		CAImageView* imageView = CAImageView::createWithImage(CAImage::create("common/btn_like.png"));
+		imageView->setImageViewScaleType(CAImageViewScaleTypeFitImageXY);
+		imageView->setFrame(DRect(_px(20), _px(20), _px(80), _px(80)));
+		button->setBackGroundViewForState(CAControlStateAll, imageView);
+		button->addTarget(this, CAControl_selector(MomentViewController::buttonCallBack), CAControlEventTouchUpInSide);
+		button->setTag(400 + row);
+		p_Cell->addSubview(button);
 	}
 
 	return p_Cell;

@@ -91,22 +91,16 @@ void SessionsSearchViewController::buttonCallBack(CAControl* btn, DPoint point)
             CCLog("%s", str.c_str());
             string str0 = it->m_title;
             transform(str0.begin(), str0.end(), str0.begin(), ::tolower);
-            string stra = it->m_lecturer;
-            transform(stra.begin(), stra.end(), stra.begin(), ::tolower);
             string strb = it->m_location;
             transform(strb.begin(), strb.end(), strb.begin(), ::tolower);
             string str1 = it->m_track;
             transform(str1.begin(), str1.end(), str1.begin(), ::tolower);
             string str2 = it->m_format;
             transform(str2.begin(), str2.end(), str2.begin(), ::tolower);
-            string str3 = it->m_detail;
-            transform(str3.begin(), str3.end(), str3.begin(), ::tolower);
             if ((str0.find(str)!= string::npos ||
-                 stra.find(str)!= string::npos ||
                  strb.find(str)!= string::npos ||
                  str1.find(str)!= string::npos ||
-                 str2.find(str) != string::npos ||
-                 str3.find(str) != string::npos))
+                 str2.find(str) != string::npos))
             {
                 m_msgFilter.push_back(&(*it));
             }
@@ -122,9 +116,8 @@ CATableViewCell* SessionsSearchViewController::tableCellAtIndex(CATableView* tab
 	if (cell == NULL)
 	{
 		cell = MainViewTableCell::create("CrossApp", DRect(0, 0, _size.width, _size.height));
-		cell->initWithCell();
+		cell->initWithCell(*m_msgFilter[row]);
 	}
-	cell->setModel(*m_msgFilter[row]);
 
 	return cell;
 }

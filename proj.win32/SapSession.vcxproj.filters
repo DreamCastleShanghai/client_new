@@ -117,6 +117,9 @@
     <ClCompile Include="..\Classes\MomentViewController.cpp">
       <Filter>Classes</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\IconUploadViewController.cpp">
+      <Filter>Classes</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -225,6 +228,9 @@
       <Filter>Classes</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\MomentViewController.h">
+      <Filter>Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\IconUploadViewController.h">
       <Filter>Classes</Filter>
     </ClInclude>
   </ItemGroup>

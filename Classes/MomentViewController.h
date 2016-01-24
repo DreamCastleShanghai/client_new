@@ -35,9 +35,15 @@ protected:
 
 	void requestMsg(int type);
 
+	void requestLike(int index);
+
+	void refreshAllFilterMsg(const char* category);
+
 	void onRequestAllFinished(const HttpResponseStatus& status, const CSJson::Value& json);
     
 	void onRequestMyFinished(const HttpResponseStatus& status, const CSJson::Value& json);
+
+	void onRequestLikeFinished(const HttpResponseStatus& status, const CSJson::Value& json);
 
     virtual CATableViewCell* tableCellAtIndex(CATableView* table, const DSize& cellSize, unsigned int section, unsigned int row);
     virtual unsigned int numberOfRowsInSection(CATableView *table, unsigned int section);
@@ -56,7 +62,6 @@ protected:
 	virtual unsigned int numberOfItemsInRowsInSection(CACollectionView *collectionView, unsigned int section, unsigned int row);
 	virtual unsigned int collectionViewHeightForRowAtIndexPath(CACollectionView* collectionView, unsigned int section, unsigned int row);
 
-	virtual void scrollViewHeaderBeginRefreshing(CAScrollView* view);
 	virtual void scrollViewFooterBeginRefreshing(CAScrollView* view);
     
 private:
@@ -68,18 +73,22 @@ private:
 
 	DSize													m_winSize;
 	int														m_segType;
-
+	std::string												m_currentCategory;
 	std::vector<photoMsg>                                   m_allMsg;
+	std::vector<photoMsg*>                                  m_allFilterMsg;
 	std::vector<photoMsg>                                   m_myMsg;
 	int														m_currentAllNum;
 	int														m_currentMyNum;
+	std::vector<CALabel*>									m_likeNumLabelVec;
     
 	CAScale9ImageView*										m_browView;
 	CAView*													m_segView[2];
     CATableView*											m_msgTableView;
 	CACollectionView*										m_myCollectionView;
+	CAView*													m_filterView;
     CAView*													p_alertView;
     CAActivityIndicatorView*								p_pLoading;
+	
 };
 
 
