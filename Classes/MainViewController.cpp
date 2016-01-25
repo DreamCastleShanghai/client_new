@@ -370,7 +370,7 @@ void MainViewController::onRequestFinished(const HttpResponseStatus& status, con
     {
         CSJson::FastWriter writer;
         string tempjson = writer.write(json);
-        //CCLog("receive json == %s",tempjson.c_str());
+        CCLog("receive json == %s",tempjson.c_str());
         
         const CSJson::Value& value = json["result"];
         int length = value["bar"].size();
@@ -380,9 +380,10 @@ void MainViewController::onRequestFinished(const HttpResponseStatus& status, con
         FDataManager::getInstance()->setDiffServerTime(value["stime"].asInt64());
         for (int i = 0; i < length; i++) {
             newsPage temp_page;
-			temp_page.m_tag = value["bar"][i]["ResLabe"].asInt();
-			temp_page.m_imageUrl = value["bar"][i]["Resource"].asString();
+			temp_page.m_tag = value["bar"][i]["ResLabel"].asString();
+			temp_page.m_imageUrl = crossapp_format_string("%s%s", imgPreUrl.c_str(), value["bar"][i]["Resource"].asCString());
 
+            CCLog("m_imageUrl== %s",temp_page.m_imageUrl .c_str());
             //temp_page.m_titleId = value["bar"][i]["tid"].asInt();
             //temp_page.m_title = value["bar"][i]["til"].asString();
             m_page.push_back(temp_page);
@@ -400,8 +401,8 @@ void MainViewController::onRequestFinished(const HttpResponseStatus& status, con
             temp_msg.m_format = v1[index]["Format"].asString();
             temp_msg.m_startTime = v1[index]["StartTime"].asInt64();
 			temp_msg.m_endTime = v1[index]["EndTime"].asInt64();
-            temp_msg.m_likeNum = v1[index]["LikeCnt"].asInt64();
-            temp_msg.m_imageUrl = v1[index]["Logo"].asString();
+            temp_msg.m_likeNum = v1[index]["LikeCnt"].asInt();
+            temp_msg.m_imageUrl = crossapp_format_string("%s%s", imgPreUrl.c_str(), v1[index]["Logo"].asCString());
             temp_msg.m_stored = v1[index]["CollectionFlag"].asBool();
 			temp_msg.m_liked = v1[index]["LikeFlag"].asBool();
             //temp_msg.m_done = v1[index]["Done"].asBool();

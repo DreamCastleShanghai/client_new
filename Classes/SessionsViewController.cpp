@@ -276,8 +276,8 @@ void SessionsViewController::onRequestFinished(const HttpResponseStatus& status,
 			temp_msg.m_format = v1[index]["Format"].asString();
 			temp_msg.m_startTime = v1[index]["StartTime"].asInt64();
 			temp_msg.m_endTime = v1[index]["EndTime"].asInt();
-			temp_msg.m_likeNum = value[index]["LikeCnt"].asInt();
-			temp_msg.m_imageUrl = value[index]["Logo"].asString();
+			temp_msg.m_likeNum = v1[index]["LikeCnt"].asInt();
+			temp_msg.m_imageUrl = crossapp_format_string("%s%s", imgPreUrl.c_str(), v1[index]["Logo"].asCString());
 			temp_msg.m_stored = v1[index]["CollectionFlag"].asBool();
 			temp_msg.m_liked = v1[index]["LikeFlag"].asBool();
 			//temp_msg.m_done = v1[index]["Done"].asBool();

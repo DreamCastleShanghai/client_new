@@ -313,7 +313,7 @@ void SessionDetailViewController::onRequestFinished(const HttpResponseStatus& st
 				speakerMsg speaker;
 				speaker.name = crossapp_format_string("%s %s", v2[i]["FirstName"].asCString(), v2[i]["LastName"].asCString());
 				speaker.title = v2[i]["Title"].asString();
-				speaker.iconUrl = v2[i]["Icon"].asString();
+				speaker.iconUrl = crossapp_format_string("%s%s", imgPreUrl.c_str(), v2[i]["Icon"].asCString());
 				speaker.role = v2[i]["Role"].asString();
 				m_detailMsg.m_speaker.push_back(speaker);
 			}
