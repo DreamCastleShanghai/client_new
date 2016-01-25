@@ -26,6 +26,10 @@ public:
     static DRect& getSessionCellLikeLableRect();
     static DRect& getSessionCellCollectionRect();
     static DRect& getSessionCellDetailArrowRect();
+    
+    static DRect& getSessionDetailDescriptionRect();
+    static DRect& getSessionDetailSpeakerLogoRect();
+    static DRect& getSessionDetailSpeakerNameRect();
 };
 
 #endif /* ConstData_hpp */

@@ -7,6 +7,7 @@
 #include "SessionDetailViewController.h"
 #include "FServerTime.h"
 #include "SurveyViewController.h"
+#include "ConstData.h"
 
 SessionDetailViewController::SessionDetailViewController(sessionMsg &msg)
 : m_msg(&msg),
@@ -76,12 +77,13 @@ void SessionDetailViewController::initView()
 	//m_urlImageView->setImage(CAImage::create("common/bg.png"));
 	//m_urlImageView->setUrl(m_detailMsg.m_speaker[0].iconUrl);
 	//this->getView()->addSubview(m_urlImageView);
+    DRect tempRect;
 
 	CALabel* m_titleLabel = CALabel::createWithFrame(DRect(_px(40), _px(40) + _px(120), m_winSize.width - _px(80), _px(120)));
 	m_titleLabel->setColor(ccc4(0x5f, 0x5f, 0x5f, 0xff));
 	m_titleLabel->setTextAlignment(CATextAlignmentLeft);
 	m_titleLabel->setVerticalTextAlignmet(CAVerticalTextAlignmentBottom);
-	m_titleLabel->setFontSize(_px(32));
+	m_titleLabel->setFontSize(_px(30));
 	m_titleLabel->setText(m_msg->m_title);
 	this->getView()->addSubview(m_titleLabel);
 
@@ -108,35 +110,45 @@ void SessionDetailViewController::initView()
 	this->getView()->addSubview(timeLabel);
 
 
-	CALabel* m_lectureDetailLabel = CALabel::createWithFrame(DRect(_px(40), _px(350) + _px(120), m_winSize.width - _px(80), _px(300)));
+    tempRect = ConstData::getSessionDetailDescriptionRect();
+    tempRect.size.width = m_winSize.width - _px(80);
+	CALabel* m_lectureDetailLabel = CALabel::createWithFrame(tempRect);
 	m_lectureDetailLabel->setColor(ccc4(0xa1, 0xa1, 0xa1, 0xff));
 	m_lectureDetailLabel->setTextAlignment(CATextAlignmentLeft);
-	m_lectureDetailLabel->setFontSize(_px(24));
+	m_lectureDetailLabel->setFontSize(_px(21));
 	m_lectureDetailLabel->setText(m_detailMsg.m_detail);
 	this->getView()->addSubview(m_lectureDetailLabel);
 
-	CALabel* label = CALabel::createWithFrame(DRect(_px(40), _px(770), m_winSize.width - _px(80), _px(35)));
-	label->setColor(CAColor_gray);
-	label->setTextAlignment(CATextAlignmentLeft);
-	label->setFontSize(_px(30));
-	label->setText("Speaker");
-	this->getView()->addSubview(label);
-
-	for (int i = 0; i < m_detailMsg.m_speaker.size(); i++)
-	{
-		CommonUrlImageView* urlImageView = CommonUrlImageView::createWithImage(CAImage::create("common/bg.png"));
-		urlImageView->setFrame(DRect(_px(100) + i * _px(200), _px(820), _px(80), _px(80)));
-		urlImageView->setImage(CAImage::create("common/bg.png"));
-		urlImageView->setUrl(m_detailMsg.m_speaker[i].iconUrl);
-		this->getView()->addSubview(urlImageView);
-
-		label = CALabel::createWithFrame(DRect(_px(40) + i * _px(200), _px(900), _px(200), _px(30)));
-		label->setColor(CAColor_gray);
-		label->setTextAlignment(CATextAlignmentCenter);
-		label->setFontSize(_px(25));
-		label->setText(m_detailMsg.m_speaker[i].name);
-		this->getView()->addSubview(label);
-	}
+    int speakerCnt = m_detailMsg.m_speaker.size();
+    if (speakerCnt > 0) {
+        CALabel* label = CALabel::createWithFrame(DRect(tempRect.origin.x, tempRect.origin.y + tempRect.size.height + _px(50), m_winSize.width - _px(80), _px(35)));
+        label->setColor(ccc4(0x5f, 0x5f, 0x5f, 0xff));
+        label->setTextAlignment(CATextAlignmentLeft);
+        label->setFontSize(_px(30));
+        label->setText("Speaker");
+        this->getView()->addSubview(label);
+        
+        int speakWidth = (m_winSize.width - _px(30 * 2)) / speakerCnt;
+        for (int i = 0; i < speakerCnt; i++)
+        {
+            tempRect = ConstData::getSessionDetailSpeakerLogoRect();
+            tempRect.origin.x = _px(30) + speakWidth * i + (speakWidth - tempRect.size.width) / 2;
+            CommonUrlImageView* urlImageView = CommonUrlImageView::createWithImage(CAImage::create("common/bg.png"));
+            urlImageView->setFrame(tempRect);
+            urlImageView->setImage(CAImage::create("common/bg.png"));
+            urlImageView->setUrl(m_detailMsg.m_speaker[i].iconUrl);
+            this->getView()->addSubview(urlImageView);
+            
+            tempRect = ConstData::getSessionDetailSpeakerNameRect();
+            tempRect.origin.x = _px(30) + speakWidth * i + (speakWidth - tempRect.size.width) / 2;;
+            label = CALabel::createWithFrame(tempRect);
+            label->setColor(CAColor_gray);
+            label->setTextAlignment(CATextAlignmentCenter);
+            label->setFontSize(_px(25));
+            label->setText(m_detailMsg.m_speaker[i].name);
+            this->getView()->addSubview(label);
+        }
+    }
 
 
 	// tail
@@ -198,7 +210,7 @@ void SessionDetailViewController::initView()
 
 	m_surveyButtonView[0] = CAView::createWithFrame(DRect(_px(0), _px(0), _px(400), _px(100)));
 	m_surveyButtonView[0]->setColor(CAColor_clear);
-	label = CALabel::createWithFrame(DRect(_px(0), _px(0), _px(400), _px(100)));
+    CALabel* label = CALabel::createWithFrame(DRect(_px(0), _px(0), _px(400), _px(100)));
 	label->setTextAlignment(CATextAlignmentCenter);
 	label->setVerticalTextAlignmet(CAVerticalTextAlignmentCenter);
 	label->setColor(CAColor_white);
