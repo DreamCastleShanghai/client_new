@@ -111,7 +111,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "200"
             endingLineNumber = "200"
-            landmarkName = "MainViewController::initMsgTableView()"
+            landmarkName = "MainViewController::scrollViewFooterBeginRefreshing(CAScrollView* view)"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
