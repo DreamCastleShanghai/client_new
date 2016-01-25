@@ -4,6 +4,7 @@
 #include "utils/HttpConnect.h"
 #include "RootWindow.h"
 
+#define DEBUG_APP
 
 LoginViewController::LoginViewController()
 {
@@ -112,7 +113,10 @@ void LoginViewController::btnCallBack(CAControl* btn, DPoint point)
     {
         string accout = m_pAccount->getText();
         string passwd = m_pPassword->getText();
-        
+#ifdef DEBUG_APP
+        accout = "Alex";
+        passwd = "001";
+#endif
         if (accout.length() == 0 || passwd.length() == 0) {
             CAAlertView *alertView = CAAlertView::createWithText("Waining !", "Account or password cannot be null !", "OK", NULL);
             alertView->show();

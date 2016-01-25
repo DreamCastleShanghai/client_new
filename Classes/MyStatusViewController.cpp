@@ -548,20 +548,18 @@ CATableViewCell* MyStatusViewController::tableCellAtIndex(CATableView* table, co
         if(cell == NULL && !m_filterMsg.empty())
         {
             int count = 0;
-            for (int i = 0; i < section; i++) {
+            for (int i = 0; i < section; i++)
+            {
                 count += m_rowNumOfSection[i].rowNum;
             }
-            for (int i = 0; i < m_rowNumOfSection[section].rowNum; i++)
-            {
-                sessionMsg* msg = m_filterMsg[count + i];
-                cell = CATableViewCell::create("CrossApp0");
-                CALabel* label = CALabel::createWithFrame(DRect(_px(40), _px(10), _px(300), _px(30)));
-                label->setText(msg->m_title);
-                label->setFontSize(_px(25));
-                label->setVerticalTextAlignmet(CAVerticalTextAlignmentCenter);
-                label->setColor(ccc4(0x3f, 0x3f, 0x3f, 0xff));
-                cell->addSubview(label);
-            }
+            sessionMsg* msg = m_filterMsg[count + row];
+            cell = CATableViewCell::create("CrossApp0");
+            CALabel* label = CALabel::createWithFrame(DRect(_px(40), _px(10), _px(300), _px(30)));
+            label->setText(msg->m_title);
+            label->setFontSize(_px(25));
+            label->setVerticalTextAlignmet(CAVerticalTextAlignmentCenter);
+            label->setColor(ccc4(0x3f, 0x3f, 0x3f, 0xff));
+            cell->addSubview(label);
         }
     }
     else if(m_navType == 1 && !m_filterMsg.empty())
@@ -728,7 +726,18 @@ unsigned int MyStatusViewController::tableViewHeightForRowAtIndexPath(CATableVie
 
 void MyStatusViewController::tableViewDidSelectRowAtIndexPath(CATableView* table, unsigned int section, unsigned int row)
 {
-    if (m_navType == 0 || m_navType == 1)
+    if (m_navType == 0)
+    {
+        int count = 0;
+        for (int i = 0; i < section; i++)
+        {
+            count += m_rowNumOfSection[i].rowNum;
+        }
+        SessionDetailViewController* vc = new SessionDetailViewController(*m_filterMsg[count + row]);
+        vc->init();
+        RootWindow::getInstance()->getRootNavigationController()->pushViewController(vc, true);
+    }
+    if (m_navType == 1)
     {
         SessionDetailViewController* vc = new SessionDetailViewController(m_msg->at(row));
         vc->init();

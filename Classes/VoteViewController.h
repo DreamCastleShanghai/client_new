@@ -10,8 +10,9 @@ USING_NS_CC;
 
 class VoteViewController :
 	public CAViewController,
-    public CAPageViewDelegate,
-    public CCAccelerometerDelegate
+    public CAPageViewDelegate
+//,
+//    public CCAccelerometerDelegate
 {
     
 public:
@@ -43,28 +44,35 @@ protected:
     virtual void pageViewDidBeginTurning(CAPageView* pageView);
     virtual void pageViewDidEndTurning(CAPageView* pageView);
     
-    virtual void didAccelerate(CCAcceleration* pAccelerationValue);
+    //virtual void didAccelerate(CCAcceleration* pAccelerationValue);
     
 private:
 
-	DSize													m_winSize;
-
-    bool                                                    m_canVote;
-    time_t                                                  m_leaveTime;
-    int                                                     m_pageType;
-    int                                                     m_currentPage[2];
+    DSize                                                           m_winSize;
     
-    std::vector<voteMsg>                                    m_msg;
-    std::vector<voteMsg>									m_demoMsg;
-    std::vector<voteMsg>									m_voiceMsg;
-    CAPageView*												m_pageView;
-    CAPageControl*											m_pageControl[2];
-    CAView*                                                 m_detailView;
+    int                                                                 m_navType;
+    std::vector<demoJamMsg>                     m_demoMsg;
+    std::vector<voiceMsg>                               m_voiceMsg;
+    
+    CAView*                                                          m_segView[2];
+    CAPageView*                                                 m_pageView[2];
+    CAPageControl*											  m_pageControl[2];
+    CAView*                                                          m_detailView[2];
+    
+    int                                                                   m_imageHeight;
+    
+    bool                                                                m_canVote;
+    time_t                                                             m_leaveTime;
+    int                                                                    m_pageType;
+    int                                                                    m_currentPage[2];
+    
     
     //CAListView*												m_detailListView;
     CALabel*                                                m_voteLabel;
     CAImageView*                                            m_segBgView[2];
-    CAView*													p_alertView;
+    
+    
+    CAView*                                                         p_alertView;
     CAActivityIndicatorView*								p_pLoading;
 };
 

@@ -115,17 +115,27 @@ struct sessionDetailMsg
 	std::vector<speakerMsg> m_speaker;
 };
 
-struct voteMsg
+struct demoJamMsg
 {
     int         m_projectId;
-    int         m_projectType;
-    std::string m_playerName;
-    std::string m_playerTeam;
+    std::string m_teamName;
+    std::string m_department;
+    std::string m_teamDetail;
+
     time_t      m_playStartTime;
     time_t      m_playEndTime;
-    std::string m_projectLoctaion;
-    std::string m_projectDetail;
     std::string m_imageUrl;
+};
+
+struct voiceMsg
+{
+    int         m_projectId;
+    std::string m_playerName;
+    std::string m_projectName;
+    std::string m_imageUrl;
+    
+    time_t      m_playStartTime;
+    time_t      m_playEndTime;
 };
 
 struct newsImage
