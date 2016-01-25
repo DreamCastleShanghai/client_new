@@ -50,7 +50,12 @@ static const char* sessionDetailViewTag[2] =
 
 static const char* voteViewTag[2] =
 {
-    "V0", "V1"
+    "DVL0", "VL0"
+};
+
+static const char* voteSubmitTag[4] =
+{
+    "DE0", "VE0","DV0","VV0"
 };
 
 static const char* userInfoTag[2] =

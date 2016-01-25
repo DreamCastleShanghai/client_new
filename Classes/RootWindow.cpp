@@ -78,11 +78,6 @@ bool RootWindow::init()
 	m_pRootNavigationController->setNavigationBarHidden(true, false);
     m_pRootNavigationController->setScrollEnabled(false);
 
-#ifdef LOCALTEST
-	int login = 0;
-#else
-	int login = 1;
-#endif
 	if (1)
 	{
 		LoginViewController* _viewController = new LoginViewController();

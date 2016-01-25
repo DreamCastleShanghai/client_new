@@ -129,7 +129,10 @@
 		5C31C8641C47FA0800542BF3 /* SurveyViewController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5C31C8621C47FA0800542BF3 /* SurveyViewController.cpp */; };
 		5C5B694D1C55DE28000C9AA4 /* IconUploadViewController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5C5B69491C55DE28000C9AA4 /* IconUploadViewController.cpp */; };
 		5C5B694E1C55DE28000C9AA4 /* MomentViewController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5C5B694B1C55DE28000C9AA4 /* MomentViewController.cpp */; };
-		5C5B69511C55DEA4000C9AA4 /* upload_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 5C5B69501C55DEA4000C9AA4 /* upload_icon.png */; };
+		5C5B69541C56047F000C9AA4 /* moments in Resources */ = {isa = PBXBuildFile; fileRef = 5C5B69531C56047F000C9AA4 /* moments */; };
+		5C5B69571C566598000C9AA4 /* VoteShakeViewController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5C5B69551C566598000C9AA4 /* VoteShakeViewController.cpp */; };
+		5C5B695A1C566EBE000C9AA4 /* VoteDetailViewController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5C5B69581C566EBE000C9AA4 /* VoteDetailViewController.cpp */; };
+		5C5B695F1C568ADD000C9AA4 /* vote in Resources */ = {isa = PBXBuildFile; fileRef = 5C5B695E1C568ADD000C9AA4 /* vote */; };
 		5C5DE7291C2F9E2300D9A8BC /* sound in Resources */ = {isa = PBXBuildFile; fileRef = 5C5DE7281C2F9E2300D9A8BC /* sound */; };
 		5C5DE7CA1C3035A900D9A8BC /* bitstream.c in Sources */ = {isa = PBXBuildFile; fileRef = 5C5DE7B61C3035A900D9A8BC /* bitstream.c */; };
 		5C5DE7CB1C3035A900D9A8BC /* mask.c in Sources */ = {isa = PBXBuildFile; fileRef = 5C5DE7B81C3035A900D9A8BC /* mask.c */; };
@@ -446,7 +449,12 @@
 		5C5B694A1C55DE28000C9AA4 /* IconUploadViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IconUploadViewController.h; path = ../Classes/IconUploadViewController.h; sourceTree = "<group>"; };
 		5C5B694B1C55DE28000C9AA4 /* MomentViewController.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MomentViewController.cpp; path = ../Classes/MomentViewController.cpp; sourceTree = "<group>"; };
 		5C5B694C1C55DE28000C9AA4 /* MomentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MomentViewController.h; path = ../Classes/MomentViewController.h; sourceTree = "<group>"; };
-		5C5B69501C55DEA4000C9AA4 /* upload_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = upload_icon.png; path = moments/upload_icon.png; sourceTree = "<group>"; };
+		5C5B69531C56047F000C9AA4 /* moments */ = {isa = PBXFileReference; lastKnownFileType = folder; path = moments; sourceTree = "<group>"; };
+		5C5B69551C566598000C9AA4 /* VoteShakeViewController.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = VoteShakeViewController.cpp; path = ../Classes/VoteShakeViewController.cpp; sourceTree = "<group>"; };
+		5C5B69561C566598000C9AA4 /* VoteShakeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VoteShakeViewController.h; path = ../Classes/VoteShakeViewController.h; sourceTree = "<group>"; };
+		5C5B69581C566EBE000C9AA4 /* VoteDetailViewController.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = VoteDetailViewController.cpp; path = ../Classes/VoteDetailViewController.cpp; sourceTree = "<group>"; };
+		5C5B69591C566EBE000C9AA4 /* VoteDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VoteDetailViewController.h; path = ../Classes/VoteDetailViewController.h; sourceTree = "<group>"; };
+		5C5B695E1C568ADD000C9AA4 /* vote */ = {isa = PBXFileReference; lastKnownFileType = folder; path = vote; sourceTree = "<group>"; };
 		5C5DE7281C2F9E2300D9A8BC /* sound */ = {isa = PBXFileReference; lastKnownFileType = folder; path = sound; sourceTree = "<group>"; };
 		5C5DE7B61C3035A900D9A8BC /* bitstream.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = bitstream.c; path = ../Classes/libqrencode/bitstream.c; sourceTree = "<group>"; };
 		5C5DE7B71C3035A900D9A8BC /* bitstream.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = bitstream.h; path = ../Classes/libqrencode/bitstream.h; sourceTree = "<group>"; };
@@ -633,29 +641,40 @@
 		15AA9C4015B7EC450033D6C2 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				1AFAF8B316D35DE700DB1158 /* AppDelegate.cpp */,
+				1AFAF8B416D35DE700DB1158 /* AppDelegate.h */,
+				B0AD93E519207CA300EA40BB /* AppMacros.h */,
+				5C723CF21C1537B300B28BF3 /* CDData.h */,
+				5C723CF31C15381300B28BF3 /* CommonHttpManager.cpp */,
+				5C723CF41C15381300B28BF3 /* CommonHttpManager.h */,
+				5C31C85D1C47388000542BF3 /* FDataManager.cpp */,
+				5C31C85E1C47388000542BF3 /* FDataManager.h */,
+				B0621E1D1AC3ECB0005EBCA7 /* FirstViewController.cpp */,
+				B0621E1E1AC3ECB0005EBCA7 /* FirstViewController.h */,
 				5CFCF7001C3E512600DE4410 /* fview */,
-				5C5DE7B51C30359700D9A8BC /* libqrencode */,
-				5CF668361C194AD0009994C0 /* utils */,
-				5CFA82841C282B730025C9B5 /* MyStatusViewController.cpp */,
-				5CFA82851C282B730025C9B5 /* MyStatusViewController.h */,
-				5CFA82861C282B730025C9B5 /* PrizeViewController.cpp */,
-				5CFA82871C282B730025C9B5 /* PrizeViewController.h */,
 				5C5B69491C55DE28000C9AA4 /* IconUploadViewController.cpp */,
 				5C5B694A1C55DE28000C9AA4 /* IconUploadViewController.h */,
-				5C5B694B1C55DE28000C9AA4 /* MomentViewController.cpp */,
-				5C5B694C1C55DE28000C9AA4 /* MomentViewController.h */,
-				5C31C8621C47FA0800542BF3 /* SurveyViewController.cpp */,
-				5C31C8631C47FA0800542BF3 /* SurveyViewController.h */,
-				5CFCF7041C3EAE0F00DE4410 /* NoticeViewController.cpp */,
-				5CFCF7051C3EAE0F00DE4410 /* NoticeViewController.h */,
-				5CFA82881C282B730025C9B5 /* SiteViewController.cpp */,
-				5CFA82891C282B730025C9B5 /* SiteViewController.h */,
+				5C5DE7B51C30359700D9A8BC /* libqrencode */,
+				5C723CEA1C152BA200B28BF3 /* LoginViewController.cpp */,
+				5C723CEB1C152BA200B28BF3 /* LoginViewController.h */,
+				5CF668371C194EB0009994C0 /* MainViewController.cpp */,
+				5CF668381C194EB0009994C0 /* MainViewController.h */,
+				5C6CEB9D1C1E7058000AE9D2 /* MainViewTableCell.cpp */,
+				5C6CEB9E1C1E7058000AE9D2 /* MainViewTableCell.h */,
 				5CFCF6FA1C3D589600DE4410 /* MapViewController.cpp */,
 				5CFCF6FB1C3D589600DE4410 /* MapViewController.h */,
-				5CFA828A1C282B730025C9B5 /* VoteViewController.cpp */,
-				5CFA828B1C282B730025C9B5 /* VoteViewController.h */,
+				5C5B694B1C55DE28000C9AA4 /* MomentViewController.cpp */,
+				5C5B694C1C55DE28000C9AA4 /* MomentViewController.h */,
+				5CFA82841C282B730025C9B5 /* MyStatusViewController.cpp */,
+				5CFA82851C282B730025C9B5 /* MyStatusViewController.h */,
+				5CFCF7041C3EAE0F00DE4410 /* NoticeViewController.cpp */,
+				5CFCF7051C3EAE0F00DE4410 /* NoticeViewController.h */,
 				5CFA82901C2831260025C9B5 /* PhotoViewController.cpp */,
 				5CFA82911C2831260025C9B5 /* PhotoViewController.h */,
+				5CFA82861C282B730025C9B5 /* PrizeViewController.cpp */,
+				5CFA82871C282B730025C9B5 /* PrizeViewController.h */,
+				B0621E1F1AC3ECB0005EBCA7 /* RootWindow.cpp */,
+				B0621E201AC3ECB0005EBCA7 /* RootWindow.h */,
 				5CFA82791C2824550025C9B5 /* SessionDetailViewController.cpp */,
 				5CFA827A1C2824550025C9B5 /* SessionDetailViewController.h */,
 				5CFA827B1C2824550025C9B5 /* SessionsSearchViewController.cpp */,
@@ -664,24 +683,15 @@
 				217BD6AC1C55FBED00CC2CA3 /* ConstData.h */,
 				5CFA827D1C2824550025C9B5 /* SessionsViewController.cpp */,
 				5CFA827E1C2824550025C9B5 /* SessionsViewController.h */,
-				5C723CF21C1537B300B28BF3 /* CDData.h */,
-				5C31C85D1C47388000542BF3 /* FDataManager.cpp */,
-				5C31C85E1C47388000542BF3 /* FDataManager.h */,
-				5C723CF31C15381300B28BF3 /* CommonHttpManager.cpp */,
-				5C723CF41C15381300B28BF3 /* CommonHttpManager.h */,
-				5CF668371C194EB0009994C0 /* MainViewController.cpp */,
-				5CF668381C194EB0009994C0 /* MainViewController.h */,
-				5C6CEB9D1C1E7058000AE9D2 /* MainViewTableCell.cpp */,
-				5C6CEB9E1C1E7058000AE9D2 /* MainViewTableCell.h */,
-				5C723CEA1C152BA200B28BF3 /* LoginViewController.cpp */,
-				5C723CEB1C152BA200B28BF3 /* LoginViewController.h */,
-				B0621E1D1AC3ECB0005EBCA7 /* FirstViewController.cpp */,
-				B0621E1E1AC3ECB0005EBCA7 /* FirstViewController.h */,
-				B0621E1F1AC3ECB0005EBCA7 /* RootWindow.cpp */,
-				B0621E201AC3ECB0005EBCA7 /* RootWindow.h */,
-				B0AD93E519207CA300EA40BB /* AppMacros.h */,
-				1AFAF8B316D35DE700DB1158 /* AppDelegate.cpp */,
-				1AFAF8B416D35DE700DB1158 /* AppDelegate.h */,
+				5CFA82881C282B730025C9B5 /* SiteViewController.cpp */,
+				5CFA82891C282B730025C9B5 /* SiteViewController.h */,
+				5C31C8621C47FA0800542BF3 /* SurveyViewController.cpp */,
+				5C31C8631C47FA0800542BF3 /* SurveyViewController.h */,
+				5CF668361C194AD0009994C0 /* utils */,
+				5CFA828A1C282B730025C9B5 /* VoteViewController.cpp */,
+				5CFA828B1C282B730025C9B5 /* VoteViewController.h */,
+				5C5B69551C566598000C9AA4 /* VoteShakeViewController.cpp */,
+				5C5B69561C566598000C9AA4 /* VoteShakeViewController.h */,
 			);
 			name = Classes;
 			path = ../classes;
@@ -975,14 +985,6 @@
 			path = gameswf_as_classes;
 			sourceTree = "<group>";
 		};
-		5C5B694F1C55DE8F000C9AA4 /* moments */ = {
-			isa = PBXGroup;
-			children = (
-				5C5B69501C55DEA4000C9AA4 /* upload_icon.png */,
-			);
-			name = moments;
-			sourceTree = "<group>";
-		};
 		5C5DE7B51C30359700D9A8BC /* libqrencode */ = {
 			isa = PBXGroup;
 			children = (
@@ -1012,6 +1014,8 @@
 		5CF668361C194AD0009994C0 /* utils */ = {
 			isa = PBXGroup;
 			children = (
+				5C5B69581C566EBE000C9AA4 /* VoteDetailViewController.cpp */,
+				5C5B69591C566EBE000C9AA4 /* VoteDetailViewController.h */,
 				5CC19D2D1C40BAC900594653 /* FServerTime.cpp */,
 				5CC19D2E1C40BAC900594653 /* FServerTime.h */,
 				5CF6683D1C1952F0009994C0 /* HttpConnect.cpp */,
@@ -1032,7 +1036,8 @@
 		78C7DDAA14EBA5050085D0C2 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				5C5B694F1C55DE8F000C9AA4 /* moments */,
+				5C5B695E1C568ADD000C9AA4 /* vote */,
+				5C5B69531C56047F000C9AA4 /* moments */,
 				5CCDA5271C42091F006AEC61 /* tmp */,
 				5CCDA52B1C420953006AEC61 /* map */,
 				5C5DE7281C2F9E2300D9A8BC /* sound */,
@@ -1130,13 +1135,14 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5C5B69541C56047F000C9AA4 /* moments in Resources */,
 				5CCDA5281C42091F006AEC61 /* tmp in Resources */,
 				5C5DE7291C2F9E2300D9A8BC /* sound in Resources */,
 				5CCDA52C1C420953006AEC61 /* map in Resources */,
-				5C5B69511C55DEA4000C9AA4 /* upload_icon.png in Resources */,
 				026964B31BEB435100C8BCD7 /* CrossApp.xib in Resources */,
 				5CFA82831C2825F90025C9B5 /* session in Resources */,
 				5C6CEBA31C1E709C000AE9D2 /* main in Resources */,
+				5C5B695F1C568ADD000C9AA4 /* vote in Resources */,
 				5C6CEBA21C1E709C000AE9D2 /* login in Resources */,
 				3E02A50E1B85AD6000328E71 /* NOTES.txt in Resources */,
 				3E02A50F1B85AD6000328E71 /* TODO in Resources */,
@@ -1194,6 +1200,7 @@
 				3E02A4E81B85AD6000328E71 /* gameswf_as_sprite.cpp in Sources */,
 				3E02A4EB1B85AD6000328E71 /* gameswf_button.cpp in Sources */,
 				3E02A4E61B85AD6000328E71 /* as_transform.cpp in Sources */,
+				5C5B695A1C566EBE000C9AA4 /* VoteDetailViewController.cpp in Sources */,
 				3E02A4FA1B85AD6000328E71 /* gameswf_log.cpp in Sources */,
 				3E02A4BF1B85AD6000328E71 /* tu_gc_test.cpp in Sources */,
 				3E02A4DC1B85AD6000328E71 /* as_mouse_event.cpp in Sources */,
@@ -1270,6 +1277,7 @@
 				3E02A4DD1B85AD6000328E71 /* as_netconnection.cpp in Sources */,
 				3E02A4F21B85AD6000328E71 /* gameswf_font.cpp in Sources */,
 				3E02A4DE1B85AD6000328E71 /* as_netstream.cpp in Sources */,
+				5C5B69571C566598000C9AA4 /* VoteShakeViewController.cpp in Sources */,
 				3E02A4C71B85AD6000328E71 /* CAFlash.cpp in Sources */,
 				3E02A4B51B85AD6000328E71 /* image.cpp in Sources */,
 				3E02A5031B85AD6000328E71 /* gameswf_shape.cpp in Sources */,

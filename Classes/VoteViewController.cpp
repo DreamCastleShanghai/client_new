@@ -8,18 +8,13 @@
 #include "SessionDetailViewController.h"
 #include "FSegmentView.h"
 #include "FServerTime.h"
+#include "VoteShakeViewController.h"
 
 VoteViewController::VoteViewController()
 : p_alertView(NULL)
 , p_pLoading(NULL)
 , m_canVote(true)
 {
-    for (int i = 0; i < 2; i++)
-    {
-        m_currentPage[i] = 0;
-        m_pageControl[i] = NULL;
-        m_detailView = NULL;
-    }
     
     //CAScheduler::schedule(schedule_selector(CDUIShowView::progressValueChange), this, 0.01, false);
 }
@@ -47,14 +42,14 @@ void VoteViewController::viewDidLoad()
     button->setTag(20);
     this->getView()->addSubview(button);
     
-    button = CAButton::createWithFrame(DRect(m_winSize.width - _px(100), _px(20), _px(100), _px(100)), CAButtonTypeCustom);
-    imageView = CAImageView::createWithImage(CAImage::create("common/nav_forward.png"));
-    imageView->setImageViewScaleType(CAImageViewScaleTypeFitImageXY);
-    imageView->setFrame(DRect(_px(20), _px(20), _px(80), _px(80)));
-    button->setBackGroundViewForState(CAControlStateAll, imageView);
-    button->addTarget(this, CAControl_selector(VoteViewController::buttonCallBack), CAControlEventTouchUpInSide);
-    button->setTag(30);
-    this->getView()->addSubview(button);
+//    button = CAButton::createWithFrame(DRect(m_winSize.width - _px(100), _px(20), _px(100), _px(100)), CAButtonTypeCustom);
+//    imageView = CAImageView::createWithImage(CAImage::create("common/nav_forward.png"));
+//    imageView->setImageViewScaleType(CAImageViewScaleTypeFitImageXY);
+//    imageView->setFrame(DRect(_px(20), _px(20), _px(80), _px(80)));
+//    button->setBackGroundViewForState(CAControlStateAll, imageView);
+//    button->addTarget(this, CAControl_selector(VoteViewController::buttonCallBack), CAControlEventTouchUpInSide);
+//    button->setTag(30);
+//    this->getView()->addSubview(button);
     
     FSegmentView* seg =
         FSegmentView::createWithFrame(DRect((m_winSize.width - 400) / 2, 40, 400, 60), 2);
@@ -65,19 +60,27 @@ void VoteViewController::viewDidLoad()
     seg->setTag(201, 1);
     this->getView()->addSubview(seg);
     
-    DRect r(0, _px(120), m_winSize.width, m_winSize.height - _px(120));
+    
     for (int i = 0; i < 2; i++)
     {
-        m_segBgView[i] = CAImageView::createWithFrame(r);
-        m_segBgView[i]->setImage(CAImage::create(crossapp_format_string("common/vote_%d_bg.jpg", i)));
-        m_segBgView[i]->setTouchEnabled(false);
-        this->getView()->addSubview(m_segBgView[i]);
+        m_segView[i] = CAView::createWithFrame(DRect(0, _px(120), m_winSize.width, m_winSize.height - _px(120)));
+        this->getView()->addSubview(m_segView[i]);
+        
+        imageView = CAImageView::createWithFrame(DRect(0, 0, m_winSize.width, m_winSize.height - _px(120)));
+        imageView->setImage(CAImage::create(crossapp_format_string("common/vote_%d_bg.jpg", i)));
+        imageView->setTouchEnabled(false);
+        m_segView[i]->addSubview(imageView);
+        
+        
     }
-    m_segBgView[1]->setVisible(false);
+    m_navType = 0;
+    m_segView[1]->setVisible(false);
     
-    CAApplication::getApplication()->getAccelerometer()->setDelegate(this);
+    
+   //CAApplication::getApplication()->getAccelerometer()->setDelegate(this);
     
     requestMsg();
+    //initMsgTableView();
     
     CCLog("%f", CAApplication::getApplication()->getWinSize().width);
 }
@@ -90,68 +93,151 @@ void VoteViewController::viewDidUnload()
 
 void VoteViewController::initMsgTableView()
 {
-    if (m_msg.empty())
+    if (m_demoMsg.empty() && m_voiceMsg.empty())
     {
         showAlert();
         return;
     }
     
-    CALabel* label = CALabel::createWithFrame(DRect(0, _px(150), m_winSize.width, _px(100)));
-    label->setText("03:20:28");
-    label->setTextAlignment(CATextAlignmentCenter);
-    label->setVerticalTextAlignmet(CAVerticalTextAlignmentCenter);
-    label->setColor(CAColor_white);
-    label->setFontSize(_px(80));
-    this->getView()->addSubview(label);
+//    CALabel* label = CALabel::createWithFrame(DRect(0, _px(150), m_winSize.width, _px(100)));
+//    label->setText("03:20:28");
+//    label->setTextAlignment(CATextAlignmentCenter);
+//    label->setVerticalTextAlignmet(CAVerticalTextAlignmentCenter);
+//    label->setColor(CAColor_white);
+//    label->setFontSize(_px(80));
+//    this->getView()->addSubview(label);
     
-    CAScrollView* scrollView = CAScrollView::createWithFrame(DRect(_px(20), _px(280), m_winSize.width - _px(40), (m_winSize.width - _px(40)) * 1.19f + _px(500)));
-    scrollView->setHorizontalScrollEnabled(false);
-    scrollView->setVerticalScrollEnabled(true);
-    scrollView->setBounceHorizontal(false);
-    scrollView->setBounds(DRect(0, 0, m_winSize.width - _px(40), m_winSize.height - _px(310)));
-    scrollView->setAnchorPoint(DPoint(0.f, 0.f));
-    scrollView->setShowsHorizontalScrollIndicator(false);
-    scrollView->setShowsVerticalScrollIndicator(false);
-    CCLog("%f %f", scrollView->getAnchorPoint().x, scrollView->getAnchorPoint().y);
-    this->getView()->addSubview(scrollView);
-    
-    DRect r = DRect(_px(0), _px(0), m_winSize.width - _px(40), (m_winSize.width - _px(40)) * 1.19f);
-    m_pageView = CAPageView::createWithFrame(r, CAPageViewDirectionHorizontal);
-    m_pageView->setPageViewDelegate(this);
-    m_pageView->setCurrPage(0, false);
-    m_pageView->setBackGroundColor(CAColor_clear);
-    m_pageType = 0;
-
-    scrollView->addSubview(m_pageView);
-    scrollView->setBackGroundColor(CAColor_clear);
-    //scrollView->setAlpha(0);
-    
-    r = DRect((m_winSize.width - _px(340)) / 2, (m_winSize.width - _px(40)) * 1.19f - _px(50), _px(300), _px(30));
+    float whRatio = 1.33f;
+    m_imageHeight = (m_winSize.width - _px(40)) * whRatio;
     for (int i = 0; i < 2; i++)
     {
+        CAScrollView* scrollView = CAScrollView::createWithFrame(DRect(_px(20), _px(0), m_winSize.width - _px(40), m_imageHeight + _px(320)));
+        //scrollView->setViewSize(DSize(m_winSize.width - _px(40), (m_imageHeight));
+        scrollView->setHorizontalScrollEnabled(false);
+        scrollView->setVerticalScrollEnabled(true);
+        scrollView->setBounceHorizontal(false);
+        scrollView->setBounds(DRect(0, 0, m_winSize.width - _px(40), m_winSize.height - _px(120)));
+        scrollView->setAnchorPoint(DPoint(0.f, 0.f));
+        scrollView->setShowsHorizontalScrollIndicator(false);
+        scrollView->setShowsVerticalScrollIndicator(false);
+        scrollView->setBackGroundColor(CAColor_clear);
+        m_segView[i]->addSubview(scrollView);
+        
+        DRect r = DRect(_px(0), _px(0), m_winSize.width - _px(40), m_imageHeight);
+        m_pageView[i] = CAPageView::createWithFrame(r, CAPageViewDirectionHorizontal);
+        m_pageView[i]->setPageViewDelegate(this);
+        m_pageView[i]->setCurrPage(0, false);
+        m_pageView[i]->setBackGroundColor(CAColor_clear);
+        scrollView->addSubview(m_pageView[i]);
+        
+        r = DRect((m_winSize.width - _px(300)) / 2, m_imageHeight - _px(50), _px(300), _px(50));
         m_pageControl[i] = CAPageControl::createWithFrame(r);
         m_pageControl[i]->setTag(300 + i);
         m_pageControl[i]->addTarget(this, CAControl_selector(VoteViewController::buttonCallBack));
+        if(i == 0)
+        {
+            m_pageControl[i]->setNumberOfPages((int)m_demoMsg.size());
+        }
+        else
+        {
+            m_pageControl[i]->setNumberOfPages((int)m_voiceMsg.size());
+        }
+        m_pageControl[i]->setCurrentPage(0);
+        scrollView->addSubview(m_pageControl[i]);
         
+        m_detailView[i] = CAView::createWithFrame(DRect(_px(40), m_imageHeight + _px(20), m_winSize.width - _px(80), _px(300)));
+        m_detailView[i]->setTouchEnabled(false);
+        m_detailView[i]->setColor(CAColor_clear);
+        scrollView->addSubview(m_detailView[i]);
     }
-    m_pageControl[0]->setNumberOfPages(m_pageView->getPageCount());
-    m_pageControl[1]->setNumberOfPages((int)m_msg.size() - m_pageView->getPageCount());
-    m_pageControl[1]->setVisible(false);
-    scrollView->addSubview(m_pageControl[0]);
-    scrollView->addSubview(m_pageControl[1]);
     
-    m_detailView = CAView::createWithFrame(DRect(0, (m_winSize.width - _px(40)) * 1.19f + _px(20), _px(100), _px(500)));
-    m_detailView->setTouchEnabled(false);
-    m_detailView->setColor(CAColor_clear);
-    scrollView->addSubview(m_detailView);
+    CAVector<CAView* > viewList;
+    for (int i = 0; i < m_demoMsg.size(); i++)
+    {
+        DRect r(0, 0, m_winSize.width - _px(40), m_imageHeight);
+        CommonUrlImageView* temImage = CommonUrlImageView::createWithFrame(r);
+        temImage->setImageViewScaleType(CAImageViewScaleTypeFitImageCrop);
+        temImage->setImage(CAImage::create("common/bg.png"));
+        temImage->setUrl(m_demoMsg[i].m_imageUrl);
+        //temImage->setTouchEnabled(false);
+        
+        CALabel* label = CALabel::createWithFrame(DRect(_px(30), _px(30), _px(150), _px(30)));
+        label->setText(m_demoMsg[i].m_teamName);
+        label->setFontSize(_px(25));
+        label->setTouchEnabled(false);
+        label->setColor(CAColor_white);
+        temImage->addSubview(label);
+        label = CALabel::createWithFrame(DRect(_px(30), _px(60), _px(150), _px(20)));
+        label->setText(m_demoMsg[i].m_department);
+        label->setFontSize(_px(18));
+        label->setTouchEnabled(false);
+        label->setColor(CAColor_white);
+        temImage->addSubview(label);
+        
+        r = DRect((m_winSize.width - _px(200)) / 2,  m_imageHeight - _px(150), _px(200), _px(62));
+        CAButton* button = CAButton::createWithFrame(r, CAButtonTypeCustom);
+        CAImageView* imageView = CAImageView::createWithImage(CAImage::create("vote/d_vote_btn.png"));
+        imageView->setImageViewScaleType(CAImageViewScaleTypeFitImageXY);
+        imageView->setFrame(DRect(_px(20), _px(20), _px(80), _px(80)));
+        button->setTitleForState(CAControlStateAll, "Vote");
+        button->setTitleFontName("fonts/arial.ttf");
+        button->setTitleColorForState(CAControlStateAll, CAColor_white);
+        button->setBackGroundViewForState(CAControlStateAll, imageView);
+        button->addTarget(this, CAControl_selector(VoteViewController::buttonCallBack), CAControlEventTouchUpInSide);
+        button->setTag(400 + i);
+        temImage->addSubview(button);
+        
+        viewList.pushBack(temImage);
+
+    }
+    m_pageView[0]->setViews(viewList);
     
-    refreshPageView(0);
+    viewList.clear();
+    for (int i = 0; i < m_voiceMsg.size(); i++)
+    {
+        DRect r(0, 0, m_winSize.width - _px(40), m_imageHeight);
+        CommonUrlImageView* temImage = CommonUrlImageView::createWithFrame(r);
+        temImage->setImageViewScaleType(CAImageViewScaleTypeFitImageCrop);
+        temImage->setImage(CAImage::create("common/bg.png"));
+        temImage->setUrl(m_voiceMsg[i].m_imageUrl);
+        //temImage->setTouchEnabled(false);
+        
+        CALabel* label = CALabel::createWithFrame(DRect(_px(30), _px(30), _px(150), _px(30)));
+        label->setText(m_voiceMsg[i].m_playerName);
+        label->setFontSize(_px(25));
+        label->setTouchEnabled(false);
+        label->setColor(CAColor_white);
+        temImage->addSubview(label);
+        label = CALabel::createWithFrame(DRect(_px(30), _px(60), _px(150), _px(20)));
+        label->setText(m_voiceMsg[i].m_projectName);
+        label->setFontSize(_px(18));
+        label->setTouchEnabled(false);
+        label->setColor(CAColor_white);
+        temImage->addSubview(label);
+        
+        r = DRect((m_winSize.width - _px(200)) / 2,  m_imageHeight - _px(150), _px(200), _px(62));
+        CAButton* button = CAButton::createWithFrame(r, CAButtonTypeCustom);
+        CAImageView* imageView = CAImageView::createWithImage(CAImage::create("vote/v_vote_btn.png"));
+        imageView->setImageViewScaleType(CAImageViewScaleTypeFitImageXY);
+        imageView->setFrame(DRect(_px(20), _px(20), _px(80), _px(80)));
+        button->setTitleForState(CAControlStateAll, "Vote");
+        button->setTitleFontName("fonts/arial.ttf");
+        button->setTitleColorForState(CAControlStateAll, CAColor_white);
+        button->setBackGroundViewForState(CAControlStateAll, imageView);
+        button->addTarget(this, CAControl_selector(VoteViewController::buttonCallBack), CAControlEventTouchUpInSide);
+        button->setTag(500 + i);
+        temImage->addSubview(button);
+        
+        viewList.pushBack(temImage);
+    }
+    m_pageView[1]->setViews(viewList);
+    
+    setDetailView(0, 0);
+    //refreshPageView(0);
 }
 
 void VoteViewController::setDetailView(int type, int index)
 {
-    m_detailView->removeAllSubviews();
-    
     if (type == 0 && m_demoMsg.empty())
     {
         return;
@@ -160,136 +246,35 @@ void VoteViewController::setDetailView(int type, int index)
     {
         return;
     }
-    DSize _size = DSize(m_winSize.width - _px(40), _px(500));
-    DRect r = DRect(0, 0, _size.width, _px(35));
-    CALabel* label = CALabel::createWithFrame(r);
-    label->setColor(CAColor_white);
-    label->setTextAlignment(CATextAlignmentLeft);
-    label->setVerticalTextAlignmet(CAVerticalTextAlignmentCenter);
-    label->setFontSize(_px(30));
-    if(m_pageType == 0)
-    {
-        label->setText(crossapp_format_string("Time: %s - %s",
-                                              timeToString(m_demoMsg[index].m_playStartTime).c_str(),
-                                              timeToString(m_demoMsg[index].m_playEndTime).c_str()));
-    }
-    else if(m_pageType == 1)
-    {
-        label->setText(crossapp_format_string("Time: %s - %s",
-                                              timeToString(m_voiceMsg[index].m_playStartTime).c_str(),
-                                              timeToString(m_voiceMsg[index].m_playEndTime).c_str()));
-    }
-    m_detailView->addSubview(label);
+    m_detailView[type]->removeAllSubviews();
     
-    r = DRect(0, _px(35), _size.width, _px(35));
-    label = CALabel::createWithFrame(r);
-    label->setColor(CAColor_white);
-    label->setTextAlignment(CATextAlignmentLeft);
-    label->setVerticalTextAlignmet(CAVerticalTextAlignmentCenter);
-    label->setFontSize(_px(30));
-    if(m_pageType == 0)
-    {
-        label->setText(crossapp_format_string("Location: %s",m_demoMsg[index].m_projectLoctaion.c_str()));
-    }
-    else if(m_pageType == 1)
-    {
-        label->setText(crossapp_format_string("Location: %s",m_voiceMsg[index].m_projectLoctaion.c_str()));
-    }
-    m_detailView->addSubview(label);
-    
-    r = DRect(0, _px(100), _size.width, _px(35));
-    label = CALabel::createWithFrame(r);
-    label->setColor(CAColor_white);
-    label->setTextAlignment(CATextAlignmentLeft);
-    label->setVerticalTextAlignmet(CAVerticalTextAlignmentCenter);
-    label->setFontSize(_px(30));
-    label->setText("How to Participate");
-    m_detailView->addSubview(label);
-
-    r = DRect(0, _px(135), _size.width, _px(30));
-    label = CALabel::createWithFrame(r);
-    label->setColor(CAColor_white);
-    label->setTextAlignment(CATextAlignmentLeft);
-    label->setVerticalTextAlignmet(CAVerticalTextAlignmentCenter);
-    label->setFontSize(_px(26));
-    label->setText("Simple shake your phone in the voting process");
-    m_detailView->addSubview(label);
-    
-    r = DRect(0, _px(195), _size.width, _px(35));
-    label = CALabel::createWithFrame(r);
-    label->setColor(CAColor_white);
-    label->setTextAlignment(CATextAlignmentLeft);
-    label->setVerticalTextAlignmet(CAVerticalTextAlignmentCenter);
-    label->setFontSize(_px(30));
-    if(m_pageType == 0)
-    {
-        label->setText(crossapp_format_string("Introduction of %s",m_demoMsg[index].m_playerName.c_str()));
-    }
-    else if(m_pageType == 1)
-    {
-        label->setText(crossapp_format_string("Introduction of %s",m_voiceMsg[index].m_playerName.c_str()));
-    }
-    m_detailView->addSubview(label);
-    
-    r = DRect(0, _px(230), _size.width, _px(270));
-    label = CALabel::createWithFrame(r);
+    DSize _size = DSize(m_winSize.width - _px(80), _px(300));
+    CALabel* label = CALabel::createWithFrame(DRect(0, _px(0), _size.width, _px(300)));
     label->setColor(CAColor_white);
     label->setTextAlignment(CATextAlignmentLeft);
     label->setVerticalTextAlignmet(CAVerticalTextAlignmentTop);
     label->setFontSize(_px(26));
     
-    if(m_pageType == 0)
+    if(type == 0)
     {
-        label->setText(m_demoMsg[index].m_projectDetail.c_str());
+        label->setText(m_demoMsg[index].m_teamDetail.c_str());
     }
-    else if(m_pageType == 1)
-    {
-        label->setText(m_voiceMsg[index].m_projectDetail.c_str());
-    }
-    m_detailView->addSubview(label);
+    m_detailView[type]->addSubview(label);
 }
 
 void VoteViewController::refreshPageView(int index)
 {
-    m_pageType = index;
-    CAVector<CAView* > viewList;
-    for (int i = 0; i < m_msg.size(); i++)
-    {
-        if (m_msg[i].m_projectType != index)
-        {
-            continue;
-        }
-        DRect r(0, 0, m_winSize.width - _px(40), (m_winSize.width - _px(40)) * 1.19f);
-        CommonUrlImageView* temImage = CommonUrlImageView::createWithFrame(r);
-        temImage->setImageViewScaleType(CAImageViewScaleTypeFitImageInside);
-        temImage->setImage(CAImage::create("tmp/Demo.png"));
-        temImage->setUrl(m_msg[i].m_imageUrl);
-        temImage->setTouchEnabled(false);
-        
-        CALabel* label = CALabel::createWithFrame(DRect(_px(30), _px(30), _px(150), _px(30)));
-        label->setText(m_msg[i].m_playerName);
-        label->setFontSize(_px(25));
-        label->setTouchEnabled(false);
-        label->setColor(CAColor_white);
-        temImage->addSubview(label);
-        label = CALabel::createWithFrame(DRect(_px(30), _px(60), _px(150), _px(20)));
-        label->setText(m_msg[i].m_playerTeam);
-        label->setFontSize(_px(18));
-        label->setTouchEnabled(false);
-        label->setColor(CAColor_white);
-        temImage->addSubview(label);
-        viewList.pushBack(temImage);
-    }
-    m_pageView->setViews(viewList);
-    m_pageView->setCurrPage(m_currentPage[m_pageType], false);
-    if (m_pageControl[m_pageType])
-    {
-        m_pageControl[m_pageType]->setCurrentPage(m_currentPage[m_pageType]);
-    }
-    m_segBgView[index]->setVisible(true);
-    m_segBgView[1 - index]->setVisible(false);
-    
-    setDetailView(m_pageType, m_currentPage[m_pageType]);
+//    m_pageType = index;
+
+//    m_pageView->setCurrPage(m_currentPage[m_pageType], false);
+//    if (m_pageControl[m_pageType])
+//    {
+//        m_pageControl[m_pageType]->setCurrentPage(m_currentPage[m_pageType]);
+//    }
+//    m_segBgView[index]->setVisible(true);
+//    m_segBgView[1 - index]->setVisible(false);
+//    
+//    setDetailView(m_pageType, m_currentPage[m_pageType]);
 }
 
 void VoteViewController::requestMsg()
@@ -332,59 +317,80 @@ void VoteViewController::buttonCallBack(CAControl* btn, DPoint point)
     }
     else if (btn->getTag() == 200)
     {
-        if (m_msg.empty()) {
-            return;
-        }
-        refreshPageView(0);
+        m_navType = 0;
+        m_segView[0]->setVisible(true);
+        m_segView[1]->setVisible(false);
     }
     else if (btn->getTag() == 201)
     {
-        if (m_msg.empty()) {
-            return;
-        }
-        refreshPageView(1);
+        m_navType = 1;
+        m_segView[0]->setVisible(false);
+        m_segView[1]->setVisible(true);
     }
     else if (btn->getTag() == 300) // page control
     {
-        
+        CAPageControl* control = (CAPageControl*)btn;
+        setDetailView(0, control->getCurrentPage());
+        m_pageView[0]->setCurrPage(control->getCurrentPage(), true);
     }
+    else if (btn->getTag() == 301) // page control
+    {
+        CAPageControl* control = (CAPageControl*)btn;
+        m_pageView[1]->setCurrPage(control->getCurrentPage(), true);
+    }
+    else if (btn->getTag() >= 400 && btn->getTag() < 500)
+    {
+        VoteShakeViewController* vc = new VoteShakeViewController(&m_demoMsg[btn->getTag() - 400], NULL);
+        vc->init();
+        RootWindow::getInstance()->getRootNavigationController()->pushViewController(vc, true);
+    }
+    else if (btn->getTag() >= 500 && btn->getTag() < 600)
+    {
+        VoteShakeViewController* vc = new VoteShakeViewController(NULL, &m_voiceMsg[btn->getTag() - 500]);
+        vc->init();
+        RootWindow::getInstance()->getRootNavigationController()->pushViewController(vc, true);
+    }
+    
 }
 
 void VoteViewController::onRequestFinished(const HttpResponseStatus& status, const CSJson::Value& json)
 {
     if (status == HttpResponseSucceed)
     {
-        const CSJson::Value& value = json["result"];
-        int length = value.size();
-        m_msg.clear();
+        CSJson::FastWriter writer;
+        string tempjson = writer.write(json);
+        CCLog("receive json == %s",tempjson.c_str());
         
+        const CSJson::Value& value = json["result"];
+        m_demoMsg.clear();
+        m_voiceMsg.clear();
+        
+        int length = value["dl"].size();
         for (int index = 0; index < length; index++)
         {
-            voteMsg temp_msg;
-            temp_msg.m_projectId = value[index]["pid"].asInt();
-            temp_msg.m_projectType = value[index]["pty"].asInt();
-            temp_msg.m_playerName = value[index]["pnm"].asString();
-            temp_msg.m_playerTeam = value[index]["ptm"].asString();
-            temp_msg.m_playStartTime = value[index]["pst"].asInt64();
-            temp_msg.m_playEndTime = value[index]["pset"].asInt64();
-            temp_msg.m_projectLoctaion = value[index]["lct"].asString();
-            temp_msg.m_projectDetail = value[index]["pdl"].asString();
-            temp_msg.m_imageUrl = value[index]["img"].asString();
-            m_msg.push_back(temp_msg);
-            
-            if (temp_msg.m_projectType == 0)
-            {
-                m_demoMsg.push_back(temp_msg);
-            }
-            else if (temp_msg.m_projectType == 1)
-            {
-                m_voiceMsg.push_back(temp_msg);
-            }
+            demoJamMsg temp_msg;
+            temp_msg.m_projectId = value["dl"][index]["DemoJamItemId"].asInt();
+            temp_msg.m_teamName = value["dl"][index]["TeamName"].asString();
+            temp_msg.m_department = value["dl"][index]["Department"].asString();
+            temp_msg.m_teamDetail = value["dl"][index]["Introduction"].asString();
+            temp_msg.m_imageUrl = crossapp_format_string("%s%s", imgPreUrl.c_str(), value["dl"][index]["Resource"].asCString());
+            m_demoMsg.push_back(temp_msg);
+        }
+        
+        length = value["vl"].size();
+        for (int index = 0; index < length; index++)
+        {
+            voiceMsg temp_msg;
+            temp_msg.m_projectId = value["vl"][index]["VoiceItemId"].asInt();
+            temp_msg.m_playerName = value["vl"][index]["VoicerName"].asString();
+            temp_msg.m_projectName = value["vl"][index]["SongName"].asString();
+            temp_msg.m_imageUrl = crossapp_format_string("%s%s", imgPreUrl.c_str(), value["vl"][index]["VoicerPic"].asCString());
+            m_voiceMsg.push_back(temp_msg);
         }
     }
     else
     {
-        //showAlert();
+        showAlert();
     }
 #ifdef LOCALTEST
     {
@@ -392,50 +398,13 @@ void VoteViewController::onRequestFinished(const HttpResponseStatus& status, con
         getTimeval(&tp, NULL);
         for (int index = 0; index < 3; index++)
         {
-            voteMsg temp_msg;
+            demoJamMsg temp_msg;
             temp_msg.m_projectId = index;
-            temp_msg.m_projectType = 0;
-            temp_msg.m_playerName = "TEAM 1";
-            temp_msg.m_playerTeam = "CI&SP";
-            temp_msg.m_playStartTime = tp.tv_sec;
-            temp_msg.m_playEndTime = tp.tv_sec + 3600;
-            temp_msg.m_projectLoctaion = "Shanghai Convention Center";
-            temp_msg.m_projectDetail = "This is Photoshop's version of Lorem Ipsum. This is Photoshop's version of Lorem Ipsum. This is Photoshop's version of Lorem Ipsum. This is Photoshop's version of Lorem Ipsum. This is Photoshop's version of Lorem Ipsum. This is Photoshop's version of Lorem Ipsum.";
-            temp_msg.m_imageUrl = "a";//"http://img1.gtimg.com/14/1468/146894/14689486_980x1200_0.png";
-            m_msg.push_back(temp_msg);
-            
-            if (temp_msg.m_projectType == 0)
-            {
-                m_demoMsg.push_back(temp_msg);
-            }
-            else if (temp_msg.m_projectType == 1)
-            {
-                m_voiceMsg.push_back(temp_msg);
-            }
-        }
-        
-        for (int index = 0; index < 2; index++)
-        {
-            voteMsg temp_msg;
-            temp_msg.m_projectId = index;
-            temp_msg.m_projectType = 1;
-            temp_msg.m_playerName = "TEAM 1";
-            temp_msg.m_playerTeam = "CI&SP";
-            temp_msg.m_playStartTime = tp.tv_sec;
-            temp_msg.m_playEndTime = tp.tv_sec + 3600;
-            temp_msg.m_projectLoctaion = "Shanghai Convention Center";
-            temp_msg.m_projectDetail = "This is Photoshop's version of Lorem Ipsum. This is Photoshop's version of Lorem Ipsum. This is Photoshop's version of Lorem Ipsum. This is Photoshop's version of Lorem Ipsum. This is Photoshop's version of Lorem Ipsum. This is Photoshop's version of Lorem Ipsum.";
-            temp_msg.m_imageUrl = "a";//"http://img1.gtimg.com/14/1468/146894/14689486_980x1200_0.png";
-            m_msg.push_back(temp_msg);
-            
-            if (temp_msg.m_projectType == 0)
-            {
-                m_demoMsg.push_back(temp_msg);
-            }
-            else if (temp_msg.m_projectType == 1)
-            {
-                m_voiceMsg.push_back(temp_msg);
-            }
+            temp_msg.m_teamName = "TEAM 1";
+            temp_msg.m_department = "CI&SP";
+            temp_msg.m_teamDetail = "This is Photoshop's version of Lorem Ipsum. This is Photoshop's version of Lorem Ipsum. This is Photoshop's version of Lorem Ipsum. This is Photoshop's version of Lorem Ipsum. This is Photoshop's version of Lorem Ipsum. This is Photoshop's version of Lorem Ipsum.";
+            temp_msg.m_imageUrl = "http://img1.gtimg.com/14/1468/146894/14689486_980x1200_0.png";
+            m_demoMsg.push_back(temp_msg);
         }
     }
 #endif
@@ -483,23 +452,23 @@ void VoteViewController::pageViewDidBeginTurning(CAPageView* pageView)
 
 void VoteViewController::pageViewDidEndTurning(CAPageView* pageView)
 {
-    setDetailView(m_pageType, m_currentPage[m_pageType]);
-    m_currentPage[m_pageType] = pageView->getCurrPage();
-    m_pageControl[m_pageType]->setCurrentPage(pageView->getCurrPage());
-    m_pageControl[m_pageType]->updateCurrentPageDisplay();
+    if(m_navType == 0)
+         setDetailView(0, pageView->getCurrPage());
+    m_pageControl[m_navType]->setCurrentPage(pageView->getCurrPage());
+    m_pageControl[m_navType]->updateCurrentPageDisplay();
 }
-
-void VoteViewController::didAccelerate(CCAcceleration* pAccelerationValue)
-{
-    float nowGX = (pAccelerationValue->x)*9.81f;
-    float nowGY = (pAccelerationValue->y)*9.81f;
-    
-    float dt = 30.f;
-    if(m_canVote && (nowGX<-dt||nowGX>dt || nowGY<-dt||nowGY>dt))
-    {
-        m_canVote = false;
-        //m_voteLabel->setText("vote success !");
-        CocosDenshion::SimpleAudioEngine::sharedEngine()->playEffect("sound/vote.wav");
-    }
-    
-}
+//
+//void VoteViewController::didAccelerate(CCAcceleration* pAccelerationValue)
+//{
+//    float nowGX = (pAccelerationValue->x)*9.81f;
+//    float nowGY = (pAccelerationValue->y)*9.81f;
+//    
+//    float dt = 30.f;
+//    if(m_canVote && (nowGX<-dt||nowGX>dt || nowGY<-dt||nowGY>dt))
+//    {
+//        m_canVote = false;
+//        //m_voteLabel->setText("vote success !");
+//        CocosDenshion::SimpleAudioEngine::sharedEngine()->playEffect("sound/vote.wav");
+//    }
+//    
+//}

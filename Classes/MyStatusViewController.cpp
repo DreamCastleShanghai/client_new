@@ -295,7 +295,7 @@ void MyStatusViewController::onRequestFinished(const HttpResponseStatus& status,
 		userInfo uInfo;
 		uInfo.m_loginName = v2["LoginName"].asString();
 		uInfo.m_userId = FDataManager::getInstance()->getUserId();
-		uInfo.m_userName = crossapp_format_string("%s %s", v2["LastName"].asString().c_str(), v2["FirstName"].asString().c_str());
+		uInfo.m_userName = crossapp_format_string("%s %s", v2["FirstName"].asString().c_str()), v2["LastName"].asString().c_str();
 		uInfo.m_point = v2["Score"].asInt();
 		uInfo.m_imageUrl = v2["Icon"].asString();
 		uInfo.m_eggVoted = v2["EggVoted"].asBool();
@@ -413,7 +413,7 @@ void MyStatusViewController::onRequestRankFinished(const HttpResponseStatus& sta
     {
         //showAlert();
     }
-    
+#ifdef LOCALTEST
     {
         m_canSwitchPoint = true;
         m_rankMsg.clear();
@@ -432,8 +432,8 @@ void MyStatusViewController::onRequestRankFinished(const HttpResponseStatus& sta
         {
             m_pointLabel[1]->setText(crossapp_format_string("%d", m_rankMsg[9].m_point - info->m_point));
         }
-        
     }
+#endif
 }
 
 void MyStatusViewController::switchNavType(int index)
@@ -548,20 +548,18 @@ CATableViewCell* MyStatusViewController::tableCellAtIndex(CATableView* table, co
         if(cell == NULL && !m_filterMsg.empty())
         {
             int count = 0;
-            for (int i = 0; i < section; i++) {
+            for (int i = 0; i < section; i++)
+            {
                 count += m_rowNumOfSection[i].rowNum;
             }
-            for (int i = 0; i < m_rowNumOfSection[section].rowNum; i++)
-            {
-                sessionMsg* msg = m_filterMsg[count + i];
-                cell = CATableViewCell::create("CrossApp0");
-                CALabel* label = CALabel::createWithFrame(DRect(_px(40), _px(0), _px(300), _px(50)));
-                label->setText(msg->m_title);
-                label->setFontSize(_px(25));
-                label->setVerticalTextAlignmet(CAVerticalTextAlignmentCenter);
-                label->setColor(ccc4(0x3f, 0x3f, 0x3f, 0xff));
-                cell->addSubview(label);
-            }
+            sessionMsg* msg = m_filterMsg[count + row];
+            cell = CATableViewCell::create("CrossApp0");
+            CALabel* label = CALabel::createWithFrame(DRect(_px(40), _px(10), _px(300), _px(30)));
+            label->setText(msg->m_title);
+            label->setFontSize(_px(25));
+            label->setVerticalTextAlignmet(CAVerticalTextAlignmentCenter);
+            label->setColor(ccc4(0x3f, 0x3f, 0x3f, 0xff));
+            cell->addSubview(label);
         }
     }
     else if(m_navType == 1 && !m_filterMsg.empty())
@@ -571,13 +569,13 @@ CATableViewCell* MyStatusViewController::tableCellAtIndex(CATableView* table, co
         {
             sessionMsg* msg = m_filterMsg[row];
             cell = CATableViewCell::create("CrossApp1");
-            CALabel* label = CALabel::createWithFrame(DRect(_px(40), _px(0), _px(300), _px(50)));
+            CALabel* label = CALabel::createWithFrame(DRect(_px(40), _px(10), _px(300), _px(30)));
             label->setText(crossapp_format_string("+%d", msg->m_point));
             label->setFontSize(_px(25));
             label->setVerticalTextAlignmet(CAVerticalTextAlignmentCenter);
             label->setColor(ccc4(0x3f, 0x3f, 0x3f, 0xff));
             cell->addSubview(label);
-            label = CALabel::createWithFrame(DRect(_px(120), _px(0), _px(300), _px(50)));
+            label = CALabel::createWithFrame(DRect(_px(120), _px(10), _px(300), _px(30)));
             label->setText(msg->m_title);
             label->setFontSize(_px(25));
             label->setVerticalTextAlignmet(CAVerticalTextAlignmentCenter);
@@ -599,21 +597,21 @@ CATableViewCell* MyStatusViewController::tableCellAtIndex(CATableView* table, co
             urlImageView->setUrl(m_rankMsg[row].m_imageUrl);
             cell->addSubview(urlImageView);
             
-            CALabel* label = CALabel::createWithFrame(DRect(_px(100), _px(0), _px(300), _px(50)));
+            CALabel* label = CALabel::createWithFrame(DRect(_px(100), _px(10), _px(300), _px(30)));
             label->setText(m_rankMsg[row].m_userName);
             label->setFontSize(_px(25));
             label->setVerticalTextAlignmet(CAVerticalTextAlignmentCenter);
             label->setColor(ccc4(0x3f, 0x3f, 0x3f, 0xff));
             cell->addSubview(label);
             
-            label = CALabel::createWithFrame(DRect(m_winSize.width / 2, _px(0), _px(300), _px(50)));
+            label = CALabel::createWithFrame(DRect(m_winSize.width / 2, _px(10), _px(300), _px(30)));
             label->setText(crossapp_format_string("%d", m_rankMsg[row].m_point));
             label->setFontSize(_px(25));
             label->setVerticalTextAlignmet(CAVerticalTextAlignmentCenter);
             label->setColor(ccc4(0x3f, 0x3f, 0x3f, 0xff));
             cell->addSubview(label);
             
-            label = CALabel::createWithFrame(DRect(m_winSize.width - _px(100), _px(0), _px(300), _px(50)));
+            label = CALabel::createWithFrame(DRect(m_winSize.width - _px(100), _px(10), _px(300), _px(30)));
             label->setText(crossapp_format_string("%d", m_rankMsg[row].m_pointRank));
             label->setFontSize(_px(25));
             label->setVerticalTextAlignmet(CAVerticalTextAlignmentCenter);
@@ -728,7 +726,18 @@ unsigned int MyStatusViewController::tableViewHeightForRowAtIndexPath(CATableVie
 
 void MyStatusViewController::tableViewDidSelectRowAtIndexPath(CATableView* table, unsigned int section, unsigned int row)
 {
-    if (m_navType == 0 || m_navType == 1)
+    if (m_navType == 0)
+    {
+        int count = 0;
+        for (int i = 0; i < section; i++)
+        {
+            count += m_rowNumOfSection[i].rowNum;
+        }
+        SessionDetailViewController* vc = new SessionDetailViewController(*m_filterMsg[count + row]);
+        vc->init();
+        RootWindow::getInstance()->getRootNavigationController()->pushViewController(vc, true);
+    }
+    if (m_navType == 1)
     {
         SessionDetailViewController* vc = new SessionDetailViewController(m_msg->at(row));
         vc->init();
