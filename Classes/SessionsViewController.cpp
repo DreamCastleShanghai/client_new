@@ -626,7 +626,7 @@ CAListViewCell* SessionsViewController::listViewCellAtIndex(CAListView *listView
 CATableViewCell* SessionsViewController::tableCellAtIndex(CATableView* table, const DSize& cellSize, unsigned int section, unsigned int row)
 {
     DSize _size = cellSize;
-	MainViewTableCell* cell = dynamic_cast<MainViewTableCell*>(table->dequeueReusableCellWithIdentifier(crossapp_format_string("%d", m_msgFilter[row]->m_sessionId).c_str()));
+    MainViewTableCell* cell = NULL;//dynamic_cast<MainViewTableCell*>(table->dequeueReusableCellWithIdentifier(crossapp_format_string("%d", m_msgFilter[row]->m_sessionId).c_str()));
 
     if (cell == NULL)
     {

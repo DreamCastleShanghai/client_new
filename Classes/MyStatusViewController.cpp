@@ -295,7 +295,7 @@ void MyStatusViewController::onRequestFinished(const HttpResponseStatus& status,
 		userInfo uInfo;
 		uInfo.m_loginName = v2["LoginName"].asString();
 		uInfo.m_userId = FDataManager::getInstance()->getUserId();
-		uInfo.m_userName = crossapp_format_string("%s %s", v2["LastName"].asString().c_str(), v2["FirstName"].asString().c_str());
+		uInfo.m_userName = crossapp_format_string("%s %s", v2["FirstName"].asString().c_str()), v2["LastName"].asString().c_str();
 		uInfo.m_point = v2["Score"].asInt();
 		uInfo.m_imageUrl = v2["Icon"].asString();
 		uInfo.m_eggVoted = v2["EggVoted"].asBool();
@@ -413,7 +413,7 @@ void MyStatusViewController::onRequestRankFinished(const HttpResponseStatus& sta
     {
         //showAlert();
     }
-    
+#ifdef LOCALTEST
     {
         m_canSwitchPoint = true;
         m_rankMsg.clear();
@@ -432,8 +432,8 @@ void MyStatusViewController::onRequestRankFinished(const HttpResponseStatus& sta
         {
             m_pointLabel[1]->setText(crossapp_format_string("%d", m_rankMsg[9].m_point - info->m_point));
         }
-        
     }
+#endif
 }
 
 void MyStatusViewController::switchNavType(int index)
@@ -555,7 +555,7 @@ CATableViewCell* MyStatusViewController::tableCellAtIndex(CATableView* table, co
             {
                 sessionMsg* msg = m_filterMsg[count + i];
                 cell = CATableViewCell::create("CrossApp0");
-                CALabel* label = CALabel::createWithFrame(DRect(_px(40), _px(0), _px(300), _px(50)));
+                CALabel* label = CALabel::createWithFrame(DRect(_px(40), _px(10), _px(300), _px(30)));
                 label->setText(msg->m_title);
                 label->setFontSize(_px(25));
                 label->setVerticalTextAlignmet(CAVerticalTextAlignmentCenter);
@@ -571,13 +571,13 @@ CATableViewCell* MyStatusViewController::tableCellAtIndex(CATableView* table, co
         {
             sessionMsg* msg = m_filterMsg[row];
             cell = CATableViewCell::create("CrossApp1");
-            CALabel* label = CALabel::createWithFrame(DRect(_px(40), _px(0), _px(300), _px(50)));
+            CALabel* label = CALabel::createWithFrame(DRect(_px(40), _px(10), _px(300), _px(30)));
             label->setText(crossapp_format_string("+%d", msg->m_point));
             label->setFontSize(_px(25));
             label->setVerticalTextAlignmet(CAVerticalTextAlignmentCenter);
             label->setColor(ccc4(0x3f, 0x3f, 0x3f, 0xff));
             cell->addSubview(label);
-            label = CALabel::createWithFrame(DRect(_px(120), _px(0), _px(300), _px(50)));
+            label = CALabel::createWithFrame(DRect(_px(120), _px(10), _px(300), _px(30)));
             label->setText(msg->m_title);
             label->setFontSize(_px(25));
             label->setVerticalTextAlignmet(CAVerticalTextAlignmentCenter);
@@ -599,21 +599,21 @@ CATableViewCell* MyStatusViewController::tableCellAtIndex(CATableView* table, co
             urlImageView->setUrl(m_rankMsg[row].m_imageUrl);
             cell->addSubview(urlImageView);
             
-            CALabel* label = CALabel::createWithFrame(DRect(_px(100), _px(0), _px(300), _px(50)));
+            CALabel* label = CALabel::createWithFrame(DRect(_px(100), _px(10), _px(300), _px(30)));
             label->setText(m_rankMsg[row].m_userName);
             label->setFontSize(_px(25));
             label->setVerticalTextAlignmet(CAVerticalTextAlignmentCenter);
             label->setColor(ccc4(0x3f, 0x3f, 0x3f, 0xff));
             cell->addSubview(label);
             
-            label = CALabel::createWithFrame(DRect(m_winSize.width / 2, _px(0), _px(300), _px(50)));
+            label = CALabel::createWithFrame(DRect(m_winSize.width / 2, _px(10), _px(300), _px(30)));
             label->setText(crossapp_format_string("%d", m_rankMsg[row].m_point));
             label->setFontSize(_px(25));
             label->setVerticalTextAlignmet(CAVerticalTextAlignmentCenter);
             label->setColor(ccc4(0x3f, 0x3f, 0x3f, 0xff));
             cell->addSubview(label);
             
-            label = CALabel::createWithFrame(DRect(m_winSize.width - _px(100), _px(0), _px(300), _px(50)));
+            label = CALabel::createWithFrame(DRect(m_winSize.width - _px(100), _px(10), _px(300), _px(30)));
             label->setText(crossapp_format_string("%d", m_rankMsg[row].m_pointRank));
             label->setFontSize(_px(25));
             label->setVerticalTextAlignmet(CAVerticalTextAlignmentCenter);

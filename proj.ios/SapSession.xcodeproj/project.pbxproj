@@ -128,7 +128,7 @@
 		5C31C8641C47FA0800542BF3 /* SurveyViewController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5C31C8621C47FA0800542BF3 /* SurveyViewController.cpp */; };
 		5C5B694D1C55DE28000C9AA4 /* IconUploadViewController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5C5B69491C55DE28000C9AA4 /* IconUploadViewController.cpp */; };
 		5C5B694E1C55DE28000C9AA4 /* MomentViewController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5C5B694B1C55DE28000C9AA4 /* MomentViewController.cpp */; };
-		5C5B69511C55DEA4000C9AA4 /* upload_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 5C5B69501C55DEA4000C9AA4 /* upload_icon.png */; };
+		5C5B69541C56047F000C9AA4 /* moments in Resources */ = {isa = PBXBuildFile; fileRef = 5C5B69531C56047F000C9AA4 /* moments */; };
 		5C5DE7291C2F9E2300D9A8BC /* sound in Resources */ = {isa = PBXBuildFile; fileRef = 5C5DE7281C2F9E2300D9A8BC /* sound */; };
 		5C5DE7CA1C3035A900D9A8BC /* bitstream.c in Sources */ = {isa = PBXBuildFile; fileRef = 5C5DE7B61C3035A900D9A8BC /* bitstream.c */; };
 		5C5DE7CB1C3035A900D9A8BC /* mask.c in Sources */ = {isa = PBXBuildFile; fileRef = 5C5DE7B81C3035A900D9A8BC /* mask.c */; };
@@ -443,7 +443,7 @@
 		5C5B694A1C55DE28000C9AA4 /* IconUploadViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IconUploadViewController.h; path = ../Classes/IconUploadViewController.h; sourceTree = "<group>"; };
 		5C5B694B1C55DE28000C9AA4 /* MomentViewController.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MomentViewController.cpp; path = ../Classes/MomentViewController.cpp; sourceTree = "<group>"; };
 		5C5B694C1C55DE28000C9AA4 /* MomentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MomentViewController.h; path = ../Classes/MomentViewController.h; sourceTree = "<group>"; };
-		5C5B69501C55DEA4000C9AA4 /* upload_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = upload_icon.png; path = moments/upload_icon.png; sourceTree = "<group>"; };
+		5C5B69531C56047F000C9AA4 /* moments */ = {isa = PBXFileReference; lastKnownFileType = folder; path = moments; sourceTree = "<group>"; };
 		5C5DE7281C2F9E2300D9A8BC /* sound */ = {isa = PBXFileReference; lastKnownFileType = folder; path = sound; sourceTree = "<group>"; };
 		5C5DE7B61C3035A900D9A8BC /* bitstream.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = bitstream.c; path = ../Classes/libqrencode/bitstream.c; sourceTree = "<group>"; };
 		5C5DE7B71C3035A900D9A8BC /* bitstream.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = bitstream.h; path = ../Classes/libqrencode/bitstream.h; sourceTree = "<group>"; };
@@ -970,14 +970,6 @@
 			path = gameswf_as_classes;
 			sourceTree = "<group>";
 		};
-		5C5B694F1C55DE8F000C9AA4 /* moments */ = {
-			isa = PBXGroup;
-			children = (
-				5C5B69501C55DEA4000C9AA4 /* upload_icon.png */,
-			);
-			name = moments;
-			sourceTree = "<group>";
-		};
 		5C5DE7B51C30359700D9A8BC /* libqrencode */ = {
 			isa = PBXGroup;
 			children = (
@@ -1027,7 +1019,7 @@
 		78C7DDAA14EBA5050085D0C2 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				5C5B694F1C55DE8F000C9AA4 /* moments */,
+				5C5B69531C56047F000C9AA4 /* moments */,
 				5CCDA5271C42091F006AEC61 /* tmp */,
 				5CCDA52B1C420953006AEC61 /* map */,
 				5C5DE7281C2F9E2300D9A8BC /* sound */,
@@ -1125,10 +1117,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5C5B69541C56047F000C9AA4 /* moments in Resources */,
 				5CCDA5281C42091F006AEC61 /* tmp in Resources */,
 				5C5DE7291C2F9E2300D9A8BC /* sound in Resources */,
 				5CCDA52C1C420953006AEC61 /* map in Resources */,
-				5C5B69511C55DEA4000C9AA4 /* upload_icon.png in Resources */,
 				026964B31BEB435100C8BCD7 /* CrossApp.xib in Resources */,
 				5CFA82831C2825F90025C9B5 /* session in Resources */,
 				5C6CEBA31C1E709C000AE9D2 /* main in Resources */,
