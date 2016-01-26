@@ -43,7 +43,7 @@ void MyStatusViewController::viewDidLoad()
     m_searchButton->setTag(20);
     this->getView()->addSubview(m_searchButton);
     
-    m_pointButton = CAButton::createWithFrame(DRect(m_winSize.width - _px(140), _px(20), _px(100), _px(100)), CAButtonTypeCustom);
+    m_pointButton = CAButton::createWithFrame(DRect(m_winSize.width - _px(120), _px(20), _px(100), _px(100)), CAButtonTypeCustom);
     imageView = CAImageView::createWithImage(CAImage::create("common/nav_search.png"));
     imageView->setImageViewScaleType(CAImageViewScaleTypeFitImageXY);
     m_pointButton->setBackGroundViewForState(CAControlStateAll, imageView);
@@ -554,7 +554,7 @@ CATableViewCell* MyStatusViewController::tableCellAtIndex(CATableView* table, co
             }
             sessionMsg* msg = m_filterMsg[count + row];
             cell = CATableViewCell::create("CrossApp0");
-            CALabel* label = CALabel::createWithFrame(DRect(_px(40), _px(10), _px(300), _px(30)));
+            CALabel* label = CALabel::createWithFrame(DRect(_px(40), _px(10), m_winSize.width - _px(40) * 2, _px(30)));
             label->setText(msg->m_title);
             label->setFontSize(_px(25));
             label->setVerticalTextAlignmet(CAVerticalTextAlignmentCenter);
@@ -575,7 +575,7 @@ CATableViewCell* MyStatusViewController::tableCellAtIndex(CATableView* table, co
             label->setVerticalTextAlignmet(CAVerticalTextAlignmentCenter);
             label->setColor(ccc4(0x3f, 0x3f, 0x3f, 0xff));
             cell->addSubview(label);
-            label = CALabel::createWithFrame(DRect(_px(120), _px(10), _px(300), _px(30)));
+            label = CALabel::createWithFrame(DRect(_px(120), _px(10), m_winSize.width - _px(120) - _px(40), _px(30)));
             label->setText(msg->m_title);
             label->setFontSize(_px(25));
             label->setVerticalTextAlignmet(CAVerticalTextAlignmentCenter);
