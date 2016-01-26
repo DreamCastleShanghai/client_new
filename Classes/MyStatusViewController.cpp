@@ -55,7 +55,7 @@ void MyStatusViewController::viewDidLoad()
     m_navSegmentView =
         FSegmentView::createWithFrame(DRect((m_winSize.width - 400) / 2, 40, 400, 60), 2);
     m_navSegmentView->addTarget(this, CAControl_selector(MyStatusViewController::buttonCallBack), CAControlEventTouchUpInSide);
-    m_navSegmentView->setItemTile("Favourites", 0);
+    m_navSegmentView->setItemTile("My Calender", 0);
     m_navSegmentView->setItemTile("Point", 1);
     m_navSegmentView->setTag(200, 0);
     m_navSegmentView->setTag(201, 1);
@@ -349,50 +349,6 @@ void MyStatusViewController::onRequestFinished(const HttpResponseStatus& status,
 	{
 		//showAlert();
 	}
-#ifdef LOCALTEST
-	{
-		m_msg->clear();
-
-		for (int i = 0; i < 17; i++)
-		{
-			sessionMsg temp_msg;
-			temp_msg.m_sessionId = 200 + i;
-			temp_msg.m_title = "Customer Success";
-
-			temp_msg.m_location = "Lisa Chen";
-			temp_msg.m_track = "Customer";
-			temp_msg.m_format = "Dev Faire";
-			temp_msg.m_startTime = getTimeSecond();
-			temp_msg.m_endTime = temp_msg.m_startTime + 3900;
-			temp_msg.m_likeNum = 20;
-			temp_msg.m_stored = (bool)(rand() % 2);
-			temp_msg.m_imageUrl =
-				"http://imgsrc.baidu.com/forum/pic/item/53834466d0160924a41f433bd50735fae6cd3452.jpg";
-			//"http://img1.gtimg.com/14/1468/146894/14689486_980x1200_0.png";
-			temp_msg.m_liked = (bool)(rand() % 2);
-			//temp_msg.m_done = (bool)(rand() % 2);
-			temp_msg.m_point = 22;
-			m_msg->push_back(temp_msg);
-
-			userInfo uInfo;
-			uInfo.m_userId = 101;
-			uInfo.m_userName = "Alex Chen";
-			uInfo.m_point = 100;
-			uInfo.m_pointRank = 20;
-			uInfo.m_imageUrl = "http://imgsrc.baidu.com/forum/pic/item/53834466d0160924a41f433bd50735fae6cd3452.jpg";
-			FDataManager::getInstance()->setUserInfo(uInfo);
-		}
-		quickSort(m_msg, 0, (int)m_msg->size() - 1);
-		m_filterMsg.clear();
-		for (std::vector<sessionMsg>::iterator it = m_msg->begin(); it != m_msg->end(); it++)
-		{
-			if (it->m_stored && it->m_endTime > getTimeSecond())
-			{
-				m_filterMsg.push_back(&(*it));
-			}
-		}
-	}
-#endif
 
     initMsgTableView();
     if (p_pLoading)
@@ -414,38 +370,18 @@ void MyStatusViewController::onRequestRankFinished(const HttpResponseStatus& sta
         {
             userInfo tmpInfo;
             tmpInfo.m_userName = crossapp_format_string("%s %s", v2[i]["FirstName"].asString().c_str(), v2[i]["LastName"].asString().c_str());
-            m_rankMsg.push_back(tmpInfo);
             tmpInfo.m_pointRank = i;
-            tmpInfo.m_point = v2[i]["Rank"].asInt();
+            tmpInfo.m_point = v2[i]["Score"].asInt();
             tmpInfo.m_greenAmb = v2[i]["GreenAmb"].asBool();
+            m_rankMsg.push_back(tmpInfo);
         }
-        //sort
+        int myRank = json["result"]["urk"].asInt();
+        m_pointLabel[1]->setText(crossapp_format_string("%d", myRank));
     }
     else
     {
         //showAlert();
     }
-#ifdef LOCALTEST
-    {
-        m_canSwitchPoint = true;
-        m_rankMsg.clear();
-        for (int i = 0; i < 10; i++)
-        {
-            userInfo tmpInfo;
-            tmpInfo.m_userId = 10;
-            tmpInfo.m_userName = "Alxm Chen";
-            tmpInfo.m_point = 251 - i;
-            tmpInfo.m_pointRank = i + 1;
-            tmpInfo.m_imageUrl = "http://imgsrc.baidu.com/forum/pic/item/53834466d0160924a41f433bd50735fae6cd3452.jpg";
-            m_rankMsg.push_back(tmpInfo);
-        }
-        userInfo* info = FDataManager::getInstance()->getUserInfo();
-        if (info->m_userId > 0)
-        {
-            m_pointLabel[1]->setText(crossapp_format_string("%d", m_rankMsg[9].m_point - info->m_point));
-        }
-    }
-#endif
 }
 
 void MyStatusViewController::switchNavType(int index)
