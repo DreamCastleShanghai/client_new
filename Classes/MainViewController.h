@@ -32,13 +32,15 @@ public:
     
     void update(float dt);
     
-	void initMsgTableView();
+//	void initMsgTableView();
 
-	void initPageView();
+//	void initPageView();
     
     void requestSessionMsg();
     
-    void requestIconMsg();
+    void initPageView();
+    
+//    void requestIconMsg();
 
 	void showAlert();
 
@@ -51,6 +53,8 @@ public:
 	void buttonCallBack(CAControl* btn, DPoint point);
     
     void updatePageView(float dt);
+    
+    void refreshTable();
 
 	virtual void scrollViewHeaderBeginRefreshing(CAScrollView* view);
 	virtual void scrollViewFooterBeginRefreshing(CAScrollView* view);
@@ -75,20 +79,27 @@ private:
 
     CAImageView*                                            m_timeNoticeImageView;
     CAImageView*                                            m_sessionNoticeImageView;
-    CAPageView*                                             m_totalView;
-    CAVector<CAView* >                                      m_totalViewList;
+//    CAPageView*                                             m_totalView;
+//    CAVector<CAView*>                                       m_totalViewList;
 	CATableView*											m_msgTableView;
 	CAPageView*												m_pageView;
 	CAPageControl*											m_pageControl;
+    CAView*                                                 m_pageControlBG;
 	CALabel*												m_pageViewTitle;
 	CAView*													p_alertView;
 	CAActivityIndicatorView*								p_pLoading;
-    int														m_pastSection;
-	int														m_nextSection;
+//    int														m_pastSection;
+//	int														m_nextSection;
     time_t                                                  m_timeForPageView;
 
 	DSize													m_winSize;
+    CAViewController*                                       m_notice;
     CAViewController*                                       m_sustainbilitySurvey;
+    CAViewController*                                       m_monent;
+    CAViewController*                                       m_vote;
+    CAViewController*                                       m_map;
+    CAViewController*                                       m_session;
+    CAViewController*                                       m_my;
 };
 
 

@@ -45,12 +45,20 @@ public:
     time_t getDiffServerTime() { return m_diffServerTime; }
     time_t getServerTime();
     
+    CAViewController*   getHomeView()       { return m_home; }
+    CAViewController*   getSessionView()    { return m_session; }
+    CAViewController*   getMyView()         { return m_my; }
+    
 private:
     
     int                         m_userId;
 	bool                        m_timeNotice;
 	bool                        m_sessionNotice;
     time_t                      m_diffServerTime;
+    
+    CAViewController*           m_home;
+    CAViewController*           m_session;
+    CAViewController*           m_my;
 };
 
 

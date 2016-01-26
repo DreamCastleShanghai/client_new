@@ -20,10 +20,13 @@ RootWindow* RootWindow::getInstance()
 }
 
 RootWindow::RootWindow()
-: m_pRootNavigationController(NULL),
-m_timeNotice(false),
-m_sessionNotice(false),
-m_diffServerTime(0)
+: m_pRootNavigationController(NULL)
+, m_timeNotice(false)
+, m_sessionNotice(false)
+, m_diffServerTime(0)
+, m_home(NULL)
+, m_session(NULL)
+, m_my(NULL)
 {
     CAApplication::getApplication()->getKeypadDispatcher()->addDelegate(this);
 }
@@ -42,24 +45,29 @@ bool RootWindow::init()
     CAApplication::getApplication()->setNotificationView(CAView::createWithFrame(this->getBounds(), CAColor_green));
 
     CAVector<CAViewController*> controllerVec;
-	MainViewController* mainController = new MainViewController();
-    mainController->setTabBarItem(CATabBarItem::create(unicode_to_utf8(mainBar[0]), CAImage::create("main/bar_0.png"),CAImage::create("main/bar_pre_0.png")));
-	mainController->init();
-	//mainController->autorelease();
-    controllerVec.pushBack(mainController);
+	m_home = new MainViewController();
+    if (m_home) {
+        m_home->setTabBarItem(CATabBarItem::create(unicode_to_utf8(mainBar[0]), CAImage::create("main/bar_0.png"),CAImage::create("main/bar_pre_0.png")));
+        m_home->init();
+        //mainController->autorelease();
+        controllerVec.pushBack(m_home);
+    }
     
-    SessionsViewController* sessionsController = new SessionsViewController();
-    sessionsController->init();
-    sessionsController->autorelease();
-    sessionsController->setTabBarItem(CATabBarItem::create(unicode_to_utf8(mainBar[1]), CAImage::create("main/bar_1.png"),CAImage::create("main/bar_pre_1.png")));
-    controllerVec.pushBack(sessionsController);
+    m_session = new SessionsViewController();
+    if (m_session) {
+        m_session->init();
+        m_session->autorelease();
+        m_session->setTabBarItem(CATabBarItem::create(unicode_to_utf8(mainBar[1]), CAImage::create("main/bar_1.png"),CAImage::create("main/bar_pre_1.png")));
+        controllerVec.pushBack(m_session);
+    }
     
-    MyStatusViewController* myController = new MyStatusViewController();
-    myController->setTabBarItem(CATabBarItem::create(unicode_to_utf8(mainBar[2]), CAImage::create("main/bar_2.png"),CAImage::create("main/bar_pre_2.png")));
-    myController->init();
-    myController->autorelease();
-    controllerVec.pushBack(myController);
-    
+    m_my = new MyStatusViewController();
+    if (m_my) {
+        m_my->setTabBarItem(CATabBarItem::create(unicode_to_utf8(mainBar[2]), CAImage::create("main/bar_2.png"),CAImage::create("main/bar_pre_2.png")));
+        m_my->init();
+        m_my->autorelease();
+        controllerVec.pushBack(m_my);
+    }    
     
     CATabBarController* tabBarController = new CATabBarController();
     tabBarController->initWithViewControllers(controllerVec);

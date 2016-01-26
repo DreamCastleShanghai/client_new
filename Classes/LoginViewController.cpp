@@ -8,13 +8,16 @@
 #define DEBUG_APP
 
 LoginViewController::LoginViewController()
+: m_pAccount(NULL)
+, m_pPassword(NULL)
 {
 
 }
 
 LoginViewController::~LoginViewController()
 {
-
+//    CC_SAFE_DELETE(m_pAccount);
+//    CC_SAFE_DELETE(m_pPassword);
 }
 
 void LoginViewController::viewDidLoad()

@@ -16,14 +16,14 @@
 SessionDetailViewController::SessionDetailViewController(sessionMsg &msg)
 : m_msg(&msg)
 , m_surveyButtonView(NULL)
-, m_canStore(true)
-, m_canLike(true)
+//, m_canStore(true)
+//, m_canLike(true)
 , m_isSurveyed(false)
 , m_surveyBtn(NULL)
 , m_surveyBtnLabel1(NULL)
 , m_surveyBtnLabel2(NULL)
 {
-	m_isLiked = msg.m_liked;
+//	m_isLiked = msg.m_liked;
 	m_detailMsg.m_sessionId = -1;
     memset((void*)(&m_detailMsg), 0, sizeof(sessionDetailMsg));
     requestMsg();
@@ -196,7 +196,7 @@ void SessionDetailViewController::initView()
 	m_lectureDetailLabel->setText(m_detailMsg.m_detail);
 	scrollView->addSubview(m_lectureDetailLabel);
     
-    yHight += _px(250);// * (m_detailMsg.m_detail.size() / 40);
+    yHight += (m_detailMsg.m_detail.size() / 50) * _px(30);//_px(250);// * (m_detailMsg.m_detail.size() / 40);
     
     yHight = yHight + _px(40);
     
@@ -252,7 +252,7 @@ void SessionDetailViewController::initView()
 	sView->setFrame(DRect(_px(0), m_winSize.height - _px(100), m_winSize.width, _px(100)));
 	this->getView()->addSubview(sView);
 
-	m_storeBtnImage = CAImageView::createWithImage(CAImage::create("session/btn_collect_pre.png"));
+	m_storeBtnImage = CAImageView::createWithImage(CAImage::create("common/btn_collect_pre.png"));
 	m_storeBtnImage->setImageViewScaleType(CAImageViewScaleTypeFitImageInside);
 	m_storeBtnImage->setFrame(DRect(_px(35), _px(10), _px(80), _px(80)));
 	CAButton* storeBtn = CAButton::createWithFrame(DRect(_px(0), _px(0), _px(150), _px(100)), CAButtonTypeCustom);
@@ -262,14 +262,14 @@ void SessionDetailViewController::initView()
 	storeBtn->addSubview(m_storeBtnImage);
 	storeBtn->setTag(300);
 
-	m_canStore = true;
+//	m_canStore = true;
 	if (m_msg->m_stored)
 	{
-		m_storeBtnImage->setImage(CAImage::create("session/btn_collect_pre.png"));
+		m_storeBtnImage->setImage(CAImage::create("common/btn_collect_pre.png"));
 	}
 	else
 	{
-		m_storeBtnImage->setImage(CAImage::create("session/btn_collect.png"));
+		m_storeBtnImage->setImage(CAImage::create("common/btn_collect.png"));
 	}
 	sView->addSubview(storeBtn);
 
@@ -283,8 +283,8 @@ void SessionDetailViewController::initView()
 	likeBtn->addTarget(this, CAControl_selector(SessionDetailViewController::buttonCallBack), CAControlEventTouchUpInSide);
 	likeBtn->addSubview(m_likeBtnImage);
 
-	m_canLike = !(m_msg->m_liked);
-	if (!m_canLike)
+//	m_canLike = !(m_msg->m_liked);
+	if (m_msg->m_liked)
 	{
 		m_likeBtnImage->setImage(CAImage::create("common/btn_like_pre.png"));
 	}
@@ -479,7 +479,7 @@ void SessionDetailViewController::onRequestFinished(const HttpResponseStatus& st
 
 void SessionDetailViewController::requestStore()
 {
-	if (m_canStore)
+//	if (m_canStore)
 	{
 		std::map<std::string, std::string> key_value;
 		key_value["tag"] = sessionViewTag[1];
@@ -489,7 +489,7 @@ void SessionDetailViewController::requestStore()
 		//key_value["sign"] = getSign(key_value);
 		CommonHttpManager::getInstance()->send_post(httpUrl, key_value, this, CommonHttpJson_selector(SessionDetailViewController::onStoreRequestFinished));
 
-		m_canStore = false;
+//		m_canStore = false;
 	}
 }
 
@@ -506,21 +506,21 @@ void SessionDetailViewController::onStoreRequestFinished(const HttpResponseStatu
         if (value["r"].asBool() == true)
         {
             m_msg->m_stored = true;
-            m_storeBtnImage->setImage(CAImage::create("session/btn_collect_pre.png"));
+            m_storeBtnImage->setImage(CAImage::create("common/btn_collect_pre.png"));
         }
         else
         {
             m_msg->m_stored = false;
-            m_storeBtnImage->setImage(CAImage::create("session/btn_collect.png"));
+            m_storeBtnImage->setImage(CAImage::create("common/btn_collect.png"));
         }
     }
-    m_canStore = true;
+//    m_canStore = true;
 }
 
 void SessionDetailViewController::requestLike()
 {
-	if (m_canLike)
-	{
+//	if (m_canLike)
+	{/*
 		std::map<std::string, std::string> key_value;
 		key_value["tag"] = sessionViewTag[2];
 		key_value["sid"] = crossapp_format_string("%d", m_msg->m_sessionId);
@@ -528,6 +528,15 @@ void SessionDetailViewController::requestLike()
 		key_value["v"] = crossapp_format_string("%d", 1);
 		//key_value["sign"] = getSign(key_value);
 		CommonHttpManager::getInstance()->send_post(httpUrl, key_value, this, CommonHttpJson_selector(SessionDetailViewController::onLikeRequestFinished));
+      */
+        
+        std::map<std::string, std::string> key_value;
+        key_value["tag"] = sessionViewTag[2];
+        key_value["sid"] = crossapp_format_string("%d", m_msg->m_sessionId);
+        key_value["uid"] = crossapp_format_string("%d", FDataManager::getInstance()->getUserId());
+        key_value["v"] = crossapp_format_string("%d", m_msg->m_liked ? 0 : 1);
+        //key_value["sign"] = getSign(key_value);
+        CommonHttpManager::getInstance()->send_post(httpUrl, key_value, this, CommonHttpJson_selector(SessionDetailViewController::onLikeRequestFinished));
 	}
 }
 
@@ -535,16 +544,36 @@ void SessionDetailViewController::onLikeRequestFinished(const HttpResponseStatus
 {
 	if (status == HttpResponseSucceed)
 	{
+        /*
 		m_msg->m_likeNum += 1;
 		m_msg->m_liked = true;
 		m_canLike = false;
 		m_likeNumLabel->setText(crossapp_format_string("%d", m_msg->m_likeNum));
 		m_likeBtnImage->setImage(CAImage::create("common/btn_like_pre.png"));
+        CSJson::FastWriter writer;
+        string tempjson = writer.write(json);
+        CCLog("receive json == %s",tempjson.c_str());
+        */
+        const CSJson::Value& value = json["result"];
+        if (value["r"].asBool() == true)
+        {
+            m_msg->m_likeNum += 1;
+            m_msg->m_liked = true;
+            m_likeBtnImage->setImage(CAImage::create("common/btn_like_pre.png"));
+        }
+        else
+        {
+            m_msg->m_likeNum -= 1;
+            m_msg->m_liked = false;
+            m_likeBtnImage->setImage(CAImage::create("common/btn_like.png"));
+        }
+        m_likeNumLabel->setText(crossapp_format_string("%d", m_msg->m_likeNum));
 	}
+    /*
 	else
 	{
 		m_canLike = !(m_msg->m_liked);
-	}
+	}*/
 }
 
 void SessionDetailViewController::showAlert()
@@ -623,7 +652,7 @@ void SessionDetailViewController::adjustSurveyBtn(float dt)
                 struct tm * timeinfo;
                 timeinfo = gmtime(&delteTm);
                 string timeStr = "";
-                if (timeinfo->tm_mday != 0) {
+                if (timeinfo->tm_yday != 0) {
                     timeStr += crossapp_format_string("%dd",timeinfo->tm_yday);
                 }
                 if (timeinfo->tm_hour != 0) {

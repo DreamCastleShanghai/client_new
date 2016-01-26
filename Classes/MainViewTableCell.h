@@ -26,6 +26,8 @@ public:
     void onStoreRequestFinished(const HttpResponseStatus& status, const CSJson::Value& json);
 
 	void onLikeRequestFinished(const HttpResponseStatus& status, const CSJson::Value& json);
+    
+    void updateTable();
 
 private:
 
@@ -33,17 +35,19 @@ private:
     CALabel*								m_lectureLabel;
     CALabel*								m_locationLabel;
     CALabel*								m_timeLabel;
-    CALabel*                                m_likeNumLabel;
+    CAButton*                               m_storeBtn;
     CAImageView*                            m_storeBtnImage;
+    CAButton*                               m_likeBtn;
 	CAImageView*                            m_likeBtnImage;
+    CALabel*                                m_likeNumLabel;
     CommonUrlImageView*						m_urlImageView;
+    CAImageView*                            m_rightArrow;
     
     struct sessionMsg*						m_msg;
 
-    bool									m_isStore;
-    bool									m_canStore;
-
-	bool									m_canLike;
+//    bool									m_isStore;
+//    bool									m_canStore;
+//	bool									m_isLike;
 
 
 };

@@ -23,6 +23,7 @@ FirstSurveyViewController::FirstSurveyViewController()
 
 FirstSurveyViewController::~FirstSurveyViewController()
 {
+    /*
     CC_SAFE_DELETE(m_textView);
     CC_SAFE_DELETE(m_pLoading);
     CC_SAFE_DELETE(m_alertLabel);
@@ -36,6 +37,7 @@ FirstSurveyViewController::~FirstSurveyViewController()
     CC_SAFE_DELETE(m_bodyContext);
     CC_SAFE_DELETE(m_submitBtn);
     CC_SAFE_DELETE(m_submitBtnBG);
+     */
 }
 
 void FirstSurveyViewController::viewDidLoad()
@@ -69,7 +71,7 @@ void FirstSurveyViewController::viewDidLoad()
         m_headerTitle->setTextAlignment(CATextAlignmentCenter);
         m_headerTitle->setColor(CAColor_white);
         m_headerTitle->setFontSize(_px(40));
-        m_headerTitle->setText("Survey");
+        m_headerTitle->setText("Sustainability Campaign");
         m_headerTitle->setFontName("fonts/arial.ttf");
         m_headerTitle->setTouchEnabled(false);
         m_headerView->addSubview(m_headerTitle);

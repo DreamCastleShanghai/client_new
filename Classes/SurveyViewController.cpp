@@ -370,9 +370,9 @@ void SurveyViewController::onSurveyInfoFinished(const HttpResponseStatus& status
     if (status == HttpResponseSucceed)
     {
         const CSJson::Value& resTag = json["result"]["i"];
-        const CSJson::Value& resRes = json["result"]["r"];
+        bool resRes = json["result"]["r"].asBool();
         
-        if (resTag == surveyInfoTag[0] && resRes == "1")
+        if (resTag == surveyInfoTag[0] && resRes)
         {
             const CSJson::Value& value = json["result"]["q"];
             
@@ -414,6 +414,23 @@ void SurveyViewController::onRequestFinished(const HttpResponseStatus& status, c
     if (status == HttpResponseSucceed)
     {
         const CSJson::Value& value = json["result"];
+        int r = value["r"].asInt();
+        string tag = value["i"].asString();
+        
+        if (!std::strcmp(tag.c_str(), surveySubmitTag[0])) {
+            if (r == 1) {
+                // succeed
+                CAAlertView *alertView = CAAlertView::createWithText("Succeed !", "Thank you take this survey !", "OK", NULL);
+                alertView->show();
+            } else if (r == 0) {
+                // failed
+                CAAlertView *alertView = CAAlertView::createWithText("Fail !", "You have taken this survey !", "OK", NULL);
+                alertView->show();
+            }
+        } else {
+            CAAlertView *alertView = CAAlertView::createWithText("Message error !", "Please try again !", "OK", NULL);
+            alertView->show();
+        }
 
     }
     else
