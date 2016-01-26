@@ -50,7 +50,7 @@ void LoginViewController::viewDidLoad()
 	loginView->addSubview(imageView);
 
 	m_pAccount = CATextField::createWithFrame(DRect(_px(80), _px(0), m_winSize.width - _px(170), _px(80)));
-	m_pAccount->setTextColor(CAColor_gray);
+	m_pAccount->setTextColor(CAColor_black);
 	m_pAccount->setPlaceHolder("Username");
     m_pAccount->setKeyboardType(KEY_BOARD_TYPE_ALPHABET);
     m_pAccount->setFontName("fonts/arial.ttf");
@@ -64,7 +64,7 @@ void LoginViewController::viewDidLoad()
     m_pPassword->setFontName("fonts/arial.ttf");
 	m_pPassword->setInputType(KEY_BOARD_INPUT_PASSWORD);
     m_pPassword->setKeyboardReturnType(KEY_BOARD_RETURN_DONE);
-    m_pPassword->setTextColor(CAColor_gray);
+    m_pPassword->setTextColor(CAColor_black);
 	loginView->addSubview(m_pPassword);
 
     CAScale9ImageView* sView = CAScale9ImageView::createWithImage(CAImage::create("common/gray_bg.png"));

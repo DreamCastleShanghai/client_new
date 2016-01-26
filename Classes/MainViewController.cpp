@@ -837,6 +837,9 @@ void MainViewController::initPageView()
             m_pageView->setCurrPage(0, false);
             this->getView()->addSubview(m_pageView);
             //headView->addSubview(m_pageView);
+            
+            // to : animate the page view
+            CAScheduler::schedule(schedule_selector(MainViewController::updatePageView), this, 5);//, true, 3000);
         }
     }
     

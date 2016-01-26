@@ -72,14 +72,15 @@ bool RootWindow::init()
     CATabBarController* tabBarController = new CATabBarController();
     tabBarController->initWithViewControllers(controllerVec);
     tabBarController->setTabBarSelectedBackGroundColor(CAColor_clear);
-    //tabBarController->setTabBarBackGroundImage(CAImage::create("common/sky_bg.png"));
+    tabBarController->setTabBarBackGroundImage(CAImage::create("common/sky_bg.png"));
+    /*
     CANavigationBarItem* temp_nav = CANavigationBarItem::create("");
     temp_nav->setNagigationBarHidden(true);
 	tabBarController->setScrollEnabled(false);
     tabBarController->setNavigationBarItem(temp_nav);
     tabBarController->setTabBarTitleColorForSelected(CAColor_white);
     tabBarController->autorelease();
-
+*/
 	m_pRootNavigationController = new CANavigationController();
 	m_pRootNavigationController->initWithRootViewController(tabBarController);
 	m_pRootNavigationController->setNavigationBarBackGroundImage(CAImage::create("common/sky_bg.png"));
