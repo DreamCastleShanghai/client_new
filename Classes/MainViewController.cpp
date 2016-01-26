@@ -97,6 +97,7 @@ void MainViewController::viewDidLoad()
     m_timeNoticeImageView->setImage(CAImage::create("common/reddot.png"));
     button->addSubview(m_timeNoticeImageView);
 
+    /*
 	button = CAButton::createWithFrame(DRect(m_winSize.width - _px(100), _px(20), _px(100), _px(100)), CAButtonTypeCustom);
 	imageView = CAImageView::createWithImage(CAImage::create("main/nav_prize.png"));
 	imageView->setImageViewScaleType(CAImageViewScaleTypeFitImageXY);
@@ -104,12 +105,13 @@ void MainViewController::viewDidLoad()
 	button->addTarget(this, CAControl_selector(MainViewController::buttonCallBack), CAControlEventTouchUpInSide);
 	button->setTag(30);
 	this->getView()->addSubview(button);
+     */
 
 	CALabel* label = CALabel::createWithCenter(DRect(m_winSize.width / 2, _px(70), m_winSize.width, _px(50)));
 	label->setTextAlignment(CATextAlignmentCenter);
 	label->setColor(CAColor_white);
 	label->setFontSize(_px(40));
-	label->setText("SAP DKOM");
+	label->setText("SAP d-kom");
 	label->setFontName("fonts/arial.ttf");
     label->setTouchEnabled(false);
 	sView->addSubview(label);
