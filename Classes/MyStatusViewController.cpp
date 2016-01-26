@@ -370,7 +370,7 @@ void MyStatusViewController::onRequestRankFinished(const HttpResponseStatus& sta
         {
             userInfo tmpInfo;
             tmpInfo.m_userName = crossapp_format_string("%s %s", v2[i]["FirstName"].asString().c_str(), v2[i]["LastName"].asString().c_str());
-            tmpInfo.m_pointRank = i;
+            tmpInfo.m_pointRank = i + 1;
             tmpInfo.m_point = v2[i]["Score"].asInt();
             tmpInfo.m_greenAmb = v2[i]["GreenAmb"].asBool();
             m_rankMsg.push_back(tmpInfo);
