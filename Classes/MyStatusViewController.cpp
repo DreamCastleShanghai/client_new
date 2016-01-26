@@ -79,6 +79,14 @@ void MyStatusViewController::viewDidLoad()
     m_urlImageView->setImageViewScaleType(CAImageViewScaleTypeFitImageCrop);
     m_urlImageView->setImage(CAImage::create("common/bg.png"));
 	button->addSubview(m_urlImageView);
+    
+    // green amb icon
+    CAImageView* greenAmbIcon = CAImageView::createWithImage(CAImage::create("common/green_amb.png"));
+    greenAmbIcon->setImageViewScaleType(CAImageViewScaleTypeFitImageCrop);
+    greenAmbIcon->setFrame(DRect(80, 80, _px(40), _px(40)));
+    greenAmbIcon->setVisible(false);
+    m_urlImageView->addSubview(greenAmbIcon);
+   
 
     m_nameLabel = CALabel::createWithFrame(DRect((m_winSize.width - _px(200)) / 2, _px(170), _px(200), _px(35)));
     m_nameLabel->setFontSize(_px(30));
@@ -119,6 +127,8 @@ void MyStatusViewController::viewDidLoad()
         m_urlImageView->setUrl(info->m_imageUrl);
         m_nameLabel->setText(info->m_userName);
         m_pointLabel[0]->setText(crossapp_format_string("%d", info->m_point));
+        if (info->m_greenAmb)
+            greenAmbIcon->setVisible(true);
     }
     
     if (m_msg->empty())
@@ -299,6 +309,7 @@ void MyStatusViewController::onRequestFinished(const HttpResponseStatus& status,
 		uInfo.m_point = v2["Score"].asInt();
 		uInfo.m_imageUrl = v2["Icon"].asString();
 		uInfo.m_eggVoted = v2["EggVoted"].asBool();
+        uInfo.m_greenAmb = v2["GreenAmb"].asBool();
 		uInfo.m_demoVoteIdVec.clear();
 		uInfo.m_voiceVoteIdVec.clear();
 		int voteId = v2["DemoJamId1"].asInt();
@@ -406,6 +417,7 @@ void MyStatusViewController::onRequestRankFinished(const HttpResponseStatus& sta
             m_rankMsg.push_back(tmpInfo);
             tmpInfo.m_pointRank = i;
             tmpInfo.m_point = v2[i]["Rank"].asInt();
+            tmpInfo.m_greenAmb = v2[i]["GreenAmb"].asBool();
         }
         //sort
     }
@@ -597,6 +609,15 @@ CATableViewCell* MyStatusViewController::tableCellAtIndex(CATableView* table, co
             urlImageView->setUrl(m_rankMsg[row].m_imageUrl);
             cell->addSubview(urlImageView);
             
+            // green amb icon
+            if (m_rankMsg[row].m_greenAmb) {
+                CAImageView* greenAmbIcon = CAImageView::createWithImage(CAImage::create("common/green_amb.png"));
+                greenAmbIcon->setImageViewScaleType(CAImageViewScaleTypeFitImageCrop);
+                greenAmbIcon->setFrame(DRect(25, 25, _px(20), _px(20)));
+                greenAmbIcon->setVisible(true);
+                urlImageView->addSubview(greenAmbIcon);
+            }
+
             CALabel* label = CALabel::createWithFrame(DRect(_px(100), _px(10), _px(300), _px(30)));
             label->setText(m_rankMsg[row].m_userName);
             label->setFontSize(_px(25));

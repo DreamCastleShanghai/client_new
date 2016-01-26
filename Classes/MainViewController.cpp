@@ -419,6 +419,7 @@ void MainViewController::onRequestFinished(const HttpResponseStatus& status, con
         uInfo.m_point = v2["Score"].asInt();
         uInfo.m_imageUrl = v2["Icon"].asString();
 		uInfo.m_eggVoted = v2["EggVoted"].asBool();
+        uInfo.m_greenAmb = v2["GreenAmb"].asBool();
 		uInfo.m_demoVoteIdVec.clear();
 		uInfo.m_voiceVoteIdVec.clear();
 		int voteId = v2["DemoJamId1"].asInt();
