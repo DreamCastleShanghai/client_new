@@ -7,6 +7,7 @@
 #include "SessionDetailViewController.h"
 #include "FSegmentView.h"
 #include "PhotoViewController.h"
+#include "MomentsDetailViewController.h"
 
 MomentViewController::MomentViewController()
 : p_alertView(NULL)
@@ -374,6 +375,7 @@ void MomentViewController::onRequestMyFinished(const HttpResponseStatus& status,
         
 		const CSJson::Value& value = json["result"];
 		int length = value["pl"].size();
+        m_myMsg.clear();
 		for (int i = 0; i < length; i++)
 		{
 			photoMsg temp;
@@ -458,7 +460,7 @@ CATableViewCell* MomentViewController::tableCellAtIndex(CATableView* table, cons
     DSize _size = cellSize;
     
 	std::string picId = crossapp_format_string("%d", m_allFilterMsg.at(row)->picId);
-	CATableViewCell* cell = dynamic_cast<CATableViewCell*>(table->dequeueReusableCellWithIdentifier(picId.c_str()));
+    CATableViewCell* cell = NULL;//dynamic_cast<CATableViewCell*>(table->dequeueReusableCellWithIdentifier(picId.c_str()));
     if (cell == NULL)
     {
         cell = MainViewTableCell::create("CrossApp", DRect(0, 0, _size.width, _size.height));
@@ -556,7 +558,10 @@ unsigned int MomentViewController::tableViewHeightForRowAtIndexPath(CATableView*
 
 void MomentViewController::tableViewDidSelectRowAtIndexPath(CATableView* table, unsigned int section, unsigned int row)
 {
-
+    
+    MomentsDetailViewController* vc = new MomentsDetailViewController(*(m_allFilterMsg.at(row)), 0);
+    vc->init();
+    RootWindow::getInstance()->getRootNavigationController()->pushViewController(vc, true);
 }
 
 void MomentViewController::tableViewDidDeselectRowAtIndexPath(CATableView* table, unsigned int section, unsigned int row)
@@ -567,7 +572,9 @@ void MomentViewController::tableViewDidDeselectRowAtIndexPath(CATableView* table
 
 void MomentViewController::collectionViewDidSelectCellAtIndexPath(CACollectionView *collectionView, unsigned int section, unsigned int row, unsigned int item)
 {
-
+    MomentsDetailViewController* vc = new MomentsDetailViewController(m_myMsg[row + item], 1);
+    vc->init();
+    RootWindow::getInstance()->getRootNavigationController()->pushViewController(vc, true);
 }
 
 void MomentViewController::collectionViewDidDeselectCellAtIndexPath(CACollectionView *collectionView, unsigned int section, unsigned int row, unsigned int item)
