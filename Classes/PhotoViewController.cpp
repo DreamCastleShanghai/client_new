@@ -115,6 +115,8 @@ void PhotoViewController::buttonCallBack(CAControl* btn, DPoint point)
     else if (btn->getTag() == 400) // select
     {
         DSize winSize = m_winSize;
+        m_clv->setAlphaThreshold(0.f);
+        m_clvImage->setAlphaThreshold(0.f);
         m_clvImage->setClippingEnabled(true);
         CARenderImage* rm = CARenderImage::create(_px(winSize.width-100), _px(winSize.width-100));
         rm->printscreenWithView(m_clvImage);
@@ -245,7 +247,7 @@ void PhotoViewController::getSelectedImage(CAImage *image)
     
     m_clvImage = CAClippingView::create();
     
-    m_clvImage->setStencil(getStencil(scrollRect.size, 0));
+    m_clvImage->setStencil(getStencil(scrollRect.size, 1));
     m_clvImage->setFrame(scrollRect);
     m_clvImage->setInverted(false);
     m_clvImage->setClippingEnabled(false);
@@ -278,7 +280,7 @@ void PhotoViewController::getSelectedImage(CAImage *image)
     scrollView->addSubview(imv);
 
     m_clv = CAClippingView::create();
-    m_clv->setStencil(getStencil(scrollRect.size, 0));
+    m_clv->setStencil(getStencil(scrollRect.size, 1));
     m_clv->setFrame(scrollRect);
     m_clv->setInverted(true);
     m_clv->setTouchEnabled(false);

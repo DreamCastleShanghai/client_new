@@ -4,7 +4,7 @@
 #include "utils/HttpConnect.h"
 #include "RootWindow.h"
 
-//#define DEBUG_APP
+#define DEBUG_APP
 
 LoginViewController::LoginViewController()
 {
