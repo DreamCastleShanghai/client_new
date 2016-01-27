@@ -18,6 +18,11 @@ public:
     ConstData();
     virtual ~ConstData();
     
+    enum CID
+    {
+        CID_BACK = 20,
+    };
+    
     static DRect& getSessionCellLogoRect();
     static DRect& getSessionCellTitleRect();
     static DRect& getSessionCellTimeRect();

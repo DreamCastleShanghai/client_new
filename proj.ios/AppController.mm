@@ -85,12 +85,12 @@ static AppDelegate s_sharedApplication;
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
 {
-    CrossApp::CCApplication::sharedApplication()->didReceiveRemoteNotification();
+    //CrossApp::CCApplication::sharedApplication()->didReceiveRemoteNotification();
 }
 
 - (void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification
 {
-    CrossApp::CCApplication::sharedApplication()->didReceiveLocalNotification();
+    //CrossApp::CCApplication::sharedApplication()->didReceiveLocalNotification();
 }
 
 #pragma mark -

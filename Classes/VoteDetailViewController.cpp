@@ -98,7 +98,7 @@ void VoteDetailViewController::viewDidUnload()
 void VoteDetailViewController::requestMsg()
 {
     std::map<std::string, std::string> key_value;
-	key_value["tag"] = suveyTag[0];
+	key_value["tag"] = surveySubmitTag[0];
     key_value["uid"] = crossapp_format_string("%d", FDataManager::getInstance()->getUserId());
     //key_value["sign"] = getSign(key_value);
     CommonHttpManager::getInstance()->send_post(httpUrl, key_value, this, CommonHttpJson_selector(VoteDetailViewController::onRequestFinished));

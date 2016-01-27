@@ -27,14 +27,18 @@ protected:
 	void buttonCallBack(CAControl* btn, DPoint point);
 
 	void requestMsg();
+    
+    void getSurveyInfo();
 
+    void onSurveyInfoFinished(const HttpResponseStatus& status, const CSJson::Value& json);
+    
 	void onRequestFinished(const HttpResponseStatus& status, const CSJson::Value& json);
 
 private:
 
 	DSize													m_winSize;
-	std::vector<surveyDetail>								m_msg;
-	int														m_score;
+	surveyDetail                                            m_surveyDetail;
+//	int														m_score;
 	int														m_sessionId;
     CAView*													p_alertView;
     CAActivityIndicatorView*								p_pLoading;

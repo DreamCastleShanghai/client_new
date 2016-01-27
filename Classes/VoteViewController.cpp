@@ -54,8 +54,8 @@ void VoteViewController::viewDidLoad()
     FSegmentView* seg =
         FSegmentView::createWithFrame(DRect((m_winSize.width - 400) / 2, 40, 400, 60), 2);
     seg->addTarget(this, CAControl_selector(VoteViewController::buttonCallBack), CAControlEventTouchUpInSide);
-    seg->setItemTile("Demo Jam", 0);
-    seg->setItemTile("SAP Voice", 1);
+    seg->setItemTile("DemoJam", 0);
+    seg->setItemTile("Voice of SAP", 1);
     seg->setTag(200, 0);
     seg->setTag(201, 1);
     this->getView()->addSubview(seg);

@@ -6,7 +6,8 @@
 #define _T(x) L##x
 #define CHAR    wchar_t
 
-static const std::string httpUrl = "http://139.196.195.185:8080/sap";//"http://10.88.225.99:8080/login";//"http://localhost/httpUrl";
+//static const std::string httpUrl = "http://localhost:8080/sap";
+static const std::string httpUrl = "http://139.196.195.185:8080/sap";
 
 static const std::string imgPreUrl = "http://139.196.195.185:8080/res/";
 
@@ -28,9 +29,14 @@ static const char* iconUploadTag[2] =
     "I0", "I1"
 };
 
-static const char* suveyTag[2] =
+static const char* surveyInfoTag[2] =
 {
-    "SU0", "SU1"
+    "SSI0", "SSI1"
+};
+
+static const char* surveySubmitTag[2] =
+{
+    "SSS0", "SSS1"
 };
 
 static const char* mainViewTag[2] =

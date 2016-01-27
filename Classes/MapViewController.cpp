@@ -36,6 +36,7 @@ void MapViewController::viewDidLoad()
     button->setTag(20);
     this->getView()->addSubview(button);
     
+    /*
     button = CAButton::createWithFrame(DRect(m_winSize.width - _px(140), _px(20), _px(100), _px(100)), CAButtonTypeCustom);
     imageView = CAImageView::createWithImage(CAImage::create("common/nav_forward.png"));
     imageView->setImageViewScaleType(CAImageViewScaleTypeFitImageXY);
@@ -44,7 +45,7 @@ void MapViewController::viewDidLoad()
     button->addTarget(this, CAControl_selector(MapViewController::buttonCallBack), CAControlEventTouchUpInSide);
     button->setTag(30);
     this->getView()->addSubview(button);
-    
+    */
     imageView = CAImageView::createWithImage(CAImage::create("login/login_bg.png"));
     imageView->setImageViewScaleType(CAImageViewScaleTypeFitImageXY);
     imageView->setFrame(DRect(0,_px(120),m_winSize.width,m_winSize.height - _px(120)));

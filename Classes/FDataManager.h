@@ -39,10 +39,10 @@ struct photoMsg
 
 struct surveyDetail
 {
-    int m_surveyId;
-    int m_itemId;
-    std::string m_itemDetail;
-    std::vector<string> m_itemSelection;
+    std::string m_question1;
+    std::string m_question2;
+    std::vector<string> m_question_option1;
+    std::vector<string> m_question_option2;
 };
 
 struct noticeMsg
