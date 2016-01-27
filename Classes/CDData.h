@@ -25,7 +25,7 @@ static const char* noticeTag[2] =
 
 static const char* iconUploadTag[2] =
 {
-    "I0", "I1"
+    "UI0", "PS0"
 };
 
 static const char* suveyTag[2] =

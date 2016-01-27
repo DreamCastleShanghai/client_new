@@ -6,6 +6,7 @@
 #include "utils/HttpConnect.h"
 #include "SessionDetailViewController.h"
 #include "FSegmentView.h"
+#include "PhotoViewController.h"
 
 MomentViewController::MomentViewController()
 : p_alertView(NULL)
@@ -57,7 +58,7 @@ void MomentViewController::viewDidLoad()
 
 	button = CAButton::createWithFrame(DRect(m_winSize.width - _px(140), _px(20), _px(100), _px(100)), CAButtonTypeCustom);
 	imageView = CAImageView::createWithImage(CAImage::create("moments/upload_icon.png"));
-	imageView->setImageViewScaleType(CAImageViewScaleTypeFitImageXY);
+	imageView->setImageViewScaleType(CAImageViewScaleTypeFitImageInside);
 	imageView->setFrame(DRect(_px(20), _px(20), _px(80), _px(80)));
 	button->setBackGroundViewForState(CAControlStateAll, imageView);
 	button->addTarget(this, CAControl_selector(MomentViewController::buttonCallBack), CAControlEventTouchUpInSide);
@@ -148,7 +149,7 @@ void MomentViewController::viewDidLoad()
 		button = CAButton::createWithFrame(DRect(_px(0), _px(100) * i, _px(200), _px(80)), CAButtonTypeCustom);
 		button->addTarget(this, CAControl_selector(MomentViewController::buttonCallBack), CAControlEventTouchUpInSide);
 		button->setTextTag(filterMoments[i]);
-		button->setTitleForState(CAControlStateAll, crossapp_format_string("\#%s", filterMoments[i]));
+		button->setTitleForState(CAControlStateAll, crossapp_format_string("#%s", filterMoments[i]));
 		button->setTitleFontSize(_px(30));
 		button->setTitleColorForState(CAControlStateAll, CAColor_gray);
 		m_filterView->addSubview(button);
@@ -176,7 +177,7 @@ void MomentViewController::requestMsg(int type)
 	{
 		std::map<std::string, std::string> key_value;
 		key_value["tag"] = momentsTag[0];
-		key_value["cat"] = "png";
+		key_value["cat"] = m_currentCategory;
 		key_value["psid"] = crossapp_format_string("%d", m_currentAllNum);
 		key_value["cnt"] = crossapp_format_string("%d", 5);
 		//key_value["uid"] = crossapp_format_string("%d", FDataManager::getInstance()->getUserId());
@@ -208,12 +209,25 @@ void MomentViewController::requestLike(int index)
 	key_value["uid"] = crossapp_format_string("%d", FDataManager::getInstance()->getUserId());
 	key_value["psid"] = crossapp_format_string("%d", index);
 	key_value["v"] = crossapp_format_string("%d", 1);
-	CommonHttpManager::getInstance()->send_post(httpUrl, key_value, this, CommonHttpJson_selector(MomentViewController::onRequestMyFinished));
+	CommonHttpManager::getInstance()->send_post(httpUrl, key_value, this, CommonHttpJson_selector(MomentViewController::onRequestLikeFinished));
 }
 
 void MomentViewController::onRequestLikeFinished(const HttpResponseStatus& status, const CSJson::Value& json)
 {
-
+    if (status == HttpResponseSucceed)
+    {
+        CSJson::FastWriter writer;
+        string tempjson = writer.write(json);
+        CCLog("receive json == %s",tempjson.c_str());
+        
+        const CSJson::Value& value = json["result"];
+        if (value["r"] == "1")
+        {
+            
+        }
+        
+    }
+    
 }
 
 void MomentViewController::buttonCallBack(CAControl* btn, DPoint point)
@@ -226,6 +240,12 @@ void MomentViewController::buttonCallBack(CAControl* btn, DPoint point)
 	{
 		m_filterView->setVisible(!(m_filterView->isVisible()));
 	}
+    else if (btn->getTag() == 40)
+    {
+        PhotoViewController* vc = new PhotoViewController(1);
+        vc->init();
+        RootWindow::getInstance()->getRootNavigationController()->pushViewController(vc, true);
+    }
     else if (btn->getTag() == 100)
     {
         this->getView()->removeSubview(p_alertView);
@@ -289,6 +309,10 @@ void MomentViewController::onRequestAllFinished(const HttpResponseStatus& status
 {
     if (status == HttpResponseSucceed)
     {
+        CSJson::FastWriter writer;
+        string tempjson = writer.write(json);
+        CCLog("receive json == %s",tempjson.c_str());
+        
 		const CSJson::Value& value = json["result"];
 		int length = value["pl"].size();
 		for (int i = 0; i < length; i++)
@@ -301,6 +325,8 @@ void MomentViewController::onRequestAllFinished(const HttpResponseStatus& status
 			temp.caterory = value["pl"][i]["Category"].asString();
 			temp.comment = value["pl"][i]["Comment"].asString();
 			temp.name = crossapp_format_string("%s %s", value["pl"][i]["LastName"].asCString(), value["pl"][i]["FirstName"].asCString());
+            temp.liked = value["pl"][i]["IsLiked"].asBool();
+            temp.likeNum = value["pl"][i]["LikeFlagCnt"].asInt();
 			m_allMsg.push_back(temp);
 		}
 		refreshAllFilterMsg(m_currentCategory.c_str());
@@ -342,6 +368,10 @@ void MomentViewController::onRequestMyFinished(const HttpResponseStatus& status,
 {
 	if (status == HttpResponseSucceed)
 	{
+        CSJson::FastWriter writer;
+        string tempjson = writer.write(json);
+        CCLog("receive json == %s",tempjson.c_str());
+        
 		const CSJson::Value& value = json["result"];
 		int length = value["pl"].size();
 		for (int i = 0; i < length; i++)
@@ -350,10 +380,10 @@ void MomentViewController::onRequestMyFinished(const HttpResponseStatus& status,
 			temp.picId = value["pl"][i]["PictureWallId"].asInt();
 			temp.userId = value["pl"][i]["UserId"].asInt();
 			temp.m_imageUrl = crossapp_format_string("%s%s", imgPreUrl.c_str(), value["pl"][i]["Picture"].asCString());
-			temp.m_iconUrl = crossapp_format_string("%s%s", imgPreUrl.c_str(), value["pl"][i]["Icon"].asCString());
+			//temp.m_iconUrl = crossapp_format_string("%s%s", imgPreUrl.c_str(), value["pl"][i]["Icon"].asCString());
 			temp.caterory = value["pl"][i]["Category"].asString();
 			temp.comment = value["pl"][i]["Comment"].asString();
-			temp.name = crossapp_format_string("%s %s", value["pl"][i]["LastName"].asCString(), value["pl"][i]["FirstName"].asCString());
+			//temp.name = crossapp_format_string("%s %s", value["pl"][i]["LastName"].asCString(), value["pl"][i]["FirstName"].asCString());
 			m_myMsg.push_back(temp);
 		}
 		m_currentMyNum += length;
@@ -467,7 +497,7 @@ CATableViewCell* MomentViewController::tableCellAtIndex(CATableView* table, cons
 		label->setTextAlignment(CATextAlignmentLeft);
 		label->setColor(CAColor_white);
 		label->setFontSize(_px(25));
-		label->setText(crossapp_format_string("\#%s", m_allFilterMsg.at(row)->caterory.c_str()));
+		label->setText(crossapp_format_string("#%s", m_allFilterMsg.at(row)->caterory.c_str()));
 		label->setFontName("fonts/arial.ttf");
 		view->addSubview(label);
 
@@ -583,7 +613,7 @@ unsigned int MomentViewController::numberOfSections(CACollectionView *collection
 
 unsigned int MomentViewController::numberOfRowsInSection(CACollectionView *collectionView, unsigned int section)
 {
-	return (m_myMsg.size() + 1) / 2;
+	return ((int)m_myMsg.size() + 1) / 2;
 }
 
 unsigned int MomentViewController::numberOfItemsInRowsInSection(CACollectionView *collectionView, unsigned int section, unsigned int row)

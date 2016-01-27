@@ -647,6 +647,8 @@
 				5C723CF21C1537B300B28BF3 /* CDData.h */,
 				5C723CF31C15381300B28BF3 /* CommonHttpManager.cpp */,
 				5C723CF41C15381300B28BF3 /* CommonHttpManager.h */,
+				217BD6AB1C55FBED00CC2CA3 /* ConstData.cpp */,
+				217BD6AC1C55FBED00CC2CA3 /* ConstData.h */,
 				5C31C85D1C47388000542BF3 /* FDataManager.cpp */,
 				5C31C85E1C47388000542BF3 /* FDataManager.h */,
 				B0621E1D1AC3ECB0005EBCA7 /* FirstViewController.cpp */,
@@ -679,8 +681,6 @@
 				5CFA827A1C2824550025C9B5 /* SessionDetailViewController.h */,
 				5CFA827B1C2824550025C9B5 /* SessionsSearchViewController.cpp */,
 				5CFA827C1C2824550025C9B5 /* SessionsSearchViewController.h */,
-				217BD6AB1C55FBED00CC2CA3 /* ConstData.cpp */,
-				217BD6AC1C55FBED00CC2CA3 /* ConstData.h */,
 				5CFA827D1C2824550025C9B5 /* SessionsViewController.cpp */,
 				5CFA827E1C2824550025C9B5 /* SessionsViewController.h */,
 				5CFA82881C282B730025C9B5 /* SiteViewController.cpp */,
@@ -688,10 +688,10 @@
 				5C31C8621C47FA0800542BF3 /* SurveyViewController.cpp */,
 				5C31C8631C47FA0800542BF3 /* SurveyViewController.h */,
 				5CF668361C194AD0009994C0 /* utils */,
-				5CFA828A1C282B730025C9B5 /* VoteViewController.cpp */,
-				5CFA828B1C282B730025C9B5 /* VoteViewController.h */,
 				5C5B69551C566598000C9AA4 /* VoteShakeViewController.cpp */,
 				5C5B69561C566598000C9AA4 /* VoteShakeViewController.h */,
+				5CFA828A1C282B730025C9B5 /* VoteViewController.cpp */,
+				5CFA828B1C282B730025C9B5 /* VoteViewController.h */,
 			);
 			name = Classes;
 			path = ../classes;

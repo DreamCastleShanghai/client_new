@@ -15,9 +15,9 @@ struct userInfo
 	vector<int> m_demoVoteIdVec;
 	vector<int> m_voiceVoteIdVec;
 	bool		m_eggVoted;
-    bool        m_greenAmb;
 	std::string m_imageUrl;
     int         m_point;
+    int         m_greenAmb;
 
     int         m_pointRank;
     int         m_lastPointRank;

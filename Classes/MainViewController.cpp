@@ -144,16 +144,23 @@ void MainViewController::scrollViewHeaderBeginRefreshing(CrossApp::CAScrollView 
         int count = 0;
         for (int i = (int)m_msg->size() - 1; i >= 0; i--)
         {
-			bool flag = false;
-			for (int j = 0; j < m_filterMsg.size(); j++)
-			{
-				if (m_msg->at(i).m_sessionId == m_filterMsg[j]->m_sessionId)
-					flag = true;
-			}
-			if (flag)
-				continue;
-            if (m_msg->at(i).m_stored &&
-                m_msg->at(i).m_startTime <= m_filterMsg[0]->m_startTime)
+            if(!(m_msg->at(i).m_stored))
+                continue;
+            if (m_filterMsg.size() == 0)
+            {
+                m_filterMsg.insert(m_filterMsg.begin(), &(m_msg->at(i)));
+                count++;
+                continue;
+            }
+            bool flag = false;
+            for (int j = 0; j < m_filterMsg.size(); j++)
+            {
+                if (m_msg->at(i).m_sessionId == m_filterMsg[j]->m_sessionId)
+                    flag = true;
+            }
+            if (flag)
+                continue;
+            if (m_msg->at(i).m_startTime <= m_filterMsg[0]->m_startTime)
             {
                 m_filterMsg.insert(m_filterMsg.begin(), &(m_msg->at(i)));
                 count++;
@@ -163,7 +170,7 @@ void MainViewController::scrollViewHeaderBeginRefreshing(CrossApp::CAScrollView 
                 break;
             }
         }
-
+        
     }
     if (m_msgTableView)
     {
@@ -173,21 +180,29 @@ void MainViewController::scrollViewHeaderBeginRefreshing(CrossApp::CAScrollView 
 
 void MainViewController::scrollViewFooterBeginRefreshing(CAScrollView* view)
 {
-    if (m_msg->size() - m_filterMsg.size() > 0)
+    if (m_msg->size() - m_filterMsg.size() > 0 && m_filterMsg.size() > 0)
     {
         int count = 0;
         for (int i = 0; i < (int)m_msg->size() - 1; i++)
         {
-			bool flag = false;
-			for (int j = 0; j < m_filterMsg.size(); j++)
-			{
-				if (m_msg->at(i).m_sessionId == m_filterMsg[j]->m_sessionId)
-					flag = true;
-			}
-			if (flag)
-				continue;
-            if (m_msg->at(i).m_stored &&
-                m_msg->at(i).m_startTime >= m_filterMsg[m_filterMsg.size() - 1]->m_startTime)
+            if(!(m_msg->at(i).m_stored))
+                continue;
+            if (m_filterMsg.size() == 0)
+            {
+                m_filterMsg.push_back(&(m_msg->at(i)));
+                count++;
+                continue;
+            }
+            
+            bool flag = false;
+            for (int j = 0; j < m_filterMsg.size(); j++)
+            {
+                if (m_msg->at(i).m_sessionId == m_filterMsg[j]->m_sessionId)
+                    flag = true;
+            }
+            if (flag)
+                continue;
+            if (m_msg->at(i).m_startTime >= m_filterMsg[m_filterMsg.size() - 1]->m_startTime)
             {
                 m_filterMsg.push_back(&(m_msg->at(i)));
                 count++;
@@ -417,7 +432,7 @@ void MainViewController::onRequestFinished(const HttpResponseStatus& status, con
         uInfo.m_userId = FDataManager::getInstance()->getUserId();
         uInfo.m_userName = crossapp_format_string("%s %s", v2["LastName"].asString().c_str(), v2["FirstName"].asString().c_str());
         uInfo.m_point = v2["Score"].asInt();
-        uInfo.m_imageUrl = v2["Icon"].asString();
+        uInfo.m_imageUrl = crossapp_format_string("%s%s", v2["Icon"].asCString());
 		uInfo.m_eggVoted = v2["EggVoted"].asBool();
         uInfo.m_greenAmb = v2["GreenAmb"].asBool();
 		uInfo.m_demoVoteIdVec.clear();
@@ -573,10 +588,6 @@ void MainViewController::buttonCallBack(CAControl* btn, DPoint point)
     }
     else if (btn->getTag() == 300)
     {
-        //PhotoViewController* vc = new PhotoViewController();
-        //vc->init();
-        //RootWindow::getInstance()->getRootNavigationController()->pushViewController(vc, true);
-
 		MomentViewController* mc = new MomentViewController();
 		mc->init();
 		RootWindow::getInstance()->getRootNavigationController()->pushViewController(mc, true);
