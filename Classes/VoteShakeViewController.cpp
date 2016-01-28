@@ -210,8 +210,8 @@ void VoteShakeViewController::buttonCallBack(CAControl* btn, DPoint point)
 {
     if (btn->getTag() == 20)
     {
-		requestMsg(1);
-        //RootWindow::getInstance()->getRootNavigationController()->popViewControllerAnimated(true);
+		//requestMsg(1);
+        RootWindow::getInstance()->getRootNavigationController()->popViewControllerAnimated(true);
     }
     else if (btn->getTag() == 100)
     {
@@ -256,10 +256,14 @@ void VoteShakeViewController::onRequestFinished(const HttpResponseStatus& status
         if (value["fv"].asInt() == pId || value["sv"].asInt() == pId)
         {
             m_voted = true;
+            m_shakeView->setVisible(false);
+            m_shakeEndView->setVisible(true);
         }
         else
         {
             m_voted = false;
+            m_shakeView->setVisible(true);
+            m_shakeEndView->setVisible(false);
         }
         
         initView();
@@ -293,8 +297,20 @@ void VoteShakeViewController::onRequestVoteFinished(const HttpResponseStatus& st
         const CSJson::Value& value = json["result"];
         if(value["r"].asInt() == 1)
         {
+            m_voted = true;
+            
             m_shakeView->setVisible(false);
             m_shakeEndView->setVisible(true);
+            if (m_demoMsg)
+            {
+                userInfo* uInfo = FDataManager::getInstance()->getUserInfo();
+                uInfo->m_demoVoteIdVec.push_back(m_demoMsg->m_projectId);
+            }
+            else
+            {
+                userInfo* uInfo = FDataManager::getInstance()->getUserInfo();
+                uInfo->m_voiceVoteIdVec.push_back(m_voiceMsg->m_projectId);
+            }
         }
 
     }

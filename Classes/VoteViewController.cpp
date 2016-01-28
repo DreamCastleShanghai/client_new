@@ -179,7 +179,27 @@ void VoteViewController::initMsgTableView()
         CAImageView* imageView = CAImageView::createWithImage(CAImage::create("vote/d_vote_btn.png"));
         imageView->setImageViewScaleType(CAImageViewScaleTypeFitImageXY);
         imageView->setFrame(DRect(_px(20), _px(20), _px(80), _px(80)));
-        button->setTitleForState(CAControlStateAll, "Vote");
+        
+        userInfo* uInfo = FDataManager::getInstance()->getUserInfo();
+        if (uInfo->m_demoVoteIdVec.size() >= 2)
+        {
+            button->setControlStateDisabled();
+        }
+        bool cVote = true;
+        for (int j = 0; j < uInfo->m_demoVoteIdVec.size(); j++)
+        {
+            if (m_demoMsg[i].m_projectId == uInfo->m_demoVoteIdVec[j])
+            {
+                cVote = false;
+                button->setTitleForState(CAControlStateAll, "Voted");
+                break;
+            }
+        }
+        if (cVote)
+        {
+            button->setTitleForState(CAControlStateAll, "Vote");
+        }
+        
         button->setTitleFontName("fonts/arial.ttf");
         button->setTitleColorForState(CAControlStateAll, CAColor_white);
         button->setBackGroundViewForState(CAControlStateAll, imageView);
@@ -220,7 +240,27 @@ void VoteViewController::initMsgTableView()
         CAImageView* imageView = CAImageView::createWithImage(CAImage::create("vote/v_vote_btn.png"));
         imageView->setImageViewScaleType(CAImageViewScaleTypeFitImageXY);
         imageView->setFrame(DRect(_px(20), _px(20), _px(80), _px(80)));
-        button->setTitleForState(CAControlStateAll, "Vote");
+        
+        userInfo* uInfo = FDataManager::getInstance()->getUserInfo();
+        if (uInfo->m_voiceVoteIdVec.size() >= 2)
+        {
+            button->setControlStateDisabled();
+        }
+        
+        bool cVote = true;
+        for (int j = 0; j < uInfo->m_voiceVoteIdVec.size(); j++)
+        {
+            if (m_voiceMsg[i].m_projectId == uInfo->m_voiceVoteIdVec[j])
+            {
+                cVote = false;
+                button->setTitleForState(CAControlStateAll, "Voted");
+                break;
+            }
+        }
+        if (cVote)
+        {
+            button->setTitleForState(CAControlStateAll, "Vote");
+        }
         button->setTitleFontName("fonts/arial.ttf");
         button->setTitleColorForState(CAControlStateAll, CAColor_white);
         button->setBackGroundViewForState(CAControlStateAll, imageView);
@@ -343,12 +383,22 @@ void VoteViewController::buttonCallBack(CAControl* btn, DPoint point)
     }
     else if (btn->getTag() >= 400 && btn->getTag() < 500)
     {
+        userInfo* uInfo = FDataManager::getInstance()->getUserInfo();
+        if (uInfo->m_demoVoteIdVec.size() >= 2)
+        {
+            return;
+        }
         VoteShakeViewController* vc = new VoteShakeViewController(&m_demoMsg[btn->getTag() - 400], NULL);
         vc->init();
         RootWindow::getInstance()->getRootNavigationController()->pushViewController(vc, true);
     }
     else if (btn->getTag() >= 500 && btn->getTag() < 600)
     {
+        userInfo* uInfo = FDataManager::getInstance()->getUserInfo();
+        if (uInfo->m_voiceVoteIdVec.size() >= 2)
+        {
+            return;
+        }
         VoteShakeViewController* vc = new VoteShakeViewController(NULL, &m_voiceMsg[btn->getTag() - 500]);
         vc->init();
         RootWindow::getInstance()->getRootNavigationController()->pushViewController(vc, true);

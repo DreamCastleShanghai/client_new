@@ -308,9 +308,10 @@ void SessionsSearchViewController::refreshTableByFormat(int track, int format)
 CATableViewCell* SessionsSearchViewController::tableCellAtIndex(CATableView* table, const DSize& cellSize, unsigned int section, unsigned int row)
 {
 	DSize _size = cellSize;
-	MainViewTableCell* cell = dynamic_cast<MainViewTableCell*>(table->dequeueReusableCellWithIdentifier(crossapp_format_string("%d", m_msgFilter[row]->m_sessionId).c_str()));
+    MainViewTableCell* cell = NULL;//dynamic_cast<MainViewTableCell*>();
 	if (cell == NULL)
 	{
+        table->dequeueReusableCellWithIdentifier(crossapp_format_string("%d", m_msgFilter[row]->m_sessionId).c_str());
 		cell = MainViewTableCell::create(crossapp_format_string("%d", m_msgFilter[row]->m_sessionId).c_str(), DRect(0, 0, _size.width, _size.height));
 		cell->initWithCell(*m_msgFilter[row]);
 	}
