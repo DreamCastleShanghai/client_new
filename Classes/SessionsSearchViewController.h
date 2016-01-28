@@ -30,6 +30,8 @@ protected:
 
 	void showAlert();
 
+	void refreshTableByFormat(int track, int format);
+
 	virtual CATableViewCell* tableCellAtIndex(CATableView* table, const DSize& cellSize, unsigned int section, unsigned int row);
 	virtual unsigned int numberOfRowsInSection(CATableView *table, unsigned int section);
 	virtual unsigned int numberOfSections(CATableView *table);
@@ -48,9 +50,16 @@ private:
 	CAActivityIndicatorView*								m_pLoading;
 	std::vector<sessionMsg>*								m_msg;
     std::vector<sessionMsg*>								m_msgFilter;
+	std::vector<sessionMsg*>								m_msgSearchFilter;
 	CATableView*											m_msgTableView;
-    
-	
+	CAView*													m_filterView;
+	CAView*													m_downView[2];
+	std::vector<CAButton*>                                  m_trackButtonVec;
+	std::vector<CAButton*>                                  m_formatButtonVec;
+
+
+	int                                                     m_navTrackType;
+	int                                                     m_navFormatType;
 };
 
 
