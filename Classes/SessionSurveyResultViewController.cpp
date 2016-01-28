@@ -85,7 +85,7 @@ void SessionSurveyResultViewController::viewDidLoad()
             }
         }
         
-        m_headerTitle = CALabel::createWithCenter(DRect(m_winSize.width / 2, (70), m_winSize.width, (30)));
+        m_headerTitle = CALabel::createWithCenter(DRect(m_winSize.width / 2, (80), m_winSize.width, (50)));
         m_headerTitle->setTextAlignment(CATextAlignmentCenter);
         m_headerTitle->setColor(CAColor_white);
         m_headerTitle->setFontSize(SAP_TITLE_FONT_SIZE);

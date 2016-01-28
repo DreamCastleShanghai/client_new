@@ -63,6 +63,7 @@ private:
     CAButton*                                               m_surveyBtn;
     CALabel*                                                m_surveyBtnLabel1;
     CALabel*                                                m_surveyBtnLabel2;
+    CALabel*                                                m_surveyBtnLabel3;
 };
 
 

@@ -121,7 +121,7 @@ void PhotoViewController::buttonCallBack(CAControl* btn, DPoint point)
         if (m_type == 1)
         {
             std::string imagePath = CCFileUtils::sharedFileUtils()->getWritablePath() + "image/" + "2.jpg";
-            m_getImage->saveToFile(imagePath.c_str());
+            m_getImage->saveToFile(imagePath.c_str(), true);
             CCLog("path : %s", imagePath.c_str());
             requestPhotoSubmit(imagePath);
             
@@ -284,7 +284,10 @@ void PhotoViewController::requestPhotoSubmit(std::string fullPath)
     key_value["tag"] = iconUploadTag[m_type];
     key_value["uid"] = crossapp_format_string("%d", FDataManager::getInstance()->getUserId());
     key_value["cat"] = m_currentCategory;
-    key_value["ptype"] = "png";
+    if (m_type == 1)
+        key_value["ptype"] = "jpg";
+    else if (m_type == 0)
+        key_value["ptype"] = "png";
     CommonHttpManager::getInstance()->send_postFile(httpUrl, key_value, fullPath, this, CommonHttpJson_selector(PhotoViewController::onRequestFinished));
     {
         DRect r(m_winSize.width / 2, (m_winSize.height - (120)) / 2 + (120),

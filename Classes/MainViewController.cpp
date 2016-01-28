@@ -7,7 +7,7 @@
 #include "LoginViewController.h"
 #include "SessionDetailViewController.h"
 #include "MyStatusViewController.h"
-#include "PrizeViewController.h"
+//#include "PrizeViewController.h"
 #include "MapViewController.h"
 #include "VoteViewController.h"
 #include "PhotoViewController.h"
@@ -16,6 +16,7 @@
 #include "FServerTime.h"
 #include "MomentViewController.h"
 #include "FirstSurveyViewController.h"
+#include "MeInfoViewController.h"
 
 #define REFRESH_STEP 5
 
@@ -37,7 +38,7 @@ MainViewController::MainViewController()
 //, m_pastSection(0)
 //, m_nextSection(1)
 , m_timeForPageView(getTimeSecond())
-, m_sustainbilitySurvey(NULL)
+, m_sustainabilitySurvey(NULL)
 , m_monent(NULL)
 , m_vote(NULL)
 , m_map(NULL)
@@ -627,7 +628,7 @@ void MainViewController::onRequestFinished(const HttpResponseStatus& status, con
         userInfo* uInfo = FDataManager::getInstance()->getUserInfo();
 		uInfo->m_loginName = v2["LoginName"].asString();
         uInfo->m_userId = FDataManager::getInstance()->getUserId();
-        uInfo->m_userName = crossapp_format_string("%s %s", v2["LastName"].asString().c_str(), v2["FirstName"].asString().c_str());
+        uInfo->m_userName = crossapp_format_string("%s %s", v2["FirstName"].asString().c_str(), v2["LastName"].asString().c_str());
         uInfo->m_point = v2["Score"].asInt();
         uInfo->m_imageUrl = crossapp_format_string("%s%s", imgPreUrl.c_str(), v2["Icon"].asCString());
 		uInfo->m_eggVoted = v2["EggVoted"].asBool();
@@ -692,7 +693,7 @@ void MainViewController::buttonCallBack(CAControl* btn, DPoint point)
 	}
 	else if (btn->getTag() == 30) // prize
 	{
-        CADevice::OpenURL(DKOM_SURVEY_LINK);
+        goDKomSurvey();
         /*
         m_sustainbilitySurvey = new FirstSurveyViewController();
         m_sustainbilitySurvey->init();
@@ -720,17 +721,23 @@ void MainViewController::buttonCallBack(CAControl* btn, DPoint point)
      */
     else if (btn->getTag() == 300)
     {
+        goUploadPhoto();
+        /*
         m_monent = (MomentViewController*)new MomentViewController();
         m_monent->init();
         m_monent->autorelease();
 		RootWindow::getInstance()->getRootNavigationController()->pushViewController(m_monent, true);
+         */
     }
     else if (btn->getTag() == 301)
     {
+        goDemoJam();
+        /*
         m_vote = (VoteViewController*)new VoteViewController();
         m_vote->init();
         m_vote->autorelease();
         RootWindow::getInstance()->getRootNavigationController()->pushViewController(m_vote, true);
+        */
     }
     else if (btn->getTag() == 302)
     {
@@ -813,15 +820,26 @@ void MainViewController::pageViewDidSelectPageAtIndex(CAPageView* pageView, unsi
 {
     CCLog("click %d", index);
     if (index < m_page.size()) {
-        if (!m_page.at(index).m_lable.empty())
+        std::string tag = m_page.at(index).m_lable;
+        if (strcmp(tag.c_str(), "ds") == 0)
         {
-            m_sustainbilitySurvey = new FirstSurveyViewController();
-            m_sustainbilitySurvey->init();
-            m_sustainbilitySurvey->autorelease();
-            RootWindow::getInstance()->getRootNavigationController()->pushViewController(m_sustainbilitySurvey, true);
-
-//            CCLog("open %s", m_page.at(index).m_resDetail.c_str());
-//            CADevice::OpenURL(m_page.at(index).m_resDetail);
+            goDKomSurvey();
+        }
+        else if (strcmp(tag.c_str(), "sc") == 0)
+        {
+            goSustainabilityCampaign();
+        }
+        else if (strcmp(tag.c_str(), "dj") == 0)
+        {
+            goDemoJam();
+        }
+        else if (strcmp(tag.c_str(), "up") == 0)
+        {
+            goUploadPhoto();
+        }
+        else if (strcmp(tag.c_str(), "cpr") == 0)
+        {
+            goCreditPointRules();
         }
     }
 }
@@ -851,16 +869,16 @@ bool MainViewController::checkPageStatusIsChanged()
     timeinfo = localtime(&nowTime);
     string timeStr = "";
     int statusShouldbe = MAP_ALL_MAP;
-    if (timeinfo->tm_hour >= 7 && timeinfo->tm_hour < 9) {
+    if (timeinfo->tm_hour >= 6 && timeinfo->tm_hour < 9) {
         statusShouldbe = MAP_PRE_EVENT;
     }
-    else if (timeinfo->tm_hour >= 9 && timeinfo->tm_hour < 12) {
+    else if (timeinfo->tm_hour >= 9 && timeinfo->tm_hour < 13) {
         statusShouldbe = MAP_MORNING;
     }
-    else if (timeinfo->tm_hour >= 12 && timeinfo->tm_hour < 17) {
+    else if (timeinfo->tm_hour >= 13 && timeinfo->tm_hour < 18) {
         statusShouldbe = MAP_AFTERNOON;
     }
-    else if (timeinfo->tm_hour >= 17 && timeinfo->tm_hour < 21) {
+    else if (timeinfo->tm_hour >= 18 && timeinfo->tm_hour < 22) {
         statusShouldbe = MAP_EVENING;
     }
     if (m_pageStatus != statusShouldbe) {
@@ -967,4 +985,41 @@ void MainViewController::initPageView()
     
     // to : animate the page view
     CAScheduler::schedule(schedule_selector(MainViewController::updatePageView), this, 5);//, true, 3000);
+}
+
+void MainViewController::goSustainabilityCampaign()
+{
+    m_sustainabilitySurvey = new FirstSurveyViewController();
+    m_sustainabilitySurvey->init();
+    m_sustainabilitySurvey->autorelease();
+    RootWindow::getInstance()->getRootNavigationController()->pushViewController(m_sustainabilitySurvey, true);
+}
+
+void MainViewController::goDKomSurvey()
+{
+    CADevice::OpenURL(DKOM_SURVEY_LINK);
+}
+
+void MainViewController::goDemoJam()
+{
+    m_vote = (VoteViewController*)new VoteViewController();
+    m_vote->init();
+    m_vote->autorelease();
+    RootWindow::getInstance()->getRootNavigationController()->pushViewController(m_vote, true);
+}
+
+void MainViewController::goUploadPhoto()
+{
+    m_monent = (MomentViewController*)new MomentViewController();
+    m_monent->init();
+    m_monent->autorelease();
+    RootWindow::getInstance()->getRootNavigationController()->pushViewController(m_monent, true);
+}
+
+void MainViewController::goCreditPointRules()
+{
+    MeInfoViewController* vc = new MeInfoViewController();
+    vc->init();
+    vc->autorelease();
+    RootWindow::getInstance()->getRootNavigationController()->pushViewController(vc, true);
 }

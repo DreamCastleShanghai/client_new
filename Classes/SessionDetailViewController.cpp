@@ -27,6 +27,7 @@ SessionDetailViewController::SessionDetailViewController(sessionMsg &msg)
 , m_surveyBtn(NULL)
 , m_surveyBtnLabel1(NULL)
 , m_surveyBtnLabel2(NULL)
+, m_surveyBtnLabel3(NULL)
 {
 	m_detailMsg.m_sessionId = -1;
 }
@@ -328,7 +329,7 @@ void SessionDetailViewController::initView()
         m_surveyBtnLabel1->setVerticalTextAlignmet(CAVerticalTextAlignmentCenter);
         m_surveyBtnLabel1->setColor(CAColor_white);
         m_surveyBtnLabel1->setFontSize((30));
-        m_surveyBtnLabel1->setText("Click to win point");
+        m_surveyBtnLabel1->setText("No available");
         m_surveyButtonView->addSubview(m_surveyBtnLabel1);
     }
     
@@ -340,6 +341,17 @@ void SessionDetailViewController::initView()
         m_surveyBtnLabel2->setFontSize((20));
         m_surveyBtnLabel2->setText("(Avalible in ?s)");
         m_surveyButtonView->addSubview(m_surveyBtnLabel2);
+    }
+    
+    if (m_surveyBtnLabel3 == NULL) {
+        m_surveyBtnLabel3 = CALabel::createWithFrame(DRect((0), (40), m_winSize.width - (300), (30)));
+        m_surveyBtnLabel3->setTextAlignment(CATextAlignmentCenter);
+        m_surveyBtnLabel3->setVerticalTextAlignmet(CAVerticalTextAlignmentCenter);
+        m_surveyBtnLabel3->setColor(CAColor_white);
+        m_surveyBtnLabel3->setFontSize((30));
+        m_surveyBtnLabel3->setText("");
+        m_surveyBtnLabel3->setVisible(false);
+        m_surveyButtonView->addSubview(m_surveyBtnLabel3);
     }
 
     if (m_surveyBtn == NULL)
@@ -616,11 +628,14 @@ void SessionDetailViewController::adjustSurveyBtn(float dt)
     {// is attended this survey
         if (m_surveyBtn) m_surveyBtn->setControlState(CAControlStateDisabled);
         if (m_surveyBtnLabel1) {
-            m_surveyBtnLabel1->setText("Attended !");
-//            m_surveyBtnLabel1->setColor(CAColor_blue);
+            m_surveyBtnLabel1->setVisible(false);
         }
         if (m_surveyBtnLabel2) {
-//            m_surveyBtnLabel2->setColor(CAColor_blue);
+            m_surveyBtnLabel2->setVisible(false);
+        }
+        if (m_surveyBtnLabel3) {
+            m_surveyBtnLabel3->setText("Attended");
+            m_surveyBtnLabel3->setVisible(true);
         }
     } else {
         if (m_detailMsg.m_endTime == 0 || m_detailMsg.m_startTime == 0) {
@@ -628,18 +643,20 @@ void SessionDetailViewController::adjustSurveyBtn(float dt)
             if (m_surveyBtn) m_surveyBtn->setControlState(CAControlStateDisabled);
             if (m_surveyBtnLabel1) {
                 m_surveyBtnLabel1->setText("null");
-//                m_surveyBtnLabel1->setColor(CAColor_blue);
             }
             if (m_surveyBtnLabel2) m_surveyBtnLabel2->setColor(CAColor_blue);
         } else if (nowTime > m_detailMsg.m_endTime + TIME_GAPE) {
             // close
             if (m_surveyBtn) m_surveyBtn->setControlState(CAControlStateDisabled);
             if (m_surveyBtnLabel1) {
-                m_surveyBtnLabel1->setText("Overdue");
-//                m_surveyBtnLabel1->setColor(CAColor_blue);
+                m_surveyBtnLabel1->setVisible(false);
             }
             if (m_surveyBtnLabel2) {
-//                m_surveyBtnLabel2->setColor(CAColor_blue);
+                m_surveyBtnLabel2->setVisible(false);
+            }
+            if (m_surveyBtnLabel3) {
+                m_surveyBtnLabel3->setText("Overdue");
+                m_surveyBtnLabel3->setVisible(true);
             }
         } else if (nowTime < m_detailMsg.m_startTime + TIME_GAPE) {
             // not start yet
@@ -666,17 +683,25 @@ void SessionDetailViewController::adjustSurveyBtn(float dt)
                     timeStr += crossapp_format_string("%ds",timeinfo->tm_sec);
                 }
                 m_surveyBtnLabel2->setText(crossapp_format_string("Avaliable is %s", timeStr.c_str()));
-//                m_surveyBtnLabel2->setColor(CAColor_blue);
+//                m_surveyBtnLabel2->setColor(SAP_DEFAULT_COLOR);
             }
         } else {
             // can attend
-            if (m_surveyBtn) m_surveyBtn->setControlState(CAControlStateNormal);
+            if (m_surveyButtonView) {
+                m_surveyButtonView->setColor(SAP_DEFAULT_COLOR);
+            }
+            if (m_surveyBtn) {
+                m_surveyBtn->setControlState(CAControlStateNormal);
+            }
             if (m_surveyBtnLabel1) {
-                m_surveyBtnLabel1->setText("Click to win points");
-//                m_surveyBtnLabel1->setColor(CAColor_white);
+                m_surveyBtnLabel1->setVisible(false);
             }
             if (m_surveyBtnLabel2) {
-//                m_surveyBtnLabel2->setColor(CAColor_white);
+                m_surveyBtnLabel2->setVisible(false);
+            }
+            if (m_surveyBtnLabel3) {
+                m_surveyBtnLabel3->setText("Click to win point");
+                m_surveyBtnLabel3->setVisible(true);
             }
         }
     }

@@ -75,7 +75,7 @@ void LoginViewController::viewDidLoad()
 	m_pPassword->setInputType(KEY_BOARD_INPUT_PASSWORD);
     m_pPassword->setKeyboardReturnType(KEY_BOARD_RETURN_DONE);
      */
-	m_pAccount->setPlaceHolderText("username");
+	m_pAccount->setPlaceHolderText("E-mail");
     //m_pAccount->setKeyboardType(CATextField::KeyboardTypeNumbersAndPunctuation);
     m_pAccount->setReturnType(CATextField::Next);
     m_pAccount->setBackgroundImage(CAImage::create("common/white_bg.png"));
@@ -87,7 +87,7 @@ void LoginViewController::viewDidLoad()
     m_pPassword->setBackgroundImage(CAImage::create("common/white_bg.png"));
     m_pPassword->setTextColor(CAColor_black);
     m_pPassword->setSecureTextEntry(true);
-    m_pPassword->setPlaceHolderText("password");
+    m_pPassword->setPlaceHolderText("Registration code");
 	loginView->addSubview(m_pPassword);
 
     CAScale9ImageView* sView = CAScale9ImageView::createWithImage(CAImage::create("common/gray_bg.png"));
@@ -109,7 +109,7 @@ void LoginViewController::viewDidLoad()
     offY = m_winSize.height / 2 + (200);
     offW = (80);
     CALabel* label = CALabel::createWithFrame(DRect(m_winSize.width - (500), offY, m_winSize.width, offW));
-    label->setText("Forget Registration Code?");
+    label->setText("Forgot confirmation number?");
     label->setColor(CAColor_white);
     label->setFontName(SAP_FONT_ARIAL);
     label->setFontSize((24));
@@ -143,7 +143,7 @@ void LoginViewController::btnCallBack(CAControl* btn, DPoint point)
         ConstFunc::trim(account);
         ConstFunc::trim(passwd);
         if (account.length() == 0 || passwd.length() == 0) {
-            CAAlertView *alertView = CAAlertView::createWithText("Waining !", "Account or password cannot be null !", "OK", NULL);
+            CAAlertView *alertView = CAAlertView::createWithText("Waining !", "Email adress or confirmation number cannot be null.", "OK", NULL);
             alertView->show();
             return;
         }
@@ -162,7 +162,6 @@ void LoginViewController::btnCallBack(CAControl* btn, DPoint point)
         CAAlertView *alertView = CAAlertView::createWithText("Nothing !", "Process later !", "OK", NULL);
         alertView->show();
     }
-	
 }
 
 void LoginViewController::onRequestLoginFinished(const HttpResponseStatus& status, const CSJson::Value& json)
@@ -187,7 +186,7 @@ void LoginViewController::onRequestLoginFinished(const HttpResponseStatus& statu
             }
             else
             {
-                CAAlertView *alertView = CAAlertView::createWithText("Warning !", "Account or password wrong !", "OK", NULL);
+                CAAlertView *alertView = CAAlertView::createWithText("Warning !", "Invalid email address or confirmation number.", "OK", NULL);
                 alertView->show();
             }
         }

@@ -61,6 +61,16 @@ public:
     void refreshTable();
     
     void reloadTableData();
+    
+    void goSustainabilityCampaign();
+    
+    void goDKomSurvey();
+    
+    void goDemoJam();
+    
+    void goUploadPhoto();
+    
+    void goCreditPointRules();
 
 	virtual void scrollViewHeaderBeginRefreshing(CAScrollView* view);
 	virtual void scrollViewFooterBeginRefreshing(CAScrollView* view);
@@ -112,7 +122,7 @@ private:
     time_t                                                  m_timeForPageView;
 
     DSize													m_winSize;
-    CAViewController*                                       m_sustainbilitySurvey;
+    CAViewController*                                       m_sustainabilitySurvey;
     CAViewController*                                       m_monent;
     CAViewController*                                       m_vote;
     CAViewController*                                       m_map;

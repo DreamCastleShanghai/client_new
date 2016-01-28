@@ -101,7 +101,7 @@ void MyStatusViewController::viewDidLoad()
     if (m_navSegmentView) {
         m_navSegmentView->addTarget(this, CAControl_selector(MyStatusViewController::buttonCallBack), CAControlEventTouchUpInSide);
         m_navSegmentView->setItemTile("My Agenda", 0);
-        m_navSegmentView->setItemTile("Point", 1);
+        m_navSegmentView->setItemTile("Points", 1);
         m_navSegmentView->setTag(200, 0);
         m_navSegmentView->setTag(201, 1);
         this->getView()->addSubview(m_navSegmentView);
@@ -165,7 +165,8 @@ void MyStatusViewController::viewDidLoad()
         }
         
         // user name
-        m_nameLabel = CALabel::createWithFrame(DRect((m_winSize.width - (200)) / 2, (170), (200), (35)));
+        m_nameLabel = CALabel::createWithCenter(DRect(m_winSize.width / 2, (185), (400), (40)));
+        //m_nameLabel = CALabel::createWithFrame(DRect((m_winSize.width - (200)) / 2, (170), (200), (35)));
         if (m_nameLabel) {
             m_nameLabel->setFontSize((30));
             m_nameLabel->setColor(CAColor_white);
@@ -191,6 +192,7 @@ void MyStatusViewController::viewDidLoad()
                 m_pointLabel[i]->setFontSize((50));
                 m_pointLabel[i]->setTouchEnabled(false);
                 m_pointLabel[i]->setColor(CAColor_white);
+                m_pointLabel[i]->setText("");
                 m_pointView->addSubview(m_pointLabel[i]);
             }
             
@@ -201,6 +203,7 @@ void MyStatusViewController::viewDidLoad()
                 m_rankLabel[i]->setFontSize((30));
                 m_rankLabel[i]->setTouchEnabled(false);
                 m_rankLabel[i]->setColor(CAColor_white);
+                m_rankLabel[i]->setText("");
                 m_pointView->addSubview(m_rankLabel[i]);
             }
         }

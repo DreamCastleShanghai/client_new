@@ -413,7 +413,7 @@ void SessionsViewController::onRequestFinished(const HttpResponseStatus& status,
         userInfo* uInfo = FDataManager::getInstance()->getUserInfo();
         uInfo->m_loginName = v2["LoginName"].asString();
         uInfo->m_userId = FDataManager::getInstance()->getUserId();
-        uInfo->m_userName = crossapp_format_string("%s %s", v2["LastName"].asString().c_str(), v2["FirstName"].asString().c_str());
+        uInfo->m_userName = crossapp_format_string("%s %s", v2["FirstName"].asString().c_str(), v2["LastName"].asString().c_str());
         uInfo->m_point = v2["Score"].asInt();
         uInfo->m_imageUrl = crossapp_format_string("%s%s", imgPreUrl.c_str(), v2["Icon"].asCString());
         uInfo->m_eggVoted = v2["EggVoted"].asBool();

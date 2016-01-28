@@ -118,21 +118,49 @@ static const char* filterItem[2] =
 #define TrackNum 12
 static const char* trackFilterItem[TrackNum] =
 {
-    "all", "HANA, HCP & Cloud Infrastructure", "User Experience", "Analytics", "S/4HANA", "Internet of Things", "Incubation & Emerging Trends",
-	"LoB Applications", "Security & Engineering Excellence", "Small & Medium Enterprises", "Business Network Applications", "Industry Applications"
+    "all",
+    "HANA, HCP & Cloud Infrastructure",
+    "User Experience",
+    "Analytics",
+    "S/4HANA",
+    "Internet of Things",
+    "Incubation & Emerging Trends",
+	"LoB Applications",
+    "Security & Engineering Excellence",
+    "Small & Medium Enterprises",
+    "Business Network Applications",
+    "Industry Applications"
 };
 
 #define FormatNum 12
 static const char* formatFilterItem[FormatNum] =
 {
-	"all", "SAP Talk", "Downtown Block", "Developer Faire Booth", "Interactive Zone", "Customer Talk", "People & SLN Booth", "Fiori Cafe", "Cloud Innovation Kitchen",
-	"SAP Development University", "Quality Booth", "Digital Zone"
+	"all",
+    "SAP Talk",
+    "Downtown Block",
+    "Developer Faire Booth",
+    "Interactive Zone",
+    "Customer Talk",
+    "People & SLN Booth",
+    "Fiori Cafe",
+    "Cloud Innovation Kitchen",
+	"SAP Development University",
+    "Quality Booth",
+    "Digital Zone"
 };
 
-#define MOMENTSFILTERNUM 7
+#define MOMENTSFILTERNUM 9
 static const char* filterMoments[MOMENTSFILTERNUM] =
 {
-	"all", "developers", "food", "demo", "Voice of SAP", "Demo Jam", "Handsome"
+	"all",
+    "Keynote",
+    "Session",
+    "Evening Party",
+    "Digital Zone",
+    "Fun",
+    "Selfie",
+    "Smile",
+    "Others",
 };
 
 static const char* surveyDetail[1] =

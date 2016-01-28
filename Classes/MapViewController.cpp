@@ -159,11 +159,11 @@ void MapViewController::viewDidLoad()
         if (m_pageOneImage) {
             // test code
             m_pageOneImage->setImageViewScaleType(CAImageViewScaleTypeFitImageXY);
-            m_pageOneImage->setImage(CAImage::create("login/login_bg.png"));
+            m_pageOneImage->setImage(CAImage::create("map/map_bg.png"));
             m_pageOne->addSubview(m_pageOneImage);
         }
         //test code
-        CAImageView* temp = CAImageView::createWithImage(CAImage::create("login/login_bg.png"));
+        CAImageView* temp = CAImageView::createWithImage(CAImage::create("lmap/map_bg.png"));
         temp->setImageViewScaleType(CAImageViewScaleTypeFitImageXY);
         temp->setFrame(DRect(0, (140), m_winSize.width, m_winSize.height));
         m_pageOne->addSubview(temp);
@@ -187,11 +187,11 @@ void MapViewController::viewDidLoad()
         m_pageTwoImage = CommonUrlImageView::createWithFrame(DRect(0, 0, m_winSize.width, m_winSize.height - hight));
         if (m_pageTwoImage) {
             m_pageTwoImage->setImageViewScaleType(CAImageViewScaleTypeFitImageXY);
-            m_pageTwoImage->setImage(CAImage::create("login/login_bg.png"));
+            m_pageTwoImage->setImage(CAImage::create("map/map_bg.png"));
             m_pageTwo->addSubview(m_pageTwoImage);
         }
         
-        CAImageView* temp = CAImageView::createWithImage(CAImage::create("login/login_bg.png"));
+        CAImageView* temp = CAImageView::createWithImage(CAImage::create("map/map_bg.png"));
         temp->setImageViewScaleType(CAImageViewScaleTypeFitImageXY);
         temp->setFrame(DRect(0, 0, m_winSize.width, m_winSize.height - hight));
         m_pageTwo->addSubview(temp);

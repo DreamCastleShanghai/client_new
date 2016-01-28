@@ -166,8 +166,6 @@
 		5CFA82811C2824550025C9B5 /* SessionsViewController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5CFA827D1C2824550025C9B5 /* SessionsViewController.cpp */; };
 		5CFA82831C2825F90025C9B5 /* session in Resources */ = {isa = PBXBuildFile; fileRef = 5CFA82821C2825F90025C9B5 /* session */; };
 		5CFA828C1C282B730025C9B5 /* MyStatusViewController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5CFA82841C282B730025C9B5 /* MyStatusViewController.cpp */; };
-		5CFA828D1C282B730025C9B5 /* PrizeViewController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5CFA82861C282B730025C9B5 /* PrizeViewController.cpp */; };
-		5CFA828E1C282B730025C9B5 /* SiteViewController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5CFA82881C282B730025C9B5 /* SiteViewController.cpp */; };
 		5CFA828F1C282B730025C9B5 /* VoteViewController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5CFA828A1C282B730025C9B5 /* VoteViewController.cpp */; };
 		5CFA82921C2831260025C9B5 /* PhotoViewController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5CFA82901C2831260025C9B5 /* PhotoViewController.cpp */; };
 		5CFCF6FC1C3D589600DE4410 /* MapViewController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5CFCF6FA1C3D589600DE4410 /* MapViewController.cpp */; };
@@ -524,10 +522,6 @@
 		5CFA82821C2825F90025C9B5 /* session */ = {isa = PBXFileReference; lastKnownFileType = folder; path = session; sourceTree = "<group>"; };
 		5CFA82841C282B730025C9B5 /* MyStatusViewController.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MyStatusViewController.cpp; path = ../Classes/MyStatusViewController.cpp; sourceTree = "<group>"; };
 		5CFA82851C282B730025C9B5 /* MyStatusViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MyStatusViewController.h; path = ../Classes/MyStatusViewController.h; sourceTree = "<group>"; };
-		5CFA82861C282B730025C9B5 /* PrizeViewController.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = PrizeViewController.cpp; path = ../Classes/PrizeViewController.cpp; sourceTree = "<group>"; };
-		5CFA82871C282B730025C9B5 /* PrizeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PrizeViewController.h; path = ../Classes/PrizeViewController.h; sourceTree = "<group>"; };
-		5CFA82881C282B730025C9B5 /* SiteViewController.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SiteViewController.cpp; path = ../Classes/SiteViewController.cpp; sourceTree = "<group>"; };
-		5CFA82891C282B730025C9B5 /* SiteViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SiteViewController.h; path = ../Classes/SiteViewController.h; sourceTree = "<group>"; };
 		5CFA828A1C282B730025C9B5 /* VoteViewController.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = VoteViewController.cpp; path = ../Classes/VoteViewController.cpp; sourceTree = "<group>"; };
 		5CFA828B1C282B730025C9B5 /* VoteViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VoteViewController.h; path = ../Classes/VoteViewController.h; sourceTree = "<group>"; };
 		5CFA82901C2831260025C9B5 /* PhotoViewController.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = PhotoViewController.cpp; path = ../Classes/PhotoViewController.cpp; sourceTree = "<group>"; };
@@ -701,8 +695,6 @@
 				5CFCF7051C3EAE0F00DE4410 /* NoticeViewController.h */,
 				5CFA82901C2831260025C9B5 /* PhotoViewController.cpp */,
 				5CFA82911C2831260025C9B5 /* PhotoViewController.h */,
-				5CFA82861C282B730025C9B5 /* PrizeViewController.cpp */,
-				5CFA82871C282B730025C9B5 /* PrizeViewController.h */,
 				B0621E1F1AC3ECB0005EBCA7 /* RootWindow.cpp */,
 				B0621E201AC3ECB0005EBCA7 /* RootWindow.h */,
 				5CFA82791C2824550025C9B5 /* SessionDetailViewController.cpp */,
@@ -713,8 +705,6 @@
 				2150400C1C66062A005AB8B7 /* SessionSurveyResultViewController.h */,
 				5CFA827D1C2824550025C9B5 /* SessionsViewController.cpp */,
 				5CFA827E1C2824550025C9B5 /* SessionsViewController.h */,
-				5CFA82881C282B730025C9B5 /* SiteViewController.cpp */,
-				5CFA82891C282B730025C9B5 /* SiteViewController.h */,
 				5C31C8621C47FA0800542BF3 /* SurveyViewController.cpp */,
 				5C31C8631C47FA0800542BF3 /* SurveyViewController.h */,
 				5CF668361C194AD0009994C0 /* utils */,
@@ -1225,7 +1215,6 @@
 				5C5DE7CA1C3035A900D9A8BC /* bitstream.c in Sources */,
 				5CFCF7061C3EAE0F00DE4410 /* NoticeViewController.cpp in Sources */,
 				3E02A4E41B85AD6000328E71 /* as_string.cpp in Sources */,
-				5CFA828E1C282B730025C9B5 /* SiteViewController.cpp in Sources */,
 				3E02A5091B85AD6000328E71 /* gameswf_tesselate.cpp in Sources */,
 				3E02A4EA1B85AD6000328E71 /* gameswf_avm2_jit.cpp in Sources */,
 				5C432C2D1C60EAB7008B55A0 /* ConstRect.cpp in Sources */,
@@ -1294,7 +1283,6 @@
 				5C31C85F1C47388000542BF3 /* FDataManager.cpp in Sources */,
 				3E02A5061B85AD6000328E71 /* gameswf_sprite_def.cpp in Sources */,
 				3E02A4B31B85AD6000328E71 /* ear_clip_triangulate_sint16.cpp in Sources */,
-				5CFA828D1C282B730025C9B5 /* PrizeViewController.cpp in Sources */,
 				3E02A4CF1B85AD6000328E71 /* as_color.cpp in Sources */,
 				3E02A4CB1B85AD6000328E71 /* as_array.cpp in Sources */,
 				3E02A5071B85AD6000328E71 /* gameswf_stream.cpp in Sources */,
@@ -1376,7 +1364,7 @@
 				ARCHS = "$(ARCHS_STANDARD)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Dream Castle Co., Ltd. (65J6U7BL8K)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: zheng min (N67Y5Y7TVF)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Dream Castle Co., Ltd. (65J6U7BL8K)";
 				COPY_PHASE_STRIP = NO;
 				ENABLE_BITCODE = NO;
@@ -1416,8 +1404,8 @@
 				OTHER_CFLAGS = "-O2";
 				PRODUCT_BUNDLE_IDENTIFIER = com.dc.app.sap2015ap;
 				PRODUCT_NAME = "d-kom 2016";
-				PROVISIONING_PROFILE = "014ec486-14bc-4372-a23d-d3061773834e";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "014ec486-14bc-4372-a23d-d3061773834e";
+				PROVISIONING_PROFILE = "775aead5-203b-4936-b1fb-a408a262505a";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "a5df8166-9819-4f58-bbee-af03ba5548f6";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 1;
 				USER_HEADER_SEARCH_PATHS = "";
@@ -1432,7 +1420,7 @@
 				ARCHS = "$(ARCHS_STANDARD)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Dream Castle Co., Ltd. (65J6U7BL8K)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: zheng min (N67Y5Y7TVF)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Dream Castle Co., Ltd. (65J6U7BL8K)";
 				COPY_PHASE_STRIP = YES;
 				ENABLE_BITCODE = NO;
@@ -1469,8 +1457,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.dc.app.sap2015ap;
 				PRODUCT_NAME = "d-kom 2016";
-				PROVISIONING_PROFILE = "014ec486-14bc-4372-a23d-d3061773834e";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "014ec486-14bc-4372-a23d-d3061773834e";
+				PROVISIONING_PROFILE = "775aead5-203b-4936-b1fb-a408a262505a";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "a5df8166-9819-4f58-bbee-af03ba5548f6";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 1;
 				USER_HEADER_SEARCH_PATHS = "";

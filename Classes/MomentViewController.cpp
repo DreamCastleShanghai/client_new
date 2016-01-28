@@ -619,11 +619,11 @@ CATableViewCell* MomentViewController::tableCellAtIndex(CATableView* table, cons
 		view->setColor(ccc4(0, 0, 0, 128));
 		cell->addSubview(view);
 
-		temImage = CommonUrlImageView::createWithImage(CAImage::create("common/bg.png"));
+		temImage = CommonUrlImageView::createWithImage(CAImage::create("common/head_bg.png"));
 		temImage->setFrame(DRect((40), (20), (80), (80)));
 		//CommonUrlImageView::createWithFrame(DRect(0, 0, _size.width, _size.height));
 		temImage->setImageViewScaleType(CAImageViewScaleTypeFitImageInside);
-		temImage->setImage(CAImage::create("common/bg.png"));
+		temImage->setImage(CAImage::create("common/head_bg.png"));
 		temImage->setUrl(m_allFilterMsg.at(row)->m_iconUrl);
 		temImage->setTouchEnabled(false);
 		view->addSubview(temImage);

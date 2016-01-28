@@ -420,7 +420,7 @@ void SurveyViewController::onRequestFinished(const HttpResponseStatus& status, c
         const CSJson::Value& value = json["result"];
         SessionSurveyResultViewController* srv = new SessionSurveyResultViewController();
         srv->setAddedPoint(value["add"].asInt());
-        srv->setRank(value["rank"].asInt());
+        srv->setRank(value["rank"].asInt() + 1);
         srv->setPoint(value["points"].asInt());
         if (value["r"] == 1)
         {

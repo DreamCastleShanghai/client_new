@@ -58,7 +58,7 @@ void MomentsDetailViewController::viewDidLoad()
         view->setColor(ccc4(0, 0, 0, 100));
         this->getView()->addSubview(view);
         
-        CommonUrlImageView* temImage = CommonUrlImageView::createWithImage(CAImage::create("common/bg.png"));
+        CommonUrlImageView* temImage = CommonUrlImageView::createWithImage(CAImage::create("common/head_bg.png"));
         temImage->setFrame(DRect((40), (20), (80), (80)));
         //CommonUrlImageView::createWithFrame(DRect(0, 0, _size.width, _size.height));
         temImage->setImageViewScaleType(CAImageViewScaleTypeFitImageInside);

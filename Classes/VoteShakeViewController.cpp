@@ -105,7 +105,7 @@ void VoteShakeViewController::initView()
         label->setTextAlignment(CATextAlignmentCenter);
         label->setColor(CAColor_white);
         label->setFontSize((35));
-        label->setText("Vote event will be start after the show!");
+        label->setText("Voting will start soon!");
         label->setFontName(SAP_FONT_ARIAL);
         m_shakeView->addSubview(label);
     }
@@ -160,7 +160,7 @@ void VoteShakeViewController::initView()
         label->setTextAlignment(CATextAlignmentCenter);
         label->setColor(CAColor_white);
         label->setFontSize((35));
-        label->setText("This event has been over!");
+        label->setText("Voting ended!");
         label->setFontName(SAP_FONT_ARIAL);
         m_shakeView->addSubview(label);
     }
