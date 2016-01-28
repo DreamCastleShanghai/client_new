@@ -13,6 +13,11 @@ class SurveyViewController
 {
     
 public:
+    enum
+    {
+        STAR_CNT = 5,
+        OPTN_CNT = 4,
+    };
 
 	SurveyViewController(int sessionId);
     
@@ -44,8 +49,22 @@ private:
     CAActivityIndicatorView*								p_pLoading;
 	CALabel*												m_alertLabel;
 	std::vector<CAButton*>									m_scoreButtonVec;
+    CAImage*                                                m_stars[STAR_CNT];
 	CAListView*												m_listView;
 	CATextView*												m_feedBackTextView;
+    
+    CALabel*                                                m_question1;
+    CALabel*                                                m_question2;
+    
+    CALabel*                                                m_option1[OPTN_CNT];
+    CALabel*                                                m_option2[OPTN_CNT];
+    
+    CAButton*                                               m_optionBtn1[OPTN_CNT];
+    CAButton*                                               m_optionBtn2[OPTN_CNT];
+    
+    int                                                     m_choose1;
+    int                                                     m_choose2;
+    int                                                     m_chooseStar;
 };
 
 
