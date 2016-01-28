@@ -2,7 +2,7 @@
 #include "MainViewTableCell.h"
 #include "utils/HttpConnect.h"
 #include "FServerTime.h"
-#include "ConstData.h"
+#include "ConstData/ConstRect.h"
 
 MainViewTableCell::MainViewTableCell()
 : m_titleLabel(NULL),
@@ -48,13 +48,13 @@ void MainViewTableCell::initWithCell(sessionMsg &msg)
 	m_msg = &msg;
 
     m_urlImageView = CommonUrlImageView::createWithImage(CAImage::create("common/bg.png"));
-    tempRect = ConstData::getSessionCellLogoRect();
+    tempRect = ConstRect::getSessionCellLogoRect();
     m_urlImageView->setFrame(tempRect);
     m_urlImageView->setImageViewScaleType(CAImageViewScaleTypeFitImageCrop);
     m_urlImageView->setImage(CAImage::create("common/bg.png"));
     this->getContentView()->addSubview(m_urlImageView);
 
-    tempRect = ConstData::getSessionCellTitleRect();
+    tempRect = ConstRect::getSessionCellTitleRect();
     tempRect.size.width = _size.width - tempRect.origin.x * 2;
 	m_titleLabel = CALabel::createWithFrame(tempRect);
 	m_titleLabel->setColor(ccc4(0x5f, 0x5f, 0x5f, 0xff));
@@ -62,7 +62,7 @@ void MainViewTableCell::initWithCell(sessionMsg &msg)
 	m_titleLabel->setFontSize(_px(27));
 	this->getContentView()->addSubview(m_titleLabel);
 
-    tempRect = ConstData::getSessionCellTimeRect();
+    tempRect = ConstRect::getSessionCellTimeRect();
     tempRect.size.width = _size.width / 2;
     m_timeLabel = CALabel::createWithFrame(tempRect);
     m_timeLabel->setColor(ccc4(0x5f, 0x5f, 0x5f, 0xff));
@@ -71,7 +71,7 @@ void MainViewTableCell::initWithCell(sessionMsg &msg)
     m_timeLabel->setFontSize(_px(25));
     this->getContentView()->addSubview(m_timeLabel);
     
-    tempRect = ConstData::getSessionCellLocationRect();
+    tempRect = ConstRect::getSessionCellLocationRect();
     tempRect.size.width = _size.width - _px(210);
 	m_locationLabel = CALabel::createWithFrame(tempRect);
 	m_locationLabel->setColor(ccc4(0xa1, 0xa1, 0xa1, 0xff));
@@ -82,7 +82,7 @@ void MainViewTableCell::initWithCell(sessionMsg &msg)
     //CAView* view = CAView::createWithFrame(DRect(_size.width - _px(140), _px(40), _px(100), _px(50)));
 	//this->getContentView()->addSubview(view);
 
-    tempRect = ConstData::getSessionCellLikeRect();
+    tempRect = ConstRect::getSessionCellLikeRect();
     tempRect.origin.x = _size.width - _px(140);
 	m_likeBtnImage = CAImageView::createWithImage(CAImage::create("common/btn_like.png"));
 	m_likeBtnImage->setImageViewScaleType(CAImageViewScaleTypeFitViewByHorizontal);
@@ -94,7 +94,7 @@ void MainViewTableCell::initWithCell(sessionMsg &msg)
 	this->addSubview(button);
     //view->addSubview(button);
     
-    tempRect = ConstData::getSessionCellLikeLableRect();
+    tempRect = ConstRect::getSessionCellLikeLableRect();
     tempRect.origin.x = _size.width - _px(80);
     m_likeNumLabel = CALabel::createWithFrame(tempRect);
     m_likeNumLabel->setColor(ccc4(0xa1, 0xa1, 0xa1, 0xff));
@@ -104,14 +104,14 @@ void MainViewTableCell::initWithCell(sessionMsg &msg)
     this->addSubview(m_likeNumLabel);
     //view->addSubview(m_likeNumLabel);
     
-    tempRect = ConstData::getSessionCellDetailArrowRect();
+    tempRect = ConstRect::getSessionCellDetailArrowRect();
     tempRect.origin.x = _size.width - _px(60);
     CAImageView* imageView = CAImageView::createWithImage(CAImage::create("common/btn_rightarrow.png"));
     imageView->setImageViewScaleType(CAImageViewScaleTypeFitViewByHorizontal);
     imageView->setFrame(tempRect);
     this->getContentView()->addSubview(imageView);
     
-    tempRect = ConstData::getSessionCellCollectionRect();
+    tempRect = ConstRect::getSessionCellCollectionRect();
     tempRect.origin.x = _size.width - _px(200);
     m_storeBtnImage = CAImageView::createWithImage(CAImage::create("common/btn_collect_pre.png"));
     m_storeBtnImage->setImageViewScaleType(CAImageViewScaleTypeFitViewByHorizontal);

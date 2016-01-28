@@ -3,6 +3,7 @@
 #include "CommonHttpManager.h"
 #include "utils/HttpConnect.h"
 #include "RootWindow.h"
+#include "ConstData/ConstFunc.h"
 
 //#define DEBUG_APP
 
@@ -19,7 +20,7 @@ LoginViewController::~LoginViewController()
 void LoginViewController::viewDidLoad()
 {
     // Do any additional setup after loading the view from its nib.
-	DSize winSize = this->getView()->getBounds().size;
+//	DSize winSize = this->getView()->getBounds().size;
     m_winSize = this->getView()->getBounds().size;
     int iw = 0, ih = 0;
     int offY = m_winSize.height / 2;
@@ -113,10 +114,12 @@ void LoginViewController::btnCallBack(CAControl* btn, DPoint point)
     {
         string accout = m_pAccount->getText();
         string passwd = m_pPassword->getText();
-#ifdef DEBUG_APP
-        accout = "Alex";
+        ConstFunc::trim(accout);
+        ConstFunc::trim(passwd);
+//#ifdef DEBUG_APP
+        accout = "d001381";
         passwd = "001";
-#endif
+//#endif
         if (accout.length() == 0 || passwd.length() == 0) {
             CAAlertView *alertView = CAAlertView::createWithText("Waining !", "Account or password cannot be null !", "OK", NULL);
             alertView->show();
@@ -142,7 +145,7 @@ void LoginViewController::btnCallBack(CAControl* btn, DPoint point)
 
 void LoginViewController::onRequestLoginFinished(const HttpResponseStatus& status, const CSJson::Value& json)
 {
-    if (status == HttpResponseSucceed || 1)
+    if (status == HttpResponseSucceed)
     {
         CSJson::FastWriter writer;
         string tempjson = writer.write(json);

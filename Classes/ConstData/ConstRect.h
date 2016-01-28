@@ -1,28 +1,24 @@
 //
-//  ConstData.hpp
+//  ConstRect.hpp
 //  SapSession
 //
 //  Created by bbknightzm on 16/1/25.
 //
 //
 
-#ifndef __ConstData_h__
-#define __ConstData_h__
+#ifndef __CONST_RECT_H__
+#define __CONST_RECT_H__
 
 #include <stdio.h>
 #include "CrossApp.h"
 
-class ConstData
+class ConstRect
 {
 public:
-    ConstData();
-    virtual ~ConstData();
-    
-    enum CID
-    {
-        CID_BACK = 20,
-    };
-    
+    ConstRect();
+    virtual ~ConstRect();
+        
+    // Session Table Cell
     static DRect& getSessionCellLogoRect();
     static DRect& getSessionCellTitleRect();
     static DRect& getSessionCellTimeRect();
@@ -32,6 +28,7 @@ public:
     static DRect& getSessionCellCollectionRect();
     static DRect& getSessionCellDetailArrowRect();
     
+    // Session Detail
     static DRect& getSessionDetailDescriptionRect();
     static DRect& getSessionDetailSpeakerLogoRect();
     static DRect& getSessionDetailSpeakerNameRect();

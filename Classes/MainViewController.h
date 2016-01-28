@@ -49,6 +49,8 @@ public:
 	//void onRefreshRequestFinished(const HttpResponseStatus& status, const CSJson::Value& json);
 
 	void buttonCallBack(CAControl* btn, DPoint point);
+    
+    void updatePageView(float dt);
 
 	virtual void scrollViewHeaderBeginRefreshing(CAScrollView* view);
 	virtual void scrollViewFooterBeginRefreshing(CAScrollView* view);
@@ -83,6 +85,8 @@ private:
 	CAActivityIndicatorView*								p_pLoading;
     int														m_pastSection;
 	int														m_nextSection;
+    time_t                                                  m_timeForPageView;
+    CAScheduler                                             m_scheduler;
 
 	DSize													m_winSize;
 };

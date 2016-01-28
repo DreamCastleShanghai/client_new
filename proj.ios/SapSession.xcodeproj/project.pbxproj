@@ -25,7 +25,11 @@
 		1AFCDA8216D4A25900906EA6 /* RootViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1AFCDA8116D4A25900906EA6 /* RootViewController.mm */; };
 		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
 		1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
-		217BD6AD1C55FBED00CC2CA3 /* ConstData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 217BD6AB1C55FBED00CC2CA3 /* ConstData.cpp */; };
+		217BD6D81C59CB2B00CC2CA3 /* ConstFunc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 217BD6CE1C59CB2B00CC2CA3 /* ConstFunc.cpp */; };
+		217BD6D91C59CB2B00CC2CA3 /* ConstId.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 217BD6D01C59CB2B00CC2CA3 /* ConstId.cpp */; };
+		217BD6DA1C59CB2B00CC2CA3 /* ConstRect.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 217BD6D21C59CB2B00CC2CA3 /* ConstRect.cpp */; };
+		217BD6DB1C59CB2B00CC2CA3 /* ConstRes.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 217BD6D41C59CB2B00CC2CA3 /* ConstRes.cpp */; };
+		217BD6DC1C59CB2B00CC2CA3 /* ConstString.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 217BD6D61C59CB2B00CC2CA3 /* ConstString.cpp */; };
 		288765A50DF7441C002DB57D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 288765A40DF7441C002DB57D /* CoreGraphics.framework */; };
 		3E02A4AE1B85AD6000328E71 /* component_hackery.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3E02A3DF1B85AD6000328E71 /* component_hackery.cpp */; };
 		3E02A4AF1B85AD6000328E71 /* configvars.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3E02A3E01B85AD6000328E71 /* configvars.cpp */; };
@@ -228,14 +232,22 @@
 		1AC3624616D4A1E8000847F2 /* Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Prefix.pch; sourceTree = SOURCE_ROOT; };
 		1ACB3243164770DE00914215 /* libcurl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcurl.a; path = ../../cocos2dx/platform/third_party/ios/libraries/libcurl.a; sourceTree = "<group>"; };
 		1AFAF8B316D35DE700DB1158 /* AppDelegate.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = AppDelegate.cpp; path = ../Classes/AppDelegate.cpp; sourceTree = "<group>"; };
-		1AFAF8B416D35DE700DB1158 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = ../Classes/AppDelegate.h; sourceTree = "<group>"; };
 		1AFCDA8016D4A25900906EA6 /* RootViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RootViewController.h; sourceTree = SOURCE_ROOT; };
 		1AFCDA8116D4A25900906EA6 /* RootViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = RootViewController.mm; sourceTree = SOURCE_ROOT; };
 		1D30AB110D05D00D00671497 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		1D6058910D05DD3D006BFB54 /* SapSession.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SapSession.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1DF5F4DF0D08C38300B7A737 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
-		217BD6AB1C55FBED00CC2CA3 /* ConstData.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ConstData.cpp; path = ../Classes/ConstData.cpp; sourceTree = "<group>"; };
-		217BD6AC1C55FBED00CC2CA3 /* ConstData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ConstData.h; path = ../Classes/ConstData.h; sourceTree = "<group>"; };
+		217BD6C11C59072000CC2CA3 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = ../Classes/AppDelegate.h; sourceTree = "<group>"; };
+		217BD6CE1C59CB2B00CC2CA3 /* ConstFunc.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ConstFunc.cpp; sourceTree = "<group>"; };
+		217BD6CF1C59CB2B00CC2CA3 /* ConstFunc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConstFunc.h; sourceTree = "<group>"; };
+		217BD6D01C59CB2B00CC2CA3 /* ConstId.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ConstId.cpp; sourceTree = "<group>"; };
+		217BD6D11C59CB2B00CC2CA3 /* ConstId.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConstId.h; sourceTree = "<group>"; };
+		217BD6D21C59CB2B00CC2CA3 /* ConstRect.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ConstRect.cpp; sourceTree = "<group>"; };
+		217BD6D31C59CB2B00CC2CA3 /* ConstRect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConstRect.h; sourceTree = "<group>"; };
+		217BD6D41C59CB2B00CC2CA3 /* ConstRes.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ConstRes.cpp; sourceTree = "<group>"; };
+		217BD6D51C59CB2B00CC2CA3 /* ConstRes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConstRes.h; sourceTree = "<group>"; };
+		217BD6D61C59CB2B00CC2CA3 /* ConstString.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ConstString.cpp; sourceTree = "<group>"; };
+		217BD6D71C59CB2B00CC2CA3 /* ConstString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConstString.h; sourceTree = "<group>"; };
 		288765A40DF7441C002DB57D /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		3E02A3DF1B85AD6000328E71 /* component_hackery.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = component_hackery.cpp; sourceTree = "<group>"; };
 		3E02A3E01B85AD6000328E71 /* configvars.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = configvars.cpp; sourceTree = "<group>"; };
@@ -641,8 +653,9 @@
 		15AA9C4015B7EC450033D6C2 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				217BD6CD1C59CB2B00CC2CA3 /* ConstData */,
+				217BD6C11C59072000CC2CA3 /* AppDelegate.h */,
 				1AFAF8B316D35DE700DB1158 /* AppDelegate.cpp */,
-				1AFAF8B416D35DE700DB1158 /* AppDelegate.h */,
 				B0AD93E519207CA300EA40BB /* AppMacros.h */,
 				5C723CF21C1537B300B28BF3 /* CDData.h */,
 				5C723CF31C15381300B28BF3 /* CommonHttpManager.cpp */,
@@ -679,8 +692,6 @@
 				5CFA827A1C2824550025C9B5 /* SessionDetailViewController.h */,
 				5CFA827B1C2824550025C9B5 /* SessionsSearchViewController.cpp */,
 				5CFA827C1C2824550025C9B5 /* SessionsSearchViewController.h */,
-				217BD6AB1C55FBED00CC2CA3 /* ConstData.cpp */,
-				217BD6AC1C55FBED00CC2CA3 /* ConstData.h */,
 				5CFA827D1C2824550025C9B5 /* SessionsViewController.cpp */,
 				5CFA827E1C2824550025C9B5 /* SessionsViewController.h */,
 				5CFA82881C282B730025C9B5 /* SiteViewController.cpp */,
@@ -703,6 +714,24 @@
 				1D6058910D05DD3D006BFB54 /* SapSession.app */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		217BD6CD1C59CB2B00CC2CA3 /* ConstData */ = {
+			isa = PBXGroup;
+			children = (
+				217BD6CE1C59CB2B00CC2CA3 /* ConstFunc.cpp */,
+				217BD6CF1C59CB2B00CC2CA3 /* ConstFunc.h */,
+				217BD6D01C59CB2B00CC2CA3 /* ConstId.cpp */,
+				217BD6D11C59CB2B00CC2CA3 /* ConstId.h */,
+				217BD6D21C59CB2B00CC2CA3 /* ConstRect.cpp */,
+				217BD6D31C59CB2B00CC2CA3 /* ConstRect.h */,
+				217BD6D41C59CB2B00CC2CA3 /* ConstRes.cpp */,
+				217BD6D51C59CB2B00CC2CA3 /* ConstRes.h */,
+				217BD6D61C59CB2B00CC2CA3 /* ConstString.cpp */,
+				217BD6D71C59CB2B00CC2CA3 /* ConstString.h */,
+			);
+			name = ConstData;
+			path = ../Classes/ConstData;
 			sourceTree = "<group>";
 		};
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
@@ -1161,7 +1190,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				3E02A4F61B85AD6000328E71 /* gameswf_impl.cpp in Sources */,
-				217BD6AD1C55FBED00CC2CA3 /* ConstData.cpp in Sources */,
 				3E02A4BB1B85AD6000328E71 /* triangulate_sint32.cpp in Sources */,
 				3E02A4EF1B85AD6000328E71 /* gameswf_dlist.cpp in Sources */,
 				B0621E211AC3ECB0005EBCA7 /* FirstViewController.cpp in Sources */,
@@ -1180,6 +1208,7 @@
 				5CFA828E1C282B730025C9B5 /* SiteViewController.cpp in Sources */,
 				3E02A5091B85AD6000328E71 /* gameswf_tesselate.cpp in Sources */,
 				3E02A4EA1B85AD6000328E71 /* gameswf_avm2_jit.cpp in Sources */,
+				217BD6DA1C59CB2B00CC2CA3 /* ConstRect.cpp in Sources */,
 				5C5DE7D31C3035A900D9A8BC /* split.c in Sources */,
 				3E02A5021B85AD6000328E71 /* gameswf_root.cpp in Sources */,
 				5CFA828C1C282B730025C9B5 /* MyStatusViewController.cpp in Sources */,
@@ -1191,6 +1220,7 @@
 				3E02A4C91B85AD6000328E71 /* gameswf_abc.cpp in Sources */,
 				3E02A4FE1B85AD6000328E71 /* gameswf_object.cpp in Sources */,
 				3E02A4F81B85AD6000328E71 /* gameswf_jit_opcode.cpp in Sources */,
+				217BD6DB1C59CB2B00CC2CA3 /* ConstRes.cpp in Sources */,
 				3E02A4F41B85AD6000328E71 /* gameswf_freetype.cpp in Sources */,
 				3E02A5001B85AD6000328E71 /* gameswf_render.cpp in Sources */,
 				5CF6683F1C1952F0009994C0 /* HttpConnect.cpp in Sources */,
@@ -1253,6 +1283,7 @@
 				3E02A4E51B85AD6000328E71 /* as_textformat.cpp in Sources */,
 				1AC3624916D4A1E8000847F2 /* AppController.mm in Sources */,
 				3E02A4FD1B85AD6000328E71 /* gameswf_mutex.cpp in Sources */,
+				217BD6DC1C59CB2B00CC2CA3 /* ConstString.cpp in Sources */,
 				5C5B694D1C55DE28000C9AA4 /* IconUploadViewController.cpp in Sources */,
 				3E02A4F51B85AD6000328E71 /* gameswf_function.cpp in Sources */,
 				3E02A4E01B85AD6000328E71 /* as_point.cpp in Sources */,
@@ -1277,6 +1308,7 @@
 				3E02A4DD1B85AD6000328E71 /* as_netconnection.cpp in Sources */,
 				3E02A4F21B85AD6000328E71 /* gameswf_font.cpp in Sources */,
 				3E02A4DE1B85AD6000328E71 /* as_netstream.cpp in Sources */,
+				217BD6D91C59CB2B00CC2CA3 /* ConstId.cpp in Sources */,
 				5C5B69571C566598000C9AA4 /* VoteShakeViewController.cpp in Sources */,
 				3E02A4C71B85AD6000328E71 /* CAFlash.cpp in Sources */,
 				3E02A4B51B85AD6000328E71 /* image.cpp in Sources */,
@@ -1294,6 +1326,7 @@
 				B0621E221AC3ECB0005EBCA7 /* RootWindow.cpp in Sources */,
 				3E02A4AE1B85AD6000328E71 /* component_hackery.cpp in Sources */,
 				3E02A5081B85AD6000328E71 /* gameswf_styles.cpp in Sources */,
+				217BD6D81C59CB2B00CC2CA3 /* ConstFunc.cpp in Sources */,
 				3E02A5011B85AD6000328E71 /* gameswf_render_handler_ogles.cpp in Sources */,
 				5CFCF6FC1C3D589600DE4410 /* MapViewController.cpp in Sources */,
 				5C723CEC1C152BA200B28BF3 /* LoginViewController.cpp in Sources */,

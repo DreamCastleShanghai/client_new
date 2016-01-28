@@ -27,7 +27,9 @@ MainViewController::MainViewController()
 , p_pLoading(NULL)
 , m_pastSection(0)
 , m_nextSection(1)
+, m_timeForPageView(getTimeSecond())
 {
+    m_scheduler.init();
     m_msg = FDataManager::getInstance()->getSessionMsgs();
 }
 
@@ -39,6 +41,23 @@ MainViewController::~MainViewController()
 void MainViewController::update(float dt)
 {
     CAViewController::update(dt);
+}
+
+void MainViewController::updatePageView(float dt)
+{
+    if (m_pageView) {
+        int pageCnt = m_pageView->getPageCount();
+        if (pageCnt > 1) {
+            int nowPage = m_pageView->getCurrPage();
+            nowPage = (nowPage + 1) % pageCnt;
+//            if (nowPage == 0) {
+//                m_pageView->setCurrPage(nowPage, false);
+//            }
+            m_pageView->setCurrPage(nowPage, true);
+            m_pageControl->setCurrentPage(nowPage);
+            m_pageControl->updateCurrentPageDisplay();
+        }
+    }
 }
 
 void MainViewController::viewDidAppear()
@@ -78,11 +97,13 @@ void MainViewController::viewDidLoad()
 {
     // Do any additional setup after loading the view from its nib.
     m_winSize = this->getView()->getBounds().size;
-    
-    CAScale9ImageView* sView = CAScale9ImageView::createWithImage(CAImage::create("common/sky_bg.png"));
-    sView->setFrame(DRect(_px(0), _px(0), m_winSize.width, _px(120)));
-    sView->setTouchEnabled(false);
-    this->getView()->addSubview(sView);
+    CAScheduler::schedule(schedule_selector(MainViewController::updatePageView), this, 5);//, true, 3000);
+
+    // header
+    CAScale9ImageView* header = CAScale9ImageView::createWithImage(CAImage::create("common/sky_bg.png"));
+    header->setFrame(DRect(_px(0), _px(0), m_winSize.width, _px(120)));
+    header->setTouchEnabled(false);
+    this->getView()->addSubview(header);
 
 	CAButton* button = CAButton::createWithFrame(DRect(_px(0), _px(20), _px(100), _px(100)), CAButtonTypeCustom);
 	CAImageView* imageView = CAImageView::createWithImage(CAImage::create("main/nav_notification.png"));
@@ -107,15 +128,16 @@ void MainViewController::viewDidLoad()
 	this->getView()->addSubview(button);
      */
 
-	CALabel* label = CALabel::createWithCenter(DRect(m_winSize.width / 2, _px(70), m_winSize.width, _px(50)));
+    // title lable
+	CALabel* label = CALabel::createWithCenter(DRect(m_winSize.width / 2, _px(80), m_winSize.width, _px(50)));
 	label->setTextAlignment(CATextAlignmentCenter);
-	label->setColor(CAColor_white);
+    label->setColor(CAColor_white);
 	label->setFontSize(_px(40));
 	label->setText("SAP d-kom");
 	label->setFontName("fonts/arial.ttf");
     label->setTouchEnabled(false);
-	sView->addSubview(label);
-    
+	header->addSubview(label);
+
     if (m_msg->empty())
     {
         requestSessionMsg();
@@ -219,7 +241,12 @@ void MainViewController::initMsgTableView()
     m_pastSection = 0;
     m_nextSection = 1;
     
-    m_msgTableView = CATableView::createWithFrame(DRect(0, _px(120), m_winSize.width, m_winSize.height - _px(120)));
+    int pageViewHeight = m_winSize.height * 0.3;
+    int butViewHeight = m_winSize.height * 0.15;
+    int headerHeight = _px(120);
+    int buttitleHeight = _px(40);
+    int tableStartY = pageViewHeight + butViewHeight + headerHeight + buttitleHeight;
+    m_msgTableView = CATableView::createWithFrame(DRect(0, tableStartY, m_winSize.width, m_winSize.height - tableStartY));
     m_msgTableView->setTableViewDataSource(this);
     m_msgTableView->setTableViewDelegate(this);
     m_msgTableView->setScrollViewDelegate(this);
@@ -240,14 +267,17 @@ void MainViewController::initMsgTableView()
 
 void MainViewController::initPageView()
 {
-	CAView* headView = CAView::createWithFrame(DRect(0, 0, m_winSize.width, m_winSize.width / 2 + _px(130)));
-    m_pageView = CAPageView::createWithFrame(DRect(0, 0, m_winSize.width, m_winSize.width / 2), CAPageViewDirectionHorizontal);
+    int pageViewHeight = m_winSize.height * 0.3;
+    int headerHeight = _px(120);
+    
+    // Page view
+    m_pageView = CAPageView::createWithFrame(DRect(0, _px(120), m_winSize.width, pageViewHeight), CAPageViewDirectionHorizontal);
     m_pageView->setPageViewDelegate(this);
     m_pageView->setTouchEnabled(true);
     CAVector<CAView* > viewList;
     for (int i = 0; i<m_page.size(); i++)
     {
-        CommonUrlImageView* temImage = CommonUrlImageView::createWithFrame(DRect(m_winSize.width / 2, 100, m_winSize.width, m_winSize.width / 2));
+        CommonUrlImageView* temImage = CommonUrlImageView::createWithFrame(DRect(0, _px(0), m_winSize.width, pageViewHeight - headerHeight));
         temImage->setImageViewScaleType(CAImageViewScaleTypeFitImageCrop);
         temImage->setImage(CAImage::create("common/bg.png"));
         temImage->setUrl(m_page[i].m_imageUrl);
@@ -256,13 +286,50 @@ void MainViewController::initPageView()
     }
     m_pageView->setViews(viewList);
     m_pageView->setCurrPage(0, false);
-    headView->addSubview(m_pageView);
+    this->getView()->addSubview(m_pageView);
+    //headView->addSubview(m_pageView);
     
-    CAView* bg = CAView::createWithColor(ccc4(0, 0, 0, 100));
-    bg->setFrame(DRect(0, m_winSize.width / 2 - 50, m_winSize.width, 50));
+    // picture dots bg in page view
+    CAView* bg = CAView::createWithColor(ccc4(0, 0, 0, 20));
+    bg->setFrame(DRect(0, pageViewHeight + headerHeight - _px(50), m_winSize.width, _px(50)));
     bg->setTouchEnabled(false);
-    headView->addSubview(bg);
+    this->getView()->addSubview(bg);
+    //headView->addSubview(bg);
     
+    // picture dots
+    m_pageControl = CAPageControl::createWithCenter(DRect(m_winSize.width / 2, pageViewHeight + headerHeight - _px(25), _px(120), _px(50)));
+    m_pageControl->setNumberOfPages((int)m_page.size());
+    m_pageControl->setTag(200);
+    m_pageControl->addTarget(this, CAControl_selector(MainViewController::buttonCallBack));
+    this->getView()->addSubview(m_pageControl);
+    //headView->addSubview(m_pageControl);
+
+    int buttonHight = m_winSize.height * 0.15;//_px(116);
+    // three center button
+    for (int i = 0; i < 3; i++)
+    {
+        DRect r(i * (m_winSize.width / 3), headerHeight + pageViewHeight, buttonHight, buttonHight);
+        CAButton* btn = CAButton::createWithFrame(r, CAButtonTypeCustom);
+        btn->setTag(300 + i);
+        CAImageView* imageView = CAImageView::createWithImage(CAImage::create(crossapp_format_string("main/short_%d.png", i)));
+        imageView->setImageViewScaleType(CAImageViewScaleTypeFitImageXY);
+        imageView->setFrame(DRect(buttonHight * 0.5, buttonHight * 0.2, buttonHight * 0.6, buttonHight * 0.6));
+        imageView->setTouchEnabled(false);
+        btn->addSubview(imageView);
+        CALabel* label = CALabel::createWithFrame(DRect(0, buttonHight * 0.8, m_winSize.width / 3, _px(30)));
+        label->setTextAlignment(CATextAlignmentCenter);
+        label->setColor(CAColor_gray);
+        label->setFontSize(_px(25));
+        label->setText(unicode_to_utf8(mainShort[i]));
+        label->setFontName("fonts/arial.ttf");
+        label->setTouchEnabled(false);
+        btn->addSubview(label);
+        btn->addTarget(this, CAControl_selector(MainViewController::buttonCallBack), CAControlEventTouchUpInSide);
+        this->getView()->addSubview(btn);
+        //headView->addSubview(btn);
+    }
+    
+    /*
     if (m_page.size() > 0)
     {
         m_pageViewTitle = CALabel::createWithFrame(DRect(20, m_winSize.width / 2 - 40, m_winSize.width - 50, 50));
@@ -271,39 +338,25 @@ void MainViewController::initPageView()
         m_pageViewTitle->setFontSize(_px(28));
         m_pageViewTitle->setScrollEnabled(false);
         m_pageViewTitle->setTouchEnabled(false);
-        headView->addSubview(m_pageViewTitle);
+        this->getView()->addSubview(m_pageViewTitle);
+        //headView->addSubview(m_pageViewTitle);
     }
+    */
     
-    m_pageControl = CAPageControl::createWithCenter(DRect(m_winSize.width / 2, m_winSize.width / 2 - _px(25), _px(100), _px(50)));
-    m_pageControl->setNumberOfPages((int)m_page.size());
-    m_pageControl->setTag(200);
-    m_pageControl->addTarget(this, CAControl_selector(MainViewController::buttonCallBack));
-    headView->addSubview(m_pageControl);
-    
-	for (int i = 0; i < 3; i++)
-	{
-		DRect r(i * (m_winSize.width / 3), m_winSize.width / 2 + 2, m_winSize.width / 3 - 2, _px(116));
-		CAButton* btn = CAButton::createWithFrame(r, CAButtonTypeCustom);
-		btn->setTag(300 + i);
-		CAImageView* imageView = CAImageView::createWithImage(CAImage::create(crossapp_format_string("main/short_%d.png", i)));
-		imageView->setImageViewScaleType(CAImageViewScaleTypeFitImageXY);
-        imageView->setFrame(DRect((m_winSize.width / 3 - _px(80)) / 2, _px(20), _px(80), _px(80)));
-        imageView->setTouchEnabled(false);
-        btn->addSubview(imageView);
-        CALabel* label = CALabel::createWithFrame(DRect(0, _px(100), m_winSize.width / 3, _px(30)));
-        label->setTextAlignment(CATextAlignmentCenter);
-        label->setColor(CAColor_gray);
-        label->setFontSize(_px(25));
-        label->setText(unicode_to_utf8(mainShort[i]));
-        label->setFontName("fonts/arial.ttf");
-        label->setTouchEnabled(false);
-        btn->addSubview(label);
-		btn->addTarget(this, CAControl_selector(MainViewController::buttonCallBack), CAControlEventTouchUpInSide);
-		headView->addSubview(btn);
-	}
+    // sub title
+    CALabel* label = CALabel::createWithCenter(DRect(m_winSize.width / 2, headerHeight + pageViewHeight +buttonHight + _px(30), m_winSize.width * 0.9, _px(40)));
+    label->setTextAlignment(CATextAlignmentLeft);
+    label->setColor(CAColor_blue);
+    label->setFontSize(_px(27));
+    label->setText("My Calander");
+    label->setFontName("fonts/markerfelt.ttf");
+    label->setTouchEnabled(false);
+    this->getView()->addSubview(label);
 
-    m_msgTableView->setTableHeaderView(headView);
-    m_msgTableView->setTableHeaderHeight(m_winSize.width / 2 + _px(130));
+    
+    //CAView* headView = CAView::createWithFrame(DRect(0, 0, m_winSize.width, m_winSize.width * 0.6 - _px(120)));
+    //m_msgTableView->setTableHeaderView(headView);
+    //m_msgTableView->setTableHeaderHeight(m_winSize.width / 2 + _px(130));
 
 }
 
@@ -462,77 +515,6 @@ void MainViewController::onRequestFinished(const HttpResponseStatus& status, con
     {
         //showAlert();
     }
-#ifdef LOCALTEST
-    {
-        m_msg->clear();
-        m_filterMsg.clear();
-        m_page.clear();
-        for (int i = 0; i < 3; i++) {
-            char title[8];
-            sprintf(title, "title_%d", i);
-            
-            newsPage temp_page;
-            temp_page.m_titleId = 100 + i;
-            temp_page.m_title = title;
-            if (i == 0) {
-                temp_page.m_imageUrl = "http://img1.gtimg.com/14/1468/146894/14689486_980x1200_0.png";
-            }
-            else if(i == 1)
-            {
-                temp_page.m_imageUrl = "http://img1.gtimg.com/14/1468/146894/14689484_980x1200_0.png";
-            }
-            else if(i == 2)
-            {
-                temp_page.m_imageUrl = "http://img1.gtimg.com/14/1468/146894/14689485_980x1200_0.png";
-            }
-            
-            m_page.push_back(temp_page);
-        }
-        srand((int)getTimeSecond());
-        for (int i = 0; i < 17; i++)
-        {
-            sessionMsg temp_msg;
-            temp_msg.m_sessionId = 200 + i;
-            temp_msg.m_title = "Customer Success";
-            
-            temp_msg.m_location = "alksdjfljk";
-            temp_msg.m_track = "Customer";
-            temp_msg.m_format = "Dev Faire";
-            temp_msg.m_startTime = getTimeSecond();
-            temp_msg.m_endTime = temp_msg.m_startTime + 3900;
-            temp_msg.m_likeNum = 20;
-            temp_msg.m_stored = (bool)(rand() % 2);
-            temp_msg.m_imageUrl =
-                "http://imgsrc.baidu.com/forum/pic/item/53834466d0160924a41f433bd50735fae6cd3452.jpg";
-            //"http://img1.gtimg.com/14/1468/146894/14689486_980x1200_0.png";
-            temp_msg.m_liked = (bool)(rand() % 2);
-            //temp_msg.m_done = (bool)(rand() % 2);
-            temp_msg.m_point = 22;
-            m_msg->push_back(temp_msg);
-            
-            userInfo uInfo;
-            uInfo.m_userId = 101;
-            uInfo.m_userName = "Alex Chen";
-            uInfo.m_point = 100;
-            uInfo.m_pointRank = 20;
-            uInfo.m_imageUrl = "http://imgsrc.baidu.com/forum/pic/item/53834466d0160924a41f433bd50735fae6cd3452.jpg";
-            FDataManager::getInstance()->setUserInfo(uInfo);
-        }
-        quickSort(m_msg, 0, (int)m_msg->size() - 1);
-        m_filterMsg.clear();
-        for (std::vector<sessionMsg>::iterator it = m_msg->begin(); it != m_msg->end(); it++)
-        {
-            if(it->m_stored && it->m_endTime > getTimeSecond())
-            {
-                m_filterMsg.push_back(&(*it));
-            }
-            if (m_filterMsg.size() == REFRESH_STEP)
-            {
-                break;
-            }
-        }
-    }
-#endif
     if (p_pLoading)
     {
         p_pLoading->stopAnimating();
@@ -649,9 +631,9 @@ void MainViewController::pageViewDidEndTurning(CAPageView* pageView)
 {
     m_pageControl->setCurrentPage(pageView->getCurrPage());
     m_pageControl->updateCurrentPageDisplay();
-    if (m_page.size() > 0) {
-        m_pageViewTitle->setText(m_page[pageView->getCurrPage()].m_title);
-    }
+//    if (m_page.size() > 0) {
+//        m_pageViewTitle->setText(m_page[pageView->getCurrPage()].m_title);
+//    }
 }
 
 void MainViewController::pageViewDidSelectPageAtIndex(CAPageView* pageView, unsigned int index, const DPoint& point)

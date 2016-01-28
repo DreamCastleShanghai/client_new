@@ -5,7 +5,8 @@
 #include "SessionsSearchViewController.h"
 #include "utils/HttpConnect.h"
 #include "SessionDetailViewController.h"
-#include "ConstData.h"
+#include "ConstData/ConstRect.h"
+#include "ConstData/ConstId.h"
 
 SurveyViewController::SurveyViewController(int sessionId)
 : p_alertView(NULL)
@@ -38,7 +39,7 @@ void SurveyViewController::viewDidLoad()
     imageView->setFrame(DRect(_px(20), _px(20), _px(80), _px(80)));
     button->setBackGroundViewForState(CAControlStateAll, imageView);
     button->addTarget(this, CAControl_selector(SurveyViewController::buttonCallBack), CAControlEventTouchUpInSide);
-    button->setTag(ConstData::CID_BACK);
+    button->setTag(ConstId::getBackBtnId());
     this->getView()->addSubview(button);
     
     CALabel* label = CALabel::createWithCenter(DRect(m_winSize.width / 2, _px(70), m_winSize.width, _px(40)));
@@ -163,18 +164,15 @@ void SurveyViewController::requestMsg()
 
 void SurveyViewController::buttonCallBack(CAControl* btn, DPoint point)
 {
-    switch (btn->getTag()) {
-        case ConstData::CID_BACK:
-            RootWindow::getInstance()->getRootNavigationController()->popViewControllerAnimated(true);
-            break;
-        case 200:
-            requestMsg();
-            break;
-
-        default:
-            break;
+    if (btn->getTag() == ConstId::getBackBtnId())
+    {
+        RootWindow::getInstance()->getRootNavigationController()->popViewControllerAnimated(true);
     }
-	if (btn->getTag() >= 300 && btn->getTag() < 305)
+    else if (btn->getTag() == 200)
+    {
+        requestMsg();
+    }
+	else if (btn->getTag() >= 300 && btn->getTag() < 305)
 	{
 		int index = btn->getTag() - 300;
 		for (int i = 0; i < m_scoreButtonVec.size(); i++)

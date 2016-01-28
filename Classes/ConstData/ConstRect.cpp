@@ -1,12 +1,12 @@
 //
-//  ConstData.cpp
+//  ConstRect.cpp
 //  SapSession
 //
 //  Created by bbknightzm on 16/1/25.
 //
 //
 
-#include "ConstData.h"
+#include "ConstRect.h"
 
 DRect gRect[] = {
     DRect(_px(30), _px(120), _px(80), _px(80)),     // session table cell : logo size 80 x 80
@@ -38,69 +38,72 @@ enum CDRectId {
     CDR_SESSION_DETAIL_SPEAKER_NAME,
 };
 
-ConstData::ConstData()
+ConstRect::ConstRect()
 {
     
 }
 
-ConstData::~ConstData()
+ConstRect::~ConstRect()
 {
     
 }
 
-DRect& ConstData::getSessionCellLogoRect()
+// Session Table Cell
+DRect& ConstRect::getSessionCellLogoRect()
 {
     return gRect[CDR_SESSION_TABLE_CELL_LOGO];
 }
 
-DRect& ConstData::getSessionCellTitleRect()
+DRect& ConstRect::getSessionCellTitleRect()
 {
     return gRect[CDR_SESSION_TABLE_CELL_TITLE];
 }
 
-DRect& ConstData::getSessionCellTimeRect()
+DRect& ConstRect::getSessionCellTimeRect()
 {
     return gRect[CDR_SESSION_TABLE_CELL_TIME];
 }
 
-DRect& ConstData::getSessionCellLocationRect()
+DRect& ConstRect::getSessionCellLocationRect()
 {
     return gRect[CDR_SESSION_TABLE_CELL_LOCATION];
 }
 
-DRect& ConstData::getSessionCellLikeRect()
+DRect& ConstRect::getSessionCellLikeRect()
 {
     return gRect[CDR_SESSION_TABLE_CELL_LIKE];
 }
 
-DRect& ConstData::getSessionCellLikeLableRect()
+DRect& ConstRect::getSessionCellLikeLableRect()
 {
     return gRect[CDR_SESSION_TABLE_CELL_LIKE_LABLE];
 }
 
-DRect& ConstData::getSessionCellCollectionRect()
+DRect& ConstRect::getSessionCellCollectionRect()
 {
     return gRect[CDR_SESSION_TABLE_CELL_COLLECTION];
 }
 
-DRect& ConstData::getSessionCellDetailArrowRect()
+DRect& ConstRect::getSessionCellDetailArrowRect()
 {
     return gRect[CDR_SESSION_TABLE_CELL_DETAIL_ARROW];
 }
 
-DRect& ConstData::getSessionDetailDescriptionRect()
+// Session Detail
+DRect& ConstRect::getSessionDetailDescriptionRect()
 {
     return gRect[CDR_SESSION_DETAIL_DESCRIPTION];
 }
 
-DRect& ConstData::getSessionDetailSpeakerLogoRect()
+DRect& ConstRect::getSessionDetailSpeakerLogoRect()
 {
     return gRect[CDR_SESSION_DETAIL_SPEAKER_LOGO];
 }
 
-DRect& ConstData::getSessionDetailSpeakerNameRect()
+DRect& ConstRect::getSessionDetailSpeakerNameRect()
 {
     return gRect[CDR_SESSION_DETAIL_SPEAKER_NAME];
     
 }
+
 

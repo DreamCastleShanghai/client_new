@@ -7,7 +7,7 @@
 #include "SessionDetailViewController.h"
 #include "FServerTime.h"
 #include "SurveyViewController.h"
-#include "ConstData.h"
+#include "ConstData/ConstRect.h"
 
 SessionDetailViewController::SessionDetailViewController(sessionMsg &msg)
 : m_msg(&msg),
@@ -110,7 +110,7 @@ void SessionDetailViewController::initView()
 	this->getView()->addSubview(timeLabel);
 
 
-    tempRect = ConstData::getSessionDetailDescriptionRect();
+    tempRect = ConstRect::getSessionDetailDescriptionRect();
     tempRect.size.width = m_winSize.width - _px(80);
 	CALabel* m_lectureDetailLabel = CALabel::createWithFrame(tempRect);
 	m_lectureDetailLabel->setColor(ccc4(0xa1, 0xa1, 0xa1, 0xff));
@@ -131,7 +131,7 @@ void SessionDetailViewController::initView()
         int speakWidth = (m_winSize.width - _px(30 * 2)) / speakerCnt;
         for (int i = 0; i < speakerCnt; i++)
         {
-            tempRect = ConstData::getSessionDetailSpeakerLogoRect();
+            tempRect = ConstRect::getSessionDetailSpeakerLogoRect();
             tempRect.origin.x = _px(30) + speakWidth * i + (speakWidth - tempRect.size.width) / 2;
             CommonUrlImageView* urlImageView = CommonUrlImageView::createWithImage(CAImage::create("common/bg.png"));
             urlImageView->setFrame(tempRect);
@@ -139,7 +139,7 @@ void SessionDetailViewController::initView()
             urlImageView->setUrl(m_detailMsg.m_speaker[i].iconUrl);
             this->getView()->addSubview(urlImageView);
             
-            tempRect = ConstData::getSessionDetailSpeakerNameRect();
+            tempRect = ConstRect::getSessionDetailSpeakerNameRect();
             tempRect.origin.x = _px(30) + speakWidth * i + (speakWidth - tempRect.size.width) / 2;;
             label = CALabel::createWithFrame(tempRect);
             label->setColor(CAColor_gray);
