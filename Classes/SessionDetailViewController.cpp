@@ -11,7 +11,7 @@
 #include <stdio.h>
 #include <time.h>
 
-#define TIME_GAPE   (1000 * 60 * 10)
+#define TIME_GAPE   (60 * 10)
 
 SessionDetailViewController::SessionDetailViewController(sessionMsg &msg)
 : m_msg(&msg)
@@ -579,6 +579,9 @@ void SessionDetailViewController::showAlert()
 void SessionDetailViewController::adjustSurveyBtn(float dt)
 {
     time_t nowTime = getTimeSecond();
+//    CCLog("start : %d", m_detailMsg.m_startTime);
+//    CCLog("end   : %d", m_detailMsg.m_endTime);
+
     if (m_isSurveyed)
     {// is attended this survey
         if (m_surveyBtn) m_surveyBtn->setControlState(CAControlStateDisabled);
@@ -618,10 +621,10 @@ void SessionDetailViewController::adjustSurveyBtn(float dt)
             if (m_surveyBtnLabel2) {
                 time_t delteTm = m_detailMsg.m_startTime + TIME_GAPE - nowTime;
                 struct tm * timeinfo;
-                timeinfo = localtime (&delteTm);
+                timeinfo = gmtime(&delteTm);
                 string timeStr = "";
                 if (timeinfo->tm_mday != 0) {
-                    timeStr += crossapp_format_string("%dd",timeinfo->tm_mday);
+                    timeStr += crossapp_format_string("%dd",timeinfo->tm_yday);
                 }
                 if (timeinfo->tm_hour != 0) {
                     timeStr += crossapp_format_string("%dh",timeinfo->tm_hour);

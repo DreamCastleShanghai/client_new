@@ -23,9 +23,12 @@ int getTimeval(struct cc_timeval *tp, void *tzp)
 time_t getTimeSecond()
 {
     timeval tp;
-    time_t sT = FDataManager::getInstance()->getDiffServerTime();
+//    time_t sT = FDataManager::getInstance()->getDiffServerTime();
     gettimeofday(&tp,  0);
-    return sT + tp.tv_sec;
+//    CCLog("getTimeSecond() : %d", tp.tv_sec);
+//    CCLog("sT + tp.tv_sec : %d", sT + tp.tv_sec);
+//    return sT + tp.tv_sec;
+    return tp.tv_sec;
 }
 
 std::string timeToString(time_t second)
