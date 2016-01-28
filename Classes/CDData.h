@@ -84,9 +84,23 @@ static const CHAR* mainBar[3] =
     _T("Home"), _T("Agenda"), _T("Me")
 };
 
-static const char* filterItem[8] =
+static const char* filterItem[2] =
 {
-    "Customer", "Success", "S/4HANA", "Data", "DB", "Design", "Market", "Other"
+	"Track", "Format"
+};
+
+#define TrackNum 12
+static const char* trackFilterItem[TrackNum] =
+{
+    "all", "HANA, HCP & Cloud Infrastructure", "User Experience", "Analytics", "S/4HANA", "Internet of Things", "Incubation & Emerging Trends",
+	"LoB Applications", "Security & Engineering Excellence", "Small & Medium Enterprises", "Business Network Applications", "Industry Applications"
+};
+
+#define FormatNum 12
+static const char* formatFilterItem[FormatNum] =
+{
+	"all", "SAP Talk", "Downtown Block", "Developer Faire Booth", "Interactive Zone", "Customer Talk", "People & SLN Booth", "Fiori Cafe", "Cloud Innovation Kitchen",
+	"SAP Development University", "Quality Booth", "Digital Zone"
 };
 
 #define MOMENTSFILTERNUM 7

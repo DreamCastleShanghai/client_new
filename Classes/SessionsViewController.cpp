@@ -16,13 +16,9 @@ SessionsViewController::SessionsViewController()
 , p_alertView(NULL)
 , p_pLoading(NULL)
 , m_navType(0)
-, m_canTouch(false)
+, m_navTrackType(0)
+, m_navFormatType(0)
 {
-    
-    for (int i = 0; i < m_filterNum; i++)
-    {
-        m_listButton[i] = NULL;
-    }
     m_msg = FDataManager::getInstance()->getSessionMsgs();
 }
 
@@ -35,14 +31,9 @@ void SessionsViewController::viewDidAppear()
 {
     if (!m_msg->empty())
     {
-        m_msgFilter.clear();
-        for (std::vector<sessionMsg>::iterator it = m_msg->begin(); it != m_msg->end(); it++)
-        {
-            m_msgFilter.push_back(&(*it));
-        }
 		if (m_msgTableView)
 		{
-			m_msgTableView->reloadData();
+			refreshTableData();
 		}
 		else
 		{
@@ -127,7 +118,6 @@ void SessionsViewController::initMsgTableView()
     }
     if (m_msgTableView == NULL)
     {
-        m_canTouch = true;
         m_listView = CAListView::createWithFrame(DRect(0,_px(120),m_winSize.width,_px(60)));
         m_listView->setListViewDelegate(this);
         m_listView->setListViewDataSource(this);
@@ -139,19 +129,6 @@ void SessionsViewController::initMsgTableView()
         m_listView->setBackGroundImage(CAImage::create("common/gray_bg.png"));
         m_listView->setTag(1);
         this->getView()->addSubview(m_listView);
-        
-        m_filterListView = CAListView::createWithFrame(DRect(_px(0),_px(120),m_winSize.width,_px(130)));
-        m_filterListView->setListViewDataSource(this);
-        m_filterListView->setAllowsSelection(false);
-        m_filterListView->setListViewOrientation(CAListViewOrientationHorizontal);
-        m_filterListView->setShowsScrollIndicators(false);
-        m_filterListView->setSeparatorColor(CAColor_clear);
-        m_filterListView->setVisible(false);
-        m_filterListView->setTag(2);
-        m_filterListView->setBackGroundColor(ccc4(0xf6, 0xf6, 0xf6, 0xff));
-        //m_filterListView->setScrollEnabled(false);
-        
-        this->getView()->addSubview(m_filterListView);
         
         m_msgTableView = CATableView::createWithFrame(DRect(0, _px(180), m_winSize.width, m_winSize.height - _px(180)));
         m_msgTableView->setTableViewDataSource(this);
@@ -166,6 +143,73 @@ void SessionsViewController::initMsgTableView()
         refreshDiscount->setLabelColor(CAColor_black);
         m_msgTableView->setHeaderRefreshView(refreshDiscount);
 
+
+		m_filterView = CAView::createWithFrame(DRect(0, _px(120), m_winSize.width, _px(60)));
+		CAScale9ImageView* imageView = CAScale9ImageView::createWithImage(CAImage::create("common/gray_bg.png"));
+		imageView->setFrame(DRect(0, 0, m_winSize.width, _px(60)));
+		m_filterView->addSubview(imageView);
+		this->getView()->addSubview(m_filterView);
+		m_filterViewVec.push_back(m_filterView);
+
+		for (int i = 0; i < 2; i++)
+		{
+			CAButton* button = CAButton::createWithFrame(DRect(i * m_winSize.width / 2, 0, m_winSize.width / 2, _px(60)), CAButtonTypeCustom);
+			button->setTitleForState(CAControlStateAll, filterItem[i]);
+			button->setTitleFontName("fonts/arial.ttf");
+			button->setTitleColorForState(CAControlStateAll, CAColor_gray);
+			button->addTarget(this, CAControl_selector(SessionsViewController::buttonCallBack), CAControlEventTouchUpInSide);
+			button->setTag(300 + i);
+			button->setAllowsSelected(true);
+			m_filterView->addSubview(button);
+
+			m_downView[i] = CAView::createWithFrame(DRect(i * m_winSize.width / 2, _px(180), m_winSize.width / 2, _px(50) * TrackNum));
+			CAScale9ImageView* imageView = CAScale9ImageView::createWithImage(CAImage::create("common/gray_bg.png"));
+			imageView->setFrame(DRect(0, 0, m_winSize.width / 2, _px(50) * TrackNum));
+			m_downView[i]->addSubview(imageView);
+			this->getView()->addSubview(m_downView[i]);
+			m_filterViewVec.push_back(m_downView[i]);
+		}
+
+		for (int i = 0; i < m_filterViewVec.size(); i++)
+		{
+			m_filterViewVec[i]->setVisible(false);
+		}
+
+		for (int i = 0; i < TrackNum; i++)
+		{
+			CAButton* button = CAButton::createWithFrame(DRect(_px(20), _px(50) * i, m_winSize.width / 2 - _px(40), _px(50)), CAButtonTypeCustom);
+			button->setTitleForState(CAControlStateAll, trackFilterItem[i]);
+			button->setTitleFontName("fonts/arial.ttf");
+			button->setTitleColorForState(CAControlStateAll, CAColor_gray);
+			button->setTitleFontSize(_px(30));
+			button->setAllowsSelected(true);
+			CAImageView* imageView = CAImageView::createWithImage(CAImage::create("common/white_bg.png"));
+			button->setBackGroundViewForState(CAControlStateAll, imageView);
+			imageView = CAImageView::createWithImage(CAImage::create("common/sky_bg.png"));
+			button->setBackGroundViewForState(CAControlStateSelected, imageView);
+			button->addTarget(this, CAControl_selector(SessionsViewController::buttonCallBack), CAControlEventTouchUpInSide);
+			button->setTag(400 + i);
+			m_downView[0]->addSubview(button);
+			m_trackButtonVec.push_back(button);
+		}
+
+		for (int i = 0; i < FormatNum; i++)
+		{
+			CAButton* button = CAButton::createWithFrame(DRect(_px(20), _px(50) * i, m_winSize.width / 2 - _px(40), _px(50)), CAButtonTypeCustom);
+			button->setTitleForState(CAControlStateAll, formatFilterItem[i]);
+			button->setTitleFontName("fonts/arial.ttf");
+			button->setTitleColorForState(CAControlStateAll, CAColor_gray);
+			button->setTitleFontSize(_px(30));
+			button->setAllowsSelected(true);
+			CAImageView* imageView = CAImageView::createWithImage(CAImage::create("common/white_bg.png"));
+			button->setBackGroundViewForState(CAControlStateAll, imageView);
+			imageView = CAImageView::createWithImage(CAImage::create("common/sky_bg.png"));
+			button->setBackGroundViewForState(CAControlStateSelected, imageView);
+			button->addTarget(this, CAControl_selector(SessionsViewController::buttonCallBack), CAControlEventTouchUpInSide);
+			button->setTag(500 + i);
+			m_downView[1]->addSubview(button);
+			m_formatButtonVec.push_back(button);
+		}
     }
 }
 
@@ -186,6 +230,44 @@ void SessionsViewController::requestMsg()
 
 void SessionsViewController::buttonCallBack(CAControl* btn, DPoint point)
 {
+	if (btn->getTag() == 300)
+	{
+		if (btn->getControlState() == CAControlStateSelected)
+		{
+			CAButton* button = (CAButton*)m_filterView->getSubviewByTag(301);
+			button->setControlState(CAControlStateNormal);
+			m_downView[0]->setVisible(true);
+		}
+		else
+		{
+			m_downView[0]->setVisible(false);
+		}
+		m_downView[1]->setVisible(false);
+	}
+	else if (btn->getTag() == 301)
+	{
+		if (btn->getControlState() == CAControlStateSelected)
+		{
+			CAButton* button = (CAButton*)m_filterView->getSubviewByTag(300);
+			button->setControlState(CAControlStateNormal);
+			m_downView[1]->setVisible(true);
+		}
+		else
+		{
+			m_downView[1]->setVisible(false);
+		}
+		m_downView[0]->setVisible(false);
+	}
+	else
+	{
+		CAButton* button = (CAButton*)m_filterView->getSubviewByTag(300);
+		button->setControlState(CAControlStateNormal);
+		button = (CAButton*)m_filterView->getSubviewByTag(301);
+		button->setControlState(CAControlStateNormal);
+		m_downView[0]->setVisible(false);
+		m_downView[1]->setVisible(false);
+	}
+
     if(btn->getTag() == 20)
     {
         SessionsSearchViewController* vc = new SessionsSearchViewController(0);
@@ -209,7 +291,10 @@ void SessionsViewController::buttonCallBack(CAControl* btn, DPoint point)
     {
         if(m_navType == 0) return;
         m_navType = 0;
-        m_filterListView->setVisible(false);
+		for (int i = 0; i < m_filterViewVec.size(); i++)
+		{
+			m_filterViewVec[i]->setVisible(false);
+		}
         m_listView->setVisible(true);
         if (m_msgTableView) 
 		{
@@ -222,32 +307,53 @@ void SessionsViewController::buttonCallBack(CAControl* btn, DPoint point)
         if(m_navType == 1) return;
         m_navType = 1;
         m_listView->setVisible(false);
-        m_filterListView->setVisible(true);
+		m_filterView->setVisible(true);
+		m_downView[0]->setVisible(false);
+		m_downView[0]->setVisible(false);
         if (m_msgTableView) 
 		{
-            refreshTableByFormat(m_navFormatType);
+			refreshTableByFormat(m_navTrackType, m_navFormatType);
         }
     }
-    else if (btn->getTag() >= 310 && btn->getTag() < 400)
+    else if (btn->getTag() >= 400 && btn->getTag() < 500)
     {
         if (btn->getControlState() == CAControlStateNormal)
         {
-            m_navFormatType = -1;
-            refreshTableByFormat(m_navFormatType);
+            m_navTrackType = 0;
+			refreshTableByFormat(m_navTrackType, m_navFormatType);
         }
         else if (btn->getControlState() == CAControlStateSelected)
         {
-            for (int i = 0; i < m_filterNum; i++)
+            for (int i = 0; i < TrackNum; i++)
             {
-                if (m_listButton[i] == btn) continue;
-                
-                m_listButton[i]->setControlState(CAControlStateNormal);
+				if (m_trackButtonVec[i] == btn) 
+					continue;
+				m_trackButtonVec[i]->setControlState(CAControlStateNormal);
             }
-            m_navFormatType = btn->getTag() - 310;
-            refreshTableByFormat(m_navFormatType);
+			m_navTrackType = btn->getTag() - 400;
+			refreshTableByFormat(m_navTrackType, m_navFormatType);
         }
         
     }
+	else if (btn->getTag() >= 500 && btn->getTag() < 600)
+	{
+		if (btn->getControlState() == CAControlStateNormal)
+		{
+			m_navFormatType = 0;
+			refreshTableByFormat(m_navTrackType, m_navFormatType);
+		}
+		else if (btn->getControlState() == CAControlStateSelected)
+		{
+			for (int i = 0; i < TrackNum; i++)
+			{
+				if (m_formatButtonVec[i] == btn)
+					continue;
+				m_formatButtonVec[i]->setControlState(CAControlStateNormal);
+			}
+			m_navFormatType = btn->getTag() - 500;
+			refreshTableByFormat(m_navTrackType, m_navFormatType);
+		}
+	}
 }
 
 void SessionsViewController::onRequestFinished(const HttpResponseStatus& status, const CSJson::Value& json)
@@ -384,8 +490,8 @@ void SessionsViewController::refreshTableData()
 	{
 		if (m_msgTableView)
 		{
-			m_msgTableView->setFrame(DRect(0, _px(250), m_winSize.width, m_winSize.height - _px(250)));
-			refreshTableByFormat(m_navFormatType);
+			m_msgTableView->setFrame(DRect(0, _px(180), m_winSize.width, m_winSize.height - _px(180)));
+			refreshTableByFormat(m_navTrackType, m_navFormatType);
 		}
 	}
 }
@@ -453,21 +559,41 @@ void SessionsViewController::refreshTableByTime(int index)
     }
 }
 
-void SessionsViewController::refreshTableByFormat(int format)
+void SessionsViewController::refreshTableByFormat(int track, int format)
 {
     m_msgFilter.clear();
-    if(format == -1)
+	if (track == 0 && format == 0)
     {
         for (std::vector<sessionMsg>::iterator it = m_msg->begin(); it != m_msg->end(); it++)
         {
             m_msgFilter.push_back(&(*it));
         }
     }
+	else if (track == 0)
+	{
+		for (std::vector<sessionMsg>::iterator it = m_msg->begin(); it != m_msg->end(); it++)
+		{
+			if (!strcmp(it->m_format.c_str(), formatFilterItem[format]))
+			{
+				m_msgFilter.push_back(&(*it));
+			}
+		}
+	}
+	else if (format == 0)
+	{
+		for (std::vector<sessionMsg>::iterator it = m_msg->begin(); it != m_msg->end(); it++)
+		{
+			if (!strcmp(it->m_track.c_str(), trackFilterItem[track]))
+			{
+				m_msgFilter.push_back(&(*it));
+			}
+		}
+	}
     else
     {
         for (std::vector<sessionMsg>::iterator it = m_msg->begin(); it != m_msg->end(); it++)
         {
-            if (!strcmp(it->m_track.c_str(), filterItem[format]))
+			if (!strcmp(it->m_format.c_str(), formatFilterItem[format]) && !strcmp(it->m_track.c_str(), trackFilterItem[track]))
             {
                 m_msgFilter.push_back(&(*it));
             }
@@ -476,7 +602,7 @@ void SessionsViewController::refreshTableByFormat(int format)
 
     if (m_msgTableView)
     {
-		m_msgTableView->setFrame(DRect(0, _px(250), m_winSize.width, m_winSize.height - _px(250)));
+		m_msgTableView->setFrame(DRect(0, _px(180), m_winSize.width, m_winSize.height - _px(180)));
         m_msgTableView->reloadData();
     }
 }
@@ -488,11 +614,8 @@ void SessionsViewController::scrollViewHeaderBeginRefreshing(CrossApp::CAScrollV
 
 void SessionsViewController::listViewDidSelectCellAtIndex(CAListView *listView, unsigned int index)
 {
-    if (listView->getTag() == 1)
-    {
-        m_navTimeType = index;
-        refreshTableByTime(m_navTimeType);
-    }
+	m_navTimeType = index;
+	refreshTableByTime(m_navTimeType);
 }
 
 void SessionsViewController::listViewDidDeselectCellAtIndex(CAListView *listView, unsigned int index)
@@ -502,31 +625,12 @@ void SessionsViewController::listViewDidDeselectCellAtIndex(CAListView *listView
 
 unsigned int SessionsViewController::numberOfIndex(CAListView *listView)
 {
-    int num = 0;
-    if (listView->getTag() == 1)
-    {
-        num = m_filterNum;
-    }
-    else if(listView->getTag() == 2)
-    {
-        num = 4;
-    }
-    return num;
+	return m_timeFilterNum;
 }
 
 unsigned int SessionsViewController::listViewHeightForIndex(CAListView *listView, unsigned int index)
 {
-    int width = 0;
-    if (listView->getTag() == 1)
-    {
-        width = _px(120);
-    }
-    else if(listView->getTag() == 2)
-    {
-        width = _px(160);
-    }
-    
-    return width;
+	return _px(120);
 }
 
 CAListViewCell* SessionsViewController::listViewCellAtIndex(CAListView *listView, const DSize& cellSize, unsigned int index)
@@ -588,7 +692,7 @@ CAListViewCell* SessionsViewController::listViewCellAtIndex(CAListView *listView
             button->setAllowsSelected(true);
             button->addTarget(this, CAControl_selector(SessionsViewController::buttonCallBack), CAControlEventTouchUpInSide);
             button->setTag(310 + index * 2);
-            m_listButton[index * 2] = button;
+            //m_listButton[index * 2] = button;
             cell->addSubview(button);
             
             button = CAButton::createWithFrame(DRect(_px(20), _px(70), _px(120), _px(40)), CAButtonTypeCustom);
@@ -609,7 +713,7 @@ CAListViewCell* SessionsViewController::listViewCellAtIndex(CAListView *listView
             button->setAllowsSelected(true);
             button->addTarget(this, CAControl_selector(SessionsViewController::buttonCallBack), CAControlEventTouchUpInSide);
             button->setTag(310 + index * 2 + 1);
-            m_listButton[index * 2 + 1] = button;
+            //m_listButton[index * 2 + 1] = button;
             cell->addSubview(button);
             
             //sView = CAScale9ImageView::createWithImage(CAImage::create("common/gray_bg.png"));

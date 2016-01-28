@@ -8,7 +8,7 @@
 
 USING_NS_CC;
 
-#define m_filterNum 12
+#define m_timeFilterNum 12
 
 typedef struct
 {
@@ -47,7 +47,7 @@ protected:
     
     void refreshTableByTime(int index);
     
-    void refreshTableByFormat(int format);
+    void refreshTableByFormat(int track, int format);
     
 	void buttonCallBack(CAControl* btn, DPoint point);
 
@@ -79,7 +79,6 @@ protected:
 private:
 
 	DSize													m_winSize;
-    bool                                                    m_canTouch;
     
     std::vector<sessionMsg>*								m_msg;
     std::vector<sessionMsg*>								m_msgFilter;
@@ -89,12 +88,17 @@ private:
     CAImageView*                                            m_sessionNoticeImageView;
 	CATableView*											m_msgTableView;
     CAListView*                                             m_listView;
-    CAListView*                                             m_filterListView;
-    CAScale9ImageView*                                      m_filterBgView;
-    CAButton*                                               m_listButton[m_filterNum];
-    CAButton*                                               m_tagButton[m_filterNum];
+    CAView*													m_filterView;
+	CAView*													m_downView[2];
+	std::vector<CAView*>									m_filterViewVec;
+
+	std::vector<CAButton*>                                  m_trackButtonVec;
+	std::vector<CAButton*>                                  m_formatButtonVec;
+
     int                                                     m_navType;
     int                                                     m_navTimeType;
+
+	int                                                     m_navTrackType;
     int                                                     m_navFormatType;
     
 };

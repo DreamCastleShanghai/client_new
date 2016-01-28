@@ -5,7 +5,7 @@
 #include "RootWindow.h"
 #include "ConstData/ConstFunc.h"
 
-#define DEBUG_APP
+//#define DEBUG_APP
 
 LoginViewController::LoginViewController()
 {
@@ -69,14 +69,14 @@ void LoginViewController::viewDidLoad()
     sView->setColor(ccc4(255, 255, 255, 128));
     loginView->addSubview(sView);
     
-	CAButton* btn3 = CAButton::createWithFrame(DRect(_px(0), _px(160), m_winSize.width - _px(80), _px(80)), CAButtonTypeCustom);
-	btn3->setTitleForState(CAControlStateAll, "Log In");
-    btn3->setTitleFontName("fonts/arial.ttf");
-	btn3->setTitleColorForState(CAControlStateAll, CAColor_white);
-    btn3->setBackGroundViewForState(CAControlStateAll, CAScale9ImageView::createWithImage(CAImage::create("common/sky_bg.png")));
-    btn3->setTag(100);
-	btn3->addTarget(this, CAControl_selector(LoginViewController::btnCallBack), CAControlEventTouchUpInSide);
-    loginView->addSubview(btn3);
+	CAButton* button = CAButton::createWithFrame(DRect(_px(0), _px(160), m_winSize.width - _px(80), _px(80)), CAButtonTypeCustom);
+	button->setTitleForState(CAControlStateAll, "Log In");
+	button->setTitleFontName("fonts/arial.ttf");
+	button->setTitleColorForState(CAControlStateAll, CAColor_white);
+	button->setBackGroundViewForState(CAControlStateAll, CAScale9ImageView::createWithImage(CAImage::create("common/sky_bg.png")));
+	button->setTag(100);
+	button->addTarget(this, CAControl_selector(LoginViewController::btnCallBack), CAControlEventTouchUpInSide);
+	loginView->addSubview(button);
     
 	this->getView()->addSubview(loginView);
 
@@ -91,10 +91,10 @@ void LoginViewController::viewDidLoad()
     label->setUnderLine(true);
     this->getView()->addSubview(label);
     
-    btn3 = CAButton::createWithFrame(DRect(m_winSize.width - _px(500), offY, m_winSize.width, offW), CAButtonTypeCustom);
-    btn3->setTag(200);
-    btn3->addTarget(this, CAControl_selector(LoginViewController::btnCallBack), CAControlEventTouchUpInSide);
-    this->getView()->addSubview(btn3);
+	button = CAButton::createWithFrame(DRect(m_winSize.width - _px(500), offY, m_winSize.width, offW), CAButtonTypeCustom);
+	button->setTag(200);
+	button->addTarget(this, CAControl_selector(LoginViewController::btnCallBack), CAControlEventTouchUpInSide);
+	this->getView()->addSubview(button);
     
     CCLog("%f", CAApplication::getApplication()->getWinSize().width);
 }
