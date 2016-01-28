@@ -16,7 +16,7 @@ static const char* loginTag = "L0";
 
 static const char* momentsTag[4] =
 {
-	"PL0", "PML0", "PV0", "PLIKE0"
+	"PL0", "PML0", "PV0", "PD0"
 };
 
 static const char* noticeTag[2] =

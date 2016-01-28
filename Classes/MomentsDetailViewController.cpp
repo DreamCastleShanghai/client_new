@@ -39,8 +39,10 @@ void MomentsDetailViewController::viewDidLoad()
     m_urlImageVIew = CommonUrlImageView::createWithImage(CAImage::create("common/bg.png"));
     m_urlImageVIew->setFrame(DRect(0, 0, m_winSize.width, m_winSize.height));
     m_urlImageVIew->setImageViewScaleType(CAImageViewScaleTypeFitImageInside);
-    m_urlImageVIew->setImage(CAImage::create("common/bg.png"));
-    m_urlImageVIew->setUrl(m_msg->m_imageUrl);
+	if (m_type == 1)
+		m_urlImageVIew->setUrl(crossapp_format_string("%s%s", imgPreUrl.c_str(), m_msg->m_imageUrl.c_str()));
+	else
+		m_urlImageVIew->setUrl(m_msg->m_imageUrl);
     m_urlImageVIew->setTouchEnabled(false);
     m_scrollView->addSubview(m_urlImageVIew);
     
@@ -54,7 +56,7 @@ void MomentsDetailViewController::viewDidLoad()
         temImage->setFrame(DRect(_px(40), _px(20), _px(80), _px(80)));
         //CommonUrlImageView::createWithFrame(DRect(0, 0, _size.width, _size.height));
         temImage->setImageViewScaleType(CAImageViewScaleTypeFitImageInside);
-        temImage->setImage(CAImage::create("common/bg.png"));
+        //temImage->setImage(CAImage::create("common/bg.png"));
         temImage->setUrl(m_msg->m_iconUrl);
         temImage->setTouchEnabled(false);
         view->addSubview(temImage);

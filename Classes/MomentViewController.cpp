@@ -16,6 +16,8 @@ MomentViewController::MomentViewController()
 , m_currentAllNum(0)
 , m_currentMyNum(0)
 , m_currentCategory("all")
+, m_canDelete(true)
+, m_canLike(true)
 {
 
 }
@@ -147,7 +149,7 @@ void MomentViewController::viewDidLoad()
 
 	for (int i = 0; i < MOMENTSFILTERNUM; i++)// filterMoments
 	{
-		button = CAButton::createWithFrame(DRect(_px(0), _px(100) * i, _px(200), _px(80)), CAButtonTypeCustom);
+		button = CAButton::createWithFrame(DRect(_px(0), _px(80) * i, _px(200), _px(80)), CAButtonTypeCustom);
 		button->addTarget(this, CAControl_selector(MomentViewController::buttonCallBack), CAControlEventTouchUpInSide);
 		button->setTextTag(filterMoments[i]);
 		button->setTitleForState(CAControlStateAll, crossapp_format_string("#%s", filterMoments[i]));
@@ -205,10 +207,12 @@ void MomentViewController::requestMsg(int type)
 
 void MomentViewController::requestLike(int index)
 {
+	m_currentLike = index;
+	m_canLike = false;
 	std::map<std::string, std::string> key_value;
 	key_value["tag"] = momentsTag[2];
 	key_value["uid"] = crossapp_format_string("%d", FDataManager::getInstance()->getUserId());
-	key_value["psid"] = crossapp_format_string("%d", index);
+	key_value["pwid"] = crossapp_format_string("%d", index);
 	key_value["v"] = crossapp_format_string("%d", 1);
 	CommonHttpManager::getInstance()->send_post(httpUrl, key_value, this, CommonHttpJson_selector(MomentViewController::onRequestLikeFinished));
 }
@@ -222,13 +226,55 @@ void MomentViewController::onRequestLikeFinished(const HttpResponseStatus& statu
         CCLog("receive json == %s",tempjson.c_str());
         
         const CSJson::Value& value = json["result"];
-        if (value["r"] == "1")
+        if (value["r"] == 1)
         {
-            
+			m_allMsg[m_currentLike].liked = true;
+			m_allMsg[m_currentLike].likeNum += 1;
+			m_likeNumLabelVec[m_currentLike]->setText(crossapp_format_string("%d", m_allMsg[m_currentLike].likeNum));
         }
         
     }
-    
+	m_canLike = true;
+}
+
+void MomentViewController::requestDelete(int index)
+{
+	m_currentDelete = index;
+	m_canDelete = false;
+	std::map<std::string, std::string> key_value;
+	key_value["tag"] = momentsTag[3];
+	key_value["uid"] = crossapp_format_string("%d", FDataManager::getInstance()->getUserId());
+	key_value["filepath"] = m_myMsg[index].m_imageUrl;
+	CommonHttpManager::getInstance()->send_post(httpUrl, key_value, this, CommonHttpJson_selector(MomentViewController::onRequestDeleteFinished));
+}
+
+void MomentViewController::onRequestDeleteFinished(const HttpResponseStatus& status, const CSJson::Value& json)
+{
+	if (status == HttpResponseSucceed)
+	{
+		CSJson::FastWriter writer;
+		string tempjson = writer.write(json);
+		CCLog("receive json == %s", tempjson.c_str());
+
+		const CSJson::Value& value = json["result"];
+		if (value["r"] == "1")
+		{
+			int index = 0;
+			std::vector<photoMsg>::iterator it = m_myMsg.begin();
+			for (it = m_myMsg.begin(); it != m_myMsg.end(); it++)
+			{
+				if (m_currentDelete == index)
+				{
+					it = m_myMsg.erase(it);
+					break;
+				}
+				index++;
+			}
+		}
+		m_myCollectionView->reloadData();
+	}
+
+	m_canDelete = true;
 }
 
 void MomentViewController::buttonCallBack(CAControl* btn, DPoint point)
@@ -277,7 +323,13 @@ void MomentViewController::buttonCallBack(CAControl* btn, DPoint point)
 	}
 	else if (btn->getTag() >= 300 && btn->getTag() < 400)
 	{
-		requestLike(m_allFilterMsg[btn->getTag() - 300]->picId);
+		if (!m_canLike) return;
+		requestLike(btn->getTag() - 300);
+	}
+	else if (btn->getTag() >= 400 && btn->getTag() < 500)
+	{
+		if (!m_canDelete) return;
+		requestDelete(btn->getTag() - 400);
 	}
 	else // filter button
 	{
@@ -381,7 +433,7 @@ void MomentViewController::onRequestMyFinished(const HttpResponseStatus& status,
 			photoMsg temp;
 			temp.picId = value["pl"][i]["PictureWallId"].asInt();
 			temp.userId = value["pl"][i]["UserId"].asInt();
-			temp.m_imageUrl = crossapp_format_string("%s%s", imgPreUrl.c_str(), value["pl"][i]["Picture"].asCString());
+			temp.m_imageUrl = value["pl"][i]["Picture"].asString();
 			//temp.m_iconUrl = crossapp_format_string("%s%s", imgPreUrl.c_str(), value["pl"][i]["Icon"].asCString());
 			temp.caterory = value["pl"][i]["Category"].asString();
 			temp.comment = value["pl"][i]["Comment"].asString();
@@ -584,9 +636,13 @@ void MomentViewController::collectionViewDidDeselectCellAtIndexPath(CACollection
 
 CACollectionViewCell* MomentViewController::collectionCellAtIndex(CACollectionView *collectionView, const DSize& cellSize, unsigned int section, unsigned int row, unsigned int item)
 {
+	if (m_myMsg.size() < row * 2 + item + 1)
+	{
+		return NULL;
+	}
 	DSize _size = cellSize;
-	std::string picId = crossapp_format_string("%d", m_myMsg[row + item].picId);
-	CACollectionViewCell* p_Cell = collectionView->dequeueReusableCellWithIdentifier(picId.c_str());
+	//std::string picId = crossapp_format_string("%d", m_myMsg[row + item].picId);
+	CACollectionViewCell* p_Cell = NULL;// collectionView->dequeueReusableCellWithIdentifier(picId.c_str());
 	if (p_Cell == NULL)
 	{
 		p_Cell = CACollectionViewCell::create("CrossApp");
@@ -596,17 +652,17 @@ CACollectionViewCell* MomentViewController::collectionCellAtIndex(CACollectionVi
 		temImage->setFrame(DRect(0, 0, _size.width, _size.height));
 		temImage->setImageViewScaleType(CAImageViewScaleTypeFitImageCrop);
 		temImage->setImage(CAImage::create("common/bg.png"));
-		temImage->setUrl(m_myMsg[row + item].m_imageUrl);
+		temImage->setUrl(crossapp_format_string("%s%s", imgPreUrl.c_str(), m_myMsg[row * 2 + item].m_imageUrl.c_str()));
 		temImage->setTouchEnabled(false);
 		p_Cell->addSubview(temImage);
 
-		CAButton* button = CAButton::createWithFrame(DRect(m_winSize.width - _px(160), _px(40), _px(50), _px(50)), CAButtonTypeCustom);
-		CAImageView* imageView = CAImageView::createWithImage(CAImage::create("common/btn_like.png"));
-		imageView->setImageViewScaleType(CAImageViewScaleTypeFitImageXY);
+		CAButton* button = CAButton::createWithFrame(DRect(_size.width - _px(80), 0, _px(80), _px(80)), CAButtonTypeCustom);
+		CAImageView* imageView = CAImageView::createWithImage(CAImage::create("moments/delete.png"));
+		imageView->setImageViewScaleType(CAImageViewScaleTypeFitImageInside);
 		imageView->setFrame(DRect(_px(20), _px(20), _px(80), _px(80)));
 		button->setBackGroundViewForState(CAControlStateAll, imageView);
 		button->addTarget(this, CAControl_selector(MomentViewController::buttonCallBack), CAControlEventTouchUpInSide);
-		button->setTag(400 + row);
+		button->setTag(400 + row * 2 + item);
 		p_Cell->addSubview(button);
 	}
 

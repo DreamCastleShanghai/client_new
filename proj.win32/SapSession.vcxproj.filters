@@ -16,6 +16,9 @@
     <Filter Include="Classes\fview">
       <UniqueIdentifier>{d37ceca7-4909-44e1-b92d-b83b57aa5ba8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Classes\ConstData">
+      <UniqueIdentifier>{657a82c2-7f5f-4520-9ca7-f9ee2f440b28}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -119,6 +122,30 @@
     </ClCompile>
     <ClCompile Include="..\Classes\IconUploadViewController.cpp">
       <Filter>Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\MomentsDetailViewController.cpp">
+      <Filter>Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\VoteDetailViewController.cpp">
+      <Filter>Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\VoteShakeViewController.cpp">
+      <Filter>Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\ConstData\ConstFunc.cpp">
+      <Filter>Classes\ConstData</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\ConstData\ConstId.cpp">
+      <Filter>Classes\ConstData</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\ConstData\ConstRect.cpp">
+      <Filter>Classes\ConstData</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\ConstData\ConstRes.cpp">
+      <Filter>Classes\ConstData</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\ConstData\ConstString.cpp">
+      <Filter>Classes\ConstData</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -232,6 +259,30 @@
     </ClInclude>
     <ClInclude Include="..\Classes\IconUploadViewController.h">
       <Filter>Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\MomentsDetailViewController.h">
+      <Filter>Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\VoteDetailViewController.h">
+      <Filter>Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\VoteShakeViewController.h">
+      <Filter>Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\ConstData\ConstFunc.h">
+      <Filter>Classes\ConstData</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\ConstData\ConstId.h">
+      <Filter>Classes\ConstData</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\ConstData\ConstRect.h">
+      <Filter>Classes\ConstData</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\ConstData\ConstRes.h">
+      <Filter>Classes\ConstData</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\ConstData\ConstString.h">
+      <Filter>Classes\ConstData</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

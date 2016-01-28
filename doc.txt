@@ -2,33 +2,7 @@ apple push
 
 http://blog.csdn.net/daydreamingboy/article/details/7977098
 
-local http://blog.csdn.net/l_ch_g/article/details/8767402
+local 
+http://blog.csdn.net/l_ch_g/article/details/8767402
 
-type  AllSessionView struct {
-	SessionId	int 	`gorm:"column:SessionId"`
-	SessionTitle string	`gorm:"column:SessionTitle"`
-	Format		string	`gorm:"column:Format"`
-	Track		string	`gorm:"column:Track"`
-	Location	string	`gorm:"column:Location"`
-	StarTime	time.Time	`gorm:"column:StarTime"`
-	EndTime		time.Time	`gorm:"column:EndTime"`
-	SessionDescription	string	`gorm:"column:SessionDescription"`
-	Point		int 	`gorm:"column:Point"`
-	FirstName	string	`gorm:"column:FirstName"`
-	LastName	string	`gorm:"column:LastName"`
-	SpeakerTitle string	`gorm:"column:SpeakerTitle"`
-	Company		string	`gorm:"column:Company"`
-	Country		string	`gorm:"column:Country"`
-	Email		string	`gorm:"column:Email"`
-	SpeakerIcon string	`gorm:"column:SpeakerIcon"`
-	SpeakerDescription	string	`gorm:"column:SpeakerDescription"`
-}
-
-
-survey
-
-notice
-
-push function
-
-store & like发送时加参数 stored & liked
+type

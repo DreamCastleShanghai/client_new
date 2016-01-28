@@ -45,6 +45,10 @@ protected:
 
 	void onRequestLikeFinished(const HttpResponseStatus& status, const CSJson::Value& json);
 
+	void requestDelete(int index);
+
+	void onRequestDeleteFinished(const HttpResponseStatus& status, const CSJson::Value& json);
+
     virtual CATableViewCell* tableCellAtIndex(CATableView* table, const DSize& cellSize, unsigned int section, unsigned int row);
     virtual unsigned int numberOfRowsInSection(CATableView *table, unsigned int section);
     virtual unsigned int numberOfSections(CATableView *table);
@@ -80,7 +84,11 @@ private:
 	int														m_currentAllNum;
 	int														m_currentMyNum;
 	std::vector<CALabel*>									m_likeNumLabelVec;
-    
+	bool													m_canLike;
+	bool													m_canDelete;
+	int														m_currentLike;
+	int														m_currentDelete;
+
 	CAScale9ImageView*										m_browView;
 	CAView*													m_segView[2];
     CATableView*											m_msgTableView;
@@ -88,7 +96,7 @@ private:
 	CAView*													m_filterView;
     CAView*													p_alertView;
     CAActivityIndicatorView*								p_pLoading;
-	
+
 };
 
 

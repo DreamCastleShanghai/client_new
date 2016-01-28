@@ -75,7 +75,7 @@ void MyStatusViewController::viewDidLoad()
     //createWithFrame(DRect(_px(30), _px(40), _px(80), _px(80)));
     m_urlImageView->setFrame(DRect(0, 0, _px(120), _px(120)));
     m_urlImageView->setImageViewScaleType(CAImageViewScaleTypeFitImageCrop);
-    m_urlImageView->setImage(CAImage::create("common/bg.png"));
+    //m_urlImageView->setImage(CAImage::create("common/bg.png"));
     button->addSubview(m_urlImageView);
     button->setTag(400);
     m_pointView->addSubview(button);
@@ -540,11 +540,11 @@ CATableViewCell* MyStatusViewController::tableCellAtIndex(CATableView* table, co
         if(cell == NULL)
         {
             cell = CATableViewCell::create("CrossApp2");
-            CommonUrlImageView* urlImageView = CommonUrlImageView::createWithImage(CAImage::create("common/head_bg.png"));
+            CommonUrlImageView* urlImageView = CommonUrlImageView::createWithImage(CAImage::create("common/bg.png"));
             //createWithFrame(DRect(_px(30), _px(40), _px(80), _px(80)));
             urlImageView->setFrame(DRect(_px(40), _px(5), _px(40), _px(40)));
             urlImageView->setImageViewScaleType(CAImageViewScaleTypeFitImageCrop);
-            urlImageView->setImage(CAImage::create("common/bg.png"));
+            //urlImageView->setImage(CAImage::create("common/bg.png"));
             urlImageView->setUrl(m_rankMsg[row].m_imageUrl);
             cell->addSubview(urlImageView);
             

@@ -132,6 +132,11 @@
   <ItemGroup>
     <ClCompile Include="..\Classes\AppDelegate.cpp" />
     <ClCompile Include="..\Classes\CommonHttpManager.cpp" />
+    <ClCompile Include="..\Classes\ConstData\ConstFunc.cpp" />
+    <ClCompile Include="..\Classes\ConstData\ConstId.cpp" />
+    <ClCompile Include="..\Classes\ConstData\ConstRect.cpp" />
+    <ClCompile Include="..\Classes\ConstData\ConstRes.cpp" />
+    <ClCompile Include="..\Classes\ConstData\ConstString.cpp" />
     <ClCompile Include="..\Classes\FDataManager.cpp" />
     <ClCompile Include="..\Classes\FirstViewController.cpp" />
     <ClCompile Include="..\Classes\fview\FSegmentView.cpp" />
@@ -149,6 +154,7 @@
     <ClCompile Include="..\Classes\MainViewController.cpp" />
     <ClCompile Include="..\Classes\MainViewTableCell.cpp" />
     <ClCompile Include="..\Classes\MapViewController.cpp" />
+    <ClCompile Include="..\Classes\MomentsDetailViewController.cpp" />
     <ClCompile Include="..\Classes\MomentViewController.cpp" />
     <ClCompile Include="..\Classes\MyStatusViewController.cpp" />
     <ClCompile Include="..\Classes\NoticeViewController.cpp" />
@@ -162,6 +168,8 @@
     <ClCompile Include="..\Classes\SurveyViewController.cpp" />
     <ClCompile Include="..\Classes\utils\FServerTime.cpp" />
     <ClCompile Include="..\Classes\utils\HttpConnect.cpp" />
+    <ClCompile Include="..\Classes\VoteDetailViewController.cpp" />
+    <ClCompile Include="..\Classes\VoteShakeViewController.cpp" />
     <ClCompile Include="..\Classes\VoteViewController.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
@@ -170,6 +178,11 @@
     <ClInclude Include="..\Classes\AppMacros.h" />
     <ClInclude Include="..\Classes\CDData.h" />
     <ClInclude Include="..\Classes\CommonHttpManager.h" />
+    <ClInclude Include="..\Classes\ConstData\ConstFunc.h" />
+    <ClInclude Include="..\Classes\ConstData\ConstId.h" />
+    <ClInclude Include="..\Classes\ConstData\ConstRect.h" />
+    <ClInclude Include="..\Classes\ConstData\ConstRes.h" />
+    <ClInclude Include="..\Classes\ConstData\ConstString.h" />
     <ClInclude Include="..\Classes\FDataManager.h" />
     <ClInclude Include="..\Classes\FirstViewController.h" />
     <ClInclude Include="..\Classes\fview\FSegmentView.h" />
@@ -188,6 +201,7 @@
     <ClInclude Include="..\Classes\MainViewController.h" />
     <ClInclude Include="..\Classes\MainViewTableCell.h" />
     <ClInclude Include="..\Classes\MapViewController.h" />
+    <ClInclude Include="..\Classes\MomentsDetailViewController.h" />
     <ClInclude Include="..\Classes\MomentViewController.h" />
     <ClInclude Include="..\Classes\MyStatusViewController.h" />
     <ClInclude Include="..\Classes\NoticeViewController.h" />
@@ -201,6 +215,8 @@
     <ClInclude Include="..\Classes\SurveyViewController.h" />
     <ClInclude Include="..\Classes\utils\FServerTime.h" />
     <ClInclude Include="..\Classes\utils\HttpConnect.h" />
+    <ClInclude Include="..\Classes\VoteDetailViewController.h" />
+    <ClInclude Include="..\Classes\VoteShakeViewController.h" />
     <ClInclude Include="..\Classes\VoteViewController.h" />
     <ClInclude Include="main.h" />
   </ItemGroup>
