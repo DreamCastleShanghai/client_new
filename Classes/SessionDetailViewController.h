@@ -47,10 +47,12 @@ protected:
     
     void onStoreRequestFinished(const HttpResponseStatus& status, const CSJson::Value& json);
     
+    void adjustSurveyBtn(float dt);
+    
 private:
-
+    
 	DSize													m_winSize;
-	CAView*													m_surveyButtonView[2];
+	CAView*													m_surveyButtonView;
 	CALabel*												m_surveyTimeLabel;
 
 	sessionMsg*                                             m_msg;
@@ -66,6 +68,11 @@ private:
 
 	CAView*													p_alertView;
 	CAActivityIndicatorView*								p_pLoading;
+    
+    bool                                                    m_isSurveyed;
+    CAButton*                                               m_surveyBtn;
+    CALabel*                                                m_surveyBtnLabel1;
+    CALabel*                                                m_surveyBtnLabel2;
 };
 
 

@@ -86,7 +86,6 @@ private:
     int														m_pastSection;
 	int														m_nextSection;
     time_t                                                  m_timeForPageView;
-    CAScheduler                                             m_scheduler;
 
 	DSize													m_winSize;
 };

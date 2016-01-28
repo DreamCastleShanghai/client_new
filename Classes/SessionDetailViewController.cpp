@@ -8,15 +8,26 @@
 #include "FServerTime.h"
 #include "SurveyViewController.h"
 #include "ConstData/ConstRect.h"
+#include <stdio.h>
+#include <time.h>
+
+#define TIME_GAPE   (1000 * 60 * 10)
 
 SessionDetailViewController::SessionDetailViewController(sessionMsg &msg)
-: m_msg(&msg),
-  m_canStore(true),
-  m_canLike(true)
+: m_msg(&msg)
+, m_surveyButtonView(NULL)
+, m_canStore(true)
+, m_canLike(true)
+, m_isSurveyed(false)
+, m_surveyBtn(NULL)
+, m_surveyBtnLabel1(NULL)
+, m_surveyBtnLabel2(NULL)
 {
     m_isStore = msg.m_stored;
 	m_isLiked = msg.m_liked;
 	m_detailMsg.m_sessionId = -1;
+    memset((void*)(&m_detailMsg), 0, sizeof(sessionDetailMsg));
+    requestMsg();
 }
 
 SessionDetailViewController::~SessionDetailViewController()
@@ -29,10 +40,13 @@ void SessionDetailViewController::viewDidLoad()
     // Do any additional setup after loading the view from its nib.
     m_winSize = this->getView()->getBounds().size;
     
+    CAScheduler::schedule(schedule_selector(SessionDetailViewController::adjustSurveyBtn), this, 1);//, true, 3000);
+
     CAScale9ImageView* sView = CAScale9ImageView::createWithImage(CAImage::create("common/sky_bg.png"));
     sView->setFrame(DRect(_px(0), _px(0), m_winSize.width, _px(120)));
     this->getView()->addSubview(sView);
     
+    // header back button
     CAButton* button = CAButton::createWithFrame(DRect(_px(0), _px(20), _px(100), _px(100)), CAButtonTypeCustom);
     CAImageView* imageView = CAImageView::createWithImage(CAImage::create("common/nav_back.png"));
     imageView->setImageViewScaleType(CAImageViewScaleTypeFitImageXY);
@@ -42,14 +56,18 @@ void SessionDetailViewController::viewDidLoad()
     button->setTag(20);
     this->getView()->addSubview(button);
     
-    CALabel* label = CALabel::createWithCenter(DRect(m_winSize.width / 2, _px(70), m_winSize.width, _px(50)));
+    // header title
+    CALabel* label = CALabel::createWithCenter(DRect(m_winSize.width / 2, _px(80), m_winSize.width, _px(50)));
     label->setTextAlignment(CATextAlignmentCenter);
     label->setColor(CAColor_white);
     label->setFontSize(_px(40));
     label->setText("Session");
     label->setFontName("fonts/arial.ttf");
     sView->addSubview(label);
+    
+//    initView();
 	
+    /*
 	if (m_detailMsg.m_sessionId == -1)
 	{
 		requestMsg();
@@ -58,6 +76,7 @@ void SessionDetailViewController::viewDidLoad()
 	{
 		initView();
 	}
+     */
 
     CCLog("%f", CAApplication::getApplication()->getWinSize().width);
 }
@@ -78,75 +97,153 @@ void SessionDetailViewController::initView()
 	//m_urlImageView->setUrl(m_detailMsg.m_speaker[0].iconUrl);
 	//this->getView()->addSubview(m_urlImageView);
     DRect tempRect;
+    int yHight = _px(120);
+    
+    // scroll view
+    CAScrollView* scrollView = CAScrollView::createWithFrame(DRect(0, yHight, m_winSize.width, m_winSize.height * 1.1));
+    scrollView->setHorizontalScrollEnabled(false);
+    scrollView->setVerticalScrollEnabled(true);
+    scrollView->setBounceHorizontal(false);
+    scrollView->setBounds(DRect(0, 0, m_winSize.width, m_winSize.height - yHight * 2));
+    scrollView->setAnchorPoint(DPoint(0.f, 0.f));
+    scrollView->setShowsHorizontalScrollIndicator(false);
+    scrollView->setShowsVerticalScrollIndicator(true);
+    this->getView()->addSubview(scrollView);
 
-	CALabel* m_titleLabel = CALabel::createWithFrame(DRect(_px(40), _px(40) + _px(120), m_winSize.width - _px(80), _px(120)));
+    // header title
+    yHight = _px(40);
+    CALabel* m_titleLabel = CALabel::createWithFrame(DRect(_px(40), yHight, m_winSize.width - _px(80), _px(120)));
+    if (m_msg->m_title.size() >= 80) {
+        yHight += 120;
+    } else if (m_msg->m_title.size() >= 40) {
+        yHight += 80;
+    } else {
+        yHight += 40;
+    }
 	m_titleLabel->setColor(ccc4(0x5f, 0x5f, 0x5f, 0xff));
 	m_titleLabel->setTextAlignment(CATextAlignmentLeft);
-	m_titleLabel->setVerticalTextAlignmet(CAVerticalTextAlignmentBottom);
+	m_titleLabel->setVerticalTextAlignmet(CAVerticalTextAlignmentTop);
 	m_titleLabel->setFontSize(_px(30));
 	m_titleLabel->setText(m_msg->m_title);
-	this->getView()->addSubview(m_titleLabel);
+	scrollView->addSubview(m_titleLabel);
+    
+    yHight += _px(30);
 
-	CALabel* m_timeLabel = CALabel::createWithFrame(DRect(_px(40), _px(190) + _px(120), m_winSize.width - _px(80), _px(30)));
+    // time
+	CALabel* m_timeLabel = CALabel::createWithFrame(DRect(_px(40), yHight, m_winSize.width - _px(80), _px(30)));
 	m_timeLabel->setColor(ccc4(0x5f, 0x5f, 0x5f, 0xff));
 	m_timeLabel->setTextAlignment(CATextAlignmentLeft);
 	//m_timeLabel->setVerticalTextAlignmet(CAVerticalTextAlignmentTop);
 	m_timeLabel->setFontSize(_px(28));
 	m_timeLabel->setText(crossapp_format_string("%s - %s", timeToString(m_msg->m_startTime).c_str(), timeToString(m_msg->m_endTime).c_str()));
-	this->getView()->addSubview(m_timeLabel);
-
-	CALabel* fromatLabel = CALabel::createWithFrame(DRect(_px(40), _px(270) + _px(120), m_winSize.width - _px(80), _px(25)));
-	fromatLabel->setColor(ccc4(0x5f, 0x5f, 0x5f, 0xff));
-	fromatLabel->setTextAlignment(CATextAlignmentLeft);
-	fromatLabel->setFontSize(_px(24));
-	fromatLabel->setText(crossapp_format_string("Track: %s    Format: %s", m_msg->m_track.c_str(), m_msg->m_format.c_str()));
-	this->getView()->addSubview(fromatLabel);
-
-	CALabel* timeLabel = CALabel::createWithFrame(DRect(_px(40), _px(310) + _px(120), m_winSize.width - _px(80), _px(25)));
+	scrollView->addSubview(m_timeLabel);
+    
+    // session id button
+    CAButton* sessionId = CAButton::createWithFrame(DRect(m_winSize.width / 2 - _px(50), yHight, _px(100), _px(30)), CAButtonTypeCustom);
+    CAImageView * sessionidView = CAImageView::createWithImage(CAImage::create("common/gray_bg.png"));
+    sessionidView->setImageViewScaleType(CAImageViewScaleTypeFitImageXY);
+    sessionId->setBackGroundViewForState(CAControlStateAll, sessionidView);
+    sessionId->setControlState(CAControlStateDisabled);
+    scrollView->addSubview(sessionId);
+    
+    // session id button label
+    CALabel* btnLabel = CALabel::createWithFrame(DRect(_px(15), _px(5), _px(80), _px(30)));
+    btnLabel->setColor(CAColor_gray);
+    btnLabel->setTextAlignment(CATextAlignmentCenter);
+    btnLabel->setFontSize(_px(27));
+    btnLabel->setText(crossapp_format_string("%d", m_msg->m_sessionId));
+    sessionId->addSubview(btnLabel);
+    
+    yHight += _px(30) + _px(20);
+    
+    // format
+    CALabel* fromatLabel = CALabel::createWithFrame(DRect(_px(40), yHight, m_winSize.width - _px(80), _px(25)));
+    fromatLabel->setColor(ccc4(0x5f, 0x5f, 0x5f, 0xff));
+    fromatLabel->setTextAlignment(CATextAlignmentLeft);
+    fromatLabel->setFontSize(_px(24));
+    fromatLabel->setText(crossapp_format_string("Track : %s", m_msg->m_track.c_str()));
+    scrollView->addSubview(fromatLabel);
+    
+    yHight += _px(25) + _px(20);
+    
+    // track
+    CALabel* trackLabel = CALabel::createWithFrame(DRect(_px(40), yHight, m_winSize.width - _px(80), _px(25)));
+    trackLabel->setColor(ccc4(0x5f, 0x5f, 0x5f, 0xff));
+    trackLabel->setTextAlignment(CATextAlignmentLeft);
+    trackLabel->setFontSize(_px(24));
+    trackLabel->setText(crossapp_format_string("Format : %s", m_msg->m_format.c_str()));
+    scrollView->addSubview(trackLabel);
+    
+    yHight += _px(25) + _px(20);
+    
+    // location
+	CALabel* timeLabel = CALabel::createWithFrame(DRect(_px(40), yHight, m_winSize.width - _px(80), _px(30)));
 	timeLabel->setColor(ccc4(0x5f, 0x5f, 0x5f, 0xff));
 	timeLabel->setTextAlignment(CATextAlignmentLeft);
 	timeLabel->setFontSize(_px(24));
 	timeLabel->setText(crossapp_format_string("Location: %s", m_msg->m_location.c_str()));
-	this->getView()->addSubview(timeLabel);
+	scrollView->addSubview(timeLabel);
 
+    yHight += _px(30) + _px(50);
 
+    // description
     tempRect = ConstRect::getSessionDetailDescriptionRect();
     tempRect.size.width = m_winSize.width - _px(80);
+    tempRect.origin.y = yHight;
 	CALabel* m_lectureDetailLabel = CALabel::createWithFrame(tempRect);
 	m_lectureDetailLabel->setColor(ccc4(0xa1, 0xa1, 0xa1, 0xff));
 	m_lectureDetailLabel->setTextAlignment(CATextAlignmentLeft);
 	m_lectureDetailLabel->setFontSize(_px(21));
 	m_lectureDetailLabel->setText(m_detailMsg.m_detail);
-	this->getView()->addSubview(m_lectureDetailLabel);
-
-    int speakerCnt = m_detailMsg.m_speaker.size();
+	scrollView->addSubview(m_lectureDetailLabel);
+    
+    yHight += _px(25) * (m_detailMsg.m_detail.size() / 40);
+    
+    yHight = yHight + _px(40);
+    
+    size_t speakerCnt = m_detailMsg.m_speaker.size();
     if (speakerCnt > 0) {
-        CALabel* label = CALabel::createWithFrame(DRect(tempRect.origin.x, tempRect.origin.y + tempRect.size.height + _px(50), m_winSize.width - _px(80), _px(35)));
+        CALabel* label = CALabel::createWithFrame(DRect(tempRect.origin.x, yHight, m_winSize.width - _px(80), _px(35)));
         label->setColor(ccc4(0x5f, 0x5f, 0x5f, 0xff));
         label->setTextAlignment(CATextAlignmentLeft);
         label->setFontSize(_px(30));
         label->setText("Speaker");
-        this->getView()->addSubview(label);
+        scrollView->addSubview(label);
         
-        int speakWidth = (m_winSize.width - _px(30 * 2)) / speakerCnt;
+        yHight += _px(35) + _px(20);
+        
+        int speakWidth = 0;
+        if (speakerCnt > 3) {
+            speakWidth = (m_winSize.width - _px(30 * 2)) / speakerCnt;
+        } else {
+            speakWidth += 120;
+        }
         for (int i = 0; i < speakerCnt; i++)
         {
             tempRect = ConstRect::getSessionDetailSpeakerLogoRect();
+            tempRect.origin.y = yHight;
             tempRect.origin.x = _px(30) + speakWidth * i + (speakWidth - tempRect.size.width) / 2;
             CommonUrlImageView* urlImageView = CommonUrlImageView::createWithImage(CAImage::create("common/bg.png"));
             urlImageView->setFrame(tempRect);
             urlImageView->setImage(CAImage::create("common/bg.png"));
             urlImageView->setUrl(m_detailMsg.m_speaker[i].iconUrl);
-            this->getView()->addSubview(urlImageView);
+            scrollView->addSubview(urlImageView);
             
-            tempRect = ConstRect::getSessionDetailSpeakerNameRect();
-            tempRect.origin.x = _px(30) + speakWidth * i + (speakWidth - tempRect.size.width) / 2;;
-            label = CALabel::createWithFrame(tempRect);
+            //tempRect = ConstRect::getSessionDetailSpeakerNameRect();
+            tempRect.origin.x += tempRect.size.width / 2;
+            tempRect.origin.y = tempRect.origin.y + _px(100);
+            /*
+            if (speakerCnt > 3) {
+                tempRect.origin.x = _px(30) + speakWidth * i + (speakWidth - tempRect.size.width) / 2;
+            } else {
+                tempRect.origin.x = _px(30) + speakWidth * i + _px(50) * (i + 1);
+            }*/
+            label = CALabel::createWithCenter(DRect(tempRect.origin.x, tempRect.origin.y, _px(200), _px(30)));
             label->setColor(CAColor_gray);
             label->setTextAlignment(CATextAlignmentCenter);
-            label->setFontSize(_px(25));
+            label->setFontSize(_px(23));
             label->setText(m_detailMsg.m_speaker[i].name);
-            this->getView()->addSubview(label);
+            scrollView->addSubview(label);
         }
     }
 
@@ -208,6 +305,7 @@ void SessionDetailViewController::initView()
 	m_likeNumLabel->setTouchEnabled(false);
 	sView->addSubview(m_likeNumLabel);
 
+    /*
 	m_surveyButtonView[0] = CAView::createWithFrame(DRect(_px(0), _px(0), _px(400), _px(100)));
 	m_surveyButtonView[0]->setColor(CAColor_clear);
     CALabel* label = CALabel::createWithFrame(DRect(_px(0), _px(0), _px(400), _px(100)));
@@ -218,39 +316,46 @@ void SessionDetailViewController::initView()
 	label->setText("Click to win point");
 	m_surveyButtonView[0]->addSubview(label);
 	m_surveyButtonView[0]->setVisible(false);
+*/
+	m_surveyButtonView = CAView::createWithFrame(DRect(_px(0), _px(0), _px(300), _px(100)));
+	m_surveyButtonView->setColor(CAColor_clear);
+    
+    if (m_surveyBtnLabel1 == NULL) {
+        m_surveyBtnLabel1 = CALabel::createWithFrame(DRect(_px(0), _px(20), _px(300), _px(40)));
+        m_surveyBtnLabel1->setTextAlignment(CATextAlignmentCenter);
+        m_surveyBtnLabel1->setVerticalTextAlignmet(CAVerticalTextAlignmentCenter);
+        m_surveyBtnLabel1->setColor(CAColor_blue);
+        m_surveyBtnLabel1->setFontSize(_px(30));
+        m_surveyBtnLabel1->setText("Click to win point");
+        m_surveyButtonView->addSubview(m_surveyBtnLabel1);
+    }
+    
+    if (m_surveyBtnLabel2 == NULL) {
+        m_surveyBtnLabel2 = CALabel::createWithFrame(DRect(_px(0), _px(60), _px(300), _px(30)));
+        m_surveyBtnLabel2->setTextAlignment(CATextAlignmentCenter);
+        m_surveyBtnLabel2->setVerticalTextAlignmet(CAVerticalTextAlignmentCenter);
+        m_surveyBtnLabel2->setColor(CAColor_blue);
+        m_surveyBtnLabel2->setFontSize(_px(20));
+        m_surveyBtnLabel2->setText("(Avalible in ?s)");
+        m_surveyButtonView->addSubview(m_surveyBtnLabel2);
+    }
 
-	m_surveyButtonView[1] = CAView::createWithFrame(DRect(_px(0), _px(0), _px(300), _px(100)));
-	m_surveyButtonView[1]->setColor(CAColor_clear);
-	label = CALabel::createWithFrame(DRect(_px(0), _px(20), _px(300), _px(40)));
-	label->setTextAlignment(CATextAlignmentCenter);
-	label->setVerticalTextAlignmet(CAVerticalTextAlignmentCenter);
-	label->setColor(CAColor_white);
-	label->setFontSize(_px(30));
-	label->setText("Click to win point");
-	m_surveyButtonView[1]->addSubview(label);
-
-	m_surveyTimeLabel = CALabel::createWithFrame(DRect(_px(0), _px(60), _px(300), _px(30)));
-	m_surveyTimeLabel->setTextAlignment(CATextAlignmentCenter);
-	m_surveyTimeLabel->setVerticalTextAlignmet(CAVerticalTextAlignmentCenter);
-	m_surveyTimeLabel->setColor(CAColor_white);
-	m_surveyTimeLabel->setFontSize(_px(20));
-	m_surveyTimeLabel->setText("(Avalible in 30s)");
-	m_surveyButtonView[1]->addSubview(m_surveyTimeLabel);
-
-	CAButton* button = CAButton::createWithFrame(DRect(m_winSize.width - _px(300), 0, _px(300), _px(100)), CAButtonTypeCustom);
-	CAImageView* imageView = CAImageView::createWithImage(CAImage::create("common/dsky_bg.png"));
-	imageView->setImageViewScaleType(CAImageViewScaleTypeFitImageXY);
-	button->setBackGroundViewForState(CAControlStateAll, imageView);
-	imageView = CAImageView::createWithImage(CAImage::create("common/gray_bg.png"));
-	imageView->setImageViewScaleType(CAImageViewScaleTypeFitImageXY);
-	button->setBackGroundViewForState(CAControlStateDisabled, imageView);
-	button->addTarget(this, CAControl_selector(SessionDetailViewController::buttonCallBack), CAControlEventTouchUpInSide);
-	//button->setControlState(CAControlStateDisabled);
-	button->setTag(200);
-	sView->addSubview(button);
-
-	button->addSubview(m_surveyButtonView[0]);
-	button->addSubview(m_surveyButtonView[1]);
+    if (m_surveyBtn == NULL)
+    {
+        m_surveyBtn = CAButton::createWithFrame(DRect(m_winSize.width - _px(300), 0, _px(300), _px(100)), CAButtonTypeCustom);
+        CAImageView* imageView = CAImageView::createWithImage(CAImage::create("common/dsky_bg.png"));
+        imageView->setImageViewScaleType(CAImageViewScaleTypeFitImageXY);
+        m_surveyBtn->setBackGroundViewForState(CAControlStateAll, imageView);
+        imageView = CAImageView::createWithImage(CAImage::create("common/gray_bg.png"));
+        imageView->setImageViewScaleType(CAImageViewScaleTypeFitImageXY);
+        m_surveyBtn->setBackGroundViewForState(CAControlStateDisabled, imageView);
+        m_surveyBtn->addTarget(this, CAControl_selector(SessionDetailViewController::buttonCallBack), CAControlEventTouchUpInSide);
+        m_surveyBtn->setControlState(CAControlStateDisabled);
+        m_surveyBtn->setTag(200);
+        sView->addSubview(m_surveyBtn);
+        
+        m_surveyBtn->addSubview(m_surveyButtonView);
+    }
 }
 
 void SessionDetailViewController::viewDidUnload()
@@ -293,7 +398,7 @@ void SessionDetailViewController::requestMsg()
 	std::map<std::string, std::string> key_value;
 	key_value["tag"] = sessionDetailViewTag[0];
 	key_value["sid"] = crossapp_format_string("%d", m_msg->m_sessionId);
-	//key_value["uid"] = crossapp_format_string("%d", FDataManager::getInstance()->getUserId());
+    key_value["uid"] = crossapp_format_string("%d", FDataManager::getInstance()->getUserId());
 	CommonHttpManager::getInstance()->send_post(httpUrl, key_value, this, CommonHttpJson_selector(SessionDetailViewController::onRequestFinished));
 	{
 		DRect r(m_winSize.width / 2, (m_winSize.height - _px(120)) / 2 + _px(120),
@@ -319,7 +424,10 @@ void SessionDetailViewController::onRequestFinished(const HttpResponseStatus& st
 			const CSJson::Value& v1 = value["s"];
 			m_detailMsg.m_sessionId = v1[0]["SessionId"].asInt();
 			m_detailMsg.m_detail = v1[0]["Description"].asString();
+            m_detailMsg.m_startTime = v1[0]["StartTime"].asInt64();
+            m_detailMsg.m_endTime = v1[0]["EndTime"].asInt64();
 			const CSJson::Value& v2 = value["sp"];
+            m_isSurveyed = value["sv"].asBool();
 			for (int i = 0; i < v2.size(); i++)
 			{
 				speakerMsg speaker;
@@ -329,7 +437,7 @@ void SessionDetailViewController::onRequestFinished(const HttpResponseStatus& st
 				speaker.role = v2[i]["Role"].asString();
 				m_detailMsg.m_speaker.push_back(speaker);
 			}
-		}
+        }
 		initView();
 	}
 
@@ -453,4 +561,77 @@ void SessionDetailViewController::showAlert()
 	test->setTouchEnabled(false);
 	p_alertView->addSubview(test);
 
+}
+
+void SessionDetailViewController::adjustSurveyBtn(float dt)
+{
+    time_t nowTime = getTimeSecond();
+    if (m_isSurveyed)
+    {// is attended this survey
+        if (m_surveyBtn) m_surveyBtn->setControlState(CAControlStateDisabled);
+        if (m_surveyBtnLabel1) {
+            m_surveyBtnLabel1->setText("Attended !");
+            m_surveyBtnLabel1->setColor(CAColor_blue);
+        }
+        if (m_surveyBtnLabel2) {
+            m_surveyBtnLabel2->setColor(CAColor_blue);
+        }
+    } else {
+        if (m_detailMsg.m_endTime == 0 || m_detailMsg.m_startTime == 0) {
+            // not load yet
+            if (m_surveyBtn) m_surveyBtn->setControlState(CAControlStateDisabled);
+            if (m_surveyBtnLabel1) {
+                m_surveyBtnLabel1->setText("null");
+                m_surveyBtnLabel1->setColor(CAColor_blue);
+            }
+            if (m_surveyBtnLabel2) m_surveyBtnLabel2->setColor(CAColor_blue);
+        } else if (nowTime > m_detailMsg.m_endTime + TIME_GAPE) {
+            // close
+            if (m_surveyBtn) m_surveyBtn->setControlState(CAControlStateDisabled);
+            if (m_surveyBtnLabel1) {
+                m_surveyBtnLabel1->setText("Overdure");
+                m_surveyBtnLabel1->setColor(CAColor_blue);
+            }
+            if (m_surveyBtnLabel2) {
+                m_surveyBtnLabel2->setColor(CAColor_blue);
+            }
+        } else if (nowTime < m_detailMsg.m_startTime + TIME_GAPE) {
+            // not start yet
+            if (m_surveyBtn) m_surveyBtn->setControlState(CAControlStateDisabled);
+            if (m_surveyBtnLabel1) {
+                m_surveyBtnLabel1->setText("Click to win points");
+                m_surveyBtnLabel1->setColor(CAColor_blue);
+            }
+            if (m_surveyBtnLabel2) {
+                time_t delteTm = m_detailMsg.m_startTime + TIME_GAPE - nowTime;
+                struct tm * timeinfo;
+                timeinfo = localtime (&delteTm);
+                string timeStr = "";
+                if (timeinfo->tm_mday != 0) {
+                    timeStr += crossapp_format_string("%dd",timeinfo->tm_mday);
+                }
+                if (timeinfo->tm_hour != 0) {
+                    timeStr += crossapp_format_string("%dh",timeinfo->tm_hour);
+                }
+                if (timeinfo->tm_min != 0) {
+                    timeStr += crossapp_format_string("%dm",timeinfo->tm_min);
+                }
+                if (timeinfo->tm_sec != 0) {
+                    timeStr += crossapp_format_string("%ds",timeinfo->tm_sec);
+                }
+                m_surveyBtnLabel2->setText(crossapp_format_string("Avaliable is %s", timeStr.c_str()));
+                m_surveyBtnLabel2->setColor(CAColor_blue);
+            }
+        } else {
+            // can attend
+            if (m_surveyBtn) m_surveyBtn->setControlState(CAControlStateNormal);
+            if (m_surveyBtnLabel1) {
+                m_surveyBtnLabel1->setText("Click to win points");
+                m_surveyBtnLabel1->setColor(CAColor_white);
+            }
+            if (m_surveyBtnLabel2) {
+                m_surveyBtnLabel2->setColor(CAColor_white);
+            }
+        }
+    }
 }

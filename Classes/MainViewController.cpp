@@ -29,7 +29,6 @@ MainViewController::MainViewController()
 , m_nextSection(1)
 , m_timeForPageView(getTimeSecond())
 {
-    m_scheduler.init();
     m_msg = FDataManager::getInstance()->getSessionMsgs();
 }
 
