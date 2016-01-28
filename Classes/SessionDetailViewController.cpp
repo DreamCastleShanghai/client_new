@@ -156,9 +156,9 @@ void SessionDetailViewController::initView()
 	sView->setFrame(DRect(_px(0), m_winSize.height - _px(100), m_winSize.width, _px(100)));
 	this->getView()->addSubview(sView);
 
-	m_storeBtnImage = CAImageView::createWithImage(CAImage::create("common/btn_collect_pre.png"));
+	m_storeBtnImage = CAImageView::createWithImage(CAImage::create("session/btn_collect_pre.png"));
 	m_storeBtnImage->setImageViewScaleType(CAImageViewScaleTypeFitImageInside);
-	m_storeBtnImage->setFrame(DRect(_px(35), _px(0), _px(80), _px(80)));
+	m_storeBtnImage->setFrame(DRect(_px(35), _px(10), _px(80), _px(80)));
 	CAButton* storeBtn = CAButton::createWithFrame(DRect(_px(0), _px(0), _px(150), _px(100)), CAButtonTypeCustom);
 	storeBtn->setAllowsSelected(true);
 	//storeBtn->setBackGroundViewForState(CAControlStateAll, m_storeBtnImage);
@@ -170,17 +170,17 @@ void SessionDetailViewController::initView()
 	m_canStore = true;
 	if (m_msg->m_stored)
 	{
-		m_storeBtnImage->setImage(CAImage::create("common/btn_collect_pre.png"));
+		m_storeBtnImage->setImage(CAImage::create("session/btn_collect_pre.png"));
 	}
 	else
 	{
-		m_storeBtnImage->setImage(CAImage::create("common/btn_collect.png"));
+		m_storeBtnImage->setImage(CAImage::create("session/btn_collect.png"));
 	}
 	sView->addSubview(storeBtn);
 
 	m_likeBtnImage = CAImageView::createWithImage(CAImage::create("common/btn_collect_pre.png"));
 	m_likeBtnImage->setImageViewScaleType(CAImageViewScaleTypeFitImageInside);
-	m_likeBtnImage->setFrame(DRect(_px(35), _px(0), _px(80), _px(80)));
+	m_likeBtnImage->setFrame(DRect(_px(35), _px(10), _px(80), _px(80)));
 	CAButton* likeBtn = CAButton::createWithFrame(DRect(_px(150), _px(0), _px(150), _px(100)), CAButtonTypeCustom);
 	likeBtn->setAllowsSelected(true);
 	likeBtn->setTag(400);
@@ -199,11 +199,11 @@ void SessionDetailViewController::initView()
 	}
 	sView->addSubview(likeBtn);
 
-	m_likeNumLabel = CALabel::createWithFrame(DRect(_px(255), _px(30), _px(50), _px(35)));
+	m_likeNumLabel = CALabel::createWithFrame(DRect(_px(260), _px(40), _px(50), _px(35)));
 	m_likeNumLabel->setColor(CAColor_white);
 	m_likeNumLabel->setTextAlignment(CATextAlignmentLeft);
 	m_likeNumLabel->setVerticalTextAlignmet(CAVerticalTextAlignmentCenter);
-	m_likeNumLabel->setFontSize(_px(20));
+	m_likeNumLabel->setFontSize(_px(25));
 	m_likeNumLabel->setText(crossapp_format_string("%d", m_msg->m_likeNum));
 	m_likeNumLabel->setTouchEnabled(false);
 	sView->addSubview(m_likeNumLabel);
@@ -221,7 +221,7 @@ void SessionDetailViewController::initView()
 
 	m_surveyButtonView[1] = CAView::createWithFrame(DRect(_px(0), _px(0), _px(300), _px(100)));
 	m_surveyButtonView[1]->setColor(CAColor_clear);
-	label = CALabel::createWithFrame(DRect(_px(0), _px(10), _px(300), _px(40)));
+	label = CALabel::createWithFrame(DRect(_px(0), _px(20), _px(300), _px(40)));
 	label->setTextAlignment(CATextAlignmentCenter);
 	label->setVerticalTextAlignmet(CAVerticalTextAlignmentCenter);
 	label->setColor(CAColor_white);
@@ -229,7 +229,7 @@ void SessionDetailViewController::initView()
 	label->setText("Click to win point");
 	m_surveyButtonView[1]->addSubview(label);
 
-	m_surveyTimeLabel = CALabel::createWithFrame(DRect(_px(0), _px(50), _px(300), _px(30)));
+	m_surveyTimeLabel = CALabel::createWithFrame(DRect(_px(0), _px(60), _px(300), _px(30)));
 	m_surveyTimeLabel->setTextAlignment(CATextAlignmentCenter);
 	m_surveyTimeLabel->setVerticalTextAlignmet(CAVerticalTextAlignmentCenter);
 	m_surveyTimeLabel->setColor(CAColor_white);
@@ -386,11 +386,11 @@ void SessionDetailViewController::onStoreRequestFinished(const HttpResponseStatu
         m_msg->m_stored = m_isStore;
         if (m_isStore)
         {
-            m_storeBtnImage->setImage(CAImage::create("common/btn_collect_pre.png"));
+            m_storeBtnImage->setImage(CAImage::create("session/btn_collect_pre.png"));
         }
         else
         {
-            m_storeBtnImage->setImage(CAImage::create("common/btn_collect.png"));
+            m_storeBtnImage->setImage(CAImage::create("session/btn_collect.png"));
         }
     }
     m_canStore = true;

@@ -118,15 +118,14 @@ void MainViewController::viewDidLoad()
     m_timeNoticeImageView->setImage(CAImage::create("common/reddot.png"));
     button->addSubview(m_timeNoticeImageView);
 
-    /*
+    
 	button = CAButton::createWithFrame(DRect(m_winSize.width - _px(100), _px(20), _px(100), _px(100)), CAButtonTypeCustom);
-	imageView = CAImageView::createWithImage(CAImage::create("main/nav_prize.png"));
+	imageView = CAImageView::createWithImage(CAImage::create("main/nav_survey.png"));
 	imageView->setImageViewScaleType(CAImageViewScaleTypeFitImageXY);
 	button->setBackGroundViewForState(CAControlStateAll, imageView);
 	button->addTarget(this, CAControl_selector(MainViewController::buttonCallBack), CAControlEventTouchUpInSide);
 	button->setTag(30);
 	this->getView()->addSubview(button);
-     */
 
     // title lable
 	CALabel* label = CALabel::createWithCenter(DRect(m_winSize.width / 2, _px(80), m_winSize.width, _px(50)));
