@@ -27,6 +27,8 @@ public:
     
 	virtual ~MyStatusViewController();
     
+    void refreshTable();
+
 protected:
     
     void viewDidLoad();
@@ -41,7 +43,7 @@ protected:
     
     void showLoading();
 
-	void requestMsg();
+//	void requestMsg();
     
     void requestRankMsg();
 
@@ -61,6 +63,8 @@ protected:
     CAView* tableViewSectionViewForHeaderInSection(CATableView* table, const DSize& viewSize, unsigned int section);
     
     unsigned int tableViewHeightForHeaderInSection(CATableView* table, unsigned int section);
+    
+    
 private:
 
 	DSize													m_winSize;

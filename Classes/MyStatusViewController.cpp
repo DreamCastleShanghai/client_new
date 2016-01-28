@@ -18,8 +18,11 @@ MyStatusViewController::MyStatusViewController()
 , m_navType(0)
 , m_pointType(0)
 , m_canSwitchSeg(true)
+, m_navSegmentView(NULL)
+, m_pointSegmentView(NULL)
+, m_msg(FDataManager::getInstance()->getSessionMsgs())
 {
-    m_msg = FDataManager::getInstance()->getSessionMsgs();
+    m_filterMsg.clear();
 }
 
 MyStatusViewController::~MyStatusViewController()
@@ -55,12 +58,14 @@ void MyStatusViewController::viewDidLoad()
     
     m_navSegmentView =
         FSegmentView::createWithFrame(DRect((m_winSize.width - 400) / 2, 40, 400, 60), 2);
-    m_navSegmentView->addTarget(this, CAControl_selector(MyStatusViewController::buttonCallBack), CAControlEventTouchUpInSide);
-    m_navSegmentView->setItemTile("My Calender", 0);
-    m_navSegmentView->setItemTile("Point", 1);
-    m_navSegmentView->setTag(200, 0);
-    m_navSegmentView->setTag(201, 1);
-    this->getView()->addSubview(m_navSegmentView);
+    if (m_navSegmentView) {
+        m_navSegmentView->addTarget(this, CAControl_selector(MyStatusViewController::buttonCallBack), CAControlEventTouchUpInSide);
+        m_navSegmentView->setItemTile("My Calender", 0);
+        m_navSegmentView->setItemTile("Point", 1);
+        m_navSegmentView->setTag(200, 0);
+        m_navSegmentView->setTag(201, 1);
+        this->getView()->addSubview(m_navSegmentView);
+    }
     m_navType = 0;
     
     m_pointView = CAView::createWithFrame(DRect(0, _px(120), m_winSize.width, _px(300)));
@@ -68,6 +73,18 @@ void MyStatusViewController::viewDidLoad()
     m_pointView->setVisible(false);
     this->getView()->addSubview(m_pointView);
     
+
+    if (m_msgTableView == NULL)
+    {
+        m_msgTableView = CATableView::createWithFrame(DRect(0, _px(120), m_winSize.width, m_winSize.height - _px(120)));
+        m_msgTableView->setTableViewDataSource(this);
+        m_msgTableView->setTableViewDelegate(this);
+        m_msgTableView->setScrollViewDelegate(this);
+        m_msgTableView->setAllowsSelection(true);
+        m_msgTableView->setSeparatorColor(ccc4(200, 200, 200, 80));
+        //m_msgTableView->setSeparatorViewHeight(_px(2));
+        this->getView()->addSubview(m_msgTableView);
+    }
 
     CAButton* button = CAButton::createWithFrame(DRect((m_winSize.width - _px(120)) / 2, _px(30), _px(120), _px(120)), CAButtonTypeCustom);
     button->addTarget(this, CAControl_selector(MyStatusViewController::buttonCallBack), CAControlEventTouchUpInSide);
@@ -135,11 +152,13 @@ void MyStatusViewController::viewDidLoad()
     if (m_msg->empty())
     {
         m_canSwitchSeg = false;
-        requestMsg();
+//        requestMsg();
         showLoading();
     }
     else
     {
+        refreshTable();
+        /*
         m_filterMsg.clear();
         for (std::vector<sessionMsg>::iterator it = m_msg->begin(); it != m_msg->end(); it++)
         {
@@ -148,7 +167,7 @@ void MyStatusViewController::viewDidLoad()
                 m_filterMsg.push_back(&(*it));
             }
         }
-        this->initMsgTableView();
+        this->initMsgTableView();*/
     }
     
     CCLog("%f", CAApplication::getApplication()->getWinSize().width);
@@ -168,6 +187,7 @@ void MyStatusViewController::initMsgTableView()
         return;
     }
     m_canSwitchSeg = true;
+    /*
     if (m_msgTableView == NULL)
     {
         m_msgTableView = CATableView::createWithFrame(DRect(0, _px(120), m_winSize.width, m_winSize.height - _px(120)));
@@ -179,9 +199,11 @@ void MyStatusViewController::initMsgTableView()
         //m_msgTableView->setSeparatorViewHeight(_px(2));
         this->getView()->addSubview(m_msgTableView);
     }
+     */
 
 }
 
+/*
 void MyStatusViewController::requestMsg()
 {
     if (p_alertView)
@@ -196,6 +218,7 @@ void MyStatusViewController::requestMsg()
     //key_value["sign"] = getSign(key_value);
     CommonHttpManager::getInstance()->send_post(httpUrl, key_value, this, CommonHttpJson_selector(MyStatusViewController::onRequestFinished));
 }
+*/
 
 void MyStatusViewController::requestRankMsg()
 {
@@ -228,7 +251,7 @@ void MyStatusViewController::buttonCallBack(CAControl* btn, DPoint point)
     {
         this->getView()->removeSubview(p_alertView);
         p_alertView = NULL;
-        requestMsg();
+//        requestMsg();
     }
     else if (btn->getTag() == 200)
     {
@@ -715,4 +738,18 @@ void MyStatusViewController::tableViewDidDeselectRowAtIndexPath(CATableView* tab
 	
 }
 
-
+void MyStatusViewController::refreshTable()
+{
+    m_filterMsg.clear();
+    for (std::vector<sessionMsg>::iterator it = m_msg->begin(); it != m_msg->end(); it++)
+    {
+        if (it->m_stored)
+        {
+            m_filterMsg.push_back(&(*it));
+        }
+    }    
+    if (m_msgTableView)
+    {
+        m_msgTableView->reloadData();
+    }
+}

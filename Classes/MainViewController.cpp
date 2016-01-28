@@ -713,6 +713,7 @@ void MainViewController::buttonCallBack(CAControl* btn, DPoint point)
     {
 
     }
+    /*
     else if (btn->getTag() == 401)
     {
         m_session = (SessionsViewController*)new SessionsViewController();
@@ -722,6 +723,7 @@ void MainViewController::buttonCallBack(CAControl* btn, DPoint point)
 //		vc->init();
 		RootWindow::getInstance()->getRootNavigationController()->pushViewController(m_session, true);
     }
+    */
     else if (btn->getTag() == 402)
     {
         m_my = (MyStatusViewController*)new MyStatusViewController();

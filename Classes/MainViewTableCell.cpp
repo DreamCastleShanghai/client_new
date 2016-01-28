@@ -4,6 +4,7 @@
 #include "FServerTime.h"
 #include "ConstData/ConstRect.h"
 #include "MainViewController.h"
+#include "MyStatusViewController.h"
 
 MainViewTableCell::MainViewTableCell()
 : m_titleLabel(NULL)
@@ -305,10 +306,12 @@ void MainViewTableCell::onLikeRequestFinished(const HttpResponseStatus& status, 
 
 void MainViewTableCell::updateTable()
 {
-//    if (!strcmp(getReuseIdentifier().c_str(), "home")) {
-        // ->getRootNavigationController()
-        MainViewController* mv = (MainViewController*)(RootWindow::getInstance()->getHomeView());
-        if (mv)
-            mv->refreshTable();
-//    }
+    MainViewController* mv = (MainViewController*)(RootWindow::getInstance()->getHomeView());
+    if (mv)
+        mv->refreshTable();
+
+    MyStatusViewController* sv = (MyStatusViewController*)(RootWindow::getInstance()->getMyView());
+    if (sv) {
+        sv->refreshTable();
+    }
 }
