@@ -24,6 +24,13 @@ struct userInfo
     vector<int> m_hasPrizeId;
 };
 
+struct scoreHistory
+{
+    int         m_scoreType;
+    int         m_score;
+    std::string m_scoreDetail;
+};
+
 struct photoMsg
 {
 	int picId;

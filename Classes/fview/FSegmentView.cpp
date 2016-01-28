@@ -137,6 +137,21 @@ void FSegmentView::addTarget(CAObject *target, SEL_CAControl selector, CAControl
     m_pCallFunc = selector;
 }
 
+void FSegmentView::setItemFocus(int index)
+{
+    for (int i = 0; i < m_fSegButtonList.size(); i++)
+    {
+        if (i == index)
+        {
+            m_fSegButtonList[i]->setControlState(CAControlStateSelected);
+        }
+        else
+        {
+            m_fSegButtonList[i]->setControlState(CAControlStateNormal);
+        }
+    }
+}
+
 void FSegmentView::buttonCallBack(CAControl* btn, DPoint point)
 {
     if (btn->getControlState() == CAControlStateNormal)

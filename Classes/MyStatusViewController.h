@@ -28,6 +28,8 @@ public:
 	virtual ~MyStatusViewController();
     
     void refreshTable();
+    
+    void refreshUserInfo();
 
 protected:
     
@@ -45,13 +47,17 @@ protected:
 
 //	void requestMsg();
     
+    //	void onRequestFinished(const HttpResponseStatus& status, const CSJson::Value& json);
+    
     void requestRankMsg();
-
-	void onRequestFinished(const HttpResponseStatus& status, const CSJson::Value& json);
     
     void onRequestRankFinished(const HttpResponseStatus& status, const CSJson::Value& json);
     
-    void switchNavType(int index);
+    void requestScoreHistoryMsg();
+
+    void onRequestScoreHistoryFinished(const HttpResponseStatus& status, const CSJson::Value& json);
+
+    void switchNavType();//int index);
 
 	virtual CATableViewCell* tableCellAtIndex(CATableView* table, const DSize& cellSize, unsigned int section, unsigned int row);
 	virtual unsigned int numberOfRowsInSection(CATableView *table, unsigned int section);
@@ -66,12 +72,19 @@ protected:
     
     
 private:
+    enum {
+        MY_CALANDER_VIEW = 1,
+        MY_INFO_VIEW = 2,
+        MY_INFO_SCORE_HISTORY = 1,
+        MY_INFO_RANK = 2,
+    };
 
 	DSize													m_winSize;
 
     std::vector<sessionMsg>*								m_msg;
     std::vector<sessionMsg*>								m_filterMsg;
     std::vector<userInfo>                                   m_rankMsg;
+    std::vector<scoreHistory>                               m_shMsg;
     
     class FSegmentView*                                     m_navSegmentView;
     class FSegmentView*                                     m_pointSegmentView;
@@ -79,6 +92,7 @@ private:
     CAButton*                                               m_searchButton;
     CAButton*                                               m_pointButton;
     CommonUrlImageView*                                     m_urlImageView;
+    CAImageView*                                            m_greenAmbIcon;
     CALabel*                                                m_nameLabel;
     CALabel*                                                m_pointLabel[2];
     CALabel*                                                m_rankLabel[2];
@@ -86,6 +100,7 @@ private:
     CAView*													p_alertView;
     CAActivityIndicatorView*								p_pLoading;
 	CATableView*											m_msgTableView;
+    CATableView*                                            m_myCalanderView;
     int                                                     m_navType;
     int                                                     m_pointType;
     bool                                                    m_canSwitchSeg;

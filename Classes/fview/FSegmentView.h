@@ -27,6 +27,8 @@ public:
     
     virtual void addTarget(CAObject* target, SEL_CAControl selector, CAControlEvents event);
     
+    virtual void setItemFocus(int index);
+    
     void buttonCallBack(CAControl* btn, DPoint point);
 //    
     virtual void setItemBackGroundImage(CAImageView* imageView, int index);

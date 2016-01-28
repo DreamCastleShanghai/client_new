@@ -79,6 +79,11 @@ static const char* rankViewTag[2] =
     "R0", "R1"
 };
 
+static const char* scoreHistoryTag[2] =
+{
+    "SH0", "SH1"
+};
+
 static const CHAR* mainShort[3] =
 {
     _T("Moments"), _T("Vote"), _T("On-site Guide")
@@ -148,4 +153,15 @@ static const char* iconTag[27] =
     "image/Video.png",
     "image/Video.png",
     "image/Video.png"
+};
+
+static const char* scoreType[] =
+{
+    "Session Survey",
+    "Demo Jam Vote",
+    "Upload Photo",
+    "Upload Avatar",
+    "Sustainability Campaign",
+    "Staff or Ambassador",
+    "Speaker of own Session",
 };

@@ -12,6 +12,7 @@
 
 MyStatusViewController::MyStatusViewController()
 : m_msgTableView(NULL)
+, m_myCalanderView(NULL)
 , p_alertView(NULL)
 , p_pLoading(NULL)
 , m_pointView(NULL)
@@ -20,9 +21,12 @@ MyStatusViewController::MyStatusViewController()
 , m_canSwitchSeg(true)
 , m_navSegmentView(NULL)
 , m_pointSegmentView(NULL)
+, m_greenAmbIcon(NULL)
 , m_msg(FDataManager::getInstance()->getSessionMsgs())
 {
     m_filterMsg.clear();
+    m_rankMsg.clear();
+    m_shMsg.clear();
 }
 
 MyStatusViewController::~MyStatusViewController()
@@ -35,48 +39,71 @@ void MyStatusViewController::viewDidLoad()
     // Do any additional setup after loading the view from its nib.
     m_winSize = this->getView()->getBounds().size;
     
+    // header bg
     CAScale9ImageView* sView = CAScale9ImageView::createWithImage(CAImage::create("common/sky_bg.png"));
-    sView->setFrame(DRect(_px(0), _px(0), m_winSize.width, _px(120)));
-    this->getView()->addSubview(sView);
+    if (sView) {
+        sView->setFrame(DRect(_px(0), _px(0), m_winSize.width, _px(120)));
+        this->getView()->addSubview(sView);
+    }
     
+    // search btn in header
     m_searchButton = CAButton::createWithFrame(DRect(_px(0), _px(20), _px(100), _px(100)), CAButtonTypeCustom);
-    CAImageView* imageView = CAImageView::createWithImage(CAImage::create("common/nav_search.png"));
-    imageView->setImageViewScaleType(CAImageViewScaleTypeFitImageXY);
-    m_searchButton->setBackGroundViewForState(CAControlStateAll, imageView);
-    m_searchButton->addTarget(this, CAControl_selector(MyStatusViewController::buttonCallBack), CAControlEventTouchUpInSide);
-    m_searchButton->setTag(20);
-    this->getView()->addSubview(m_searchButton);
+    if (m_searchButton) {
+        m_searchButton->addTarget(this, CAControl_selector(MyStatusViewController::buttonCallBack), CAControlEventTouchUpInSide);
+        m_searchButton->setTag(20);
+        this->getView()->addSubview(m_searchButton);
+        CAImageView* imageView = CAImageView::createWithImage(CAImage::create("common/nav_search.png"));
+        if (imageView) {
+            imageView->setImageViewScaleType(CAImageViewScaleTypeFitImageXY);
+            m_searchButton->setBackGroundViewForState(CAControlStateAll, imageView);
+        }
+    }
     
+    // information btn
     m_pointButton = CAButton::createWithFrame(DRect(m_winSize.width - _px(120), _px(20), _px(100), _px(100)), CAButtonTypeCustom);
-    imageView = CAImageView::createWithImage(CAImage::create("common/nav_info.png"));
-    imageView->setImageViewScaleType(CAImageViewScaleTypeFitImageXY);
-    m_pointButton->setBackGroundViewForState(CAControlStateAll, imageView);
-    m_pointButton->addTarget(this, CAControl_selector(MyStatusViewController::buttonCallBack), CAControlEventTouchUpInSide);
-    m_pointButton->setTag(30);
-    m_pointButton->setVisible(false);
-    this->getView()->addSubview(m_pointButton);
+    if (m_pointButton) {
+        m_pointButton->addTarget(this, CAControl_selector(MyStatusViewController::buttonCallBack), CAControlEventTouchUpInSide);
+        m_pointButton->setTag(30);
+        m_pointButton->setVisible(false);
+        this->getView()->addSubview(m_pointButton);
+        
+        CAImageView* imageView = CAImageView::createWithImage(CAImage::create("common/nav_info.png"));
+        if (imageView) {
+            imageView->setImageViewScaleType(CAImageViewScaleTypeFitImageXY);
+            m_pointButton->setBackGroundViewForState(CAControlStateAll, imageView);
+        }
+    }
     
+    // my calander view
     m_navSegmentView =
         FSegmentView::createWithFrame(DRect((m_winSize.width - 400) / 2, 40, 400, 60), 2);
     if (m_navSegmentView) {
         m_navSegmentView->addTarget(this, CAControl_selector(MyStatusViewController::buttonCallBack), CAControlEventTouchUpInSide);
-        m_navSegmentView->setItemTile("My Calender", 0);
+        m_navSegmentView->setItemTile("My Agenda", 0);
         m_navSegmentView->setItemTile("Point", 1);
         m_navSegmentView->setTag(200, 0);
         m_navSegmentView->setTag(201, 1);
         this->getView()->addSubview(m_navSegmentView);
     }
-    m_navType = 0;
     
-    m_pointView = CAView::createWithFrame(DRect(0, _px(120), m_winSize.width, _px(300)));
-    m_pointView->setColor(ccc4(0, 0xa8, 0xfc, 0xff));
-    m_pointView->setVisible(false);
-    this->getView()->addSubview(m_pointView);
+    // my calander table view
+    if (m_myCalanderView == NULL)
+    {
+        m_myCalanderView = CATableView::createWithFrame(DRect(0, _px(120), m_winSize.width, m_winSize.height - _px(120)));
+        m_myCalanderView->setTableViewDataSource(this);
+        m_myCalanderView->setTableViewDelegate(this);
+        m_myCalanderView->setScrollViewDelegate(this);
+        m_myCalanderView->setAllowsSelection(true);
+        m_myCalanderView->setSeparatorColor(ccc4(200, 200, 200, 80));
+        //m_msgTableView->setSeparatorViewHeight(_px(2));
+        this->getView()->addSubview(m_myCalanderView);
+    }
     
-
+    // user information table
     if (m_msgTableView == NULL)
     {
-        m_msgTableView = CATableView::createWithFrame(DRect(0, _px(120), m_winSize.width, m_winSize.height - _px(120)));
+        //m_msgTableView = CATableView::createWithFrame(DRect(0, _px(120), m_winSize.width, m_winSize.height - _px(120)));
+        m_msgTableView = CATableView::createWithFrame(DRect(0, _px(420), m_winSize.width, m_winSize.height - _px(420)));
         m_msgTableView->setTableViewDataSource(this);
         m_msgTableView->setTableViewDelegate(this);
         m_msgTableView->setScrollViewDelegate(this);
@@ -86,69 +113,92 @@ void MyStatusViewController::viewDidLoad()
         this->getView()->addSubview(m_msgTableView);
     }
 
-    CAButton* button = CAButton::createWithFrame(DRect((m_winSize.width - _px(120)) / 2, _px(30), _px(120), _px(120)), CAButtonTypeCustom);
-    button->addTarget(this, CAControl_selector(MyStatusViewController::buttonCallBack), CAControlEventTouchUpInSide);
-    m_urlImageView = CommonUrlImageView::createWithImage(CAImage::create("common/head_bg.png"));
-    //createWithFrame(DRect(_px(30), _px(40), _px(80), _px(80)));
-    m_urlImageView->setFrame(DRect(0, 0, _px(120), _px(120)));
-    m_urlImageView->setImageViewScaleType(CAImageViewScaleTypeFitImageCrop);
-    //m_urlImageView->setImage(CAImage::create("common/bg.png"));
-    button->addSubview(m_urlImageView);
-    button->setTag(400);
-    m_pointView->addSubview(button);
-    
-    // green amb icon
-    CAImageView* greenAmbIcon = CAImageView::createWithImage(CAImage::create("common/green_amb.png"));
-    greenAmbIcon->setImageViewScaleType(CAImageViewScaleTypeFitImageCrop);
-    greenAmbIcon->setFrame(DRect(80, 80, _px(40), _px(40)));
-    greenAmbIcon->setVisible(false);
-    m_urlImageView->addSubview(greenAmbIcon);
-   
+    m_pointView = CAView::createWithFrame(DRect(0, _px(120), m_winSize.width, _px(300)));
+    if (m_pointView) {
+        m_pointView->setColor(ccc4(0, 0xa8, 0xfc, 0xff));
+        m_pointView->setVisible(false);
+        this->getView()->addSubview(m_pointView);
+        
+        // user logo
+        CAButton* button = CAButton::createWithFrame(DRect((m_winSize.width - _px(120)) / 2, _px(30), _px(120), _px(120)), CAButtonTypeCustom);
+        if (button) {
+            button->addTarget(this, CAControl_selector(MyStatusViewController::buttonCallBack), CAControlEventTouchUpInSide);
+            button->setTag(400);
+            m_pointView->addSubview(button);
+            
+            m_urlImageView = CommonUrlImageView::createWithImage(CAImage::create("common/head_bg.png"));
+            if (m_urlImageView) {
+                m_urlImageView->setFrame(DRect(0, 0, _px(120), _px(120)));
+                m_urlImageView->setImageViewScaleType(CAImageViewScaleTypeFitImageCrop);
+                button->addSubview(m_urlImageView);
+                
+                // user green amb icon
+                m_greenAmbIcon = CAImageView::createWithImage(CAImage::create("common/green_amb.png"));
+                if (m_greenAmbIcon) {
+                    m_greenAmbIcon->setImageViewScaleType(CAImageViewScaleTypeFitImageCrop);
+                    m_greenAmbIcon->setFrame(DRect(80, 80, _px(40), _px(40)));
+                    m_greenAmbIcon->setVisible(false);
+                    m_urlImageView->addSubview(m_greenAmbIcon);
+                }
+            }
+        }
+        
+        // user name
+        m_nameLabel = CALabel::createWithFrame(DRect((m_winSize.width - _px(200)) / 2, _px(170), _px(200), _px(35)));
+        if (m_nameLabel) {
+            m_nameLabel->setFontSize(_px(30));
+            m_nameLabel->setColor(CAColor_white);
+            m_nameLabel->setVerticalTextAlignmet(CAVerticalTextAlignmentCenter);
+            m_nameLabel->setTextAlignment(CATextAlignmentCenter);
+            m_pointView->addSubview(m_nameLabel);
+        }
+        
+        // score history & rank list
+        m_pointSegmentView = FSegmentView::createWithFrame(DRect(0, _px(200), m_winSize.width, _px(100)), 2, 1);
+        m_pointSegmentView->addTarget(this, CAControl_selector(MyStatusViewController::buttonCallBack), CAControlEventTouchUpInSide);
+        m_pointSegmentView->setTag(300, 0);
+        m_pointSegmentView->setTag(301, 1);
+        m_pointView->addSubview(m_pointSegmentView);
+        
 
-    m_nameLabel = CALabel::createWithFrame(DRect((m_winSize.width - _px(200)) / 2, _px(170), _px(200), _px(35)));
-    m_nameLabel->setFontSize(_px(30));
-    m_nameLabel->setColor(CAColor_white);
-    m_nameLabel->setVerticalTextAlignmet(CAVerticalTextAlignmentCenter);
-    m_nameLabel->setTextAlignment(CATextAlignmentCenter);
-    m_pointView->addSubview(m_nameLabel);
-    
-    m_pointSegmentView = FSegmentView::createWithFrame(DRect(0, _px(200), m_winSize.width, _px(100)), 2, 1);
-    m_pointSegmentView->addTarget(this, CAControl_selector(MyStatusViewController::buttonCallBack), CAControlEventTouchUpInSide);
-    m_pointSegmentView->setTag(300, 0);
-    m_pointSegmentView->setTag(301, 1);
-    m_pointView->addSubview(m_pointSegmentView);
-    for (int i = 0; i < 2; i++)
-    {
-        m_pointLabel[i] = CALabel::createWithFrame(DRect(i * m_winSize.width / 2, _px(200), m_winSize.width / 2, _px(60)));
-        m_pointLabel[i]->setTextAlignment(CATextAlignmentCenter);
-        m_pointLabel[i]->setVerticalTextAlignmet(CAVerticalTextAlignmentCenter);
-        m_pointLabel[i]->setFontSize(_px(50));
-        m_pointLabel[i]->setTouchEnabled(false);
-        m_pointLabel[i]->setColor(CAColor_white);
-        m_pointView->addSubview(m_pointLabel[i]);
-        m_rankLabel[i] = CALabel::createWithFrame(DRect(i * m_winSize.width / 2, _px(260), m_winSize.width / 2, _px(35)));
-        m_rankLabel[i]->setTextAlignment(CATextAlignmentCenter);
-        m_rankLabel[i]->setVerticalTextAlignmet(CAVerticalTextAlignmentCenter);
-        m_rankLabel[i]->setFontSize(_px(30));
-        m_rankLabel[i]->setTouchEnabled(false);
-        m_rankLabel[i]->setColor(CAColor_white);
-        m_pointView->addSubview(m_rankLabel[i]);
-    }
-    m_rankLabel[0]->setText("Credit Point");
-    m_rankLabel[1]->setText("Ranking");
-    m_pointLabel[0]->setColor(ccc4(0xce, 0xea, 0xfd, 0xff));
-    m_rankLabel[0]->setColor(ccc4(0xce, 0xea, 0xfd, 0xff));
-    userInfo* info = FDataManager::getInstance()->getUserInfo();
-    if (info->m_userId > 0)
-    {
-        CCLog("%s", info->m_imageUrl.c_str());
-        m_urlImageView->setUrl(info->m_imageUrl);
-        m_nameLabel->setText(info->m_userName);
-        m_pointLabel[0]->setText(crossapp_format_string("%d", info->m_point));
-        if (info->m_greenAmb)
-            greenAmbIcon->setVisible(true);
+        for (int i = 0; i < 2; i++)
+        {
+            m_pointLabel[i] = CALabel::createWithFrame(DRect(i * m_winSize.width / 2, _px(200), m_winSize.width / 2, _px(60)));
+            if (m_pointLabel[i]) {
+                m_pointLabel[i]->setTextAlignment(CATextAlignmentCenter);
+                m_pointLabel[i]->setVerticalTextAlignmet(CAVerticalTextAlignmentCenter);
+                m_pointLabel[i]->setFontSize(_px(50));
+                m_pointLabel[i]->setTouchEnabled(false);
+                m_pointLabel[i]->setColor(CAColor_white);
+                m_pointView->addSubview(m_pointLabel[i]);
+            }
+            
+            m_rankLabel[i] = CALabel::createWithFrame(DRect(i * m_winSize.width / 2, _px(260), m_winSize.width / 2, _px(35)));
+            if (m_rankLabel[i]) {
+                m_rankLabel[i]->setTextAlignment(CATextAlignmentCenter);
+                m_rankLabel[i]->setVerticalTextAlignmet(CAVerticalTextAlignmentCenter);
+                m_rankLabel[i]->setFontSize(_px(30));
+                m_rankLabel[i]->setTouchEnabled(false);
+                m_rankLabel[i]->setColor(CAColor_white);
+                m_pointView->addSubview(m_rankLabel[i]);
+            }
+        }
+        
+        if (m_rankLabel[0])     m_rankLabel[0]->setText("Credit Point");
+        if (m_rankLabel[1])     m_rankLabel[1]->setText("Ranking");
+        if (m_pointLabel[0])    m_pointLabel[0]->setColor(ccc4(0xce, 0xea, 0xfd, 0xff));
+        if (m_rankLabel[0])     m_rankLabel[0]->setColor(ccc4(0xce, 0xea, 0xfd, 0xff));
     }
     
+    m_navSegmentView->setItemFocus(1);
+    m_pointSegmentView->setItemFocus(1);
+    m_navType = MY_INFO_VIEW;
+    m_pointType = MY_INFO_RANK;
+    switchNavType();
+    refreshUserInfo();
+    refreshTable();
+    
+    /*
     if (m_msg->empty())
     {
         m_canSwitchSeg = false;
@@ -158,7 +208,6 @@ void MyStatusViewController::viewDidLoad()
     else
     {
         refreshTable();
-        /*
         m_filterMsg.clear();
         for (std::vector<sessionMsg>::iterator it = m_msg->begin(); it != m_msg->end(); it++)
         {
@@ -167,9 +216,9 @@ void MyStatusViewController::viewDidLoad()
                 m_filterMsg.push_back(&(*it));
             }
         }
-        this->initMsgTableView();*/
+        this->initMsgTableView();
     }
-    
+    */
     CCLog("%f", CAApplication::getApplication()->getWinSize().width);
 }
 
@@ -179,6 +228,7 @@ void MyStatusViewController::viewDidUnload()
     // e.g. self.myOutlet = nil;
 }
 
+/*
 void MyStatusViewController::initMsgTableView()
 {
     if (m_msg->empty())
@@ -187,7 +237,7 @@ void MyStatusViewController::initMsgTableView()
         return;
     }
     m_canSwitchSeg = true;
-    /*
+ 
     if (m_msgTableView == NULL)
     {
         m_msgTableView = CATableView::createWithFrame(DRect(0, _px(120), m_winSize.width, m_winSize.height - _px(120)));
@@ -199,9 +249,8 @@ void MyStatusViewController::initMsgTableView()
         //m_msgTableView->setSeparatorViewHeight(_px(2));
         this->getView()->addSubview(m_msgTableView);
     }
-     */
-
 }
+*/
 
 /*
 void MyStatusViewController::requestMsg()
@@ -220,27 +269,13 @@ void MyStatusViewController::requestMsg()
 }
 */
 
-void MyStatusViewController::requestRankMsg()
-{
-    if (p_alertView)
-    {
-        this->getView()->removeSubview(p_alertView);
-        p_alertView = NULL;
-    }
-    
-    std::map<std::string, std::string> key_value;
-    key_value["tag"] = rankViewTag[0];
-    key_value["uid"] = crossapp_format_string("%d", FDataManager::getInstance()->getUserId());
-    //key_value["sign"] = getSign(key_value);
-    CommonHttpManager::getInstance()->send_post(httpUrl, key_value, this, CommonHttpJson_selector(MyStatusViewController::onRequestRankFinished));
-}
-
 void MyStatusViewController::buttonCallBack(CAControl* btn, DPoint point)
 {
     if(btn->getTag() == 20)
     {
         SessionsSearchViewController* vc = new SessionsSearchViewController(1);
         vc->init();
+        vc->autorelease();
         RootWindow::getInstance()->getRootNavigationController()->pushViewController(vc, true);
     }
     else if(btn->getTag() == 30)
@@ -255,35 +290,36 @@ void MyStatusViewController::buttonCallBack(CAControl* btn, DPoint point)
     }
     else if (btn->getTag() == 200)
     {
-        m_navType = 0;
-        switchNavType(m_navType);
+        m_navType = MY_CALANDER_VIEW;
+        switchNavType();
     }
     else if (btn->getTag() == 201)
     {
-        if (!m_canSwitchSeg)
+//        if (!m_canSwitchSeg)
         {
-            m_navSegmentView->resetSegment();
-            return;
+//            m_navSegmentView->resetSegment();
+//            return;
         }
-        m_navType = m_pointType + 1;
-        switchNavType(m_navType);
+//        m_navType = m_pointType + 1;
+        m_navType = MY_INFO_VIEW;
+        switchNavType();
     }
     else if (btn->getTag() == 300)
     {
-        m_pointType = 0;
-        m_navType = 1;
-        switchNavType(m_navType);
+        m_pointType = MY_INFO_SCORE_HISTORY;
+        //m_navType = 1;
+        switchNavType();
     }
     else if (btn->getTag() == 301)
     {
-        if (!m_canSwitchPoint)
+//        if (!m_canSwitchPoint)
         {
-            m_pointSegmentView->resetSegment();
-            return;
+//            m_pointSegmentView->resetSegment();
+//            return;
         }
-        m_pointType = 1;
-        m_navType = 2;
-        switchNavType(m_navType);
+        m_pointType = MY_INFO_RANK;
+        //m_navType = 2;
+        switchNavType();
     }
 	else if (btn->getTag() == 400)
 	{
@@ -293,6 +329,7 @@ void MyStatusViewController::buttonCallBack(CAControl* btn, DPoint point)
 	}
 }
 
+/*
 void MyStatusViewController::onRequestFinished(const HttpResponseStatus& status, const CSJson::Value& json)
 {
 	if (status == HttpResponseSucceed && !json.empty())
@@ -375,12 +412,69 @@ void MyStatusViewController::onRequestFinished(const HttpResponseStatus& status,
 		//showAlert();
 	}
 
-    initMsgTableView();
+//    initMsgTableView();
     if (p_pLoading)
     {
         p_pLoading->stopAnimating();
     }
     
+}
+ */
+
+
+void MyStatusViewController::requestScoreHistoryMsg()
+{
+    std::map<std::string, std::string> key_value;
+    key_value["tag"] = scoreHistoryTag[0];
+    key_value["uid"] = crossapp_format_string("%d", FDataManager::getInstance()->getUserId());
+    //key_value["sign"] = getSign(key_value);
+    CommonHttpManager::getInstance()->send_post(httpUrl, key_value, this, CommonHttpJson_selector(MyStatusViewController::onRequestScoreHistoryFinished));
+}
+
+void MyStatusViewController::onRequestScoreHistoryFinished(const HttpResponseStatus& status, const CSJson::Value& json)
+{
+    if (status == HttpResponseSucceed)
+    {
+        CSJson::FastWriter writer;
+        string tempjson = writer.write(json);
+        CCLog("receive json == %s",tempjson.c_str());
+
+        m_canSwitchPoint = true;
+        const CSJson::Value& v2 = json["result"];
+        string tag = v2["i"].asString();
+        int isServerSucceed = v2["r"].asInt();
+        const CSJson::Value& history = v2["h"];
+        
+        if (!strcmp(tag.c_str(), scoreHistoryTag[0]) && isServerSucceed == 1) {
+            int length = history.size();
+//            CCLog("list :%d", length);
+            m_shMsg.clear();
+            for (int i = 0; i < length; i++)
+            {
+                scoreHistory tmpInfo;
+                tmpInfo.m_scoreType = history[i]["ScoreType"].asInt();
+                tmpInfo.m_score = history[i]["Score"].asInt();
+                tmpInfo.m_scoreDetail = history[i]["ScoreDetail"].asString();
+                m_shMsg.push_back(tmpInfo);
+            }
+            refreshUserInfo();
+        }
+    }
+}
+
+void MyStatusViewController::requestRankMsg()
+{
+    if (p_alertView)
+    {
+        this->getView()->removeSubview(p_alertView);
+        p_alertView = NULL;
+    }
+    
+    std::map<std::string, std::string> key_value;
+    key_value["tag"] = rankViewTag[0];
+    key_value["uid"] = crossapp_format_string("%d", FDataManager::getInstance()->getUserId());
+    //key_value["sign"] = getSign(key_value);
+    CommonHttpManager::getInstance()->send_post(httpUrl, key_value, this, CommonHttpJson_selector(MyStatusViewController::onRequestRankFinished));
 }
 
 void MyStatusViewController::onRequestRankFinished(const HttpResponseStatus& status, const CSJson::Value& json)
@@ -402,6 +496,7 @@ void MyStatusViewController::onRequestRankFinished(const HttpResponseStatus& sta
         }
         int myRank = json["result"]["urk"].asInt();
         m_pointLabel[1]->setText(crossapp_format_string("%d", myRank));
+        refreshUserInfo();
     }
     else
     {
@@ -409,14 +504,20 @@ void MyStatusViewController::onRequestRankFinished(const HttpResponseStatus& sta
     }
 }
 
-void MyStatusViewController::switchNavType(int index)
+void MyStatusViewController::switchNavType()
 {
-    if (index == 0)
+    if (m_navType == MY_CALANDER_VIEW)
     {
-        m_pointView->setVisible(false);
+        m_myCalanderView->setVisible(true);
         m_searchButton->setVisible(true);
-        m_pointButton->setVisible(false);
 
+        m_pointView->setVisible(false);
+        m_msgTableView->setVisible(false);
+        m_pointButton->setVisible(false);
+        
+
+        //refreshTable();
+        /*
         m_filterMsg.clear();
         for (std::vector<sessionMsg>::iterator it = m_msg->begin(); it != m_msg->end(); it++)
         {
@@ -427,44 +528,54 @@ void MyStatusViewController::switchNavType(int index)
         }
         m_msgTableView->setFrame(DRect(0, _px(120), m_winSize.width, m_winSize.height - _px(120)));
         m_msgTableView->reloadData();
-
+        */
     }
-    else if(index == 1)
+    else if(m_navType == MY_INFO_VIEW)
     {
-        if (m_rankMsg.empty())
-        {
-            requestRankMsg();
-        }
-        m_pointLabel[1]->setColor(ccc4(0xce, 0xea, 0xfd, 0xff));
-        m_rankLabel[1]->setColor(ccc4(0xce, 0xea, 0xfd, 0xff));
-        m_pointLabel[0]->setColor(CAColor_white);
-        m_rankLabel[0]->setColor(CAColor_white);
+ //       if (m_rankMsg.empty())
         m_pointView->setVisible(true);
-        m_searchButton->setVisible(false);
         m_pointButton->setVisible(true);
-        m_filterMsg.clear();
-        for (std::vector<sessionMsg>::iterator it = m_msg->begin(); it != m_msg->end(); it++)
-        {
-            if(it->m_done)
-            {
-                m_filterMsg.push_back(&(*it));
-            }
-        }
-        m_msgTableView->setFrame(DRect(0, _px(420), m_winSize.width, m_winSize.height - _px(420)));
-        m_msgTableView->reloadData();
+        m_msgTableView->setVisible(true);
         
-    }
-    else if(index == 2)
-    {
-        m_pointLabel[1]->setColor(CAColor_white);
-        m_rankLabel[1]->setColor(CAColor_white);
-        m_pointLabel[0]->setColor(ccc4(0xce, 0xea, 0xfd, 0xff));
-        m_rankLabel[0]->setColor(ccc4(0xce, 0xea, 0xfd, 0xff));
-        m_pointView->setVisible(true);
         m_searchButton->setVisible(false);
-        m_pointButton->setVisible(true);
-        m_msgTableView->setFrame(DRect(0, _px(420), m_winSize.width, m_winSize.height - _px(420)));
-        m_msgTableView->reloadData();
+        m_myCalanderView->setVisible(false);
+        
+        if (m_pointType == MY_INFO_SCORE_HISTORY) {
+            requestScoreHistoryMsg();
+            m_pointLabel[1]->setColor(ccc4(0xce, 0xea, 0xfd, 0xff));
+            m_rankLabel[1]->setColor(ccc4(0xce, 0xea, 0xfd, 0xff));
+            m_pointLabel[0]->setColor(CAColor_white);
+            m_rankLabel[0]->setColor(CAColor_white);
+            
+            /*
+             m_filterMsg.clear();
+             for (std::vector<sessionMsg>::iterator it = m_msg->begin(); it != m_msg->end(); it++)
+             {
+             if(it->m_done)
+             {
+             m_filterMsg.push_back(&(*it));
+             }
+             }
+             m_msgTableView->setFrame(DRect(0, _px(420), m_winSize.width, m_winSize.height - _px(420)));
+             m_msgTableView->reloadData();
+             */
+        } else if (m_pointType == MY_INFO_RANK) {
+            requestRankMsg();
+            m_pointLabel[1]->setColor(CAColor_white);
+            m_rankLabel[1]->setColor(CAColor_white);
+            m_pointLabel[0]->setColor(ccc4(0xce, 0xea, 0xfd, 0xff));
+            m_rankLabel[0]->setColor(ccc4(0xce, 0xea, 0xfd, 0xff));
+            /*
+            m_pointView->setVisible(true);
+            m_searchButton->setVisible(false);
+            m_pointButton->setVisible(true);
+            m_msgTableView->setFrame(DRect(0, _px(420), m_winSize.width, m_winSize.height - _px(420)));
+            m_msgTableView->reloadData();
+             */
+        }
+    }
+//    else if(index == 2)
+    {
         
     }
 }
@@ -514,7 +625,7 @@ CATableViewCell* MyStatusViewController::tableCellAtIndex(CATableView* table, co
 {
     DSize _size = cellSize;
     CATableViewCell* cell = NULL;
-    if (m_navType == 0)
+    if (table == m_myCalanderView)
     {
         //cell = dynamic_cast<CATableViewCell*>(table->dequeueReusableCellWithIdentifier("CrossApp0"));
         if(cell == NULL && !m_filterMsg.empty())
@@ -526,8 +637,10 @@ CATableViewCell* MyStatusViewController::tableCellAtIndex(CATableView* table, co
             }
             sessionMsg* msg = m_filterMsg[count + row];
             //cell = CATableViewCell::create("CrossApp0");
-            cell = MainViewTableCell::create("CrossApp", DRect(0, 0, _size.width, _size.height));
-            ((MainViewTableCell*)cell)->initWithCell(*msg);
+            cell = MainViewTableCell::create("mycalander", DRect(0, 0, _size.width, _size.height));
+            if (cell) {
+                ((MainViewTableCell*)cell)->initWithCell(*msg);
+            }
             /*
             CALabel* label = CALabel::createWithFrame(DRect(_px(40), _px(10), m_winSize.width - _px(40) * 2, _px(30)));
             label->setText(msg->m_title);
@@ -537,80 +650,140 @@ CATableViewCell* MyStatusViewController::tableCellAtIndex(CATableView* table, co
             cell->addSubview(label);*/
         }
     }
-    else if(m_navType == 1 && !m_filterMsg.empty())
+    else if(table == m_msgTableView)
     {
-        //cell = dynamic_cast<CATableViewCell*>(table->dequeueReusableCellWithIdentifier("CrossApp1"));
-        if(cell == NULL)
+        if (m_pointType == MY_INFO_SCORE_HISTORY)
         {
-            sessionMsg* msg = m_filterMsg[row];
-            cell = CATableViewCell::create("CrossApp1");
-            CALabel* label = CALabel::createWithFrame(DRect(_px(40), _px(10), _px(300), _px(30)));
-            label->setText(crossapp_format_string("+%d", msg->m_point));
-            label->setFontSize(_px(25));
-            label->setVerticalTextAlignmet(CAVerticalTextAlignmentCenter);
-            label->setColor(ccc4(0x3f, 0x3f, 0x3f, 0xff));
-            cell->addSubview(label);
-            label = CALabel::createWithFrame(DRect(_px(120), _px(10), m_winSize.width - _px(120) - _px(40), _px(30)));
-            label->setText(msg->m_title);
-            label->setFontSize(_px(25));
-            label->setVerticalTextAlignmet(CAVerticalTextAlignmentCenter);
-            label->setColor(ccc4(0x3f, 0x3f, 0x3f, 0xff));
-            cell->addSubview(label);
+            if(cell == NULL)
+            {
+                /*
+                 sessionMsg* msg = m_filterMsg[row];
+                 cell = CATableViewCell::create("CrossApp1");
+                 CALabel* label = CALabel::createWithFrame(DRect(_px(40), _px(10), _px(300), _px(30)));
+                 label->setText(crossapp_format_string("+%d", msg->m_point));
+                 label->setFontSize(_px(25));
+                 label->setVerticalTextAlignmet(CAVerticalTextAlignmentCenter);
+                 label->setColor(ccc4(0x3f, 0x3f, 0x3f, 0xff));
+                 cell->addSubview(label);
+                 label = CALabel::createWithFrame(DRect(_px(120), _px(10), m_winSize.width - _px(120) - _px(40), _px(30)));
+                 label->setText(msg->m_title);
+                 label->setFontSize(_px(25));
+                 label->setVerticalTextAlignmet(CAVerticalTextAlignmentCenter);
+                 label->setColor(ccc4(0x3f, 0x3f, 0x3f, 0xff));
+                 cell->addSubview(label);*/
+                //for (vector<scoreHistory>::iterator it = m_shMsg.begin(); it != m_shMsg.end(); it++) {
+                    scoreHistory it = m_shMsg[row];
+                    cell = CATableViewCell::create("history");
+                    CCLog("%d", it.m_score);
+                    CCLog("%d", it.m_scoreType);
+                    CCLog("%s", it.m_scoreDetail.c_str());
+                    CALabel* scorelabel = CALabel::createWithFrame(DRect(_px(40), _px(20), _px(300), _px(60)));
+                    if (scorelabel) {
+                        scorelabel->setText(crossapp_format_string("+%d", it.m_score));
+                        scorelabel->setFontSize(_px(30));
+                        scorelabel->setVerticalTextAlignmet(CAVerticalTextAlignmentCenter);
+                        scorelabel->setColor(ccc4(0x3f, 0x3f, 0x3f, 0xff));
+                        cell->addSubview(scorelabel);
+                    }
+                if (it.m_scoreType == 0 || it.m_scoreType == 6)
+                {
+                    // show score reason
+                    CALabel* typelabel = CALabel::createWithFrame(DRect(_px(120), _px(10), m_winSize.width - _px(120) - _px(40), _px(30)));
+                    if (typelabel) {
+                        typelabel->setText(scoreType[it.m_scoreType]);
+                        typelabel->setFontSize(_px(25));
+                        typelabel->setVerticalTextAlignmet(CAVerticalTextAlignmentCenter);
+                        typelabel->setColor(ccc4(0x3f, 0x3f, 0x3f, 0xff));
+                        cell->addSubview(typelabel);
+                    }
+                    // show session title
+                    CALabel* detaillabel = CALabel::createWithFrame(DRect(_px(120), _px(60), m_winSize.width - _px(120) - _px(40), _px(30)));
+                    if (detaillabel) {
+                        int sessionId = atoi(it.m_scoreDetail.c_str());
+                        for (std::vector<sessionMsg>::iterator it = m_msg->begin(); it != m_msg->end(); it++) {
+                            if (it->m_sessionId == sessionId) {
+                                detaillabel->setText(it->m_title.c_str());
+                                break;
+                            }
+                        }
+                        detaillabel->setFontSize(_px(25));
+                        detaillabel->setVerticalTextAlignmet(CAVerticalTextAlignmentCenter);
+                        detaillabel->setColor(ccc4(0x3f, 0x3f, 0x3f, 0xff));
+                        cell->addSubview(detaillabel);
+                    }
+                }
+                else
+                {
+                    // show score reason
+                    CALabel* typelabel = CALabel::createWithFrame(DRect(_px(120), _px(35), m_winSize.width - _px(120) - _px(40), _px(30)));
+                    if (typelabel) {
+                        typelabel->setText(scoreType[it.m_scoreType]);
+                        typelabel->setFontSize(_px(25));
+                        typelabel->setVerticalTextAlignmet(CAVerticalTextAlignmentCenter);
+                        typelabel->setColor(ccc4(0x3f, 0x3f, 0x3f, 0xff));
+                        cell->addSubview(typelabel);
+                    }
+                }
+                //}
+            }
         }
+        else if (m_pointType == MY_INFO_RANK)
+        {
+            if(cell == NULL)
+            {
+                cell = CATableViewCell::create("rank");
+                CommonUrlImageView* urlImageView = CommonUrlImageView::createWithImage(CAImage::create("common/bg.png"));
+                //createWithFrame(DRect(_px(30), _px(40), _px(80), _px(80)));
+                urlImageView->setFrame(DRect(_px(140), _px(5), _px(40), _px(40)));
+                urlImageView->setImageViewScaleType(CAImageViewScaleTypeFitImageCrop);
+                //urlImageView->setImage(CAImage::create("common/bg.png"));
+                urlImageView->setUrl(m_rankMsg[row].m_imageUrl);
+                cell->addSubview(urlImageView);
+                
+                // green amb icon
+                if (m_rankMsg[row].m_greenAmb) {
+                    CAImageView* greenAmbIcon = CAImageView::createWithImage(CAImage::create("common/green_amb.png"));
+                    greenAmbIcon->setImageViewScaleType(CAImageViewScaleTypeFitImageCrop);
+                    greenAmbIcon->setFrame(DRect(25, 25, _px(20), _px(20)));
+                    greenAmbIcon->setVisible(true);
+                    urlImageView->addSubview(greenAmbIcon);
+                }
+                
+                CALabel* label = CALabel::createWithFrame(DRect(_px(200), _px(10), _px(300), _px(30)));
+                label->setText(m_rankMsg[row].m_userName);
+                label->setFontSize(_px(25));
+                label->setVerticalTextAlignmet(CAVerticalTextAlignmentCenter);
+                label->setColor(ccc4(0x3f, 0x3f, 0x3f, 0xff));
+                cell->addSubview(label);
+                
+                label = CALabel::createWithFrame(DRect(m_winSize.width * 0.75, _px(10), _px(300), _px(30)));
+                label->setText(crossapp_format_string("%d", m_rankMsg[row].m_point));
+                label->setFontSize(_px(25));
+                label->setVerticalTextAlignmet(CAVerticalTextAlignmentCenter);
+                label->setColor(ccc4(0x3f, 0x3f, 0x3f, 0xff));
+                cell->addSubview(label);
+                
+                label = CALabel::createWithFrame(DRect(_px(60), _px(10), _px(300), _px(30)));
+                label->setText(crossapp_format_string("%d", m_rankMsg[row].m_pointRank));
+                label->setFontSize(_px(25));
+                label->setVerticalTextAlignmet(CAVerticalTextAlignmentCenter);
+                label->setColor(ccc4(0x3f, 0x3f, 0x3f, 0xff));
+                cell->addSubview(label);
+            }
+        }
+        //cell = dynamic_cast<CATableViewCell*>(table->dequeueReusableCellWithIdentifier("CrossApp1"));
     }
-    else if(m_navType == 2 && !m_rankMsg.empty())
+//    else if(m_navType == 2 && m_pointType == 2)
     {
         //cell = dynamic_cast<CATableViewCell*>(table->dequeueReusableCellWithIdentifier("CrossApp2"));
-        if(cell == NULL)
-        {
-            cell = CATableViewCell::create("CrossApp2");
-            CommonUrlImageView* urlImageView = CommonUrlImageView::createWithImage(CAImage::create("common/bg.png"));
-            //createWithFrame(DRect(_px(30), _px(40), _px(80), _px(80)));
-            urlImageView->setFrame(DRect(_px(140), _px(5), _px(40), _px(60)));
-            urlImageView->setImageViewScaleType(CAImageViewScaleTypeFitImageCrop);
-            //urlImageView->setImage(CAImage::create("common/bg.png"));
-            urlImageView->setUrl(m_rankMsg[row].m_imageUrl);
-            cell->addSubview(urlImageView);
-        
-            // green amb icon
-            if (m_rankMsg[row].m_greenAmb) {
-                CAImageView* greenAmbIcon = CAImageView::createWithImage(CAImage::create("common/green_amb.png"));
-                greenAmbIcon->setImageViewScaleType(CAImageViewScaleTypeFitImageCrop);
-                greenAmbIcon->setFrame(DRect(25, 25, _px(20), _px(20)));
-                greenAmbIcon->setVisible(true);
-                urlImageView->addSubview(greenAmbIcon);
-            }
-
-            CALabel* label = CALabel::createWithFrame(DRect(_px(200), _px(10), _px(300), _px(30)));
-            label->setText(m_rankMsg[row].m_userName);
-            label->setFontSize(_px(25));
-            label->setVerticalTextAlignmet(CAVerticalTextAlignmentCenter);
-            label->setColor(ccc4(0x3f, 0x3f, 0x3f, 0xff));
-            cell->addSubview(label);
-            
-            label = CALabel::createWithFrame(DRect(m_winSize.width * 0.75, _px(10), _px(300), _px(30)));
-            label->setText(crossapp_format_string("%d", m_rankMsg[row].m_point));
-            label->setFontSize(_px(25));
-            label->setVerticalTextAlignmet(CAVerticalTextAlignmentCenter);
-            label->setColor(ccc4(0x3f, 0x3f, 0x3f, 0xff));
-            cell->addSubview(label);
-            
-            label = CALabel::createWithFrame(DRect(_px(60), _px(10), _px(300), _px(30)));
-            label->setText(crossapp_format_string("%d", m_rankMsg[row].m_pointRank));
-            label->setFontSize(_px(25));
-            label->setVerticalTextAlignmet(CAVerticalTextAlignmentCenter);
-            label->setColor(ccc4(0x3f, 0x3f, 0x3f, 0xff));
-            cell->addSubview(label);
-        }
     }
     return cell;
-    
 }
 
 CAView* MyStatusViewController::tableViewSectionViewForHeaderInSection(CATableView* table, const DSize& viewSize, unsigned int section)
 {
     CAView* view = NULL;
-    if (m_navType == 0)
+    if (table == m_myCalanderView)
     {
         view = CAView::createWithColor(ccc4(0xf3, 0xf3, 0xf3, 0xf3));
         
@@ -629,7 +802,7 @@ CAView* MyStatusViewController::tableViewSectionViewForHeaderInSection(CATableVi
 unsigned int MyStatusViewController::numberOfSections(CATableView *table)
 {
     int num = 1;
-    if (m_navType == 0)
+    if (table == m_myCalanderView)
     {
         m_rowNumOfSection.clear();
         if (!m_filterMsg.empty())
@@ -676,27 +849,34 @@ unsigned int MyStatusViewController::numberOfSections(CATableView *table)
 unsigned int MyStatusViewController::numberOfRowsInSection(CATableView *table, unsigned int section)
 {
     int num = 0;
-    if (m_navType == 0)
+    if (table == m_myCalanderView)
     {
         CCLog("s:%d", section);
         num = m_rowNumOfSection[section].rowNum;
     }
-    else if(m_navType == 1)
+    else if(table == m_msgTableView)
     {
-        num = (int)m_filterMsg.size();
+        if (m_pointType == MY_INFO_SCORE_HISTORY)
+        {
+            num = (int)m_shMsg.size();
+        }
+        else if (m_pointType == MY_INFO_RANK)
+        {
+            num = (int)m_rankMsg.size();
+        }
+        //num = (int)m_filterMsg.size();
     }
-    else if(m_navType == 2)
-    {
-        num = (int)m_rankMsg.size();
-        CCLog("num %d", num);
-    }
+//    else if(m_navType == 2)
+//    {
+        //CCLog("num %d", num);
+//    }
     return num;
 }
 
 unsigned int MyStatusViewController::tableViewHeightForHeaderInSection(CATableView* table, unsigned int section)
 {
     int hight = 0;
-    if (m_navType == 0)
+    if (table == m_myCalanderView)
     {
         hight = _px(50);
     }
@@ -705,15 +885,26 @@ unsigned int MyStatusViewController::tableViewHeightForHeaderInSection(CATableVi
 
 unsigned int MyStatusViewController::tableViewHeightForRowAtIndexPath(CATableView* table, unsigned int section, unsigned int row)
 {
-    if (m_navType == 0) {
+    if (table == m_myCalanderView) {
         return _px(240);
+    }
+    else if (table == m_msgTableView)
+    {
+        if (m_pointType == MY_INFO_SCORE_HISTORY)
+        {
+            return _px(100);
+        }
+        else if (m_pointType == MY_INFO_RANK)
+        {
+            return _px(50);
+        }
     }
 	return _px(50);
 }
 
 void MyStatusViewController::tableViewDidSelectRowAtIndexPath(CATableView* table, unsigned int section, unsigned int row)
 {
-    if (m_navType == 0)
+    if (table == m_myCalanderView)
     {
         int count = 0;
         for (int i = 0; i < section; i++)
@@ -724,11 +915,18 @@ void MyStatusViewController::tableViewDidSelectRowAtIndexPath(CATableView* table
         vc->init();
         RootWindow::getInstance()->getRootNavigationController()->pushViewController(vc, true);
     }
-    if (m_navType == 1)
+    else if (table == m_msgTableView)
     {
-        SessionDetailViewController* vc = new SessionDetailViewController(*m_filterMsg.at(row));
-        vc->init();
-        RootWindow::getInstance()->getRootNavigationController()->pushViewController(vc, true);
+        scoreHistory it = m_shMsg[row];
+        int sessionId = atoi(it.m_scoreDetail.c_str());
+        for (std::vector<sessionMsg>::iterator it = m_msg->begin(); it != m_msg->end(); it++) {
+            if (it->m_sessionId == sessionId) {
+                SessionDetailViewController* vc = new SessionDetailViewController(*it);
+                vc->init();
+                RootWindow::getInstance()->getRootNavigationController()->pushViewController(vc, true);
+                break;
+            }
+        }
     }
     
 }
@@ -747,7 +945,24 @@ void MyStatusViewController::refreshTable()
         {
             m_filterMsg.push_back(&(*it));
         }
-    }    
+    }
+    if (m_myCalanderView) {
+        m_myCalanderView->reloadData();
+    }
+}
+
+void MyStatusViewController::refreshUserInfo()
+{
+    userInfo* info = FDataManager::getInstance()->getUserInfo();
+    if (info->m_userId > 0)
+    {
+        CCLog("%s", info->m_imageUrl.c_str());
+        m_urlImageView->setUrl(info->m_imageUrl);
+        m_nameLabel->setText(info->m_userName);
+        m_pointLabel[0]->setText(crossapp_format_string("%d", info->m_point));
+        if (info->m_greenAmb)
+            m_greenAmbIcon->setVisible(true);
+    }
     if (m_msgTableView)
     {
         m_msgTableView->reloadData();

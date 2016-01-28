@@ -289,24 +289,33 @@ void MainViewController::viewDidLoad()
      */
     
     // sub title
-    CALabel* label = CALabel::createWithCenter(DRect(m_winSize.width / 4, headerHeight + pageViewHeight +buttonHight + _px(30), m_winSize.width / 2, _px(40)));
+    CALabel* label = CALabel::createWithCenter(DRect(m_winSize.width / 2, headerHeight + pageViewHeight +buttonHight + _px(30), m_winSize.width / 2, _px(40)));
     label->setTextAlignment(CATextAlignmentCenter);
     label->setColor(CAColor_blue);
     label->setFontSize(_px(27));
-    label->setText("My Calander");
+    label->setText("My Agenda");
     label->setFontName("fonts/markerfelt.ttf");
     label->setTouchEnabled(false);
     this->getView()->addSubview(label);
     
-    // sub title bar picture
-    CAView *subView = CAView::createWithCenter(DRect(m_winSize.width * 0.75, headerHeight + pageViewHeight +buttonHight + _px(30), m_winSize.width / 2, _px(20)));
-    CAImageView* subbarView = CAImageView::createWithImage(CAImage::create("main/home_bar.png"));
-    subbarView->setImageViewScaleType(CAImageViewScaleTypeFitImageXY);
-    subbarView->setFrame(DRect(0, 0, m_winSize.width / 2 - _px(30), _px(20)));
-    subbarView->setTouchEnabled(false);
-    subView->addSubview(subbarView);
-    this->getView()->addSubview(subView);
-    
+    // sub title bar left picture
+    CAView *subViewleft = CAView::createWithCenter(DRect(0, headerHeight + pageViewHeight +buttonHight + _px(30), m_winSize.width / 4, _px(20)));
+    CAImageView* subbarView1 = CAImageView::createWithImage(CAImage::create("main/home_bar.png"));
+    subbarView1->setImageViewScaleType(CAImageViewScaleTypeFitImageXY);
+    subbarView1->setFrame(DRect(0, 0, m_winSize.width / 2 - _px(30), _px(20)));
+    subbarView1->setTouchEnabled(false);
+    subViewleft->addSubview(subbarView1);
+    this->getView()->addSubview(subViewleft);
+
+    // sub title bar right picture
+    CAView *subViewright = CAView::createWithCenter(DRect(m_winSize.width * 0.75, headerHeight + pageViewHeight +buttonHight + _px(30), m_winSize.width / 4, _px(20)));
+    CAImageView* subbarView2 = CAImageView::createWithImage(CAImage::create("main/home_bar.png"));
+    subbarView2->setImageViewScaleType(CAImageViewScaleTypeFitImageXY);
+    subbarView2->setFrame(DRect(0, 0, m_winSize.width / 2 - _px(30), _px(20)));
+    subbarView2->setTouchEnabled(false);
+    subViewright->addSubview(subbarView2);
+    this->getView()->addSubview(subViewright);
+
     //CAView* headView = CAView::createWithFrame(DRect(0, 0, m_winSize.width, m_winSize.width * 0.6 - _px(120)));
     //m_msgTableView->setTableHeaderView(headView);
     //m_msgTableView->setTableHeaderHeight(m_winSize.width / 2 + _px(130));
