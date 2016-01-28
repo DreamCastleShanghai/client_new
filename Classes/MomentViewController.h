@@ -92,13 +92,17 @@ private:
 	int														m_currentLike;
 	int														m_currentDelete;
 
-	CAScale9ImageView*										m_browView;
+//	CAScale9ImageView*										m_browView;
 	CAView*													m_segView[2];
     CATableView*											m_msgTableView;
 	CACollectionView*										m_myCollectionView;
 	CAView*													m_filterView;
     CAView*													p_alertView;
     CAActivityIndicatorView*								p_pLoading;
+    
+    CAButton*                                               m_leftBtn;
+    CAButton*                                               m_rightBtn;
+    
 
 };
 

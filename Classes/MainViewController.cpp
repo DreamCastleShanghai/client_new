@@ -304,7 +304,7 @@ void MainViewController::viewDidLoad()
     label->setColor(CAColor_gray);//ccc4(0x0f, 0xaa, 0xff, 0xff));//CAColor_gray);//CAColor_blue);
     label->setFontSize(_px(27));
     label->setText("My Agenda");
-    label->setFontName("fonts/markerfelt.ttf");
+    label->setFontName("fonts/arial.ttf");//markerfelt.ttf");
     label->setTouchEnabled(false);
     this->getView()->addSubview(label);
     

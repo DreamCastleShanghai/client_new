@@ -20,6 +20,11 @@ static const char* loginTag = "L0";
 
 #define SAP_DEFAULT_COLOR   (ccc4(0x0f, 0xaa, 0xff, 0xff))
 #define SAP_WHITE_LOW       (ccc4(0xce, 0xea, 0xfd, 0xff))
+#define SAP_GRAY            (ccc4(0x96, 0x96, 0x96, 0xff))
+
+
+// Font
+#define SAP_FONT_ARIAL      ("fonts/arial.ttf")
 
 #define DKOM_SURVEY_LINK ("https://surveys.sap.com/SE/?SID=SV_cOYQMsNXeLGjo7H")
 
@@ -173,6 +178,11 @@ static const char* scoreType[] =
     "Sustainability Campaign",
     "Staff or Ambassador",
     "Speaker of own Session",
+};
+
+static const char gameRuleContent[] =
+{
+    "This is the rule content of this game, please read it carefully."
 };
 
 

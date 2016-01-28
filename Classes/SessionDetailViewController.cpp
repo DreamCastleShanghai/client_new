@@ -635,7 +635,7 @@ void SessionDetailViewController::adjustSurveyBtn(float dt)
             // close
             if (m_surveyBtn) m_surveyBtn->setControlState(CAControlStateDisabled);
             if (m_surveyBtnLabel1) {
-                m_surveyBtnLabel1->setText("Overdure");
+                m_surveyBtnLabel1->setText("Overdue");
 //                m_surveyBtnLabel1->setColor(CAColor_blue);
             }
             if (m_surveyBtnLabel2) {

@@ -515,7 +515,7 @@ void MyStatusViewController::onRequestRankFinished(const HttpResponseStatus& sta
             tmpInfo.m_greenAmb = v2[i]["GreenAmb"].asBool();
             m_rankMsg.push_back(tmpInfo);
         }
-        int myRank = json["result"]["urk"].asInt();
+        int myRank = json["result"]["urk"].asInt() + 1;
         m_pointLabel[1]->setText(crossapp_format_string("%d", myRank));
         refreshUserInfo();
     }

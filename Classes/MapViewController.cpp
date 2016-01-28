@@ -40,7 +40,7 @@ void MapViewController::viewDidLoad()
     label->setTextAlignment(CATextAlignmentCenter);
     label->setColor(CAColor_white);
     label->setFontSize(_px(40));
-    label->setText("Map");
+    label->setText("Onsite Guide");
     label->setFontName("fonts/arial.ttf");
     sView->addSubview(label);
 
@@ -68,7 +68,7 @@ void MapViewController::viewDidLoad()
 //        m_leftBtn->setBackGroundViewForState(CAControlStateSelected, imageView);
         m_leftBtn->addTarget(this, CAControl_selector(MapViewController::buttonCallBack), CAControlEventTouchUpInSide);
         m_leftBtn->setTag(ID_OUTSIDE);
-        m_leftBtn->setTitleForState(CAControlStateAll, "Outside");
+        m_leftBtn->setTitleForState(CAControlStateAll, "General");
         m_leftBtn->setTitleFontName("fonts/arial.ttf");
         m_leftBtn->setTitleFontSize(_px(30));
         m_leftBtn->setTitleColorForState(CAControlStateAll, SAP_WHITE_LOW);
@@ -91,7 +91,7 @@ void MapViewController::viewDidLoad()
 //        m_rightBtn->setBackGroundViewForState(CAControlStateSelected, imageView);
         m_rightBtn->addTarget(this, CAControl_selector(MapViewController::buttonCallBack), CAControlEventTouchUpInSide);
         m_rightBtn->setTag(ID_INSIDE);
-        m_rightBtn->setTitleForState(CAControlStateAll, "Inside");
+        m_rightBtn->setTitleForState(CAControlStateAll, "Floors");
         m_rightBtn->setTitleFontName("fonts/arial.ttf");
         m_rightBtn->setTitleFontSize(_px(30));
         m_rightBtn->setTitleColorForState(CAControlStateAll, SAP_WHITE_LOW);

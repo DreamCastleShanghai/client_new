@@ -101,6 +101,7 @@ private:
 	int                                                     m_navTrackType;
     int                                                     m_navFormatType;
     
+    int                                                     m_timeTblId;
 };
 
 

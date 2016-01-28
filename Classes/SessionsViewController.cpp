@@ -21,6 +21,7 @@ SessionsViewController::SessionsViewController()
 , m_navType(0)
 , m_navTrackType(0)
 , m_navFormatType(0)
+, m_timeTblId(-1)
 {
     m_downView[0] = NULL;
     m_downView[1] = NULL;
@@ -73,7 +74,7 @@ void SessionsViewController::viewDidLoad()
     button->setTag(20);
     this->getView()->addSubview(button);
     
-    FSegmentView* seg = FSegmentView::createWithFrame(DRect(m_winSize.width - 240, 50, 200, 50), 2);
+    FSegmentView* seg = FSegmentView::createWithFrame(DRect(m_winSize.width - 240, 45, 200, 50), 2);
     seg->addTarget(this, CAControl_selector(SessionsViewController::buttonCallBack), CAControlEventTouchUpInSide);
     imageView = CAImageView::createWithImage(CAImage::create("common/nav_time.png"));
     seg->setItemBackGroundImage(imageView, 0);
@@ -87,7 +88,7 @@ void SessionsViewController::viewDidLoad()
     m_navTimeType = 0;
     m_navFormatType = 0;
     
-    CALabel* label = CALabel::createWithCenter(DRect(m_winSize.width / 2, _px(70), m_winSize.width, _px(50)));
+    CALabel* label = CALabel::createWithCenter(DRect(m_winSize.width / 2, _px(75), m_winSize.width, _px(50)));
     label->setTextAlignment(CATextAlignmentCenter);
     label->setColor(CAColor_white);
     label->setFontSize(_px(40));
@@ -137,6 +138,7 @@ void SessionsViewController::initMsgTableView()
         m_listView->setSeparatorColor(ccc4(0xf6, 0xf6, 0xf6, 0xff));
         m_listView->setBackGroundImage(CAImage::create("common/gray_bg.png"));
         m_listView->setTag(1);
+        //m_listView->setc
         this->getView()->addSubview(m_listView);
         
         m_msgTableView = CATableView::createWithFrame(DRect(0, _px(180), m_winSize.width, m_winSize.height - _px(180)));
@@ -556,26 +558,26 @@ void SessionsViewController::refreshTableByTime(int index)
     else
     {
         time_t nowTimeCount = getTimeSecond();
-        struct tm* nowTime = localtime(&nowTimeCount);
-        int nowYear = nowTime->tm_year;
-        int nowDay = nowTime->tm_yday;
-        int nowHour = nowTime->tm_hour;
-        int nowMin = nowTime->tm_min;
+//        struct tm* nowTime = localtime(&nowTimeCount);
+//        int nowYear = nowTime->tm_year;
+//        int nowDay = nowTime->tm_yday;
+//        int nowHour = nowTime->tm_hour;
+//        int nowMin = nowTime->tm_min;
 //        CCLog("now : %d %d %d %d", nowYear, nowDay, nowHour, nowMin);
         
         for (std::vector<sessionMsg>::iterator it = m_msg->begin(); it != m_msg->end(); it++)
         {
             struct tm* startTime = localtime(&(it->m_startTime));
-            int startYear = startTime->tm_year;
-            int startDay = startTime->tm_yday;
+//            int startYear = startTime->tm_year;
+//            int startDay = startTime->tm_yday;
             int startHour = startTime->tm_hour;
-            int startMin = startTime->tm_min;
+//            int startMin = startTime->tm_min;
 
             struct tm* endTime = localtime(&(it->m_endTime));
-            int endYear = endTime->tm_year;
-            int endDay = endTime->tm_yday;
+//            int endYear = endTime->tm_year;
+//            int endDay = endTime->tm_yday;
             int endHour = endTime->tm_hour;
-            int endMin = endTime->tm_min;
+//            int endMin = endTime->tm_min;
             
 //            CCLog("start index %d: %d %d %d %d", index, startYear, startDay, startHour, startMin);
 //            CCLog("end   index %d: %d %d %d %d", index, endYear, endDay, endHour, endMin);
@@ -647,6 +649,7 @@ void SessionsViewController::scrollViewHeaderBeginRefreshing(CrossApp::CAScrollV
 void SessionsViewController::listViewDidSelectCellAtIndex(CAListView *listView, unsigned int index)
 {
 	m_navTimeType = index;
+    m_timeTblId = index;
 	refreshTableByTime(m_navTimeType);
     CAListViewCell* cell = listView->cellForRowAtIndex(index);
     if (cell) {
@@ -668,7 +671,7 @@ void SessionsViewController::listViewDidDeselectCellAtIndex(CAListView *listView
     if (cell) {
         CALabel* text = (CALabel*)cell->getSubviewByTag(100);
         if (text) {
-            text->setColor(ccc4(0x96, 0x96, 0x96, 255));
+            text->setColor(SAP_GRAY);
         }
     }
 }
@@ -698,7 +701,6 @@ CAListViewCell* SessionsViewController::listViewCellAtIndex(CAListView *listView
                                                             _size.height/2,
                                                             _size.width,
                                                             _size.height));
-            test->setColor(ccc4(0x96, 0x96, 0x96, 255)); // ccc4(0x96, 0x96, 0x96, 255)
             test->setTextAlignment(CATextAlignmentCenter);
             test->setVerticalTextAlignmet(CAVerticalTextAlignmentCenter);
             test->setFontSize(_px(28));
@@ -709,6 +711,10 @@ CAListViewCell* SessionsViewController::listViewCellAtIndex(CAListView *listView
             cell->addSubview(test);
         }
         CALabel* test = (CALabel*)cell->getSubviewByTag(100);
+        if (m_timeTblId == index)
+            test->setColor(CAColor_white); // ccc4(0x96, 0x96, 0x96, 255)
+        else
+            test->setColor(SAP_GRAY);
         if (index == 0)
         {
             test->setText("All");

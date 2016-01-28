@@ -7,6 +7,7 @@
 #include "SessionDetailViewController.h"
 #include "ConstData/ConstRect.h"
 #include "ConstData/ConstId.h"
+#include "SessionSurveyResultViewController.h"
 
 SurveyViewController::SurveyViewController(int sessionId)
 : p_alertView(NULL)
@@ -413,6 +414,33 @@ void SurveyViewController::onRequestFinished(const HttpResponseStatus& status, c
 {
     if (status == HttpResponseSucceed)
     {
+        CSJson::FastWriter writer;
+        string tempjson = writer.write(json);
+        CCLog("receive json == %s",tempjson.c_str());
+        const CSJson::Value& value = json["result"];
+        SessionSurveyResultViewController* srv = new SessionSurveyResultViewController();
+        srv->setAddedPoint(value["add"].asInt());
+        srv->setRank(value["rank"].asInt());
+        srv->setPoint(value["points"].asInt());
+        if (value["r"] == 1)
+        {
+            //            CAAlertView *alertView = CAAlertView::createWithText("Succeed !", "Thanks for take this survey !", "OK", NULL);
+            //            alertView->show();
+            FDataManager::getInstance()->setUserDirty(true);
+            //            userInfo* info = FDataManager::getInstance()->getUserInfo();
+            //            info->m_greenAmb = true;
+            srv->setCorrect(true);
+        }
+        else
+        {
+            //            CAAlertView *alertView = CAAlertView::createWithText("Sorry !", "You have taken this survey !", "OK", NULL);
+            //            alertView->show();
+            srv->setCorrect(false);
+        }
+        srv->autorelease();
+        RootWindow::getInstance()->getRootNavigationController()->pushViewController(srv, true);
+
+        /*
         const CSJson::Value& value = json["result"];
         int r = value["r"].asInt();
         string tag = value["i"].asString();
@@ -433,7 +461,7 @@ void SurveyViewController::onRequestFinished(const HttpResponseStatus& status, c
             CAAlertView *alertView = CAAlertView::createWithText("Message error !", "Please try again !", "OK", NULL);
             alertView->show();
         }
-
+*/
     }
     else
     {

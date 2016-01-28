@@ -25,6 +25,7 @@
 		1AFCDA8216D4A25900906EA6 /* RootViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1AFCDA8116D4A25900906EA6 /* RootViewController.mm */; };
 		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
 		1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
+		2150400D1C66062B005AB8B7 /* SessionSurveyResultViewController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2150400B1C66062A005AB8B7 /* SessionSurveyResultViewController.cpp */; };
 		288765A50DF7441C002DB57D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 288765A40DF7441C002DB57D /* CoreGraphics.framework */; };
 		3E02A4AE1B85AD6000328E71 /* component_hackery.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3E02A3DF1B85AD6000328E71 /* component_hackery.cpp */; };
 		3E02A4AF1B85AD6000328E71 /* configvars.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3E02A3E01B85AD6000328E71 /* configvars.cpp */; };
@@ -239,6 +240,8 @@
 		1D30AB110D05D00D00671497 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		1D6058910D05DD3D006BFB54 /* SapSession.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SapSession.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1DF5F4DF0D08C38300B7A737 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		2150400B1C66062A005AB8B7 /* SessionSurveyResultViewController.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SessionSurveyResultViewController.cpp; path = ../Classes/SessionSurveyResultViewController.cpp; sourceTree = "<group>"; };
+		2150400C1C66062A005AB8B7 /* SessionSurveyResultViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SessionSurveyResultViewController.h; path = ../Classes/SessionSurveyResultViewController.h; sourceTree = "<group>"; };
 		288765A40DF7441C002DB57D /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		3E02A3DF1B85AD6000328E71 /* component_hackery.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = component_hackery.cpp; sourceTree = "<group>"; };
 		3E02A3E01B85AD6000328E71 /* configvars.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = configvars.cpp; sourceTree = "<group>"; };
@@ -680,6 +683,8 @@
 				5C6CEB9D1C1E7058000AE9D2 /* MainViewTableCell.cpp */,
 				5C6CEB9E1C1E7058000AE9D2 /* MainViewTableCell.h */,
 				5CFCF6FA1C3D589600DE4410 /* MapViewController.cpp */,
+				2150400B1C66062A005AB8B7 /* SessionSurveyResultViewController.cpp */,
+				2150400C1C66062A005AB8B7 /* SessionSurveyResultViewController.h */,
 				5CFCF6FB1C3D589600DE4410 /* MapViewController.h */,
 				5C4FB8B31C6323BA00409B96 /* MeInfoViewController.cpp */,
 				5C4FB8B41C6323BA00409B96 /* MeInfoViewController.h */,
@@ -1262,6 +1267,7 @@
 				5C5DE7CB1C3035A900D9A8BC /* mask.c in Sources */,
 				5C5DE7D21C3035A900D9A8BC /* rscode.c in Sources */,
 				3E02A4B01B85AD6000328E71 /* container.cpp in Sources */,
+				2150400D1C66062B005AB8B7 /* SessionSurveyResultViewController.cpp in Sources */,
 				15A3DAEF1682F8A6002FB0C5 /* SimpleAudioEngine_objc.m in Sources */,
 				5CFA82801C2824550025C9B5 /* SessionsSearchViewController.cpp in Sources */,
 				3E02A5041B85AD6000328E71 /* gameswf_sound.cpp in Sources */,

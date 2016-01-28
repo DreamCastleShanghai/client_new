@@ -24,6 +24,8 @@ SessionsSearchViewController::SessionsSearchViewController(int type)
 {
     m_downView[0] = NULL;
     m_downView[1] = NULL;
+    m_trackButtonVec.clear();
+    m_formatButtonVec.clear();
     m_msg = FDataManager::getInstance()->getSessionMsgs();
 }
 
@@ -51,7 +53,7 @@ void SessionsSearchViewController::viewDidLoad()
     this->getView()->addSubview(button);
     
     m_searchTextField = CATextField::createWithFrame(DRect(_px(150), _px(40), m_winSize.width - _px(310), _px(60)));
-    m_searchTextField->setTextColor(ccc4(0xa0, 0xa0, 0xa0, 0xff));
+    m_searchTextField->setTextColor(SAP_DEFAULT_COLOR);//ccc4(0xa0, 0xa0, 0xa0, 0xff));
     m_searchTextField->setFontSize(_px(26));
     m_searchTextField->setFontName("fonts/arial.ttf");
     this->getView()->addSubview(m_searchTextField);
