@@ -16,7 +16,7 @@ class PhotoViewController :
     
 public:
 
-	PhotoViewController();
+	PhotoViewController(int type);
     
 	virtual ~PhotoViewController();
     
@@ -32,19 +32,21 @@ protected:
 
 	void showAlert();
 
-	void requestMsg();
-
-	void onRequestFinished(const HttpResponseStatus& status, const CSJson::Value& json);
-    
     virtual void getSelectedImage(CAImage *image);
     
+    void requestPhotoSubmit(std::string fullPath);
+    
+    void onRequestFinished(const HttpResponseStatus& status, const CSJson::Value& json);
     
 private:
 
 	DSize													m_winSize;
-
+    int                                                         m_type;
     
-    void scheduleFuck(float dt);
+    CAView*                                             m_basicView;
+    CAView*                                             m_photoView;
+    CAActivityIndicatorView*								p_pLoading;
+
     CADrawView* getStencil(const DSize& size, int index);
     
     
@@ -52,7 +54,6 @@ private:
     CAView* renderImage_mb;
     CAClippingView* m_clvImage;
     CAClippingView* m_clv;
-    CAButton* render_btn;
     int dle_ren_index;
 };
 

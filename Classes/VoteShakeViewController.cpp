@@ -58,8 +58,7 @@ void VoteShakeViewController::viewDidLoad()
     
     CommonUrlImageView* urlImageVIew = CommonUrlImageView::createWithImage(CAImage::create("common/bg.png"));
      urlImageVIew->setFrame(DRect(0, 0, m_winSize.width, m_winSize.height - _px(120)));
-    //urlImageVIew->setImageViewScaleType(CAImageViewScaleTypeFitImageCrop);
-    urlImageVIew->setImage(CAImage::create("common/bg.png"));
+    urlImageVIew->setImageViewScaleType(CAImageViewScaleTypeFitImageCrop);
     urlImageVIew->setTouchEnabled(false);
     m_view->addSubview(urlImageVIew);
     if(m_demoMsg)

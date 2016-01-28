@@ -137,6 +137,8 @@
 		5C5B69571C566598000C9AA4 /* VoteShakeViewController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5C5B69551C566598000C9AA4 /* VoteShakeViewController.cpp */; };
 		5C5B695A1C566EBE000C9AA4 /* VoteDetailViewController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5C5B69581C566EBE000C9AA4 /* VoteDetailViewController.cpp */; };
 		5C5B695F1C568ADD000C9AA4 /* vote in Resources */ = {isa = PBXBuildFile; fileRef = 5C5B695E1C568ADD000C9AA4 /* vote */; };
+		5C5B69661C58B1ED000C9AA4 /* MomentsDetailViewController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5C5B69641C58B1ED000C9AA4 /* MomentsDetailViewController.cpp */; };
+		5C5B696A1C58D1EF000C9AA4 /* PointDetailViewController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5C5B69681C58D1EF000C9AA4 /* PointDetailViewController.cpp */; };
 		5C5DE7291C2F9E2300D9A8BC /* sound in Resources */ = {isa = PBXBuildFile; fileRef = 5C5DE7281C2F9E2300D9A8BC /* sound */; };
 		5C5DE7CA1C3035A900D9A8BC /* bitstream.c in Sources */ = {isa = PBXBuildFile; fileRef = 5C5DE7B61C3035A900D9A8BC /* bitstream.c */; };
 		5C5DE7CB1C3035A900D9A8BC /* mask.c in Sources */ = {isa = PBXBuildFile; fileRef = 5C5DE7B81C3035A900D9A8BC /* mask.c */; };
@@ -467,6 +469,10 @@
 		5C5B69581C566EBE000C9AA4 /* VoteDetailViewController.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = VoteDetailViewController.cpp; path = ../Classes/VoteDetailViewController.cpp; sourceTree = "<group>"; };
 		5C5B69591C566EBE000C9AA4 /* VoteDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VoteDetailViewController.h; path = ../Classes/VoteDetailViewController.h; sourceTree = "<group>"; };
 		5C5B695E1C568ADD000C9AA4 /* vote */ = {isa = PBXFileReference; lastKnownFileType = folder; path = vote; sourceTree = "<group>"; };
+		5C5B69641C58B1ED000C9AA4 /* MomentsDetailViewController.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MomentsDetailViewController.cpp; path = ../Classes/MomentsDetailViewController.cpp; sourceTree = "<group>"; };
+		5C5B69651C58B1ED000C9AA4 /* MomentsDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MomentsDetailViewController.h; path = ../Classes/MomentsDetailViewController.h; sourceTree = "<group>"; };
+		5C5B69681C58D1EF000C9AA4 /* PointDetailViewController.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = PointDetailViewController.cpp; path = ../Classes/PointDetailViewController.cpp; sourceTree = "<group>"; };
+		5C5B69691C58D1EF000C9AA4 /* PointDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PointDetailViewController.h; path = ../Classes/PointDetailViewController.h; sourceTree = "<group>"; };
 		5C5DE7281C2F9E2300D9A8BC /* sound */ = {isa = PBXFileReference; lastKnownFileType = folder; path = sound; sourceTree = "<group>"; };
 		5C5DE7B61C3035A900D9A8BC /* bitstream.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = bitstream.c; path = ../Classes/libqrencode/bitstream.c; sourceTree = "<group>"; };
 		5C5DE7B71C3035A900D9A8BC /* bitstream.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = bitstream.h; path = ../Classes/libqrencode/bitstream.h; sourceTree = "<group>"; };
@@ -660,6 +666,8 @@
 				5C723CF21C1537B300B28BF3 /* CDData.h */,
 				5C723CF31C15381300B28BF3 /* CommonHttpManager.cpp */,
 				5C723CF41C15381300B28BF3 /* CommonHttpManager.h */,
+				217BD6AB1C55FBED00CC2CA3 /* ConstData.cpp */,
+				217BD6AC1C55FBED00CC2CA3 /* ConstData.h */,
 				5C31C85D1C47388000542BF3 /* FDataManager.cpp */,
 				5C31C85E1C47388000542BF3 /* FDataManager.h */,
 				B0621E1D1AC3ECB0005EBCA7 /* FirstViewController.cpp */,
@@ -676,6 +684,8 @@
 				5C6CEB9E1C1E7058000AE9D2 /* MainViewTableCell.h */,
 				5CFCF6FA1C3D589600DE4410 /* MapViewController.cpp */,
 				5CFCF6FB1C3D589600DE4410 /* MapViewController.h */,
+				5C5B69641C58B1ED000C9AA4 /* MomentsDetailViewController.cpp */,
+				5C5B69651C58B1ED000C9AA4 /* MomentsDetailViewController.h */,
 				5C5B694B1C55DE28000C9AA4 /* MomentViewController.cpp */,
 				5C5B694C1C55DE28000C9AA4 /* MomentViewController.h */,
 				5CFA82841C282B730025C9B5 /* MyStatusViewController.cpp */,
@@ -684,6 +694,8 @@
 				5CFCF7051C3EAE0F00DE4410 /* NoticeViewController.h */,
 				5CFA82901C2831260025C9B5 /* PhotoViewController.cpp */,
 				5CFA82911C2831260025C9B5 /* PhotoViewController.h */,
+				5C5B69681C58D1EF000C9AA4 /* PointDetailViewController.cpp */,
+				5C5B69691C58D1EF000C9AA4 /* PointDetailViewController.h */,
 				5CFA82861C282B730025C9B5 /* PrizeViewController.cpp */,
 				5CFA82871C282B730025C9B5 /* PrizeViewController.h */,
 				B0621E1F1AC3ECB0005EBCA7 /* RootWindow.cpp */,
@@ -699,10 +711,10 @@
 				5C31C8621C47FA0800542BF3 /* SurveyViewController.cpp */,
 				5C31C8631C47FA0800542BF3 /* SurveyViewController.h */,
 				5CF668361C194AD0009994C0 /* utils */,
-				5CFA828A1C282B730025C9B5 /* VoteViewController.cpp */,
-				5CFA828B1C282B730025C9B5 /* VoteViewController.h */,
 				5C5B69551C566598000C9AA4 /* VoteShakeViewController.cpp */,
 				5C5B69561C566598000C9AA4 /* VoteShakeViewController.h */,
+				5CFA828A1C282B730025C9B5 /* VoteViewController.cpp */,
+				5CFA828B1C282B730025C9B5 /* VoteViewController.h */,
 			);
 			name = Classes;
 			path = ../classes;
@@ -1215,6 +1227,7 @@
 				3E02A4D01B85AD6000328E71 /* as_color_transform.cpp in Sources */,
 				3E02A4F71B85AD6000328E71 /* gameswf_jit.cpp in Sources */,
 				3E02A4C21B85AD6000328E71 /* tu_timer.cpp in Sources */,
+				5C5B696A1C58D1EF000C9AA4 /* PointDetailViewController.cpp in Sources */,
 				3E02A4DA1B85AD6000328E71 /* as_mcloader.cpp in Sources */,
 				3E02A5051B85AD6000328E71 /* gameswf_sprite.cpp in Sources */,
 				3E02A4C91B85AD6000328E71 /* gameswf_abc.cpp in Sources */,
@@ -1290,6 +1303,7 @@
 				5CC19D2F1C40BAC900594653 /* FServerTime.cpp in Sources */,
 				3E02A4B81B85AD6000328E71 /* logger.cpp in Sources */,
 				1AC3624B16D4A1E8000847F2 /* main.m in Sources */,
+				5C5B69661C58B1ED000C9AA4 /* MomentsDetailViewController.cpp in Sources */,
 				3E02A4EC1B85AD6000328E71 /* gameswf_canvas.cpp in Sources */,
 				5CFCF7031C3E51C100DE4410 /* FSegmentView.cpp in Sources */,
 				5C5DE7CD1C3035A900D9A8BC /* mqrspec.c in Sources */,
