@@ -222,7 +222,7 @@ void SessionDetailViewController::initView()
         {
             tempRect = ConstRect::getSessionDetailSpeakerLogoRect();
             tempRect.origin.y = yHight;
-            tempRect.origin.x = _px(30) + speakWidth * i + (speakWidth - tempRect.size.width) / 2;
+            tempRect.origin.x = _px(80) + speakWidth * i + (speakWidth - tempRect.size.width) / 2;
             CommonUrlImageView* urlImageView = CommonUrlImageView::createWithImage(CAImage::create("common/bg.png"));
             urlImageView->setFrame(tempRect);
             urlImageView->setImage(CAImage::create("common/bg.png"));

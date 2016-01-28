@@ -118,7 +118,7 @@ void MainViewController::viewDidLoad()
     button->addSubview(m_timeNoticeImageView);
 
     
-	button = CAButton::createWithFrame(DRect(m_winSize.width - _px(100), _px(20), _px(100), _px(100)), CAButtonTypeCustom);
+	button = CAButton::createWithFrame(DRect(m_winSize.width - _px(100), _px(40), _px(60), _px(60)), CAButtonTypeCustom);
 	imageView = CAImageView::createWithImage(CAImage::create("main/nav_survey.png"));
 	imageView->setImageViewScaleType(CAImageViewScaleTypeFitImageXY);
 	button->setBackGroundViewForState(CAControlStateAll, imageView);

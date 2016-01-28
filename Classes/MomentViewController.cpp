@@ -45,7 +45,7 @@ void MomentViewController::viewDidLoad()
     button->setTag(20);
     this->getView()->addSubview(button);
 
-	button = CAButton::createWithFrame(DRect((m_winSize.width - _px(200)) / 2, _px(20), _px(200), _px(100)), CAButtonTypeCustom);
+	button = CAButton::createWithFrame(DRect((m_winSize.width - _px(200)) / 2, _px(30), _px(200), _px(100)), CAButtonTypeCustom);
 	button->setTitleForState(CAControlStateAll, "Moments");
 	button->setTitleFontSize(_px(40));
 	button->setTitleColorForState(CAControlStateAll, CAColor_white);
@@ -54,12 +54,13 @@ void MomentViewController::viewDidLoad()
 	button->setTag(30);
 	this->getView()->addSubview(button);
 
+    // down arrow
 	imageView = CAImageView::createWithImage(CAImage::create("session/down.png"));
 	imageView->setImageViewScaleType(CAImageViewScaleTypeFitImageXY);
-	imageView->setFrame(DRect(_px(160), _px(25), _px(60), _px(60)));
+	imageView->setFrame(DRect(_px(180), _px(0), _px(80), _px(80)));
 	button->addSubview(imageView);
 
-	button = CAButton::createWithFrame(DRect(m_winSize.width - _px(140), _px(20), _px(100), _px(100)), CAButtonTypeCustom);
+	button = CAButton::createWithFrame(DRect(m_winSize.width - _px(100), _px(30), _px(70), _px(70)), CAButtonTypeCustom);
 	imageView = CAImageView::createWithImage(CAImage::create("moments/upload_icon.png"));
 	imageView->setImageViewScaleType(CAImageViewScaleTypeFitImageInside);
 	imageView->setFrame(DRect(_px(20), _px(20), _px(80), _px(80)));
@@ -142,18 +143,18 @@ void MomentViewController::viewDidLoad()
 	footerRefreshView->setTag(1);
 	m_myCollectionView->setFooterRefreshView(footerRefreshView);
 
-	m_filterView = CAView::createWithFrame(DRect((m_winSize.width - _px(200)) / 2, _px(120), _px(200), _px(80) * MOMENTSFILTERNUM));
+	m_filterView = CAView::createWithFrame(DRect((m_winSize.width - _px(200)) / 2, _px(100), _px(240), _px(80) * MOMENTSFILTERNUM));
 	m_filterView->setColor(ccc4(0, 0, 0, 128));
 	this->getView()->addSubview(m_filterView);
 	m_filterView->setVisible(false);
 
 	for (int i = 0; i < MOMENTSFILTERNUM; i++)// filterMoments
 	{
-		button = CAButton::createWithFrame(DRect(_px(0), _px(80) * i, _px(200), _px(80)), CAButtonTypeCustom);
+		button = CAButton::createWithFrame(DRect(_px(0), _px(80) * i, _px(240), _px(80)), CAButtonTypeCustom);
 		button->addTarget(this, CAControl_selector(MomentViewController::buttonCallBack), CAControlEventTouchUpInSide);
 		button->setTextTag(filterMoments[i]);
 		button->setTitleForState(CAControlStateAll, crossapp_format_string("#%s", filterMoments[i]));
-		button->setTitleFontSize(_px(30));
+		button->setTitleFontSize(_px(27));
 		button->setTitleColorForState(CAControlStateAll, CAColor_gray);
 		m_filterView->addSubview(button);
 	}

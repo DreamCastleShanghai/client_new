@@ -45,7 +45,7 @@ void MyStatusViewController::viewDidLoad()
     this->getView()->addSubview(m_searchButton);
     
     m_pointButton = CAButton::createWithFrame(DRect(m_winSize.width - _px(120), _px(20), _px(100), _px(100)), CAButtonTypeCustom);
-    imageView = CAImageView::createWithImage(CAImage::create("common/nav_search.png"));
+    imageView = CAImageView::createWithImage(CAImage::create("common/nav_info.png"));
     imageView->setImageViewScaleType(CAImageViewScaleTypeFitImageXY);
     m_pointButton->setBackGroundViewForState(CAControlStateAll, imageView);
     m_pointButton->addTarget(this, CAControl_selector(MyStatusViewController::buttonCallBack), CAControlEventTouchUpInSide);
