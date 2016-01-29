@@ -17,7 +17,7 @@ struct userInfo
 	bool		m_eggVoted;
 	std::string m_imageUrl;
     int         m_point;
-    int         m_greenAmb;
+    bool         m_greenAmb;
 
     int         m_pointRank;
     int         m_lastPointRank;
