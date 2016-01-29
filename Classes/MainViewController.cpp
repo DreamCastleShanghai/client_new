@@ -479,37 +479,36 @@ void MainViewController::onRequestFinished(const HttpResponseStatus& status, con
             m_msg->push_back(temp_msg);
         }
         const CSJson::Value& v2 = json["result"]["usr"];
-        userInfo uInfo;
-		uInfo.m_loginName = v2["LoginName"].asString();
-        uInfo.m_userId = FDataManager::getInstance()->getUserId();
-        uInfo.m_userName = crossapp_format_string("%s %s", v2["LastName"].asString().c_str(), v2["FirstName"].asString().c_str());
-        uInfo.m_point = v2["Score"].asInt();
-        uInfo.m_imageUrl = crossapp_format_string("%s%s", imgPreUrl.c_str(), v2["Icon"].asCString());
-		uInfo.m_eggVoted = v2["EggVoted"].asBool();
-        uInfo.m_greenAmb = v2["GreenAmb"].asBool();
-		uInfo.m_demoVoteIdVec.clear();
-		uInfo.m_voiceVoteIdVec.clear();
+        userInfo* uInfo = FDataManager::getInstance()->getUserInfo();
+		uInfo->m_loginName = v2["LoginName"].asString();
+        uInfo->m_userId = FDataManager::getInstance()->getUserId();
+        uInfo->m_userName = crossapp_format_string("%s %s", v2["LastName"].asString().c_str(), v2["FirstName"].asString().c_str());
+        uInfo->m_point = v2["Score"].asInt();
+        uInfo->m_imageUrl = crossapp_format_string("%s%s", imgPreUrl.c_str(), v2["Icon"].asCString());
+		uInfo->m_eggVoted = v2["EggVoted"].asBool();
+        uInfo->m_greenAmb = v2["GreenAmb"].asBool();
+		uInfo->m_demoVoteIdVec.clear();
+		uInfo->m_voiceVoteIdVec.clear();
 		int voteId = v2["DemoJamId1"].asInt();
 		if (voteId != -1)
 		{
-			uInfo.m_demoVoteIdVec.push_back(voteId);
+			uInfo->m_demoVoteIdVec.push_back(voteId);
 		}
 		voteId = v2["DemoJamId2"].asInt();
 		if (voteId != -1)
 		{
-			uInfo.m_demoVoteIdVec.push_back(voteId);
+			uInfo->m_demoVoteIdVec.push_back(voteId);
 		}
 		voteId = v2["VoiceVoteId1"].asInt();
 		if (voteId != -1)
 		{
-			uInfo.m_voiceVoteIdVec.push_back(voteId);
+			uInfo->m_voiceVoteIdVec.push_back(voteId);
 		}
 		voteId = v2["VoiceVoteId2"].asInt();
 		if (voteId != -1)
 		{
-			uInfo.m_voiceVoteIdVec.push_back(voteId);
+			uInfo->m_voiceVoteIdVec.push_back(voteId);
 		}
-        FDataManager::getInstance()->setUserInfo(uInfo);
         
         quickSort(m_msg, 0, (int)m_msg->size() - 1);
         m_filterMsg.clear();

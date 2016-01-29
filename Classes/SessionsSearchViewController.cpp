@@ -82,9 +82,9 @@ void SessionsSearchViewController::viewDidLoad()
 		button->setAllowsSelected(true);
 		m_filterView->addSubview(button);
 
-		m_downView[i] = CAView::createWithFrame(DRect(i * m_winSize.width / 2, _px(180), m_winSize.width / 2, _px(50) * TrackNum));
+		m_downView[i] = CAView::createWithFrame(DRect(i * m_winSize.width / 2, _px(180), m_winSize.width / 2, _px(50) * TrackNum + _px(20)));
 		CAScale9ImageView* imageView = CAScale9ImageView::createWithImage(CAImage::create("common/gray_bg.png"));
-		imageView->setFrame(DRect(0, 0, m_winSize.width / 2, _px(50) * TrackNum));
+		imageView->setFrame(DRect(0, 0, m_winSize.width / 2, _px(50) * TrackNum + _px(20)));
 		m_downView[i]->addSubview(imageView);
 		m_downView[i]->setVisible(false);
 		this->getView()->addSubview(m_downView[i]);

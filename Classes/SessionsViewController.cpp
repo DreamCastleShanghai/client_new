@@ -162,9 +162,9 @@ void SessionsViewController::initMsgTableView()
 			button->setAllowsSelected(true);
 			m_filterView->addSubview(button);
 
-			m_downView[i] = CAView::createWithFrame(DRect(i * m_winSize.width / 2, _px(180), m_winSize.width / 2, _px(50) * TrackNum));
+			m_downView[i] = CAView::createWithFrame(DRect(i * m_winSize.width / 2, _px(180), m_winSize.width / 2, _px(50) * TrackNum + _px(20)));
 			CAScale9ImageView* imageView = CAScale9ImageView::createWithImage(CAImage::create("common/gray_bg.png"));
-			imageView->setFrame(DRect(0, 0, m_winSize.width / 2, _px(50) * TrackNum));
+			imageView->setFrame(DRect(0, 0, m_winSize.width / 2, _px(50) * TrackNum + _px(20)));
 			m_downView[i]->addSubview(imageView);
 			this->getView()->addSubview(m_downView[i]);
 			m_filterViewVec.push_back(m_downView[i]);
@@ -391,37 +391,36 @@ void SessionsViewController::onRequestFinished(const HttpResponseStatus& status,
 			m_msg->push_back(temp_msg);
 		}
 		const CSJson::Value& v2 = json["result"]["usr"];
-		userInfo uInfo;
-		uInfo.m_loginName = v2["LoginName"].asString();
-		uInfo.m_userId = FDataManager::getInstance()->getUserId();
-		uInfo.m_userName = crossapp_format_string("%s %s", v2["LastName"].asString().c_str(), v2["FirstName"].asString().c_str());
-		uInfo.m_point = v2["Score"].asInt();
-		uInfo.m_imageUrl = crossapp_format_string("%s%s", imgPreUrl.c_str(), v2["Icon"].asCString());
-		uInfo.m_eggVoted = v2["EggVoted"].asBool();
-        uInfo.m_greenAmb = v2["GreenAmb"].asBool();
-		uInfo.m_demoVoteIdVec.clear();
-		uInfo.m_voiceVoteIdVec.clear();
-		int voteId = v2["DemoJamId1"].asInt();
-		if (voteId != -1)
-		{
-			uInfo.m_demoVoteIdVec.push_back(voteId);
-		}
-		voteId = v2["DemoJamId2"].asInt();
-		if (voteId != -1)
-		{
-			uInfo.m_demoVoteIdVec.push_back(voteId);
-		}
-		voteId = v2["VoiceVoteId1"].asInt();
-		if (voteId != -1)
-		{
-			uInfo.m_voiceVoteIdVec.push_back(voteId);
-		}
-		voteId = v2["VoiceVoteId2"].asInt();
-		if (voteId != -1)
-		{
-			uInfo.m_voiceVoteIdVec.push_back(voteId);
-		}
-		FDataManager::getInstance()->setUserInfo(uInfo);
+        userInfo* uInfo = FDataManager::getInstance()->getUserInfo();
+        uInfo->m_loginName = v2["LoginName"].asString();
+        uInfo->m_userId = FDataManager::getInstance()->getUserId();
+        uInfo->m_userName = crossapp_format_string("%s %s", v2["LastName"].asString().c_str(), v2["FirstName"].asString().c_str());
+        uInfo->m_point = v2["Score"].asInt();
+        uInfo->m_imageUrl = crossapp_format_string("%s%s", imgPreUrl.c_str(), v2["Icon"].asCString());
+        uInfo->m_eggVoted = v2["EggVoted"].asBool();
+        uInfo->m_greenAmb = v2["GreenAmb"].asBool();
+        uInfo->m_demoVoteIdVec.clear();
+        uInfo->m_voiceVoteIdVec.clear();
+        int voteId = v2["DemoJamId1"].asInt();
+        if (voteId != -1)
+        {
+            uInfo->m_demoVoteIdVec.push_back(voteId);
+        }
+        voteId = v2["DemoJamId2"].asInt();
+        if (voteId != -1)
+        {
+            uInfo->m_demoVoteIdVec.push_back(voteId);
+        }
+        voteId = v2["VoiceVoteId1"].asInt();
+        if (voteId != -1)
+        {
+            uInfo->m_voiceVoteIdVec.push_back(voteId);
+        }
+        voteId = v2["VoiceVoteId2"].asInt();
+        if (voteId != -1)
+        {
+            uInfo->m_voiceVoteIdVec.push_back(voteId);
+        }
 
         quickSort(m_msg, 0, (int)m_msg->size() - 1);
     }

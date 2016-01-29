@@ -10,11 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../Classes/MyStatusViewController.cpp"
-            timestampString = "475584641.177673"
+            timestampString = "475738385.391951"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "597"
-            endingLineNumber = "597"
+            startingLineNumber = "596"
+            endingLineNumber = "596"
             landmarkName = "MyStatusViewController::tableViewSectionViewForHeaderInSection(CATableView* table, const DSize&amp; viewSize, unsigned int section)"
             landmarkType = "5">
          </BreakpointContent>
@@ -26,13 +26,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../Classes/MyStatusViewController.cpp"
-            timestampString = "475584641.177673"
+            timestampString = "475738385.391951"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "606"
-            endingLineNumber = "606"
-            landmarkName = "MyStatusViewController::numberOfSections(CATableView *table)"
-            landmarkType = "5">
+            startingLineNumber = "605"
+            endingLineNumber = "605">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -232,11 +230,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../Classes/MyStatusViewController.cpp"
-            timestampString = "475584641.177673"
+            timestampString = "475738385.391951"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "625"
-            endingLineNumber = "625"
+            startingLineNumber = "624"
+            endingLineNumber = "624"
             landmarkName = "MyStatusViewController::numberOfSections(CATableView *table)"
             landmarkType = "5">
          </BreakpointContent>
@@ -248,11 +246,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../Classes/MyStatusViewController.cpp"
-            timestampString = "475584641.177673"
+            timestampString = "475738385.391951"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "558"
-            endingLineNumber = "558"
+            startingLineNumber = "557"
+            endingLineNumber = "557"
             landmarkName = "MyStatusViewController::tableCellAtIndex(CATableView* table, const DSize&amp; cellSize, unsigned int section, unsigned int row)"
             landmarkType = "5">
          </BreakpointContent>
@@ -264,11 +262,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../Classes/MyStatusViewController.cpp"
-            timestampString = "475584641.177673"
+            timestampString = "475738385.391951"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "547"
-            endingLineNumber = "547"
+            startingLineNumber = "546"
+            endingLineNumber = "546"
             landmarkName = "MyStatusViewController::tableCellAtIndex(CATableView* table, const DSize&amp; cellSize, unsigned int section, unsigned int row)"
             landmarkType = "5">
          </BreakpointContent>
