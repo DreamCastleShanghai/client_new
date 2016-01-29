@@ -147,6 +147,9 @@
     <ClCompile Include="..\Classes\ConstData\ConstString.cpp">
       <Filter>Classes\ConstData</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\FirstSurveyViewController.cpp">
+      <Filter>Classes</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -283,6 +286,9 @@
     </ClInclude>
     <ClInclude Include="..\Classes\ConstData\ConstString.h">
       <Filter>Classes\ConstData</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\FirstSurveyViewController.h">
+      <Filter>Classes</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -138,6 +138,7 @@
     <ClCompile Include="..\Classes\ConstData\ConstRes.cpp" />
     <ClCompile Include="..\Classes\ConstData\ConstString.cpp" />
     <ClCompile Include="..\Classes\FDataManager.cpp" />
+    <ClCompile Include="..\Classes\FirstSurveyViewController.cpp" />
     <ClCompile Include="..\Classes\FirstViewController.cpp" />
     <ClCompile Include="..\Classes\fview\FSegmentView.cpp" />
     <ClCompile Include="..\Classes\IconUploadViewController.cpp" />
@@ -184,6 +185,7 @@
     <ClInclude Include="..\Classes\ConstData\ConstRes.h" />
     <ClInclude Include="..\Classes\ConstData\ConstString.h" />
     <ClInclude Include="..\Classes\FDataManager.h" />
+    <ClInclude Include="..\Classes\FirstSurveyViewController.h" />
     <ClInclude Include="..\Classes\FirstViewController.h" />
     <ClInclude Include="..\Classes\fview\FSegmentView.h" />
     <ClInclude Include="..\Classes\IconUploadViewController.h" />
