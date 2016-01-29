@@ -399,8 +399,7 @@ void SessionDetailViewController::requestMsg()
     key_value["uid"] = crossapp_format_string("%d", FDataManager::getInstance()->getUserId());
 	CommonHttpManager::getInstance()->send_post(httpUrl, key_value, this, CommonHttpJson_selector(SessionDetailViewController::onRequestFinished));
 	{
-		DRect r(m_winSize.width / 2, (m_winSize.height - _px(120)) / 2 + _px(120),
-			m_winSize.width, m_winSize.height - _px(120));
+		DRect r(m_winSize.width / 2, m_winSize.height  / 2, 50, 50);
 		p_pLoading = CAActivityIndicatorView::createWithCenter(r);
 		p_pLoading->setLoadingMinTime(0.5f);
 		this->getView()->insertSubview(p_pLoading, CAWindowZOderTop);

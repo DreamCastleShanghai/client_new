@@ -202,10 +202,13 @@ void SessionsSearchViewController::buttonCallBack(CAControl* btn, DPoint point)
             transform(str1.begin(), str1.end(), str1.begin(), ::tolower);
             string str2 = it->m_format;
             transform(str2.begin(), str2.end(), str2.begin(), ::tolower);
-            if ((str0.find(str)!= string::npos ||
-                 strb.find(str)!= string::npos ||
-                 str1.find(str)!= string::npos ||
-                 str2.find(str) != string::npos))
+            string str3 = crossapp_format_string("%d", it->m_sessionId);
+            transform(str3.begin(), str3.end(), str3.begin(), ::tolower);
+            if ((str0.find(str) != string::npos ||
+                 strb.find(str) != string::npos ||
+                 str1.find(str) != string::npos ||
+                 str2.find(str) != string::npos ||
+                 str3.find(str) != string::npos))
             {
 				m_msgSearchFilter.push_back(&(*it));
             }
