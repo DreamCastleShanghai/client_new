@@ -474,7 +474,7 @@ void MainViewController::onRequestFinished(const HttpResponseStatus& status, con
             temp_msg.m_imageUrl = crossapp_format_string("%s%s", imgPreUrl.c_str(), v1[index]["Logo"].asCString());
             temp_msg.m_stored = v1[index]["CollectionFlag"].asBool();
 			temp_msg.m_liked = v1[index]["LikeFlag"].asBool();
-            //temp_msg.m_done = v1[index]["Done"].asBool();
+            temp_msg.m_done = v1[index]["Done"].asBool();
             temp_msg.m_point = v1[index]["Point"].asInt();
             m_msg->push_back(temp_msg);
         }

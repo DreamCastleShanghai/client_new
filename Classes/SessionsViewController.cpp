@@ -386,7 +386,7 @@ void SessionsViewController::onRequestFinished(const HttpResponseStatus& status,
 			temp_msg.m_imageUrl = crossapp_format_string("%s%s", imgPreUrl.c_str(), v1[index]["Logo"].asCString());
 			temp_msg.m_stored = v1[index]["CollectionFlag"].asBool();
 			temp_msg.m_liked = v1[index]["LikeFlag"].asBool();
-			//temp_msg.m_done = v1[index]["Done"].asBool();
+			temp_msg.m_done = v1[index]["Done"].asBool();
 			temp_msg.m_point = v1[index]["Point"].asBool();
 			m_msg->push_back(temp_msg);
 		}
@@ -449,7 +449,7 @@ void SessionsViewController::onRequestFinished(const HttpResponseStatus& status,
 				"http://imgsrc.baidu.com/forum/pic/item/53834466d0160924a41f433bd50735fae6cd3452.jpg";
 			//"http://img1.gtimg.com/14/1468/146894/14689486_980x1200_0.png";
 			temp_msg.m_liked = (bool)(rand() % 2);
-			//temp_msg.m_done = (bool)(rand() % 2);
+			temp_msg.m_done = (bool)(rand() % 2);
 			temp_msg.m_point = 22;
 			m_msg->push_back(temp_msg);
 

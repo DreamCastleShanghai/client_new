@@ -116,10 +116,10 @@ void LoginViewController::btnCallBack(CAControl* btn, DPoint point)
         string passwd = m_pPassword->getText();
         ConstFunc::trim(accout);
         ConstFunc::trim(passwd);
-//#ifdef DEBUG_APP
+#ifdef DEBUG_APP
         accout = "d001381";
         passwd = "001";
-//#endif
+#endif
         if (accout.length() == 0 || passwd.length() == 0) {
             CAAlertView *alertView = CAAlertView::createWithText("Waining !", "Account or password cannot be null !", "OK", NULL);
             alertView->show();

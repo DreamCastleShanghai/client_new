@@ -300,7 +300,7 @@ void MyStatusViewController::onRequestFinished(const HttpResponseStatus& status,
 			temp_msg.m_imageUrl = crossapp_format_string("%s%s", imgPreUrl.c_str(), v1[index]["Logo"].asCString());
 			temp_msg.m_stored = v1[index]["CollectionFlag"].asBool();
 			temp_msg.m_liked = v1[index]["LikeFlag"].asBool();
-			//temp_msg.m_done = v1[index]["Done"].asBool();
+			temp_msg.m_done = v1[index]["Done"].asBool();
 			temp_msg.m_point = v1[index]["Point"].asBool();
 			m_msg->push_back(temp_msg);
 		}
@@ -341,7 +341,7 @@ void MyStatusViewController::onRequestFinished(const HttpResponseStatus& status,
 		m_filterMsg.clear();
 		for (std::vector<sessionMsg>::iterator it = m_msg->begin(); it != m_msg->end(); it++)
 		{
-			if (it->m_stored && it->m_endTime > getTimeSecond())
+			if (it->m_stored)
 			{
 				m_filterMsg.push_back(&(*it));
 			}

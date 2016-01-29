@@ -23,7 +23,6 @@ SessionDetailViewController::SessionDetailViewController(sessionMsg &msg)
 , m_surveyBtnLabel1(NULL)
 , m_surveyBtnLabel2(NULL)
 {
-    m_isStore = msg.m_stored;
 	m_isLiked = msg.m_liked;
 	m_detailMsg.m_sessionId = -1;
     memset((void*)(&m_detailMsg), 0, sizeof(sessionDetailMsg));
@@ -263,7 +262,6 @@ void SessionDetailViewController::initView()
 	storeBtn->addSubview(m_storeBtnImage);
 	storeBtn->setTag(300);
 
-	m_isStore = m_msg->m_stored;
 	m_canStore = true;
 	if (m_msg->m_stored)
 	{
@@ -473,7 +471,7 @@ void SessionDetailViewController::requestStore()
 		key_value["tag"] = sessionViewTag[1];
 		key_value["sid"] = crossapp_format_string("%d", m_msg->m_sessionId);
 		key_value["uid"] = crossapp_format_string("%d", FDataManager::getInstance()->getUserId());
-		key_value["v"] = crossapp_format_string("%d", m_isStore ? 1 : 0);
+		key_value["v"] = crossapp_format_string("%d", m_msg->m_stored ? 0 : 1);
 		//key_value["sign"] = getSign(key_value);
 		CommonHttpManager::getInstance()->send_post(httpUrl, key_value, this, CommonHttpJson_selector(SessionDetailViewController::onStoreRequestFinished));
 
@@ -490,14 +488,15 @@ void SessionDetailViewController::onStoreRequestFinished(const HttpResponseStatu
         string tempjson = writer.write(json);
         CCLog("receive json == %s",tempjson.c_str());
         
-        m_isStore = !m_isStore;
-        m_msg->m_stored = m_isStore;
-        if (m_isStore)
+        const CSJson::Value& value = json["result"];
+        if (value["r"].asBool() == true)
         {
+            m_msg->m_stored = true;
             m_storeBtnImage->setImage(CAImage::create("session/btn_collect_pre.png"));
         }
         else
         {
+            m_msg->m_stored = false;
             m_storeBtnImage->setImage(CAImage::create("session/btn_collect.png"));
         }
     }
