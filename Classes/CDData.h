@@ -39,6 +39,11 @@ static const char* surveySubmitTag[2] =
     "SSS0", "SSS1"
 };
 
+static const char* firstSurveySubmitTag[2] =
+{
+    "SR0", "SR0"
+};
+
 static const char* mainViewTag[2] =
 {
     "M0", "M1"
@@ -107,6 +112,11 @@ static const char* formatFilterItem[FormatNum] =
 static const char* filterMoments[MOMENTSFILTERNUM] =
 {
 	"all", "developers", "food", "demo", "Voice of SAP", "Demo Jam", "Handsome"
+};
+
+static const char* surveyDetail[1] =
+{
+    "1.    I take public transportation and/or cycle or walk to d-kom Shanghai venue.\n2.    I save paper by using electronic onsite guide in d-kom app.\n3.    I finish off my meals and have “clean plate” today.\n4.    I drink bottled water and recycle plastic bottles to recycle bins, and/or used my own cup to drink.\n5.    I do not smoke today.\n6.    At d-kom, I support to use old laptops and furniture that were moved from Labs China Shanghai Campus.\n7.    I share pictures about sustainability on the “Moments” of d-kom Shanghai App"
 };
 
 static const char* iconTag[27] =

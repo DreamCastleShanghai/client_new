@@ -15,6 +15,7 @@
 #include "FDataManager.h"
 #include "FServerTime.h"
 #include "MomentViewController.h"
+#include "FirstSurveyViewController.h"
 
 #define REFRESH_STEP 5
 
@@ -546,7 +547,7 @@ void MainViewController::buttonCallBack(CAControl* btn, DPoint point)
 	}
 	else if (btn->getTag() == 30) // prize
 	{
-		PrizeViewController* vc = new PrizeViewController();
+		FirstSurveyViewController* vc = new FirstSurveyViewController();
 		vc->init();
 		RootWindow::getInstance()->getRootNavigationController()->pushViewController(vc, true);
 	}

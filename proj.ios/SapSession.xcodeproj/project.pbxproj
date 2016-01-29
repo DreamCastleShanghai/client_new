@@ -139,6 +139,7 @@
 		5C5B695F1C568ADD000C9AA4 /* vote in Resources */ = {isa = PBXBuildFile; fileRef = 5C5B695E1C568ADD000C9AA4 /* vote */; };
 		5C5B69661C58B1ED000C9AA4 /* MomentsDetailViewController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5C5B69641C58B1ED000C9AA4 /* MomentsDetailViewController.cpp */; };
 		5C5B696A1C58D1EF000C9AA4 /* PointDetailViewController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5C5B69681C58D1EF000C9AA4 /* PointDetailViewController.cpp */; };
+		5C5B696E1C5B1213000C9AA4 /* FirstSurveyViewController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5C5B696C1C5B1213000C9AA4 /* FirstSurveyViewController.cpp */; };
 		5C5DE7291C2F9E2300D9A8BC /* sound in Resources */ = {isa = PBXBuildFile; fileRef = 5C5DE7281C2F9E2300D9A8BC /* sound */; };
 		5C5DE7CA1C3035A900D9A8BC /* bitstream.c in Sources */ = {isa = PBXBuildFile; fileRef = 5C5DE7B61C3035A900D9A8BC /* bitstream.c */; };
 		5C5DE7CB1C3035A900D9A8BC /* mask.c in Sources */ = {isa = PBXBuildFile; fileRef = 5C5DE7B81C3035A900D9A8BC /* mask.c */; };
@@ -473,6 +474,8 @@
 		5C5B69651C58B1ED000C9AA4 /* MomentsDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MomentsDetailViewController.h; path = ../Classes/MomentsDetailViewController.h; sourceTree = "<group>"; };
 		5C5B69681C58D1EF000C9AA4 /* PointDetailViewController.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = PointDetailViewController.cpp; path = ../Classes/PointDetailViewController.cpp; sourceTree = "<group>"; };
 		5C5B69691C58D1EF000C9AA4 /* PointDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PointDetailViewController.h; path = ../Classes/PointDetailViewController.h; sourceTree = "<group>"; };
+		5C5B696C1C5B1213000C9AA4 /* FirstSurveyViewController.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = FirstSurveyViewController.cpp; path = ../Classes/FirstSurveyViewController.cpp; sourceTree = "<group>"; };
+		5C5B696D1C5B1213000C9AA4 /* FirstSurveyViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FirstSurveyViewController.h; path = ../Classes/FirstSurveyViewController.h; sourceTree = "<group>"; };
 		5C5DE7281C2F9E2300D9A8BC /* sound */ = {isa = PBXFileReference; lastKnownFileType = folder; path = sound; sourceTree = "<group>"; };
 		5C5DE7B61C3035A900D9A8BC /* bitstream.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = bitstream.c; path = ../Classes/libqrencode/bitstream.c; sourceTree = "<group>"; };
 		5C5DE7B71C3035A900D9A8BC /* bitstream.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = bitstream.h; path = ../Classes/libqrencode/bitstream.h; sourceTree = "<group>"; };
@@ -659,17 +662,17 @@
 		15AA9C4015B7EC450033D6C2 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				217BD6CD1C59CB2B00CC2CA3 /* ConstData */,
-				217BD6C11C59072000CC2CA3 /* AppDelegate.h */,
 				1AFAF8B316D35DE700DB1158 /* AppDelegate.cpp */,
+				217BD6C11C59072000CC2CA3 /* AppDelegate.h */,
 				B0AD93E519207CA300EA40BB /* AppMacros.h */,
 				5C723CF21C1537B300B28BF3 /* CDData.h */,
 				5C723CF31C15381300B28BF3 /* CommonHttpManager.cpp */,
 				5C723CF41C15381300B28BF3 /* CommonHttpManager.h */,
-				217BD6AB1C55FBED00CC2CA3 /* ConstData.cpp */,
-				217BD6AC1C55FBED00CC2CA3 /* ConstData.h */,
+				217BD6CD1C59CB2B00CC2CA3 /* ConstData */,
 				5C31C85D1C47388000542BF3 /* FDataManager.cpp */,
 				5C31C85E1C47388000542BF3 /* FDataManager.h */,
+				5C5B696C1C5B1213000C9AA4 /* FirstSurveyViewController.cpp */,
+				5C5B696D1C5B1213000C9AA4 /* FirstSurveyViewController.h */,
 				B0621E1D1AC3ECB0005EBCA7 /* FirstViewController.cpp */,
 				B0621E1E1AC3ECB0005EBCA7 /* FirstViewController.h */,
 				5CFCF7001C3E512600DE4410 /* fview */,
@@ -1279,6 +1282,7 @@
 				5C5DE7CF1C3035A900D9A8BC /* qrencode.c in Sources */,
 				3E02A4BC1B85AD6000328E71 /* tu_file.cpp in Sources */,
 				5CF668391C194EB0009994C0 /* MainViewController.cpp in Sources */,
+				5C5B696E1C5B1213000C9AA4 /* FirstSurveyViewController.cpp in Sources */,
 				3E02A4DB1B85AD6000328E71 /* as_mouse.cpp in Sources */,
 				3E02A4D61B85AD6000328E71 /* as_key.cpp in Sources */,
 				5C31C85F1C47388000542BF3 /* FDataManager.cpp in Sources */,

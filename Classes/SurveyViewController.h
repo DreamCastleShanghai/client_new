@@ -42,7 +42,7 @@ protected:
 private:
 
 	DSize													m_winSize;
-	surveyDetail                                            m_surveyDetail;
+	struct surveyDetail                                            m_surveyDetail;
 //	int														m_score;
 	int														m_sessionId;
     CAView*													p_alertView;

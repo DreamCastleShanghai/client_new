@@ -115,33 +115,38 @@ void PhotoViewController::buttonCallBack(CAControl* btn, DPoint point)
     else if (btn->getTag() == 400) // select
     {
         DSize winSize = m_winSize;
-        m_clv->setAlphaThreshold(0.f);
+        m_clv->setAlphaThreshold(1.f);
+        m_photoView->removeSubview(m_clv);
+        
         m_clvImage->setAlphaThreshold(0.f);
         m_clvImage->setClippingEnabled(true);
+
         CARenderImage* rm = CARenderImage::create(_px(winSize.width-100), _px(winSize.width-100));
         rm->printscreenWithView(m_clvImage);
-
-        renderImage = CAView::createWithFrame(DRect(50,winSize.height/4,winSize.width-100,winSize.width-100));
-        m_photoView->addSubview(renderImage);
-        
-        //m_clvImage->setClippingEnabled(false);
-        
-        if (m_clv!=NULL)
-        {
-            m_photoView->removeSubview(m_clv);
-            m_clv = NULL;
-            m_photoView->removeSubview(m_clvImage);
-            m_clvImage = NULL;
-        }
-        
-        CAImageView* imageView = CAImageView::createWithFrame(DRect(0,0,winSize.width-100,winSize.width-100));
-        imageView->setImage(rm->getImageView()->getImage());
-        renderImage->addSubview(imageView);
         
         std::string imagePath = CCFileUtils::sharedFileUtils()->getWritablePath() + "image/" + "2.png";
-        imageView->getImage()->saveToFile(imagePath);
+        rm->saveToFile(imagePath.c_str());
+        //m_clvImage->getImage()->saveToFile(imagePath);
         CCLog("path : %s", imagePath.c_str());
         requestPhotoSubmit(imagePath);
+        
+//
+//        renderImage = CAView::createWithFrame(DRect(50,winSize.height/4,winSize.width-100,winSize.width-100));
+//        m_photoView->addSubview(renderImage);
+//        
+//        //m_clvImage->setClippingEnabled(false);
+//        
+//        if (m_clv!=NULL)
+//        {
+//            m_photoView->removeSubview(m_clv);
+//            m_clv = NULL;
+//            m_photoView->removeSubview(m_clvImage);
+//            m_clvImage = NULL;
+//        }
+//        
+//        CAImageView* imageView = CAImageView::createWithFrame(DRect(0,0,winSize.width-100,winSize.width-100));
+//        imageView->setImage(rm->getImageView()->getImage());
+//        renderImage->addSubview(imageView);
     }
     else if (btn->getTag() == 500) // cancle
     {
