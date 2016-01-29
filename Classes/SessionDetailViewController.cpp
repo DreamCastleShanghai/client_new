@@ -196,7 +196,7 @@ void SessionDetailViewController::initView()
 	m_lectureDetailLabel->setText(m_detailMsg.m_detail);
 	scrollView->addSubview(m_lectureDetailLabel);
     
-    yHight += _px(25) * (m_detailMsg.m_detail.size() / 40);
+    yHight += _px(250);// * (m_detailMsg.m_detail.size() / 40);
     
     yHight = yHight + _px(40);
     
@@ -412,7 +412,7 @@ void SessionDetailViewController::onRequestFinished(const HttpResponseStatus& st
 	{
 		CSJson::FastWriter writer;
 		string tempjson = writer.write(json);
-		CCLog("receive json == %s",tempjson.c_str());
+		//CCLog("receive json == %s",tempjson.c_str());
 
 		const CSJson::Value& value = json["result"];
 
@@ -420,7 +420,7 @@ void SessionDetailViewController::onRequestFinished(const HttpResponseStatus& st
 		{
 			const CSJson::Value& v1 = value["s"];
 			m_detailMsg.m_sessionId = v1[0]["SessionId"].asInt();
-			m_detailMsg.m_detail = v1[0]["Description"].asString();
+            m_detailMsg.m_detail = v1[0]["Description"].asString();
             m_detailMsg.m_startTime = v1[0]["StartTime"].asInt64();
             m_detailMsg.m_endTime = v1[0]["EndTime"].asInt64();
 			const CSJson::Value& v2 = value["sp"];

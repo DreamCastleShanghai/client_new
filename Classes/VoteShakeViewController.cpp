@@ -59,6 +59,7 @@ void VoteShakeViewController::viewDidLoad()
     CommonUrlImageView* urlImageVIew = CommonUrlImageView::createWithImage(CAImage::create("common/bg.png"));
      urlImageVIew->setFrame(DRect(0, 0, m_winSize.width, m_winSize.height - _px(120)));
     urlImageVIew->setImageViewScaleType(CAImageViewScaleTypeFitImageCrop);
+    urlImageVIew->setColor(ccc4(128, 128, 128, 255));
     urlImageVIew->setTouchEnabled(false);
     m_view->addSubview(urlImageVIew);
     if(m_demoMsg)
@@ -322,7 +323,7 @@ void VoteShakeViewController::didAccelerate(CCAcceleration* pAccelerationValue)
     float nowGY = (pAccelerationValue->y)*9.81f;
     
     float dt = 30.f;
-    if(m_voteStatus == Vote_Start && m_voted && m_canVote && (nowGX<-dt||nowGX>dt || nowGY<-dt||nowGY>dt))
+    if(m_voteStatus == Vote_Start && !m_voted && m_canVote && (nowGX<-dt||nowGX>dt || nowGY<-dt||nowGY>dt))
     {
         m_shakeNum++;
         if (m_shakeNum % 5 == 0 || m_shakeNum == 1)

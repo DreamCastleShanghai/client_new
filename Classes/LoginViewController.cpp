@@ -5,7 +5,7 @@
 #include "RootWindow.h"
 #include "ConstData/ConstFunc.h"
 
-//#define DEBUG_APP
+#define DEBUG_APP
 
 LoginViewController::LoginViewController()
 {
