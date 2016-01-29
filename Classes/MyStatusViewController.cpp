@@ -413,10 +413,10 @@ void MyStatusViewController::switchNavType(int index)
         {
             requestRankMsg();
         }
-        m_pointLabel[0]->setColor(ccc4(0xce, 0xea, 0xfd, 0xff));
-        m_rankLabel[0]->setColor(ccc4(0xce, 0xea, 0xfd, 0xff));
-        m_pointLabel[1]->setColor(CAColor_white);
-        m_rankLabel[1]->setColor(CAColor_white);
+        m_pointLabel[1]->setColor(ccc4(0xce, 0xea, 0xfd, 0xff));
+        m_rankLabel[1]->setColor(ccc4(0xce, 0xea, 0xfd, 0xff));
+        m_pointLabel[0]->setColor(CAColor_white);
+        m_rankLabel[0]->setColor(CAColor_white);
         m_pointView->setVisible(true);
         m_searchButton->setVisible(false);
         m_pointButton->setVisible(true);
@@ -434,10 +434,10 @@ void MyStatusViewController::switchNavType(int index)
     }
     else if(index == 2)
     {
-        m_pointLabel[0]->setColor(CAColor_white);
-        m_rankLabel[0]->setColor(CAColor_white);
-        m_pointLabel[1]->setColor(ccc4(0xce, 0xea, 0xfd, 0xff));
-        m_rankLabel[1]->setColor(ccc4(0xce, 0xea, 0xfd, 0xff));
+        m_pointLabel[1]->setColor(CAColor_white);
+        m_rankLabel[1]->setColor(CAColor_white);
+        m_pointLabel[0]->setColor(ccc4(0xce, 0xea, 0xfd, 0xff));
+        m_rankLabel[0]->setColor(ccc4(0xce, 0xea, 0xfd, 0xff));
         m_pointView->setVisible(true);
         m_searchButton->setVisible(false);
         m_pointButton->setVisible(true);
@@ -494,7 +494,6 @@ CATableViewCell* MyStatusViewController::tableCellAtIndex(CATableView* table, co
     CATableViewCell* cell = NULL;
     if (m_navType == 0)
     {
-
         //cell = dynamic_cast<CATableViewCell*>(table->dequeueReusableCellWithIdentifier("CrossApp0"));
         if(cell == NULL && !m_filterMsg.empty())
         {
@@ -504,13 +503,16 @@ CATableViewCell* MyStatusViewController::tableCellAtIndex(CATableView* table, co
                 count += m_rowNumOfSection[i].rowNum;
             }
             sessionMsg* msg = m_filterMsg[count + row];
-            cell = CATableViewCell::create("CrossApp0");
+            //cell = CATableViewCell::create("CrossApp0");
+            cell = MainViewTableCell::create("CrossApp", DRect(0, 0, _size.width, _size.height));
+            ((MainViewTableCell*)cell)->initWithCell(*msg);
+            /*
             CALabel* label = CALabel::createWithFrame(DRect(_px(40), _px(10), m_winSize.width - _px(40) * 2, _px(30)));
             label->setText(msg->m_title);
             label->setFontSize(_px(25));
             label->setVerticalTextAlignmet(CAVerticalTextAlignmentCenter);
             label->setColor(ccc4(0x3f, 0x3f, 0x3f, 0xff));
-            cell->addSubview(label);
+            cell->addSubview(label);*/
         }
     }
     else if(m_navType == 1 && !m_filterMsg.empty())
@@ -542,12 +544,12 @@ CATableViewCell* MyStatusViewController::tableCellAtIndex(CATableView* table, co
             cell = CATableViewCell::create("CrossApp2");
             CommonUrlImageView* urlImageView = CommonUrlImageView::createWithImage(CAImage::create("common/bg.png"));
             //createWithFrame(DRect(_px(30), _px(40), _px(80), _px(80)));
-            urlImageView->setFrame(DRect(_px(40), _px(5), _px(40), _px(40)));
+            urlImageView->setFrame(DRect(_px(140), _px(5), _px(40), _px(60)));
             urlImageView->setImageViewScaleType(CAImageViewScaleTypeFitImageCrop);
             //urlImageView->setImage(CAImage::create("common/bg.png"));
             urlImageView->setUrl(m_rankMsg[row].m_imageUrl);
             cell->addSubview(urlImageView);
-            
+        
             // green amb icon
             if (m_rankMsg[row].m_greenAmb) {
                 CAImageView* greenAmbIcon = CAImageView::createWithImage(CAImage::create("common/green_amb.png"));
@@ -557,21 +559,21 @@ CATableViewCell* MyStatusViewController::tableCellAtIndex(CATableView* table, co
                 urlImageView->addSubview(greenAmbIcon);
             }
 
-            CALabel* label = CALabel::createWithFrame(DRect(_px(100), _px(10), _px(300), _px(30)));
+            CALabel* label = CALabel::createWithFrame(DRect(_px(200), _px(10), _px(300), _px(30)));
             label->setText(m_rankMsg[row].m_userName);
             label->setFontSize(_px(25));
             label->setVerticalTextAlignmet(CAVerticalTextAlignmentCenter);
             label->setColor(ccc4(0x3f, 0x3f, 0x3f, 0xff));
             cell->addSubview(label);
             
-            label = CALabel::createWithFrame(DRect(m_winSize.width / 2, _px(10), _px(300), _px(30)));
+            label = CALabel::createWithFrame(DRect(m_winSize.width * 0.75, _px(10), _px(300), _px(30)));
             label->setText(crossapp_format_string("%d", m_rankMsg[row].m_point));
             label->setFontSize(_px(25));
             label->setVerticalTextAlignmet(CAVerticalTextAlignmentCenter);
             label->setColor(ccc4(0x3f, 0x3f, 0x3f, 0xff));
             cell->addSubview(label);
             
-            label = CALabel::createWithFrame(DRect(m_winSize.width - _px(100), _px(10), _px(300), _px(30)));
+            label = CALabel::createWithFrame(DRect(_px(60), _px(10), _px(300), _px(30)));
             label->setText(crossapp_format_string("%d", m_rankMsg[row].m_pointRank));
             label->setFontSize(_px(25));
             label->setVerticalTextAlignmet(CAVerticalTextAlignmentCenter);
@@ -681,6 +683,9 @@ unsigned int MyStatusViewController::tableViewHeightForHeaderInSection(CATableVi
 
 unsigned int MyStatusViewController::tableViewHeightForRowAtIndexPath(CATableView* table, unsigned int section, unsigned int row)
 {
+    if (m_navType == 0) {
+        return _px(240);
+    }
 	return _px(50);
 }
 
