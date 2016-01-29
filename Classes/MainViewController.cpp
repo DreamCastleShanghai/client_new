@@ -327,7 +327,7 @@ void MainViewController::initPageView()
         btn->setTag(300 + i);
         CAImageView* imageView = CAImageView::createWithImage(CAImage::create(crossapp_format_string("main/short_%d.png", i)));
         imageView->setImageViewScaleType(CAImageViewScaleTypeFitImageXY);
-        imageView->setFrame(DRect(buttonHight * 0.5, buttonHight * 0.2, buttonHight * 0.6, buttonHight * 0.6));
+        imageView->setFrame(DRect(buttonHight * 0.5 - _px(10), buttonHight * 0.2, buttonHight * 0.6, buttonHight * 0.6));
         imageView->setTouchEnabled(false);
         btn->addSubview(imageView);
         CALabel* label = CALabel::createWithFrame(DRect(0, buttonHight * 0.8, m_winSize.width / 3, _px(30)));

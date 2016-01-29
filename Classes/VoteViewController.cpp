@@ -123,7 +123,7 @@ void VoteViewController::initMsgTableView()
         scrollView->setBackGroundColor(CAColor_clear);
         m_segView[i]->addSubview(scrollView);
         
-        DRect r = DRect(_px(0), _px(0), m_winSize.width - _px(40), m_imageHeight);
+        DRect r = DRect(_px(0), _px(150), m_winSize.width - _px(40), m_imageHeight - _px(150));
         m_pageView[i] = CAPageView::createWithFrame(r, CAPageViewDirectionHorizontal);
         m_pageView[i]->setPageViewDelegate(this);
         m_pageView[i]->setCurrPage(0, false);
@@ -161,20 +161,20 @@ void VoteViewController::initMsgTableView()
         temImage->setUrl(m_demoMsg[i].m_imageUrl);
         //temImage->setTouchEnabled(false);
         
-        CALabel* label = CALabel::createWithFrame(DRect(_px(30), _px(30), _px(150), _px(30)));
+        CALabel* label = CALabel::createWithFrame(DRect(_px(30), _px(30), _px(250), _px(40)));
         label->setText(m_demoMsg[i].m_teamName);
+        label->setFontSize(_px(33));
+        label->setTouchEnabled(false);
+        label->setColor(CAColor_white);
+        temImage->addSubview(label);
+        label = CALabel::createWithFrame(DRect(_px(30), _px(80), _px(150), _px(30)));
+        label->setText(m_demoMsg[i].m_department);
         label->setFontSize(_px(25));
         label->setTouchEnabled(false);
         label->setColor(CAColor_white);
         temImage->addSubview(label);
-        label = CALabel::createWithFrame(DRect(_px(30), _px(60), _px(150), _px(20)));
-        label->setText(m_demoMsg[i].m_department);
-        label->setFontSize(_px(18));
-        label->setTouchEnabled(false);
-        label->setColor(CAColor_white);
-        temImage->addSubview(label);
         
-        r = DRect((m_winSize.width - _px(200)) / 2,  m_imageHeight - _px(150), _px(200), _px(62));
+        r = DRect((m_winSize.width - _px(200)) / 2,  m_imageHeight - _px(300), _px(200), _px(62));
         CAButton* button = CAButton::createWithFrame(r, CAButtonTypeCustom);
         CAImageView* imageView = CAImageView::createWithImage(CAImage::create("vote/d_vote_btn.png"));
         imageView->setImageViewScaleType(CAImageViewScaleTypeFitImageXY);
@@ -202,20 +202,20 @@ void VoteViewController::initMsgTableView()
         temImage->setUrl(m_voiceMsg[i].m_imageUrl);
         //temImage->setTouchEnabled(false);
         
-        CALabel* label = CALabel::createWithFrame(DRect(_px(30), _px(30), _px(150), _px(30)));
+        CALabel* label = CALabel::createWithFrame(DRect(_px(30), _px(30), _px(250), _px(40)));
         label->setText(m_voiceMsg[i].m_playerName);
+        label->setFontSize(_px(33));
+        label->setTouchEnabled(false);
+        label->setColor(CAColor_white);
+        temImage->addSubview(label);
+        label = CALabel::createWithFrame(DRect(_px(30), _px(80), _px(150), _px(30)));
+        label->setText(m_voiceMsg[i].m_projectName);
         label->setFontSize(_px(25));
         label->setTouchEnabled(false);
         label->setColor(CAColor_white);
         temImage->addSubview(label);
-        label = CALabel::createWithFrame(DRect(_px(30), _px(60), _px(150), _px(20)));
-        label->setText(m_voiceMsg[i].m_projectName);
-        label->setFontSize(_px(18));
-        label->setTouchEnabled(false);
-        label->setColor(CAColor_white);
-        temImage->addSubview(label);
         
-        r = DRect((m_winSize.width - _px(200)) / 2,  m_imageHeight - _px(150), _px(200), _px(62));
+        r = DRect((m_winSize.width - _px(200)) / 2,  m_imageHeight - _px(300), _px(200), _px(62));
         CAButton* button = CAButton::createWithFrame(r, CAButtonTypeCustom);
         CAImageView* imageView = CAImageView::createWithImage(CAImage::create("vote/v_vote_btn.png"));
         imageView->setImageViewScaleType(CAImageViewScaleTypeFitImageXY);
@@ -233,6 +233,7 @@ void VoteViewController::initMsgTableView()
     m_pageView[1]->setViews(viewList);
     
     setDetailView(0, 0);
+    setDetailView(1, 0);
     //refreshPageView(0);
 }
 
@@ -253,11 +254,13 @@ void VoteViewController::setDetailView(int type, int index)
     label->setColor(CAColor_white);
     label->setTextAlignment(CATextAlignmentLeft);
     label->setVerticalTextAlignmet(CAVerticalTextAlignmentTop);
-    label->setFontSize(_px(26));
+    label->setFontSize(_px(32));
     
-    if(type == 0)
-    {
+    if(type == 0) {
         label->setText(m_demoMsg[index].m_teamDetail.c_str());
+    }
+    else{
+        label->setText(m_voiceMsg[index].m_teamDetail.c_str());
     }
     m_detailView[type]->addSubview(label);
 }
@@ -385,6 +388,7 @@ void VoteViewController::onRequestFinished(const HttpResponseStatus& status, con
             temp_msg.m_playerName = value["vl"][index]["VoicerName"].asString();
             temp_msg.m_projectName = value["vl"][index]["SongName"].asString();
             temp_msg.m_imageUrl = crossapp_format_string("%s%s", imgPreUrl.c_str(), value["vl"][index]["VoicerPic"].asCString());
+            temp_msg.m_teamDetail = value["vl"][index]["VoicerDes"].asString();
             m_voiceMsg.push_back(temp_msg);
         }
     }

@@ -134,6 +134,7 @@ struct voiceMsg
     std::string m_playerName;
     std::string m_projectName;
     std::string m_imageUrl;
+    std::string m_teamDetail;
     
     time_t      m_playStartTime;
     time_t      m_playEndTime;
