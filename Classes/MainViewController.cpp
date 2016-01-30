@@ -105,6 +105,7 @@ void MainViewController::viewDidLoad()
     header->setTouchEnabled(false);
     this->getView()->addSubview(header);
 
+    // left notification button
 	CAButton* button = CAButton::createWithFrame(DRect(_px(0), _px(20), _px(100), _px(100)), CAButtonTypeCustom);
 	CAImageView* imageView = CAImageView::createWithImage(CAImage::create("main/nav_notification.png"));
 	imageView->setImageViewScaleType(CAImageViewScaleTypeFitImageXY);
@@ -114,12 +115,13 @@ void MainViewController::viewDidLoad()
 	button->setTag(20);
 	this->getView()->addSubview(button);
     
+    // notification alert point
     m_timeNoticeImageView = CAImageView::createWithFrame(DRect(_px(60), _px(30), _px(10), _px(10)));
     m_timeNoticeImageView->setImage(CAImage::create("common/reddot.png"));
     button->addSubview(m_timeNoticeImageView);
 
-    
-	button = CAButton::createWithFrame(DRect(m_winSize.width - _px(100), _px(40), _px(60), _px(60)), CAButtonTypeCustom);
+    // right survey button
+	button = CAButton::createWithFrame(DRect(m_winSize.width - _px(100), _px(20), _px(100), _px(100)), CAButtonTypeCustom);
 	imageView = CAImageView::createWithImage(CAImage::create("main/nav_survey.png"));
 	imageView->setImageViewScaleType(CAImageViewScaleTypeFitImageXY);
 	button->setBackGroundViewForState(CAControlStateAll, imageView);
@@ -358,8 +360,8 @@ void MainViewController::initPageView()
     */
     
     // sub title
-    CALabel* label = CALabel::createWithCenter(DRect(m_winSize.width / 2, headerHeight + pageViewHeight +buttonHight + _px(30), m_winSize.width * 0.9, _px(40)));
-    label->setTextAlignment(CATextAlignmentLeft);
+    CALabel* label = CALabel::createWithCenter(DRect(m_winSize.width / 4, headerHeight + pageViewHeight +buttonHight + _px(30), m_winSize.width / 2, _px(40)));
+    label->setTextAlignment(CATextAlignmentCenter);
     label->setColor(CAColor_blue);
     label->setFontSize(_px(27));
     label->setText("My Calander");
@@ -367,6 +369,14 @@ void MainViewController::initPageView()
     label->setTouchEnabled(false);
     this->getView()->addSubview(label);
 
+    // sub title bar picture
+    CAView *subView = CAView::createWithCenter(DRect(m_winSize.width * 0.75, headerHeight + pageViewHeight +buttonHight + _px(30), m_winSize.width / 2, _px(20)));
+    CAImageView* subbarView = CAImageView::createWithImage(CAImage::create("main/home_bar.png"));
+    subbarView->setImageViewScaleType(CAImageViewScaleTypeFitImageXY);
+    subbarView->setFrame(DRect(0, 0, m_winSize.width / 2 - _px(30), _px(20)));
+    subbarView->setTouchEnabled(false);
+    subView->addSubview(subbarView);
+    this->getView()->addSubview(subView);
     
     //CAView* headView = CAView::createWithFrame(DRect(0, 0, m_winSize.width, m_winSize.width * 0.6 - _px(120)));
     //m_msgTableView->setTableHeaderView(headView);
