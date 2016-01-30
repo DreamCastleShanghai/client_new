@@ -759,7 +759,7 @@ unsigned int SessionsViewController::tableViewHeightForRowAtIndexPath(CATableVie
 
 void SessionsViewController::tableViewDidSelectRowAtIndexPath(CATableView* table, unsigned int section, unsigned int row)
 {
-    SessionDetailViewController* vc = new SessionDetailViewController(m_msg->at(row));
+    SessionDetailViewController* vc = new SessionDetailViewController(*m_msgFilter.at(row));
     vc->init();
     RootWindow::getInstance()->getRootNavigationController()->pushViewController(vc, true);
 }
