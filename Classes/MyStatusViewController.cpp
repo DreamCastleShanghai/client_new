@@ -703,7 +703,7 @@ void MyStatusViewController::tableViewDidSelectRowAtIndexPath(CATableView* table
     }
     if (m_navType == 1)
     {
-        SessionDetailViewController* vc = new SessionDetailViewController(m_msg->at(row));
+        SessionDetailViewController* vc = new SessionDetailViewController(*m_filterMsg.at(row));
         vc->init();
         RootWindow::getInstance()->getRootNavigationController()->pushViewController(vc, true);
     }
