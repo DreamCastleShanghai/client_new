@@ -406,21 +406,36 @@ void SessionDetailViewController::requestMsg()
 	}
 }
 
+void string_replace(string&s1, const string&s2, const string&s3)
+{
+	string::size_type pos = 0;
+	string::size_type a = s2.size();
+	string::size_type b = s3.size();
+	while ((pos = s1.find(s2, pos)) != string::npos)
+	{
+		s1.replace(pos, a, s3);
+		pos += b;
+	}
+
+}
 void SessionDetailViewController::onRequestFinished(const HttpResponseStatus& status, const CSJson::Value& json)
 {
 	if (status == HttpResponseSucceed)
 	{
-		CSJson::FastWriter writer;
-		string tempjson = writer.write(json);
+		
 		//CCLog("receive json == %s",tempjson.c_str());
-
 		const CSJson::Value& value = json["result"];
 
 		if (value["r"].asString() == "1")
 		{
 			const CSJson::Value& v1 = value["s"];
 			m_detailMsg.m_sessionId = v1[0]["SessionId"].asInt();
-            m_detailMsg.m_detail = v1[0]["Description"].asString();
+
+			CSJson::FastWriter writer;
+			string tempjson = writer.write(v1[0]["Description"]);
+			string_replace(tempjson, "\\r\\n", "\r\n");
+
+			m_detailMsg.m_detail = tempjson;
             m_detailMsg.m_startTime = v1[0]["StartTime"].asInt64();
             m_detailMsg.m_endTime = v1[0]["EndTime"].asInt64();
 			const CSJson::Value& v2 = value["sp"];
