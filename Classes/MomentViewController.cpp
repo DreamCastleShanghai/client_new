@@ -17,9 +17,10 @@ MomentViewController::MomentViewController()
 , m_currentMyNum(0)
 , m_currentCategory("all")
 , m_canDelete(true)
-, m_canLike(true)
+//, m_canLike(true)
 {
-
+    m_likeNumLabelVec.clear();
+    m_likeBtnBG.clear();
 }
 
 MomentViewController::~MomentViewController()
@@ -184,7 +185,7 @@ void MomentViewController::requestMsg(int type)
 		key_value["cat"] = m_currentCategory;
 		key_value["psid"] = crossapp_format_string("%d", m_currentAllNum);
 		key_value["cnt"] = crossapp_format_string("%d", 5);
-		//key_value["uid"] = crossapp_format_string("%d", FDataManager::getInstance()->getUserId());
+		key_value["uid"] = crossapp_format_string("%d", FDataManager::getInstance()->getUserId());
 		//key_value["sign"] = getSign(key_value);
 		CommonHttpManager::getInstance()->send_post(httpUrl, key_value, this, CommonHttpJson_selector(MomentViewController::onRequestAllFinished));
 	}
@@ -209,12 +210,12 @@ void MomentViewController::requestMsg(int type)
 void MomentViewController::requestLike(int index)
 {
 	m_currentLike = index;
-	m_canLike = false;
+//	m_canLike = false;
 	std::map<std::string, std::string> key_value;
 	key_value["tag"] = momentsTag[2];
 	key_value["uid"] = crossapp_format_string("%d", FDataManager::getInstance()->getUserId());
-	key_value["pwid"] = crossapp_format_string("%d", index);
-	key_value["v"] = crossapp_format_string("%d", 1);
+	key_value["pwid"] = crossapp_format_string("%d", m_allMsg[index].picId);
+    key_value["v"] = crossapp_format_string("%d", m_allMsg[index].liked ? 0 : 1 );
 	CommonHttpManager::getInstance()->send_post(httpUrl, key_value, this, CommonHttpJson_selector(MomentViewController::onRequestLikeFinished));
 }
 
@@ -227,15 +228,25 @@ void MomentViewController::onRequestLikeFinished(const HttpResponseStatus& statu
         CCLog("receive json == %s",tempjson.c_str());
         
         const CSJson::Value& value = json["result"];
-        if (value["r"] == 1)
+        bool isLike = json["result"]["r"].asBool();
+        if (isLike)
         {
 			m_allMsg[m_currentLike].liked = true;
 			m_allMsg[m_currentLike].likeNum += 1;
-			m_likeNumLabelVec[m_currentLike]->setText(crossapp_format_string("%d", m_allMsg[m_currentLike].likeNum));
+//			m_likeNumLabelVec[m_currentLike]->setText(crossapp_format_string("%d", m_allMsg[m_currentLike].likeNum));
+//            m_likeBtnBG[m_currentLike]->setImage(CAImage::create("common/btn_like_pre.png"));
         }
+        else
+        {
+            m_allMsg[m_currentLike].liked = false;
+            m_allMsg[m_currentLike].likeNum -= 1;
+//            m_likeNumLabelVec[m_currentLike]->setText(crossapp_format_string("%d", m_allMsg[m_currentLike].likeNum));
+//            m_likeBtnBG[m_currentLike]->setImage(CAImage::create("common/btn_like.png"));
+        }
+        m_msgTableView->reloadData();
         
     }
-	m_canLike = true;
+//	m_canLike = true;
 }
 
 void MomentViewController::requestDelete(int index)
@@ -324,7 +335,7 @@ void MomentViewController::buttonCallBack(CAControl* btn, DPoint point)
 	}
 	else if (btn->getTag() >= 300 && btn->getTag() < 400)
 	{
-		if (!m_canLike) return;
+//		if (!m_canLike) return;
 		requestLike(btn->getTag() - 300);
 	}
 	else if (btn->getTag() >= 400 && btn->getTag() < 500)
@@ -561,10 +572,13 @@ CATableViewCell* MomentViewController::tableCellAtIndex(CATableView* table, cons
 		CAImageView* imageView = CAImageView::createWithImage(CAImage::create("common/btn_like.png"));
 		imageView->setImageViewScaleType(CAImageViewScaleTypeFitImageXY);
 		imageView->setFrame(DRect(_px(20), _px(20), _px(80), _px(80)));
+        if (m_allFilterMsg.at(row)->liked)
+            imageView->setImage(CAImage::create("common/btn_like_pre.png"));
 		button->setBackGroundViewForState(CAControlStateAll, imageView);
 		button->addTarget(this, CAControl_selector(MomentViewController::buttonCallBack), CAControlEventTouchUpInSide);
 		button->setTag(300 + row);
 		view->addSubview(button);
+        m_likeBtnBG.push_back(imageView);
 
 		label = CALabel::createWithFrame(DRect(m_winSize.width - _px(100), _px(50), _px(200), _px(30)));
 		label->setTextAlignment(CATextAlignmentLeft);

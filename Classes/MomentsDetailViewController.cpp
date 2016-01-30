@@ -9,7 +9,7 @@
 MomentsDetailViewController::MomentsDetailViewController(photoMsg& msg, int type)
 : p_pLoading(NULL)
 , m_msg(&msg)
-, m_canLike(true)
+//, m_canLike(true)
 , m_type(type)
 {
     
@@ -139,7 +139,7 @@ void MomentsDetailViewController::requestLikeSubmit()
     key_value["tag"] = momentsTag[2];
     key_value["uid"] = crossapp_format_string("%d", FDataManager::getInstance()->getUserId());
     key_value["pwid"] = crossapp_format_string("%d", m_msg->picId);
-    key_value["v"] = crossapp_format_string("%d", 1);
+    key_value["v"] = crossapp_format_string("%d", m_msg->liked ? 0 : 1);
     //key_value["sign"] = getSign(key_value);
     CommonHttpManager::getInstance()->send_post(httpUrl, key_value, this, CommonHttpJson_selector(MomentsDetailViewController::onRequestLikeSubmitFinished));
 }
@@ -169,9 +169,9 @@ void MomentsDetailViewController::onRequestLikeSubmitFinished(const HttpResponse
         CCLog("receive json == %s",tempjson.c_str());
         
         const CSJson::Value& value = json["result"];
-        int islike = value["r"].asInt();
+        int islike = value["r"].asBool();
         
-        if (islike == 1)
+        if (islike)
         {
  //           m_canLike = false;
             m_msg->liked = true;
@@ -179,7 +179,7 @@ void MomentsDetailViewController::onRequestLikeSubmitFinished(const HttpResponse
             m_likeNumLabel->setText(crossapp_format_string("%d", m_msg->likeNum));
             m_likeBtnImage->setImage(CAImage::create("common/btn_like_pre.png"));
         }
-        else if (islike == 0)
+        else
         {
             m_msg->liked = false;
             m_msg->likeNum -= 1;
@@ -188,10 +188,10 @@ void MomentsDetailViewController::onRequestLikeSubmitFinished(const HttpResponse
 //            m_canLike = true;
         }
     }
-    else
-    {
+//    else
+//    {
 //        m_canLike = true;
-    }
+//    }
 #ifdef LOCALTEST
     {
 		

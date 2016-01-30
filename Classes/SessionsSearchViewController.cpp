@@ -76,7 +76,9 @@ void SessionsSearchViewController::viewDidLoad()
 		CAButton* button = CAButton::createWithFrame(DRect(i * m_winSize.width / 2, 0, m_winSize.width / 2, _px(60)), CAButtonTypeCustom);
 		button->setTitleForState(CAControlStateAll, filterItem[i]);
 		button->setTitleFontName("fonts/arial.ttf");
+        button->setTitleFontSize(_px(30));
 		button->setTitleColorForState(CAControlStateAll, CAColor_gray);
+        button->setTitleColorForState(CAControlStateSelected, CAColor_white);
 		button->addTarget(this, CAControl_selector(SessionsSearchViewController::buttonCallBack), CAControlEventTouchUpInSide);
 		button->setTag(300 + i);
 		button->setAllowsSelected(true);
@@ -96,10 +98,11 @@ void SessionsSearchViewController::viewDidLoad()
 		button->setTitleForState(CAControlStateAll, trackFilterItem[i]);
 		button->setTitleFontName("fonts/arial.ttf");
 		button->setTitleColorForState(CAControlStateAll, CAColor_gray);
-		button->setTitleFontSize(_px(30));
+        button->setTitleColorForState(CAControlStateSelected, CAColor_white);
+		button->setTitleFontSize(_px(27));
 		button->setAllowsSelected(true);
-		CAImageView* imageView = CAImageView::createWithImage(CAImage::create("common/white_bg.png"));
-		button->setBackGroundViewForState(CAControlStateAll, imageView);
+		//CAImageView* imageView = CAImageView::createWithImage(CAImage::create("common/white_bg.png"));
+		//button->setBackGroundViewForState(CAControlStateAll, imageView);
 		imageView = CAImageView::createWithImage(CAImage::create("common/sky_bg.png"));
 		button->setBackGroundViewForState(CAControlStateSelected, imageView);
 		button->addTarget(this, CAControl_selector(SessionsSearchViewController::buttonCallBack), CAControlEventTouchUpInSide);
@@ -114,10 +117,10 @@ void SessionsSearchViewController::viewDidLoad()
 		button->setTitleForState(CAControlStateAll, formatFilterItem[i]);
 		button->setTitleFontName("fonts/arial.ttf");
 		button->setTitleColorForState(CAControlStateAll, CAColor_gray);
-		button->setTitleFontSize(_px(30));
+		button->setTitleFontSize(_px(27));
 		button->setAllowsSelected(true);
-		CAImageView* imageView = CAImageView::createWithImage(CAImage::create("common/white_bg.png"));
-		button->setBackGroundViewForState(CAControlStateAll, imageView);
+		//CAImageView* imageView = CAImageView::createWithImage(CAImage::create("common/white_bg.png"));
+		//button->setBackGroundViewForState(CAControlStateAll, imageView);
 		imageView = CAImageView::createWithImage(CAImage::create("common/sky_bg.png"));
 		button->setBackGroundViewForState(CAControlStateSelected, imageView);
 		button->addTarget(this, CAControl_selector(SessionsSearchViewController::buttonCallBack), CAControlEventTouchUpInSide);
@@ -234,7 +237,6 @@ void SessionsSearchViewController::buttonCallBack(CAControl* btn, DPoint point)
 			m_navTrackType = btn->getTag() - 400;
 			refreshTableByFormat(m_navTrackType, m_navFormatType);
 		}
-
 	}
 	else if (btn->getTag() >= 500 && btn->getTag() < 600)
 	{

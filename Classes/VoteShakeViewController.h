@@ -44,21 +44,23 @@ private:
         Vote_NotStart = 0,
         Vote_Start,
         Vote_End,
+        
+        SHAKE_CNT = 20,
     };
-	DSize													m_winSize;
-    CAView*                                             m_view;
-    CAView*                                             m_shakeView;
-    CAView*                                             m_shakeEndView;
-	demoJamMsg*                                  m_demoMsg;
-    voiceMsg*                                            m_voiceMsg;
-    bool                                                        m_canVote;
-    bool                                                         m_voted;
-    int                                                         m_voteStatus;
-    int                                                         m_shakeNum;
-    CAView*                                             p_alertView;
-    CAActivityIndicatorView*                p_pLoading;
-    CALabel*                                        m_shakeNumLabel;
-    int             m_projectType;
+	DSize                                       m_winSize;
+    CAView*                                     m_view;
+    CAView*                                     m_shakeView;
+    CAView*                                     m_shakeEndView;
+	demoJamMsg*                                 m_demoMsg;
+    voiceMsg*                                   m_voiceMsg;
+    bool                                        m_canVote;
+    bool                                        m_voted;
+    int                                         m_voteStatus;
+    int                                         m_shakeNum;
+    CAView*                                     p_alertView;
+    CAActivityIndicatorView*                    p_pLoading;
+    CALabel*                                    m_shakeNumLabel;
+    int                                         m_projectType;
 };
 
 

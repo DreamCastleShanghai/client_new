@@ -137,20 +137,22 @@ void SessionDetailViewController::initView()
 	scrollView->addSubview(m_timeLabel);
     
     // session id button
-    CAButton* sessionId = CAButton::createWithFrame(DRect(m_winSize.width / 2 - _px(50), yHight, _px(100), _px(30)), CAButtonTypeCustom);
-    CAImageView * sessionidView = CAImageView::createWithImage(CAImage::create("common/gray_bg.png"));
-    sessionidView->setImageViewScaleType(CAImageViewScaleTypeFitImageXY);
-    sessionId->setBackGroundViewForState(CAControlStateAll, sessionidView);
-    sessionId->setControlState(CAControlStateDisabled);
-    scrollView->addSubview(sessionId);
+    CAView* sessionidView = CAView::createWithFrame(DRect(m_winSize.width / 2 - _px(50), yHight - _px(5), _px(150), _px(35)));
+    sessionidView->setColor(ccc4(0x99, 0x99, 0x99, 0xff));//(CAImage::create("common/dgray_bg.png"));
+    //sessionidView->setColor(ccc4(0x99, 0x99, 0x99, 0x0));
+    //CAImageView * sessionidView = CAImageView::createWithImage(CAImage::create("common/gray_bg.png"));
+    //sessionidView->setImageViewScaleType(CAImageViewScaleTypeFitImageXY);
+    //sessionId->setBackGroundViewForState(CAControlStateAll, sessionidView);
+    //sessionId->setControlState(CAControlStateDisabled);
+    scrollView->addSubview(sessionidView);
     
     // session id button label
-    CALabel* btnLabel = CALabel::createWithFrame(DRect(_px(15), _px(5), _px(80), _px(30)));
-    btnLabel->setColor(CAColor_gray);
+    CALabel* btnLabel = CALabel::createWithFrame(DRect(_px(5), _px(5), _px(150), _px(35)));
+    btnLabel->setColor(CAColor_white);
     btnLabel->setTextAlignment(CATextAlignmentCenter);
-    btnLabel->setFontSize(_px(27));
-    btnLabel->setText(crossapp_format_string("%d", m_msg->m_sessionId));
-    sessionId->addSubview(btnLabel);
+    btnLabel->setFontSize(_px(28));
+    btnLabel->setText(crossapp_format_string("SID : %d", m_msg->m_sessionId));
+    sessionidView->addSubview(btnLabel);
     
     yHight += _px(30) + _px(20);
     
@@ -191,11 +193,11 @@ void SessionDetailViewController::initView()
 	CALabel* m_lectureDetailLabel = CALabel::createWithFrame(tempRect);
 	m_lectureDetailLabel->setColor(ccc4(0xa1, 0xa1, 0xa1, 0xff));
 	m_lectureDetailLabel->setTextAlignment(CATextAlignmentLeft);
-	m_lectureDetailLabel->setFontSize(_px(21));
+	m_lectureDetailLabel->setFontSize(_px(24));
 	m_lectureDetailLabel->setText(m_detailMsg.m_detail);
 	scrollView->addSubview(m_lectureDetailLabel);
     
-    yHight += (m_detailMsg.m_detail.size() / 50) * _px(30);//_px(250);// * (m_detailMsg.m_detail.size() / 40);
+    yHight += (m_detailMsg.m_detail.size() / 50) * _px(35);//_px(250);// * (m_detailMsg.m_detail.size() / 40);
     
     yHight = yHight + _px(40);
     
@@ -239,7 +241,7 @@ void SessionDetailViewController::initView()
             label = CALabel::createWithCenter(DRect(tempRect.origin.x, tempRect.origin.y, _px(200), _px(30)));
             label->setColor(CAColor_gray);
             label->setTextAlignment(CATextAlignmentCenter);
-            label->setFontSize(_px(23));
+            label->setFontSize(_px(20));
             label->setText(m_detailMsg.m_speaker[i].name);
             scrollView->addSubview(label);
         }
@@ -247,14 +249,14 @@ void SessionDetailViewController::initView()
 
 
 	// tail
-	CAScale9ImageView* sView = CAScale9ImageView::createWithImage(CAImage::create("common/sky_bg.png"));
+	CAScale9ImageView* sView = CAScale9ImageView::createWithImage(CAImage::create("common/gray_bg.png"));
 	sView->setFrame(DRect(_px(0), m_winSize.height - _px(100), m_winSize.width, _px(100)));
 	this->getView()->addSubview(sView);
 
 	m_storeBtnImage = CAImageView::createWithImage(CAImage::create("common/btn_collect_pre.png"));
 	m_storeBtnImage->setImageViewScaleType(CAImageViewScaleTypeFitImageInside);
-	m_storeBtnImage->setFrame(DRect(_px(35), _px(10), _px(80), _px(80)));
-	CAButton* storeBtn = CAButton::createWithFrame(DRect(_px(0), _px(0), _px(150), _px(100)), CAButtonTypeCustom);
+	m_storeBtnImage->setFrame(DRect(_px(30), _px(10), _px(80), _px(80)));
+	CAButton* storeBtn = CAButton::createWithFrame(DRect(_px(0), _px(0), _px(125), _px(100)), CAButtonTypeCustom);
 	storeBtn->setAllowsSelected(true);
 	//storeBtn->setBackGroundViewForState(CAControlStateAll, m_storeBtnImage);
 	storeBtn->addTarget(this, CAControl_selector(SessionDetailViewController::buttonCallBack), CAControlEventTouchUpInSide);
@@ -274,8 +276,8 @@ void SessionDetailViewController::initView()
 
 	m_likeBtnImage = CAImageView::createWithImage(CAImage::create("common/btn_collect_pre.png"));
 	m_likeBtnImage->setImageViewScaleType(CAImageViewScaleTypeFitImageInside);
-	m_likeBtnImage->setFrame(DRect(_px(35), _px(10), _px(80), _px(80)));
-	CAButton* likeBtn = CAButton::createWithFrame(DRect(_px(150), _px(0), _px(150), _px(100)), CAButtonTypeCustom);
+	m_likeBtnImage->setFrame(DRect(_px(15), _px(10), _px(80), _px(80)));
+	CAButton* likeBtn = CAButton::createWithFrame(DRect(_px(130), _px(0), _px(125), _px(100)), CAButtonTypeCustom);
 	likeBtn->setAllowsSelected(true);
 	likeBtn->setTag(400);
 	//likeBtn->setBackGroundViewForState(CAControlStateAll, m_likeBtnImage);
@@ -293,8 +295,8 @@ void SessionDetailViewController::initView()
 	}
 	sView->addSubview(likeBtn);
 
-	m_likeNumLabel = CALabel::createWithFrame(DRect(_px(260), _px(40), _px(50), _px(35)));
-	m_likeNumLabel->setColor(CAColor_white);
+	m_likeNumLabel = CALabel::createWithFrame(DRect(_px(230), _px(40), _px(50), _px(35)));
+	m_likeNumLabel->setColor(CAColor_blue);
 	m_likeNumLabel->setTextAlignment(CATextAlignmentLeft);
 	m_likeNumLabel->setVerticalTextAlignmet(CAVerticalTextAlignmentCenter);
 	m_likeNumLabel->setFontSize(_px(25));
@@ -314,24 +316,24 @@ void SessionDetailViewController::initView()
 	m_surveyButtonView[0]->addSubview(label);
 	m_surveyButtonView[0]->setVisible(false);
 */
-	m_surveyButtonView = CAView::createWithFrame(DRect(_px(0), _px(0), _px(300), _px(100)));
-	m_surveyButtonView->setColor(CAColor_clear);
+	m_surveyButtonView = CAView::createWithFrame(DRect(_px(0), _px(0), m_winSize.width, _px(100)));
+    m_surveyButtonView->setColor(ccc4(0x99, 0x99, 0x99, 0xff));//CAColor_clear);
     
     if (m_surveyBtnLabel1 == NULL) {
-        m_surveyBtnLabel1 = CALabel::createWithFrame(DRect(_px(0), _px(20), _px(300), _px(40)));
+        m_surveyBtnLabel1 = CALabel::createWithFrame(DRect(_px(0), _px(20), m_winSize.width - _px(300), _px(40)));
         m_surveyBtnLabel1->setTextAlignment(CATextAlignmentCenter);
         m_surveyBtnLabel1->setVerticalTextAlignmet(CAVerticalTextAlignmentCenter);
-        m_surveyBtnLabel1->setColor(CAColor_blue);
+        m_surveyBtnLabel1->setColor(CAColor_white);
         m_surveyBtnLabel1->setFontSize(_px(30));
         m_surveyBtnLabel1->setText("Click to win point");
         m_surveyButtonView->addSubview(m_surveyBtnLabel1);
     }
     
     if (m_surveyBtnLabel2 == NULL) {
-        m_surveyBtnLabel2 = CALabel::createWithFrame(DRect(_px(0), _px(60), _px(300), _px(30)));
+        m_surveyBtnLabel2 = CALabel::createWithFrame(DRect(_px(0), _px(60), m_winSize.width - _px(300), _px(30)));
         m_surveyBtnLabel2->setTextAlignment(CATextAlignmentCenter);
         m_surveyBtnLabel2->setVerticalTextAlignmet(CAVerticalTextAlignmentCenter);
-        m_surveyBtnLabel2->setColor(CAColor_blue);
+        m_surveyBtnLabel2->setColor(CAColor_white);
         m_surveyBtnLabel2->setFontSize(_px(20));
         m_surveyBtnLabel2->setText("(Avalible in ?s)");
         m_surveyButtonView->addSubview(m_surveyBtnLabel2);
@@ -339,13 +341,13 @@ void SessionDetailViewController::initView()
 
     if (m_surveyBtn == NULL)
     {
-        m_surveyBtn = CAButton::createWithFrame(DRect(m_winSize.width - _px(300), 0, _px(300), _px(100)), CAButtonTypeCustom);
-        CAImageView* imageView = CAImageView::createWithImage(CAImage::create("common/dsky_bg.png"));
+        m_surveyBtn = CAButton::createWithFrame(DRect(_px(300), 0, m_winSize.width - _px(300), _px(100)), CAButtonTypeCustom);
+        CAImageView* imageView = CAImageView::createWithImage(CAImage::create("common/dgray_bg.png"));
         imageView->setImageViewScaleType(CAImageViewScaleTypeFitImageXY);
         m_surveyBtn->setBackGroundViewForState(CAControlStateAll, imageView);
-        imageView = CAImageView::createWithImage(CAImage::create("common/gray_bg.png"));
+        imageView = CAImageView::createWithImage(CAImage::create("common/sky_bg.png"));
         imageView->setImageViewScaleType(CAImageViewScaleTypeFitImageXY);
-        m_surveyBtn->setBackGroundViewForState(CAControlStateDisabled, imageView);
+        m_surveyBtn->setBackGroundViewForState(CAControlStateNormal, imageView);
         m_surveyBtn->addTarget(this, CAControl_selector(SessionDetailViewController::buttonCallBack), CAControlEventTouchUpInSide);
         m_surveyBtn->setControlState(CAControlStateDisabled);
         m_surveyBtn->setTag(200);
@@ -610,10 +612,10 @@ void SessionDetailViewController::adjustSurveyBtn(float dt)
         if (m_surveyBtn) m_surveyBtn->setControlState(CAControlStateDisabled);
         if (m_surveyBtnLabel1) {
             m_surveyBtnLabel1->setText("Attended !");
-            m_surveyBtnLabel1->setColor(CAColor_blue);
+//            m_surveyBtnLabel1->setColor(CAColor_blue);
         }
         if (m_surveyBtnLabel2) {
-            m_surveyBtnLabel2->setColor(CAColor_blue);
+//            m_surveyBtnLabel2->setColor(CAColor_blue);
         }
     } else {
         if (m_detailMsg.m_endTime == 0 || m_detailMsg.m_startTime == 0) {
@@ -621,7 +623,7 @@ void SessionDetailViewController::adjustSurveyBtn(float dt)
             if (m_surveyBtn) m_surveyBtn->setControlState(CAControlStateDisabled);
             if (m_surveyBtnLabel1) {
                 m_surveyBtnLabel1->setText("null");
-                m_surveyBtnLabel1->setColor(CAColor_blue);
+//                m_surveyBtnLabel1->setColor(CAColor_blue);
             }
             if (m_surveyBtnLabel2) m_surveyBtnLabel2->setColor(CAColor_blue);
         } else if (nowTime > m_detailMsg.m_endTime + TIME_GAPE) {
@@ -629,17 +631,17 @@ void SessionDetailViewController::adjustSurveyBtn(float dt)
             if (m_surveyBtn) m_surveyBtn->setControlState(CAControlStateDisabled);
             if (m_surveyBtnLabel1) {
                 m_surveyBtnLabel1->setText("Overdure");
-                m_surveyBtnLabel1->setColor(CAColor_blue);
+//                m_surveyBtnLabel1->setColor(CAColor_blue);
             }
             if (m_surveyBtnLabel2) {
-                m_surveyBtnLabel2->setColor(CAColor_blue);
+//                m_surveyBtnLabel2->setColor(CAColor_blue);
             }
         } else if (nowTime < m_detailMsg.m_startTime + TIME_GAPE) {
             // not start yet
             if (m_surveyBtn) m_surveyBtn->setControlState(CAControlStateDisabled);
             if (m_surveyBtnLabel1) {
                 m_surveyBtnLabel1->setText("Click to win points");
-                m_surveyBtnLabel1->setColor(CAColor_blue);
+//                m_surveyBtnLabel1->setColor(CAColor_blue);
             }
             if (m_surveyBtnLabel2) {
                 time_t delteTm = m_detailMsg.m_startTime + TIME_GAPE - nowTime;
@@ -659,17 +661,17 @@ void SessionDetailViewController::adjustSurveyBtn(float dt)
                     timeStr += crossapp_format_string("%ds",timeinfo->tm_sec);
                 }
                 m_surveyBtnLabel2->setText(crossapp_format_string("Avaliable is %s", timeStr.c_str()));
-                m_surveyBtnLabel2->setColor(CAColor_blue);
+//                m_surveyBtnLabel2->setColor(CAColor_blue);
             }
         } else {
             // can attend
             if (m_surveyBtn) m_surveyBtn->setControlState(CAControlStateNormal);
             if (m_surveyBtnLabel1) {
                 m_surveyBtnLabel1->setText("Click to win points");
-                m_surveyBtnLabel1->setColor(CAColor_white);
+//                m_surveyBtnLabel1->setColor(CAColor_white);
             }
             if (m_surveyBtnLabel2) {
-                m_surveyBtnLabel2->setColor(CAColor_white);
+//                m_surveyBtnLabel2->setColor(CAColor_white);
             }
         }
     }

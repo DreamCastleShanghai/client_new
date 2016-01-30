@@ -47,33 +47,38 @@ protected:
     //virtual void didAccelerate(CCAcceleration* pAccelerationValue);
     
 private:
+    enum
+    {
+        SEG_PAGE = 3,
+    };
 
-    DSize                                                           m_winSize;
+    DSize                                       m_winSize;
     
-    int                                                                 m_navType;
+    int                                         m_navType;
     std::vector<demoJamMsg>                     m_demoMsg;
-    std::vector<voiceMsg>                               m_voiceMsg;
+    std::vector<voiceMsg>                       m_voiceMsg;
+    std::vector<voiceMsg>                       m_hikMsg;
     
-    CAView*                                                          m_segView[2];
-    CAPageView*                                                 m_pageView[2];
-    CAPageControl*											  m_pageControl[2];
-    CAView*                                                          m_detailView[2];
+    CAView*                                     m_segView[SEG_PAGE];
+    CAPageView*                                 m_pageView[SEG_PAGE];
+    CAPageControl*								m_pageControl[SEG_PAGE];
+    CAView*                                     m_detailView[SEG_PAGE];
+    CAImageView*                                m_segBgView[SEG_PAGE];
+    int                                         m_currentPage[SEG_PAGE];
     
-    int                                                                   m_imageHeight;
+    int                                         m_imageHeight;
     
-    bool                                                                m_canVote;
-    time_t                                                             m_leaveTime;
-    int                                                                    m_pageType;
-    int                                                                    m_currentPage[2];
+    bool                                        m_canVote;
+    time_t                                      m_leaveTime;
+    int                                         m_pageType;
     
     
     //CAListView*												m_detailListView;
-    CALabel*                                                m_voteLabel;
-    CAImageView*                                            m_segBgView[2];
+    CALabel*                                    m_voteLabel;
     
     
-    CAView*                                                         p_alertView;
-    CAActivityIndicatorView*								p_pLoading;
+    CAView*                                     p_alertView;
+    CAActivityIndicatorView*					p_pLoading;
 };
 
 

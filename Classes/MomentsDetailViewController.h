@@ -39,15 +39,15 @@ private:
 
     
     photoMsg*                               m_msg;
-    int                                             m_type;
-    DSize                                                  m_winSize;
-    CAView*                                             m_view;
-    CALabel*                                           m_likeNumLabel;
-    CAImageView*                                 m_likeBtnImage;
-    CAScrollView*                                   m_scrollView;
-    CommonUrlImageView*                  m_urlImageVIew;
-    bool                                                     m_canLike;
-    CAActivityIndicatorView*                  p_pLoading;
+    int                                     m_type;
+    DSize                                   m_winSize;
+    CAView*                                 m_view;
+    CALabel*                                m_likeNumLabel;
+    CAImageView*                            m_likeBtnImage;
+    CAScrollView*                           m_scrollView;
+    CommonUrlImageView*                     m_urlImageVIew;
+//    bool                                    m_canLike;
+    CAActivityIndicatorView*                p_pLoading;
 };
 
 

@@ -29,10 +29,12 @@ void VoteViewController::viewDidLoad()
     // Do any additional setup after loading the view from its nib.
     m_winSize = this->getView()->getBounds().size;
     
+    // header bg
     CAScale9ImageView* sView = CAScale9ImageView::createWithImage(CAImage::create("common/sky_bg.png"));
     sView->setFrame(DRect(_px(0), _px(0), m_winSize.width, _px(120)));
     this->getView()->addSubview(sView);
     
+    // left back button
     CAButton* button = CAButton::createWithFrame(DRect(_px(0), _px(20), _px(100), _px(100)), CAButtonTypeCustom);
     CAImageView* imageView = CAImageView::createWithImage(CAImage::create("common/nav_back.png"));
     imageView->setImageViewScaleType(CAImageViewScaleTypeFitImageXY);
@@ -51,17 +53,20 @@ void VoteViewController::viewDidLoad()
 //    button->setTag(30);
 //    this->getView()->addSubview(button);
     
+    // segment view
     FSegmentView* seg =
-        FSegmentView::createWithFrame(DRect((m_winSize.width - 400) / 2, 40, 400, 60), 2);
+        FSegmentView::createWithFrame(DRect((m_winSize.width - 400) / 2, 40, 500, 60), SEG_PAGE);
     seg->addTarget(this, CAControl_selector(VoteViewController::buttonCallBack), CAControlEventTouchUpInSide);
     seg->setItemTile("DemoJam", 0);
-    seg->setItemTile("Voice of SAP", 1);
+    seg->setItemTile("SAP Voice", 1);
+    seg->setItemTile("Hiking", 2);
     seg->setTag(200, 0);
     seg->setTag(201, 1);
+    seg->setTag(202, 2);
     this->getView()->addSubview(seg);
     
     
-    for (int i = 0; i < 2; i++)
+    for (int i = 0; i < SEG_PAGE; i++)
     {
         m_segView[i] = CAView::createWithFrame(DRect(0, _px(120), m_winSize.width, m_winSize.height - _px(120)));
         this->getView()->addSubview(m_segView[i]);
@@ -70,11 +75,11 @@ void VoteViewController::viewDidLoad()
         imageView->setImage(CAImage::create(crossapp_format_string("common/vote_%d_bg.jpg", i)));
         imageView->setTouchEnabled(false);
         m_segView[i]->addSubview(imageView);
-        
-        
     }
     m_navType = 0;
+    m_segView[0]->setVisible(true);
     m_segView[1]->setVisible(false);
+    m_segView[2]->setVisible(false);
     
     
    //CAApplication::getApplication()->getAccelerometer()->setDelegate(this);
@@ -93,7 +98,7 @@ void VoteViewController::viewDidUnload()
 
 void VoteViewController::initMsgTableView()
 {
-    if (m_demoMsg.empty() && m_voiceMsg.empty())
+    if (m_demoMsg.empty() && m_voiceMsg.empty() && m_hikMsg.empty())
     {
         showAlert();
         return;
@@ -109,7 +114,7 @@ void VoteViewController::initMsgTableView()
     
     float whRatio = 1.33f;
     m_imageHeight = (m_winSize.width - _px(40)) * whRatio;
-    for (int i = 0; i < 2; i++)
+    for (int i = 0; i < SEG_PAGE; i++)
     {
         CAScrollView* scrollView = CAScrollView::createWithFrame(DRect(_px(20), _px(0), m_winSize.width - _px(40), m_imageHeight + _px(320)));
         //scrollView->setViewSize(DSize(m_winSize.width - _px(40), (m_imageHeight));
@@ -130,22 +135,27 @@ void VoteViewController::initMsgTableView()
         m_pageView[i]->setBackGroundColor(CAColor_clear);
         scrollView->addSubview(m_pageView[i]);
         
-        r = DRect((m_winSize.width - _px(300)) / 2, m_imageHeight - _px(50), _px(300), _px(50));
+        r = DRect((m_winSize.width - _px(300)) / 2, m_imageHeight + _px(10), _px(300), _px(50));
         m_pageControl[i] = CAPageControl::createWithFrame(r);
         m_pageControl[i]->setTag(300 + i);
         m_pageControl[i]->addTarget(this, CAControl_selector(VoteViewController::buttonCallBack));
-        if(i == 0)
+        if (i == 0)
         {
             m_pageControl[i]->setNumberOfPages((int)m_demoMsg.size());
         }
-        else
+        else if (i == 1)
         {
             m_pageControl[i]->setNumberOfPages((int)m_voiceMsg.size());
         }
+        else if (i == 2)
+        {
+            m_pageControl[i]->setNumberOfPages((int)m_hikMsg.size());
+        }
         m_pageControl[i]->setCurrentPage(0);
+        m_pageControl[i]->setTouchEnabled(false);
         scrollView->addSubview(m_pageControl[i]);
         
-        m_detailView[i] = CAView::createWithFrame(DRect(_px(40), m_imageHeight + _px(20), m_winSize.width - _px(80), _px(300)));
+        m_detailView[i] = CAView::createWithFrame(DRect(_px(40), m_imageHeight + _px(40), m_winSize.width - _px(80), _px(300)));
         m_detailView[i]->setTouchEnabled(false);
         m_detailView[i]->setColor(CAColor_clear);
         scrollView->addSubview(m_detailView[i]);
@@ -213,6 +223,66 @@ void VoteViewController::initMsgTableView()
     m_pageView[0]->setViews(viewList);
     
     viewList.clear();
+    for (int i = 0; i < m_hikMsg.size(); i++)
+    {
+        DRect r(0, 0, m_winSize.width - _px(40), m_imageHeight);
+        CommonUrlImageView* temImage = CommonUrlImageView::createWithFrame(r);
+        temImage->setImageViewScaleType(CAImageViewScaleTypeFitImageCrop);
+        temImage->setImage(CAImage::create("common/bg.png"));
+        temImage->setUrl(m_hikMsg[i].m_imageUrl);
+        //temImage->setTouchEnabled(false);
+        
+        CALabel* label = CALabel::createWithFrame(DRect(_px(30), _px(30), _px(250), _px(40)));
+        label->setText(m_hikMsg[i].m_playerName);
+        label->setFontSize(_px(33));
+        label->setTouchEnabled(false);
+        label->setColor(CAColor_white);
+        temImage->addSubview(label);
+        label = CALabel::createWithFrame(DRect(_px(30), _px(80), _px(150), _px(30)));
+        label->setText(m_hikMsg[i].m_projectName);
+        label->setFontSize(_px(25));
+        label->setTouchEnabled(false);
+        label->setColor(CAColor_white);
+        temImage->addSubview(label);
+        
+        r = DRect((m_winSize.width - _px(200)) / 2,  m_imageHeight - _px(300), _px(200), _px(62));
+        CAButton* button = CAButton::createWithFrame(r, CAButtonTypeCustom);
+        CAImageView* imageView = CAImageView::createWithImage(CAImage::create("vote/v_vote_btn.png"));
+        imageView->setImageViewScaleType(CAImageViewScaleTypeFitImageXY);
+        imageView->setFrame(DRect(_px(20), _px(20), _px(80), _px(80)));
+        
+        userInfo* uInfo = FDataManager::getInstance()->getUserInfo();
+        if (uInfo->m_voiceVoteIdVec.size() >= 2)
+        {
+            button->setControlStateDisabled();
+        }
+        
+        bool cVote = true;
+        for (int j = 0; j < uInfo->m_voiceVoteIdVec.size(); j++)
+        {
+            if (m_hikMsg[i].m_projectId == uInfo->m_voiceVoteIdVec[j])
+            {
+                cVote = false;
+                button->setTitleForState(CAControlStateAll, "Voted");
+                break;
+            }
+        }
+        if (cVote)
+        {
+            button->setTitleForState(CAControlStateAll, "Vote");
+        }
+        button->setTitleFontName("fonts/arial.ttf");
+        button->setTitleColorForState(CAControlStateAll, CAColor_white);
+        button->setBackGroundViewForState(CAControlStateAll, imageView);
+        button->addTarget(this, CAControl_selector(VoteViewController::buttonCallBack), CAControlEventTouchUpInSide);
+        button->setTag(500 + i);
+        temImage->addSubview(button);
+        
+        viewList.pushBack(temImage);
+    }
+    m_pageView[1]->setViews(viewList);
+    
+    viewList.clear();
     for (int i = 0; i < m_voiceMsg.size(); i++)
     {
         DRect r(0, 0, m_winSize.width - _px(40), m_imageHeight);
@@ -270,10 +340,11 @@ void VoteViewController::initMsgTableView()
         
         viewList.pushBack(temImage);
     }
-    m_pageView[1]->setViews(viewList);
-    
+    m_pageView[2]->setViews(viewList);
+
     setDetailView(0, 0);
     setDetailView(1, 0);
+    setDetailView(2, 0);
     //refreshPageView(0);
 }
 
@@ -284,6 +355,10 @@ void VoteViewController::setDetailView(int type, int index)
         return;
     }
     else if (type == 1 && m_voiceMsg.empty())
+    {
+        return;
+    }
+    else if (type == 2 && m_hikMsg.empty())
     {
         return;
     }
@@ -298,9 +373,10 @@ void VoteViewController::setDetailView(int type, int index)
     
     if(type == 0) {
         label->setText(m_demoMsg[index].m_teamDetail.c_str());
-    }
-    else{
+    } else if (type == 1){
         label->setText(m_voiceMsg[index].m_teamDetail.c_str());
+    } else if (type == 2) {
+        label->setText(m_hikMsg[index].m_teamDetail.c_str());
     }
     m_detailView[type]->addSubview(label);
 }
@@ -363,12 +439,21 @@ void VoteViewController::buttonCallBack(CAControl* btn, DPoint point)
         m_navType = 0;
         m_segView[0]->setVisible(true);
         m_segView[1]->setVisible(false);
+        m_segView[2]->setVisible(false);
     }
     else if (btn->getTag() == 201)
     {
         m_navType = 1;
         m_segView[0]->setVisible(false);
         m_segView[1]->setVisible(true);
+        m_segView[2]->setVisible(false);
+    }
+    else if (btn->getTag() == 202)
+    {
+        m_navType = 3;
+        m_segView[0]->setVisible(false);
+        m_segView[1]->setVisible(false);
+        m_segView[2]->setVisible(true);
     }
     else if (btn->getTag() == 300) // page control
     {
@@ -440,6 +525,10 @@ void VoteViewController::onRequestFinished(const HttpResponseStatus& status, con
             temp_msg.m_imageUrl = crossapp_format_string("%s%s", imgPreUrl.c_str(), value["vl"][index]["VoicerPic"].asCString());
             temp_msg.m_teamDetail = value["vl"][index]["VoicerDes"].asString();
             m_voiceMsg.push_back(temp_msg);
+            // test code
+            if (index == 2) {
+                m_hikMsg.push_back(temp_msg);
+            }
         }
     }
     else

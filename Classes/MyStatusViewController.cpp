@@ -9,6 +9,7 @@
 #include "FServerTime.h"
 #include "FDataManager.h"
 #include "PhotoViewController.h"
+#include "MeInfoViewController.h"
 
 MyStatusViewController::MyStatusViewController()
 : m_msgTableView(NULL)
@@ -184,7 +185,7 @@ void MyStatusViewController::viewDidLoad()
             }
         }
         
-        if (m_rankLabel[0])     m_rankLabel[0]->setText("Credit Point");
+        if (m_rankLabel[0])     m_rankLabel[0]->setText("Points");
         if (m_rankLabel[1])     m_rankLabel[1]->setText("Ranking");
         if (m_pointLabel[0])    m_pointLabel[0]->setColor(ccc4(0xce, 0xea, 0xfd, 0xff));
         if (m_rankLabel[0])     m_rankLabel[0]->setColor(ccc4(0xce, 0xea, 0xfd, 0xff));
@@ -280,7 +281,10 @@ void MyStatusViewController::buttonCallBack(CAControl* btn, DPoint point)
     }
     else if(btn->getTag() == 30)
     {
-        
+        MeInfoViewController* vc = new MeInfoViewController();
+        vc->init();
+        vc->autorelease();
+        RootWindow::getInstance()->getRootNavigationController()->pushViewController(vc, true);
     }
     else if (btn->getTag() == 100)
     {
@@ -565,6 +569,7 @@ void MyStatusViewController::switchNavType()
             m_rankLabel[1]->setColor(CAColor_white);
             m_pointLabel[0]->setColor(ccc4(0xce, 0xea, 0xfd, 0xff));
             m_rankLabel[0]->setColor(ccc4(0xce, 0xea, 0xfd, 0xff));
+
             /*
             m_pointView->setVisible(true);
             m_searchButton->setVisible(false);
@@ -746,6 +751,7 @@ CATableViewCell* MyStatusViewController::tableCellAtIndex(CATableView* table, co
                 //urlImageView->setImage(CAImage::create("common/bg.png"));
                 urlImageView->setUrl(m_rankMsg[row].m_imageUrl);
                 cell->addSubview(urlImageView);
+                cell->setTouchEnabled(false);
                 
                 // green amb icon
                 if (m_rankMsg[row].m_greenAmb) {
@@ -773,8 +779,9 @@ CATableViewCell* MyStatusViewController::tableCellAtIndex(CATableView* table, co
                 label = CALabel::createWithFrame(DRect(_px(60), _px(10), _px(300), _px(30)));
                 label->setText(crossapp_format_string("%d", m_rankMsg[row].m_pointRank));
                 label->setFontSize(_px(25));
+                label->setBold(true);
                 label->setVerticalTextAlignmet(CAVerticalTextAlignmentCenter);
-                label->setColor(ccc4(0x3f, 0x3f, 0x3f, 0xff));
+                label->setColor(CAColor_blue);//(ccc4(0x3f, 0x3f, 0x3f, 0xff));
                 cell->addSubview(label);
             }
         }
@@ -924,18 +931,23 @@ void MyStatusViewController::tableViewDidSelectRowAtIndexPath(CATableView* table
     }
     else if (table == m_msgTableView)
     {
-        scoreHistory it = m_shMsg[row];
-        int sessionId = atoi(it.m_scoreDetail.c_str());
-        for (std::vector<sessionMsg>::iterator it = m_msg->begin(); it != m_msg->end(); it++) {
-            if (it->m_sessionId == sessionId) {
-                SessionDetailViewController* vc = new SessionDetailViewController(*it);
-                vc->init();
-                RootWindow::getInstance()->getRootNavigationController()->pushViewController(vc, true);
-                break;
+        if (m_pointType == MY_INFO_SCORE_HISTORY)
+        {
+            scoreHistory it = m_shMsg[row];
+            int sessionId = atoi(it.m_scoreDetail.c_str());
+            for (std::vector<sessionMsg>::iterator it = m_msg->begin(); it != m_msg->end(); it++) {
+                if (it->m_sessionId == sessionId) {
+                    SessionDetailViewController* vc = new SessionDetailViewController(*it);
+                    vc->init();
+                    RootWindow::getInstance()->getRootNavigationController()->pushViewController(vc, true);
+                    break;
+                }
             }
         }
+        else if (m_pointType == MY_INFO_RANK)
+        {
+        }
     }
-    
 }
 
 void MyStatusViewController::tableViewDidDeselectRowAtIndexPath(CATableView* table, unsigned int section, unsigned int row)

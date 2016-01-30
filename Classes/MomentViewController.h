@@ -83,8 +83,9 @@ private:
 	std::vector<photoMsg>                                   m_myMsg;
 	int														m_currentAllNum;
 	int														m_currentMyNum;
-	std::vector<CALabel*>									m_likeNumLabelVec;
-	bool													m_canLike;
+    std::vector<CALabel*>									m_likeNumLabelVec;
+    std::vector<CAImageView*>								m_likeBtnBG;
+//	bool													m_canLike;
 	bool													m_canDelete;
 	int														m_currentLike;
 	int														m_currentDelete;

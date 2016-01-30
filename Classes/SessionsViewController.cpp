@@ -156,6 +156,7 @@ void SessionsViewController::initMsgTableView()
 			CAButton* button = CAButton::createWithFrame(DRect(i * m_winSize.width / 2, 0, m_winSize.width / 2, _px(60)), CAButtonTypeCustom);
 			button->setTitleForState(CAControlStateAll, filterItem[i]);
 			button->setTitleFontName("fonts/arial.ttf");
+            button->setTitleFontSize(_px(30));
 			button->setTitleColorForState(CAControlStateAll, CAColor_gray);
 			button->addTarget(this, CAControl_selector(SessionsViewController::buttonCallBack), CAControlEventTouchUpInSide);
 			button->setTag(300 + i);
@@ -181,11 +182,12 @@ void SessionsViewController::initMsgTableView()
 			button->setTitleForState(CAControlStateAll, trackFilterItem[i]);
 			button->setTitleFontName("fonts/arial.ttf");
 			button->setTitleColorForState(CAControlStateAll, CAColor_gray);
-			button->setTitleFontSize(_px(30));
+            button->setTitleColorForState(CAControlStateSelected, CAColor_white);
+			button->setTitleFontSize(_px(27));
 			button->setAllowsSelected(true);
-			CAImageView* imageView = CAImageView::createWithImage(CAImage::create("common/white_bg.png"));
-			button->setBackGroundViewForState(CAControlStateAll, imageView);
-			imageView = CAImageView::createWithImage(CAImage::create("common/sky_bg.png"));
+			//CAImageView* imageView = CAImageView::createWithImage(CAImage::create("common/white_bg.png"));
+			//button->setBackGroundViewForState(CAControlStateAll, imageView);
+			CAImageView* imageView = CAImageView::createWithImage(CAImage::create("common/sky_bg.png"));
 			button->setBackGroundViewForState(CAControlStateSelected, imageView);
 			button->addTarget(this, CAControl_selector(SessionsViewController::buttonCallBack), CAControlEventTouchUpInSide);
 			button->setTag(400 + i);
@@ -199,11 +201,12 @@ void SessionsViewController::initMsgTableView()
 			button->setTitleForState(CAControlStateAll, formatFilterItem[i]);
 			button->setTitleFontName("fonts/arial.ttf");
 			button->setTitleColorForState(CAControlStateAll, CAColor_gray);
-			button->setTitleFontSize(_px(30));
+            button->setTitleColorForState(CAControlStateSelected, CAColor_white);
+			button->setTitleFontSize(_px(27));
 			button->setAllowsSelected(true);
-			CAImageView* imageView = CAImageView::createWithImage(CAImage::create("common/white_bg.png"));
-			button->setBackGroundViewForState(CAControlStateAll, imageView);
-			imageView = CAImageView::createWithImage(CAImage::create("common/sky_bg.png"));
+			//CAImageView* imageView = CAImageView::createWithImage(CAImage::create("common/white_bg.png"));
+			//button->setBackGroundViewForState(CAControlStateAll, imageView);
+			CAImageView* imageView = CAImageView::createWithImage(CAImage::create("common/sky_bg.png"));
 			button->setBackGroundViewForState(CAControlStateSelected, imageView);
 			button->addTarget(this, CAControl_selector(SessionsViewController::buttonCallBack), CAControlEventTouchUpInSide);
 			button->setTag(500 + i);
@@ -545,10 +548,31 @@ void SessionsViewController::refreshTableByTime(int index)
     {
         for (std::vector<sessionMsg>::iterator it = m_msg->begin(); it != m_msg->end(); it++)
         {
-            struct tm* time = localtime(&(it->m_startTime));
+            struct tm* startTime = localtime(&(it->m_startTime));
+            struct tm* endTime = localtime(&(it->m_endTime));
             
-            if(time->tm_hour >= (index + 8) && time->tm_hour < (index + 9))
+            time_t nowTime = getTimeSecond();
+            struct tm * timeinfo;
+            timeinfo = localtime(&nowTime);
+
+            if((startTime->tm_hour >= (index + 8) && startTime->tm_hour < (index + 9)) || (startTime->tm_hour >= (index + 8) && endTime->tm_hour > (index + 9)))
+            {
                 m_msgFilter.push_back(&(*it));
+            }
+            
+            /*
+            if (timeinfo->tm_yday == startTime->tm_yday && timeinfo->tm_year == startTime->tm_year) {
+                CCLog("----------------");
+                CCLog("id : %d", it->m_sessionId);
+                CCLog("now : MM-DD-YY : %d-%d-%d", timeinfo->tm_hour, timeinfo->tm_yday, timeinfo->tm_year);
+                CCLog("start %d: MM-DD-YY : %d-%d-%d", it->m_endTime, startTime->tm_hour, startTime->tm_yday, startTime->tm_year);
+                CCLog("end %d: MM-DD-YY : %d-%d-%d", it->m_startTime, endTime->tm_hour, endTime->tm_yday, endTime->tm_year);
+                CCLog("----------------");
+                if((startTime->tm_hour >= (index + 8) && startTime->tm_hour < (index + 9))
+                   || (startTime->tm_hour >= (index + 8) && endTime->tm_hour >= (index + 8)))
+                    m_msgFilter.push_back(&(*it));
+            }
+             */
         }
     }
     if (m_msgTableView)

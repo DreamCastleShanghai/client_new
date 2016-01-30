@@ -318,7 +318,7 @@ void VoteShakeViewController::onRequestVoteFinished(const HttpResponseStatus& st
     {
         m_shakeNum = 29;
         if(m_shakeNumLabel)
-            m_shakeNumLabel->setText(crossapp_format_string("Shake Number: %d", m_shakeNum));
+            m_shakeNumLabel->setText(crossapp_format_string("Shake Number: %d", SHAKE_CNT - m_shakeNum));
     }
 #ifdef LOCALTEST
     {
@@ -348,7 +348,7 @@ void VoteShakeViewController::didAccelerate(CCAcceleration* pAccelerationValue)
             CocosDenshion::SimpleAudioEngine::sharedEngine()->playEffect("sound/vote.wav");
         }
         if(m_shakeNumLabel)
-            m_shakeNumLabel->setText(crossapp_format_string("Shake Number: %d", m_shakeNum));
+            m_shakeNumLabel->setText(crossapp_format_string("Shake Number: %d", SHAKE_CNT - m_shakeNum));
         if (m_shakeNum >= 30)
         {
             m_shakeNum = 30;
