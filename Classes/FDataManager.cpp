@@ -17,8 +17,10 @@ FDataManager::FDataManager()
     m_diffServerTime(0)
 {
     m_sessionMsgs.clear();
-    m_userId = 1;
-    m_userInfo.m_userId = 1;
+//    m_userId = 1;
+    memset((void*)&m_userInfo, 0, sizeof(userInfo));
+//    m_userInfo.m_userId = 1;
+    m_sessionMsgs.clear();
 }
 
 FDataManager::~FDataManager()

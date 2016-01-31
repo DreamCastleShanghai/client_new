@@ -29,6 +29,7 @@ MainViewController::MainViewController()
 , m_pastSection(0)
 , m_nextSection(1)
 , m_timeForPageView(getTimeSecond())
+, m_sustainbilitySurvey(NULL)
 {
     m_msg = FDataManager::getInstance()->getSessionMsgs();
 }
@@ -556,9 +557,15 @@ void MainViewController::buttonCallBack(CAControl* btn, DPoint point)
 	}
 	else if (btn->getTag() == 30) // prize
 	{
-		FirstSurveyViewController* vc = new FirstSurveyViewController();
-		vc->init();
-		RootWindow::getInstance()->getRootNavigationController()->pushViewController(vc, true);
+        if (!m_sustainbilitySurvey) {
+            m_sustainbilitySurvey = new FirstSurveyViewController();
+        }
+        if (m_sustainbilitySurvey) {
+            m_sustainbilitySurvey->init();
+        }
+		//FirstSurveyViewController* vc
+//		vc->init();
+		RootWindow::getInstance()->getRootNavigationController()->pushViewController(m_sustainbilitySurvey, true);
 	}
 	else if (btn->getTag() == 100)
     {

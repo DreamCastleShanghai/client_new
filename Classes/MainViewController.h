@@ -88,6 +88,7 @@ private:
     time_t                                                  m_timeForPageView;
 
 	DSize													m_winSize;
+    CAViewController*                                       m_sustainbilitySurvey;
 };
 
 

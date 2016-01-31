@@ -6,14 +6,36 @@
 #include "utils/HttpConnect.h"
 
 FirstSurveyViewController::FirstSurveyViewController()
-: m_pLoading(NULL)
+: m_textView(NULL)
+, m_pLoading(NULL)
+, m_alertLabel(NULL)
+, m_headerView(NULL)
+, m_backBtn(NULL)
+, m_backBtnBG(NULL)
+, m_headerTitle(NULL)
+, m_bodyScrollView(NULL)
+, m_bodyContext(NULL)
+, m_submitBtn(NULL)
+, m_submitBtnBG(NULL)
 {
 
 }
 
 FirstSurveyViewController::~FirstSurveyViewController()
 {
-
+    CC_SAFE_DELETE(m_textView);
+    CC_SAFE_DELETE(m_pLoading);
+    CC_SAFE_DELETE(m_alertLabel);
+    
+    CC_SAFE_DELETE(m_headerView);
+    CC_SAFE_DELETE(m_backBtn);
+    CC_SAFE_DELETE(m_backBtnBG);
+    CC_SAFE_DELETE(m_headerTitle);
+    
+    CC_SAFE_DELETE(m_bodyScrollView);
+    CC_SAFE_DELETE(m_bodyContext);
+    CC_SAFE_DELETE(m_submitBtn);
+    CC_SAFE_DELETE(m_submitBtnBG);
 }
 
 void FirstSurveyViewController::viewDidLoad()
@@ -21,77 +43,80 @@ void FirstSurveyViewController::viewDidLoad()
     // Do any additional setup after loading the view from its nib.
     m_winSize = this->getView()->getBounds().size;
 
-    CAScale9ImageView* sView = CAScale9ImageView::createWithImage(CAImage::create("common/sky_bg.png"));
-    sView->setFrame(DRect(_px(0), _px(0), m_winSize.width, _px(120)));
-    this->getView()->addSubview(sView);
+    m_headerView = CAScale9ImageView::createWithImage(CAImage::create("common/sky_bg.png"));
+    if (m_headerView)
+    {
+        m_headerView->setFrame(DRect(_px(0), _px(0), m_winSize.width, _px(120)));
+        this->getView()->addSubview(m_headerView);
     
-    CAButton* button = CAButton::createWithFrame(DRect(_px(0), _px(20), _px(100), _px(100)), CAButtonTypeCustom);
-    CAImageView* imageView = CAImageView::createWithImage(CAImage::create("common/nav_back.png"));
-    imageView->setImageViewScaleType(CAImageViewScaleTypeFitImageXY);
-    imageView->setFrame(DRect(_px(20), _px(20), _px(80), _px(80)));
-    button->setBackGroundViewForState(CAControlStateAll, imageView);
-    button->addTarget(this, CAControl_selector(FirstSurveyViewController::buttonCallBack), CAControlEventTouchUpInSide);
-    button->setTag(20);
-    this->getView()->addSubview(button);
+        m_backBtn = CAButton::createWithFrame(DRect(_px(0), _px(20), _px(100), _px(100)), CAButtonTypeCustom);
+        if (m_backBtn)
+        {
+            m_backBtn->addTarget(this, CAControl_selector(FirstSurveyViewController::buttonCallBack), CAControlEventTouchUpInSide);
+            m_backBtn->setTag(20);
+            m_headerView->addSubview(m_backBtn);
+        
+            m_backBtnBG = CAImageView::createWithImage(CAImage::create("common/nav_back.png"));
+            if (m_backBtnBG)
+            {
+                m_backBtnBG->setImageViewScaleType(CAImageViewScaleTypeFitImageXY);
+                m_backBtnBG->setFrame(DRect(_px(20), _px(20), _px(80), _px(80)));
+                m_backBtn->setBackGroundViewForState(CAControlStateAll, m_backBtnBG);
+            }
+        }
     
-    CALabel* label = CALabel::createWithCenter(DRect(m_winSize.width / 2, _px(70), m_winSize.width, _px(40)));
-    label->setTextAlignment(CATextAlignmentCenter);
-    label->setColor(CAColor_white);
-    label->setFontSize(_px(40));
-    label->setText("Survey");
-    label->setFontName("fonts/arial.ttf");
-    sView->addSubview(label);
+        m_headerTitle = CALabel::createWithCenter(DRect(m_winSize.width / 2, _px(70), m_winSize.width, _px(40)));
+        m_headerTitle->setTextAlignment(CATextAlignmentCenter);
+        m_headerTitle->setColor(CAColor_white);
+        m_headerTitle->setFontSize(_px(40));
+        m_headerTitle->setText("Survey");
+        m_headerTitle->setFontName("fonts/arial.ttf");
+        m_headerTitle->setTouchEnabled(false);
+        m_headerView->addSubview(m_headerTitle);
+    }
     
-    CAScrollView* scrollView = CAScrollView::createWithFrame(DRect(_px(0), _px(120), m_winSize.width, m_winSize.height - _px(240)));
-    //scrollView->setViewSize(DSize(m_winSize.width - _px(40), (m_imageHeight));
-    scrollView->setHorizontalScrollEnabled(false);
-    scrollView->setVerticalScrollEnabled(true);
-    scrollView->setBounceHorizontal(false);
-    scrollView->setBounds(DRect(0, 0, m_winSize.width, m_winSize.height - _px(240)));
-    scrollView->setAnchorPoint(DPoint(0.f, 0.f));
-    scrollView->setShowsHorizontalScrollIndicator(false);
-    scrollView->setShowsVerticalScrollIndicator(false);
-    scrollView->setBackGroundColor(CAColor_clear);
-    this->getView()->addSubview(scrollView);
+    m_bodyScrollView = CAScrollView::createWithFrame(DRect(_px(0), _px(120), m_winSize.width, m_winSize.height - _px(240)));
+    if (m_bodyScrollView) {
+        //scrollView->setViewSize(DSize(m_winSize.width - _px(40), (m_imageHeight));
+        m_bodyScrollView->setHorizontalScrollEnabled(false);
+        m_bodyScrollView->setVerticalScrollEnabled(true);
+        m_bodyScrollView->setBounceHorizontal(false);
+        m_bodyScrollView->setBounds(DRect(0, 0, m_winSize.width, m_winSize.height - _px(240)));
+        m_bodyScrollView->setAnchorPoint(DPoint(0.f, 0.f));
+        m_bodyScrollView->setShowsHorizontalScrollIndicator(false);
+        m_bodyScrollView->setShowsVerticalScrollIndicator(false);
+        m_bodyScrollView->setBackGroundColor(CAColor_clear);
+        this->getView()->addSubview(m_bodyScrollView);
+        
+        m_bodyContext = CALabel::createWithFrame(DRect(_px(40), _px(40), m_winSize.width - _px(80), m_winSize.height - _px(240)));
+        if (m_bodyContext) {
+            m_bodyContext->setText(surveyDetail[0]);
+            m_bodyContext->setVerticalScrollEnabled(true);
+            m_bodyContext->setHorizontalScrollEnabled(true);
+            m_bodyContext->setColor(CAColor_gray);
+            m_bodyContext->setFontSize(_px(30));
+            m_bodyContext->setBold(true);
+            //label->setItalics(true);
+            m_bodyContext->setFontName("fonts/arial.ttf");
+            m_bodyScrollView->addSubview(m_bodyContext);
+        }
+    }
     
-    label = CALabel::createWithFrame(DRect(_px(40), _px(40), m_winSize.width - _px(80), m_winSize.height - _px(240)));
-    label->setText(surveyDetail[0]);
-    label->setVerticalScrollEnabled(true);
-    label->setHorizontalScrollEnabled(true);
-    label->setColor(CAColor_gray);
-    label->setFontSize(_px(30));
-    label->setBold(true);
-    //label->setItalics(true);
-    label->setFontName("fonts/arial.ttf");
-    scrollView->addSubview(label);
-    /*
-    m_textView = CATextView::createWithFrame(DRect(_px(40), _px(550), m_winSize.width - _px(80), _px(300)));
-    m_textView->setFontSize(_px(35));
-    m_textView->setFontName("fonts/arial.ttf");
-    m_textView->setColor(ccc4(0xf6, 0xf6, 0xf6, 0xff));
-    m_textView->setBackGroundColor(CAColor_gray);
-    this->getView()->addSubview(m_textView);
-    
-    m_alertLabel = CALabel::createWithFrame(DRect(_px(40), _px(860), m_winSize.width - _px(80), _px(40)));
-    m_alertLabel->setColor(CAColor_red);
-    m_alertLabel->setFontSize(_px(35));
-    m_alertLabel->setFontName("fonts/arial.ttf");
-    //m_alertLabel->setVisible(false);
-    this->getView()->addSubview(m_alertLabel);
-    */
-    
-    button = CAButton::createWithFrame(DRect(_px(40), m_winSize.height - _px(120), m_winSize.width - _px(80), _px(100)), CAButtonTypeCustom);
-    imageView = CAImageView::createWithImage(CAImage::create("common/sky_bg.png"));
-    imageView->setImageViewScaleType(CAImageViewScaleTypeFitImageXY);
-    button->setBackGroundViewForState(CAControlStateAll, imageView);
-    button->setTitleForState(CAControlStateAll, "Submit");
-    button->setTitleFontSize(_px(35));
-    button->setTitleColorForState(CAControlStateAll, CAColor_white);
-    button->addTarget(this, CAControl_selector(FirstSurveyViewController::buttonCallBack), CAControlEventTouchUpInSide);
-    button->setTag(200);
-    this->getView()->addSubview(button);
-    
-    CCLog("%f", CAApplication::getApplication()->getWinSize().width);
+    m_submitBtn = CAButton::createWithFrame(DRect(_px(40), m_winSize.height - _px(120), m_winSize.width - _px(80), _px(100)), CAButtonTypeCustom);
+    if (m_submitBtn) {
+        m_submitBtn->setTitleForState(CAControlStateAll, "Submit");
+        m_submitBtn->setTitleFontSize(_px(35));
+        m_submitBtn->setTitleColorForState(CAControlStateAll, CAColor_white);
+        m_submitBtn->addTarget(this, CAControl_selector(FirstSurveyViewController::buttonCallBack), CAControlEventTouchUpInSide);
+        m_submitBtn->setTag(200);
+        this->getView()->addSubview(m_submitBtn);
+        
+        m_submitBtnBG = CAImageView::createWithImage(CAImage::create("common/sky_bg.png"));
+        if (m_submitBtnBG) {
+            m_submitBtnBG->setImageViewScaleType(CAImageViewScaleTypeFitImageXY);
+            m_submitBtn->setBackGroundViewForState(CAControlStateAll, m_submitBtnBG);
+        }
+    }
 }
 
 void FirstSurveyViewController::viewDidUnload()
@@ -105,18 +130,15 @@ void FirstSurveyViewController::requestSubmit()
     std::map<std::string, std::string> key_value;
     key_value["tag"] = firstSurveySubmitTag[0];
     key_value["uid"] = crossapp_format_string("%d", FDataManager::getInstance()->getUserId());
-    //key_value["sign"] = getSign(key_value);
     CommonHttpManager::getInstance()->send_post(httpUrl, key_value, this, CommonHttpJson_selector(FirstSurveyViewController::onRequestSubmitFinished));
-//    
-//	std::map<std::string, std::string> key_value;
-//	key_value["tag"] = firstSurveySubmitTag[0];
-//    key_value["uid"] = crossapp_format_string("%d", FDataManager::getInstance()->getUserId());
-//	//key_value["sign"] = getSign(key_value);
-//	CommonHttpManager::getInstance()->send_post(httpUrl, key_value, this, CommonHttpJson_selector(FirstSurveyViewController::onRequestSubmitFinished));
-    
-    m_pLoading = CAActivityIndicatorView::createWithCenter(DRect(m_winSize.width / 2, m_winSize.height / 2, 50, 50));
-    m_pLoading->setLoadingMinTime(0.5f);
-    this->getView()->addSubview(m_pLoading);
+
+    if (!m_pLoading) {
+        m_pLoading = CAActivityIndicatorView::createWithCenter(DRect(m_winSize.width / 2, m_winSize.height / 2, 50, 50));
+    }
+    if (m_pLoading) {
+        m_pLoading->setLoadingMinTime(0.5f);
+        this->getView()->addSubview(m_pLoading);
+    }
 }
 
 void FirstSurveyViewController::onRequestSubmitFinished(const HttpResponseStatus& status, const CSJson::Value& json)
@@ -140,6 +162,7 @@ void FirstSurveyViewController::onRequestSubmitFinished(const HttpResponseStatus
             CAAlertView *alertView = CAAlertView::createWithText("Sorry !", "You have taken this survey !", "OK", NULL);
             alertView->show();
         }
+        back();
     }
     else
     {
@@ -147,15 +170,10 @@ void FirstSurveyViewController::onRequestSubmitFinished(const HttpResponseStatus
         alertView->show();
     }
     
-    {
-        
-    }
-    
     if (m_pLoading)
     {
         m_pLoading->stopAnimating();
         this->getView()->removeSubview(m_pLoading);
-        m_pLoading = NULL;
     }
 }
 
@@ -163,19 +181,17 @@ void FirstSurveyViewController::buttonCallBack(CAControl* btn, DPoint point)
 {
     if (btn->getTag() == 20)
     {
-        RootWindow::getInstance()->getRootNavigationController()->popViewControllerAnimated(true);
+        back();
     }
 	if (btn->getTag() == 200)
 	{
-        /*
-        if (m_textView->getText() == "") {
-            CAAlertView *alertView = CAAlertView::createWithText("Waining !", "Submit cannot be null !", "OK", NULL);
-            alertView->show();
-            return;
-        }
-         */
         requestSubmit();
 	}
+}
+
+void FirstSurveyViewController::back()
+{
+    RootWindow::getInstance()->getRootNavigationController()->popViewControllerAnimated(true);
 }
 
 

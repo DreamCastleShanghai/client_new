@@ -27,18 +27,31 @@ protected:
 	void buttonCallBack(CAControl* btn, DPoint point);
 
 	void requestSubmit();
+    
+    void back();
 
 	void onRequestSubmitFinished(const HttpResponseStatus& status, const CSJson::Value& json);
 
     
 private:
 
-	DSize                                                              m_winSize;
+	DSize                       m_winSize;
 
-    CATextView*                                                 m_textView;
-	CAActivityIndicatorView*								m_pLoading;
-    CALabel*                                                        m_alertLabel;
-	
+    CATextView*                 m_textView;
+	CAActivityIndicatorView*	m_pLoading;
+    CALabel*                    m_alertLabel;
+    
+    // header
+    CAScale9ImageView*          m_headerView;
+    CAButton*                   m_backBtn;
+    CAImageView*                m_backBtnBG;
+    CALabel*                    m_headerTitle;
+    
+    // body
+    CAScrollView*               m_bodyScrollView;
+    CALabel*                    m_bodyContext;
+    CAButton*                   m_submitBtn;
+    CAImageView*                m_submitBtnBG;
 };
 
 

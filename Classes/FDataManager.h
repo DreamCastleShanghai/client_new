@@ -164,8 +164,8 @@ public:
     
 	virtual ~FDataManager();
 
-    int getUserId() { return m_userId; }
-    void setUserId(int id) { m_userId = id; }
+    int getUserId() { return m_userInfo.m_userId; }
+    void setUserId(int id) { assert(id >= 0); m_userInfo.m_userId = id; }
 
 	bool isTimeNotice() { return m_timeNotice; }
 	void setTimeNotice(bool notice) { m_timeNotice = notice; }
@@ -182,7 +182,7 @@ public:
     
 private:
     
-    int                         m_userId;
+ //   int                         m_userId;
 	bool                        m_timeNotice;
 	bool                        m_sessionNotice;
     time_t                      m_diffServerTime;
