@@ -255,6 +255,11 @@ void sendLocalNotification(const char* title,const char* content,unsigned long t
     JAVAsendLocalNotification(title,content,time, id);
 }
 
+void cancelLocalNotification(const char* id)
+{
+	JAVAcancelLocalNotification(id);
+}
+
 void setVolume(float sender,int type)
 {
         

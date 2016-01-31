@@ -57,7 +57,7 @@ void VoteShakeViewController::viewDidLoad()
 	this->getView()->addSubview(m_view);
     
     CommonUrlImageView* urlImageVIew = CommonUrlImageView::createWithImage(CAImage::create("common/bg.png"));
-     urlImageVIew->setFrame(DRect(0, 0, m_winSize.width, m_winSize.height - _px(120)));
+    urlImageVIew->setFrame(DRect(0, 0, m_winSize.width, m_winSize.height - _px(120)));
     urlImageVIew->setImageViewScaleType(CAImageViewScaleTypeFitImageCrop);
     urlImageVIew->setColor(ccc4(128, 128, 128, 255));
     urlImageVIew->setTouchEnabled(false);
@@ -186,12 +186,12 @@ void VoteShakeViewController::requestMsg(int type)
         if (m_demoMsg)
         {
             key_value["tag"] = voteSubmitTag[2];
-            key_value["djid"] = crossapp_format_string("%d", m_demoMsg->m_projectId);
+            key_value["vid"] = crossapp_format_string("%d", m_demoMsg->m_projectId);
         }
         else
         {
             key_value["tag"] = voteSubmitTag[3];
-            key_value["vjid"] = crossapp_format_string("%d", m_voiceMsg->m_projectId);
+            key_value["vid"] = crossapp_format_string("%d", m_voiceMsg->m_projectId);
         }
         
         key_value["uid"] = crossapp_format_string("%d", FDataManager::getInstance()->getUserId());
@@ -210,7 +210,8 @@ void VoteShakeViewController::buttonCallBack(CAControl* btn, DPoint point)
 {
     if (btn->getTag() == 20)
     {
-        RootWindow::getInstance()->getRootNavigationController()->popViewControllerAnimated(true);
+		requestMsg(1);
+        //RootWindow::getInstance()->getRootNavigationController()->popViewControllerAnimated(true);
     }
     else if (btn->getTag() == 100)
     {
