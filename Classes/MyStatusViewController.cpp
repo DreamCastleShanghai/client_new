@@ -517,16 +517,21 @@ CATableViewCell* MyStatusViewController::tableCellAtIndex(CATableView* table, co
     if (m_navType == 0)
     {
         //cell = dynamic_cast<CATableViewCell*>(table->dequeueReusableCellWithIdentifier("CrossApp0"));
-        if(cell == NULL && !m_filterMsg.empty())
+        if(!m_filterMsg.empty())
         {
             int count = 0;
             for (int i = 0; i < section; i++)
             {
                 count += m_rowNumOfSection[i].rowNum;
             }
+            if (m_filterMsg.size() < count + row)
+            {
+                return NULL;
+             }
             sessionMsg* msg = m_filterMsg[count + row];
             //cell = CATableViewCell::create("CrossApp0");
-            cell = MainViewTableCell::create("CrossApp", DRect(0, 0, _size.width, _size.height));
+            table->dequeueReusableCellWithIdentifier(crossapp_format_string("0%d", msg->m_sessionId).c_str());
+            cell = MainViewTableCell::create(crossapp_format_string("0%d", msg->m_sessionId), DRect(0, 0, _size.width, _size.height));
             ((MainViewTableCell*)cell)->initWithCell(*msg);
             /*
             CALabel* label = CALabel::createWithFrame(DRect(_px(40), _px(10), m_winSize.width - _px(40) * 2, _px(30)));
@@ -543,7 +548,9 @@ CATableViewCell* MyStatusViewController::tableCellAtIndex(CATableView* table, co
         if(cell == NULL)
         {
             sessionMsg* msg = m_filterMsg[row];
-            cell = CATableViewCell::create("CrossApp1");
+            table->dequeueReusableCellWithIdentifier(crossapp_format_string("1%d", msg->m_sessionId).c_str());
+            cell = CATableViewCell::create(crossapp_format_string("1%d", msg->m_sessionId));
+            
             CALabel* label = CALabel::createWithFrame(DRect(_px(40), _px(10), _px(300), _px(30)));
             label->setText(crossapp_format_string("+%d", msg->m_point));
             label->setFontSize(_px(25));
@@ -563,7 +570,8 @@ CATableViewCell* MyStatusViewController::tableCellAtIndex(CATableView* table, co
         //cell = dynamic_cast<CATableViewCell*>(table->dequeueReusableCellWithIdentifier("CrossApp2"));
         if(cell == NULL)
         {
-            cell = CATableViewCell::create("CrossApp2");
+            table->dequeueReusableCellWithIdentifier(crossapp_format_string("2%d", m_rankMsg[row].m_userId).c_str());
+            cell = CATableViewCell::create(crossapp_format_string("2%d", m_rankMsg[row].m_userId));
             CommonUrlImageView* urlImageView = CommonUrlImageView::createWithImage(CAImage::create("common/bg.png"));
             //createWithFrame(DRect(_px(30), _px(40), _px(80), _px(80)));
             urlImageView->setFrame(DRect(_px(140), _px(5), _px(40), _px(60)));

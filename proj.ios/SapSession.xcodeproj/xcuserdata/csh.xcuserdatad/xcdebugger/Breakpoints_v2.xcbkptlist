@@ -10,12 +10,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../Classes/MyStatusViewController.cpp"
-            timestampString = "475738385.391951"
+            timestampString = "476074969.786119"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "596"
-            endingLineNumber = "596"
-            landmarkName = "MyStatusViewController::tableViewSectionViewForHeaderInSection(CATableView* table, const DSize&amp; viewSize, unsigned int section)"
+            startingLineNumber = "613"
+            endingLineNumber = "613"
+            landmarkName = "MyStatusViewController::tableCellAtIndex(CATableView* table, const DSize&amp; cellSize, unsigned int section, unsigned int row)"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -26,11 +26,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../Classes/MyStatusViewController.cpp"
-            timestampString = "475738385.391951"
+            timestampString = "476074969.786119"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "605"
-            endingLineNumber = "605">
+            startingLineNumber = "622"
+            endingLineNumber = "622"
+            landmarkName = "MyStatusViewController::tableViewSectionViewForHeaderInSection(CATableView* table, const DSize&amp; viewSize, unsigned int section)"
+            landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -45,7 +47,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "412"
             endingLineNumber = "412"
-            landmarkName = "MainViewController::requestSessionMsg()"
+            landmarkName = "MainViewController::scrollViewFooterBeginRefreshing(CAScrollView* view)"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -61,7 +63,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "360"
             endingLineNumber = "360"
-            landmarkName = "MainViewController::initPageView()"
+            landmarkName = "MainViewController::scrollViewHeaderBeginRefreshing(CrossApp::CAScrollView *view)"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -187,7 +189,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "392"
             endingLineNumber = "392"
-            landmarkName = "MainViewController::showAlert()"
+            landmarkName = "MainViewController::scrollViewHeaderBeginRefreshing(CrossApp::CAScrollView *view)"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -203,7 +205,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "411"
             endingLineNumber = "411"
-            landmarkName = "MainViewController::requestSessionMsg()"
+            landmarkName = "MainViewController::scrollViewFooterBeginRefreshing(CAScrollView* view)"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -230,11 +232,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../Classes/MyStatusViewController.cpp"
-            timestampString = "475738385.391951"
+            timestampString = "476074969.786119"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "624"
-            endingLineNumber = "624"
+            startingLineNumber = "641"
+            endingLineNumber = "641"
             landmarkName = "MyStatusViewController::numberOfSections(CATableView *table)"
             landmarkType = "5">
          </BreakpointContent>
@@ -246,11 +248,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../Classes/MyStatusViewController.cpp"
-            timestampString = "475738385.391951"
+            timestampString = "476074969.786119"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "557"
-            endingLineNumber = "557"
+            startingLineNumber = "574"
+            endingLineNumber = "574"
             landmarkName = "MyStatusViewController::tableCellAtIndex(CATableView* table, const DSize&amp; cellSize, unsigned int section, unsigned int row)"
             landmarkType = "5">
          </BreakpointContent>
@@ -262,11 +264,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../Classes/MyStatusViewController.cpp"
-            timestampString = "475738385.391951"
+            timestampString = "476074969.786119"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "546"
-            endingLineNumber = "546"
+            startingLineNumber = "562"
+            endingLineNumber = "562"
             landmarkName = "MyStatusViewController::tableCellAtIndex(CATableView* table, const DSize&amp; cellSize, unsigned int section, unsigned int row)"
             landmarkType = "5">
          </BreakpointContent>
@@ -278,11 +280,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../Classes/VoteViewController.cpp"
-            timestampString = "475434947.786152"
+            timestampString = "476075333.553578"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "364"
-            endingLineNumber = "364"
+            startingLineNumber = "414"
+            endingLineNumber = "414"
             landmarkName = "VoteViewController::onRequestFinished(const HttpResponseStatus&amp; status, const CSJson::Value&amp; json)"
             landmarkType = "5">
          </BreakpointContent>
@@ -294,12 +296,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../Classes/VoteViewController.cpp"
-            timestampString = "475434947.786152"
+            timestampString = "476075333.553578"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "455"
-            endingLineNumber = "455"
-            landmarkName = "VoteViewController::pageViewDidEndTurning(CAPageView* pageView)"
+            startingLineNumber = "505"
+            endingLineNumber = "505"
+            landmarkName = "VoteViewController::pageViewDidBeginTurning(CAPageView* pageView)"
             landmarkType = "5">
             <Locations>
                <Location
@@ -342,11 +344,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../Classes/VoteViewController.cpp"
-            timestampString = "475434947.786152"
+            timestampString = "476075333.553578"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "457"
-            endingLineNumber = "457"
+            startingLineNumber = "507"
+            endingLineNumber = "507"
             landmarkName = "VoteViewController::pageViewDidEndTurning(CAPageView* pageView)"
             landmarkType = "5">
          </BreakpointContent>
@@ -388,11 +390,25 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../Classes/VoteViewController.cpp"
-            timestampString = "475434947.786152"
+            timestampString = "476002405.727328"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "304"
-            endingLineNumber = "304"
+            startingLineNumber = "344"
+            endingLineNumber = "344">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../Classes/VoteViewController.cpp"
+            timestampString = "476002405.727328"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "383"
+            endingLineNumber = "383"
             landmarkName = "VoteViewController::buttonCallBack(CAControl* btn, DPoint point)"
             landmarkType = "5">
          </BreakpointContent>
@@ -404,27 +420,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../Classes/VoteViewController.cpp"
-            timestampString = "475434947.786152"
+            timestampString = "476002405.727328"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "343"
-            endingLineNumber = "343"
-            landmarkName = "VoteViewController::buttonCallBack(CAControl* btn, DPoint point)"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "../Classes/VoteViewController.cpp"
-            timestampString = "475434947.786152"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "210"
-            endingLineNumber = "210"
+            startingLineNumber = "230"
+            endingLineNumber = "230"
             landmarkName = "VoteViewController::initMsgTableView()"
             landmarkType = "5">
          </BreakpointContent>
@@ -714,6 +714,198 @@
             startingLineNumber = "386"
             endingLineNumber = "386"
             landmarkName = "SessionDetailViewController::buttonCallBack(CAControl* btn, DPoint point)"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../Classes/VoteShakeViewController.cpp"
+            timestampString = "476000092.831727"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "256"
+            endingLineNumber = "256"
+            landmarkName = "VoteShakeViewController::onRequestFinished(const HttpResponseStatus&amp; status, const CSJson::Value&amp; json)"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../Classes/VoteViewController.cpp"
+            timestampString = "476075333.553578"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "433"
+            endingLineNumber = "433"
+            landmarkName = "VoteViewController::onRequestFinished(const HttpResponseStatus&amp; status, const CSJson::Value&amp; json)"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../Classes/VoteViewController.cpp"
+            timestampString = "476075333.553578"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "444"
+            endingLineNumber = "444"
+            landmarkName = "VoteViewController::onRequestFinished(const HttpResponseStatus&amp; status, const CSJson::Value&amp; json)"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../Classes/VoteViewController.cpp"
+            timestampString = "476075333.553578"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "391"
+            endingLineNumber = "391"
+            landmarkName = "VoteViewController::buttonCallBack(CAControl* btn, DPoint point)"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../Classes/VoteShakeViewController.cpp"
+            timestampString = "476000557.875213"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "19"
+            endingLineNumber = "19"
+            landmarkName = "VoteShakeViewController::VoteShakeViewController(demoJamMsg* dMsg, voiceMsg* vMsg)"
+            landmarkType = "5">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "VoteShakeViewController::VoteShakeViewController(demoJamMsg*, voiceMsg*)"
+                  moduleName = "SapSession"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/csh/Documents/developments/CrossApp-master/samples/127/Classes/VoteShakeViewController.cpp"
+                  timestampString = "476000557.878493"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "19"
+                  endingLineNumber = "19"
+                  offsetFromSymbolStart = "96">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "VoteShakeViewController::VoteShakeViewController(demoJamMsg*, voiceMsg*)"
+                  moduleName = "SapSession"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/csh/Documents/developments/CrossApp-master/samples/127/Classes/VoteShakeViewController.cpp"
+                  timestampString = "476000557.878881"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "19"
+                  endingLineNumber = "19"
+                  offsetFromSymbolStart = "96">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../Classes/VoteShakeViewController.cpp"
+            timestampString = "476000621.057605"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "248"
+            endingLineNumber = "248"
+            landmarkName = "VoteShakeViewController::onRequestFinished(const HttpResponseStatus&amp; status, const CSJson::Value&amp; json)"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../Classes/MainViewController.cpp"
+            timestampString = "476006878.624653"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "503"
+            endingLineNumber = "503"
+            landmarkName = "MainViewController::requestSessionMsg()"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../Classes/VoteViewController.cpp"
+            timestampString = "476075538.896744"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "186"
+            endingLineNumber = "186"
+            landmarkName = "VoteViewController::initMsgTableView()"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../Classes/VoteViewController.cpp"
+            timestampString = "476075560.848067"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "194"
+            endingLineNumber = "194"
+            landmarkName = "VoteViewController::initMsgTableView()"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../Classes/VoteViewController.cpp"
+            timestampString = "476075583.183408"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "184"
+            endingLineNumber = "184"
+            landmarkName = "VoteViewController::initMsgTableView()"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

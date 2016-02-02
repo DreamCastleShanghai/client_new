@@ -513,10 +513,11 @@ CATableViewCell* MomentViewController::tableCellAtIndex(CATableView* table, cons
     DSize _size = cellSize;
     
 	std::string picId = crossapp_format_string("%d", m_allFilterMsg.at(row)->picId);
-    CATableViewCell* cell = NULL;//dynamic_cast<CATableViewCell*>(table->dequeueReusableCellWithIdentifier(picId.c_str()));
+    table->dequeueReusableCellWithIdentifier(picId.c_str());
+    CATableViewCell* cell = NULL;//dynamic_cast<CATableViewCell*>();
     if (cell == NULL)
     {
-        cell = MainViewTableCell::create("CrossApp", DRect(0, 0, _size.width, _size.height));
+        cell = MainViewTableCell::create(picId, DRect(0, 0, _size.width, _size.height));
 		
 		CommonUrlImageView* temImage = CommonUrlImageView::createWithImage(CAImage::create("common/bg.png")); 
 		temImage->setFrame(DRect(0, 0, _size.width, _size.height));
@@ -642,11 +643,12 @@ CACollectionViewCell* MomentViewController::collectionCellAtIndex(CACollectionVi
 		return NULL;
 	}
 	DSize _size = cellSize;
-	//std::string picId = crossapp_format_string("%d", m_myMsg[row + item].picId);
-	CACollectionViewCell* p_Cell = NULL;// collectionView->dequeueReusableCellWithIdentifier(picId.c_str());
+	std::string picId = crossapp_format_string("%d", m_myMsg[row + item].picId);
+    collectionView->dequeueReusableCellWithIdentifier(picId.c_str());
+	CACollectionViewCell* p_Cell = NULL;//
 	if (p_Cell == NULL)
 	{
-		p_Cell = CACollectionViewCell::create("CrossApp");
+		p_Cell = CACollectionViewCell::create(picId);
 
 		//CommonUrlImageView* temImage = CommonUrlImageView::createWithFrame(DRect(0, 0, _size.width, _size.height));
 		CommonUrlImageView* temImage = CommonUrlImageView::createWithImage(CAImage::create("common/bg.png"));
