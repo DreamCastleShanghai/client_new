@@ -74,11 +74,10 @@ struct pointMsg
 
 struct newsPage
 {
-	std::string m_tag;
+	std::string m_type;
 	std::string m_imageUrl;
-
-    int         m_titleId;
-    std::string m_title;
+    std::string m_resDetail;
+//    int         m_titleId;
 };
 
 struct sessionMsg

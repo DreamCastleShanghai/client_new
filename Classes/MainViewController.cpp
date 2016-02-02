@@ -537,7 +537,7 @@ void MainViewController::onRequestFinished(const HttpResponseStatus& status, con
     {
         CSJson::FastWriter writer;
         string tempjson = writer.write(json);
-        //CCLog("receive json == %s",tempjson.c_str());
+        CCLog("receive json == %s",tempjson.c_str());
         
         const CSJson::Value& value = json["result"];
         int length = value["bar"].size();
@@ -547,8 +547,9 @@ void MainViewController::onRequestFinished(const HttpResponseStatus& status, con
 //        FDataManager::getInstance()->setDiffServerTime(value["stime"].asInt64());
         for (int i = 0; i < length; i++) {
             newsPage temp_page;
-			temp_page.m_tag = value["bar"][i]["ResLabel"].asString();
+			temp_page.m_type = value["bar"][i]["ResType"].asString();
 			temp_page.m_imageUrl = crossapp_format_string("%s%s", imgPreUrl.c_str(), value["bar"][i]["Resource"].asCString());
+            temp_page.m_resDetail = value["bar"][i]["ResLable"].asString();
 
             CCLog("m_imageUrl== %s",temp_page.m_imageUrl .c_str());
             //temp_page.m_titleId = value["bar"][i]["tid"].asInt();
@@ -676,10 +677,13 @@ void MainViewController::buttonCallBack(CAControl* btn, DPoint point)
 	}
 	else if (btn->getTag() == 30) // prize
 	{
+        CADevice::OpenURL("http://www.baidu.com");
+        /*
         m_sustainbilitySurvey = new FirstSurveyViewController();
         m_sustainbilitySurvey->init();
         m_sustainbilitySurvey->autorelease();
 		RootWindow::getInstance()->getRootNavigationController()->pushViewController(m_sustainbilitySurvey, true);
+         */
 	}
 	else if (btn->getTag() == 100)
     {
@@ -689,6 +693,7 @@ void MainViewController::buttonCallBack(CAControl* btn, DPoint point)
         p_pLoading->setLoadingMinTime(0.5f);
 //        p_pLoading->setTargetOnCancel(this, callfunc_selector(MainViewController::initMsgTableView));
     }
+    /*
     else if (btn->getTag() == 200)
     {
         CAPageControl* button = (CAPageControl*)btn;
@@ -697,6 +702,7 @@ void MainViewController::buttonCallBack(CAControl* btn, DPoint point)
             m_pageViewTitle->setText(m_page[button->getCurrentPage()].m_title);
         }
     }
+     */
     else if (btn->getTag() == 300)
     {
         m_monent = (MomentViewController*)new MomentViewController();
@@ -790,7 +796,19 @@ void MainViewController::pageViewDidEndTurning(CAPageView* pageView)
 
 void MainViewController::pageViewDidSelectPageAtIndex(CAPageView* pageView, unsigned int index, const DPoint& point)
 {
-    
+    CCLog("click %d", index);
+    if (index < m_page.size()) {
+        if (!m_page.at(index).m_resDetail.empty())
+        {
+            m_sustainbilitySurvey = new FirstSurveyViewController();
+            m_sustainbilitySurvey->init();
+            m_sustainbilitySurvey->autorelease();
+            RootWindow::getInstance()->getRootNavigationController()->pushViewController(m_sustainbilitySurvey, true);
+
+//            CCLog("open %s", m_page.at(index).m_resDetail.c_str());
+//            CADevice::OpenURL(m_page.at(index).m_resDetail);
+        }
+    }
 }
 
 void MainViewController::pageViewDidSelectedPageAtIndex(CAPageView* pageView, unsigned int index, const DPoint& point)
@@ -830,7 +848,8 @@ void MainViewController::initPageView()
                 temImage->setImageViewScaleType(CAImageViewScaleTypeFitImageCrop);
                 temImage->setImage(CAImage::create("common/bg.png"));
                 temImage->setUrl(m_page[i].m_imageUrl);
-                temImage->setTouchEnabled(false);
+                temImage->setTouchEnabled(true);
+                temImage->setTag(500 + i);
                 viewList.pushBack(temImage);
             }
             m_pageView->setViews(viewList);
@@ -855,6 +874,7 @@ void MainViewController::initPageView()
     if (m_pageControl) {
         m_pageControl->setNumberOfPages((int)m_page.size());
         m_pageControl->setTag(200);
+        m_pageControl->setTouchEnabled(false);
         m_pageControl->addTarget(this, CAControl_selector(MainViewController::buttonCallBack));
         this->getView()->addSubview(m_pageControl);
     }
