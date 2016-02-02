@@ -12,7 +12,7 @@ DRect gRect[] = {
     DRect(_px(30), _px(120), _px(80), _px(80)),     // session table cell : logo size 80 x 80
     DRect(_px(30), _px(30), 0, _px(100)),           // session table cell : title
     DRect(_px(140), _px(120), 0, _px(30)),          // session table cell : time
-    DRect(_px(140), _px(165), 0, _px(25)),          // session table cell : location
+    DRect(_px(140), _px(165), 0, _px(30)),          // session table cell : location
     DRect(0, _px(165), _px(100), _px(50)),          // session table cell : like btn
     DRect(0, _px(183), _px(50), _px(30)),           // session table cell : like lable
     DRect(0, _px(165), _px(50), _px(50)),           // session table cell : collection btn

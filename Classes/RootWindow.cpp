@@ -49,7 +49,7 @@ bool RootWindow::init()
     if (m_home) {
         m_home->setTabBarItem(CATabBarItem::create(unicode_to_utf8(mainBar[0]), CAImage::create("main/bar_0.png"),CAImage::create("main/bar_pre_0.png")));
         m_home->init();
-        //mainController->autorelease();
+        m_home->autorelease();
         controllerVec.pushBack(m_home);
     }
     

@@ -165,3 +165,4 @@ static const char* scoreType[] =
     "Staff or Ambassador",
     "Speaker of own Session",
 };
+

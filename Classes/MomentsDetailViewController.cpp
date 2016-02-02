@@ -88,7 +88,7 @@ void MomentsDetailViewController::viewDidLoad()
         
         if (m_msg->liked)
         {
-            m_canLike = false;
+//            m_canLike = false;
             m_likeBtnImage->setImage(CAImage::create("common/btn_like_pre.png"));
         }
         else
@@ -152,11 +152,11 @@ void MomentsDetailViewController::buttonCallBack(CAControl* btn, DPoint point)
     }
     else if(btn->getTag() == 300) // like btn
     {
-        if (m_canLike)
-        {
+//        if (m_canLike)
+//        {
             requestLikeSubmit();
-        }
-        m_canLike = false;
+//        }
+//        m_canLike = false;
     }
 }
 
@@ -169,23 +169,28 @@ void MomentsDetailViewController::onRequestLikeSubmitFinished(const HttpResponse
         CCLog("receive json == %s",tempjson.c_str());
         
         const CSJson::Value& value = json["result"];
+        int islike = value["r"].asInt();
         
-        if (value["r"].asInt() == 1)
+        if (islike == 1)
         {
-            m_canLike = false;
+ //           m_canLike = false;
             m_msg->liked = true;
             m_msg->likeNum += 1;
             m_likeNumLabel->setText(crossapp_format_string("%d", m_msg->likeNum));
             m_likeBtnImage->setImage(CAImage::create("common/btn_like_pre.png"));
         }
-        else
+        else if (islike == 0)
         {
-            m_canLike = true;
+            m_msg->liked = false;
+            m_msg->likeNum -= 1;
+            m_likeNumLabel->setText(crossapp_format_string("%d", m_msg->likeNum));
+            m_likeBtnImage->setImage(CAImage::create("common/btn_like.png"));
+//            m_canLike = true;
         }
     }
     else
     {
-        m_canLike = true;
+//        m_canLike = true;
     }
 #ifdef LOCALTEST
     {

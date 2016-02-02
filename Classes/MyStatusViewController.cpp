@@ -675,21 +675,22 @@ CATableViewCell* MyStatusViewController::tableCellAtIndex(CATableView* table, co
                  label->setColor(ccc4(0x3f, 0x3f, 0x3f, 0xff));
                  cell->addSubview(label);*/
                 //for (vector<scoreHistory>::iterator it = m_shMsg.begin(); it != m_shMsg.end(); it++) {
-                    scoreHistory it = m_shMsg[row];
-                    table->dequeueReusableCellWithIdentifier(crossapp_format_string("1%d", msg->m_sessionId).c_str());
-                    cell = CATableViewCell::create(crossapp_format_string("1%d", msg->m_sessionId));
+                scoreHistory it = m_shMsg[row];
+                int sessionId = atoi(it.m_scoreDetail.c_str());
+                table->dequeueReusableCellWithIdentifier(crossapp_format_string("1%d", sessionId).c_str());
+                cell = CATableViewCell::create(crossapp_format_string("1%d", sessionId));
                     //cell = CATableViewCell::create("history");
-                    CCLog("%d", it.m_score);
-                    CCLog("%d", it.m_scoreType);
-                    CCLog("%s", it.m_scoreDetail.c_str());
-                    CALabel* scorelabel = CALabel::createWithFrame(DRect(_px(40), _px(20), _px(300), _px(60)));
-                    if (scorelabel) {
-                        scorelabel->setText(crossapp_format_string("+%d", it.m_score));
-                        scorelabel->setFontSize(_px(30));
-                        scorelabel->setVerticalTextAlignmet(CAVerticalTextAlignmentCenter);
-                        scorelabel->setColor(ccc4(0x3f, 0x3f, 0x3f, 0xff));
-                        cell->addSubview(scorelabel);
-                    }
+                    //CCLog("%d", it.m_score);
+                    //CCLog("%d", it.m_scoreType);
+                    //CCLog("%s", it.m_scoreDetail.c_str());
+                CALabel* scorelabel = CALabel::createWithFrame(DRect(_px(40), _px(20), _px(300), _px(60)));
+                if (scorelabel) {
+                    scorelabel->setText(crossapp_format_string("+%d", it.m_score));
+                    scorelabel->setFontSize(_px(30));
+                    scorelabel->setVerticalTextAlignmet(CAVerticalTextAlignmentCenter);
+                    scorelabel->setColor(ccc4(0x3f, 0x3f, 0x3f, 0xff));
+                    cell->addSubview(scorelabel);
+                }
                 if (it.m_scoreType == 0 || it.m_scoreType == 6)
                 {
                     // show score reason
@@ -704,7 +705,6 @@ CATableViewCell* MyStatusViewController::tableCellAtIndex(CATableView* table, co
                     // show session title
                     CALabel* detaillabel = CALabel::createWithFrame(DRect(_px(120), _px(60), m_winSize.width - _px(120) - _px(40), _px(30)));
                     if (detaillabel) {
-                        int sessionId = atoi(it.m_scoreDetail.c_str());
                         for (std::vector<sessionMsg>::iterator it = m_msg->begin(); it != m_msg->end(); it++) {
                             if (it->m_sessionId == sessionId) {
                                 detaillabel->setText(it->m_title.c_str());
