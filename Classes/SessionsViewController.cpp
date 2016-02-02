@@ -615,11 +615,29 @@ void SessionsViewController::listViewDidSelectCellAtIndex(CAListView *listView, 
 {
 	m_navTimeType = index;
 	refreshTableByTime(m_navTimeType);
+    CAListViewCell* cell = listView->cellForRowAtIndex(index);
+    if (cell) {
+        CALabel* text = (CALabel*)cell->getSubviewByTag(100);
+        if (text) {
+            text->setColor(CAColor_white);
+        }
+    }
+    /*
+    if (listView->getTag() == 100) {
+        CAView * lable = listView->getSubviewByTag(100);
+        //->setColor(ccc4(0x96, 0x96, 0x96, 255));
+    }*/
 }
 
 void SessionsViewController::listViewDidDeselectCellAtIndex(CAListView *listView, unsigned int index)
 {
-    
+    CAListViewCell* cell = listView->cellForRowAtIndex(index);
+    if (cell) {
+        CALabel* text = (CALabel*)cell->getSubviewByTag(100);
+        if (text) {
+            text->setColor(ccc4(0x96, 0x96, 0x96, 255));
+        }
+    }
 }
 
 unsigned int SessionsViewController::numberOfIndex(CAListView *listView)
