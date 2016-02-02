@@ -70,7 +70,7 @@ void MainViewTableCell::initWithCell(sessionMsg &msg)
     if (m_urlImageView) {
         m_urlImageView->setFrame(tempRect);
         m_urlImageView->setImageViewScaleType(CAImageViewScaleTypeFitImageCrop);
-        m_urlImageView->setImage(CAImage::create("common/bg.png"));
+        m_urlImageView->setImage(CAImage::create("common/head_bg.png"));
         m_urlImageView->setUrl(m_msg->m_imageUrl);
        this->getContentView()->addSubview(m_urlImageView);
     }

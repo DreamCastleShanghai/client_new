@@ -25,7 +25,6 @@ SessionDetailViewController::SessionDetailViewController(sessionMsg &msg)
 {
 //	m_isLiked = msg.m_liked;
 	m_detailMsg.m_sessionId = -1;
-    memset((void*)(&m_detailMsg), 0, sizeof(sessionDetailMsg));
     requestMsg();
 }
 
@@ -222,9 +221,9 @@ void SessionDetailViewController::initView()
             tempRect = ConstRect::getSessionDetailSpeakerLogoRect();
             tempRect.origin.y = yHight;
             tempRect.origin.x = _px(80) + speakWidth * i + (speakWidth - tempRect.size.width) / 2;
-            CommonUrlImageView* urlImageView = CommonUrlImageView::createWithImage(CAImage::create("common/bg.png"));
+            CommonUrlImageView* urlImageView = CommonUrlImageView::createWithImage(CAImage::create("common/head_bg.png"));
             urlImageView->setFrame(tempRect);
-            urlImageView->setImage(CAImage::create("common/bg.png"));
+            //urlImageView->setImage(CAImage::create("common/bg.png"));
             urlImageView->setUrl(m_detailMsg.m_speaker[i].iconUrl);
             scrollView->addSubview(urlImageView);
             
@@ -430,12 +429,7 @@ void SessionDetailViewController::onRequestFinished(const HttpResponseStatus& st
 		{
 			const CSJson::Value& v1 = value["s"];
 			m_detailMsg.m_sessionId = v1[0]["SessionId"].asInt();
-
-			CSJson::FastWriter writer;
-			string tempjson = writer.write(v1[0]["Description"]);
-			string_replace(tempjson, "\\r\\n", "\r\n");
-
-			m_detailMsg.m_detail = tempjson;
+			m_detailMsg.m_detail = v1[0]["Description"].asString();
             m_detailMsg.m_startTime = v1[0]["StartTime"].asInt64();
             m_detailMsg.m_endTime = v1[0]["EndTime"].asInt64();
 			const CSJson::Value& v2 = value["sp"];

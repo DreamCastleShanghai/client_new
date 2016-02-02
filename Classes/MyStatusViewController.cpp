@@ -739,7 +739,7 @@ CATableViewCell* MyStatusViewController::tableCellAtIndex(CATableView* table, co
                 table->dequeueReusableCellWithIdentifier(crossapp_format_string("2%d", m_rankMsg[row].m_userId).c_str());
                 cell = CATableViewCell::create(crossapp_format_string("2%d", m_rankMsg[row].m_userId));
                 //cell = CATableViewCell::create("rank");
-                CommonUrlImageView* urlImageView = CommonUrlImageView::createWithImage(CAImage::create("common/bg.png"));
+                CommonUrlImageView* urlImageView = CommonUrlImageView::createWithImage(CAImage::create("common/head_bg.png"));
                 //createWithFrame(DRect(_px(30), _px(40), _px(80), _px(80)));
                 urlImageView->setFrame(DRect(_px(140), _px(5), _px(40), _px(40)));
                 urlImageView->setImageViewScaleType(CAImageViewScaleTypeFitImageCrop);
