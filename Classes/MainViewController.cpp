@@ -291,7 +291,7 @@ void MainViewController::viewDidLoad()
     // sub title
     CALabel* label = CALabel::createWithCenter(DRect(m_winSize.width / 2, headerHeight + pageViewHeight +buttonHight + _px(30), m_winSize.width / 2, _px(40)));
     label->setTextAlignment(CATextAlignmentCenter);
-    label->setColor(CAColor_blue);
+    label->setColor(CAColor_gray);//CAColor_blue);
     label->setFontSize(_px(27));
     label->setText("My Agenda");
     label->setFontName("fonts/markerfelt.ttf");
