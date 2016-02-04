@@ -8,7 +8,7 @@
 
 USING_NS_CC;
 
-#define m_timeFilterNum 12
+#define m_timeFilterNum 15
 
 typedef struct
 {

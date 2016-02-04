@@ -166,7 +166,7 @@ void VoteViewController::initMsgTableView()
     {
         DRect r(0, 0, m_winSize.width - _px(40), m_imageHeight);
         CommonUrlImageView* temImage = CommonUrlImageView::createWithFrame(r);
-        temImage->setImageViewScaleType(CAImageViewScaleTypeFitImageCrop);
+        temImage->setImageViewScaleType(CAImageViewScaleTypeFitViewByVertical);
         temImage->setImage(CAImage::create("common/bg.png"));
         temImage->setUrl(m_demoMsg[i].m_imageUrl);
         //temImage->setTouchEnabled(false);
@@ -227,7 +227,7 @@ void VoteViewController::initMsgTableView()
     {
         DRect r(0, 0, m_winSize.width - _px(40), m_imageHeight);
         CommonUrlImageView* temImage = CommonUrlImageView::createWithFrame(r);
-        temImage->setImageViewScaleType(CAImageViewScaleTypeFitImageCrop);
+        temImage->setImageViewScaleType(CAImageViewScaleTypeFitViewByVertical);
         temImage->setImage(CAImage::create("common/bg.png"));
         temImage->setUrl(m_voiceMsg[i].m_imageUrl);
         //temImage->setTouchEnabled(false);
