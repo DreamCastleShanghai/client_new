@@ -28,6 +28,12 @@ MomentViewController::~MomentViewController()
 
 }
 
+void MomentViewController::viewDidAppear()
+{
+    
+    requestMsg(Type_me);
+}
+
 void MomentViewController::viewDidLoad()
 {
     // Do any additional setup after loading the view from its nib.
@@ -177,6 +183,10 @@ void MomentViewController::requestMsg(int type)
     {
         this->getView()->removeSubview(p_alertView);
         p_alertView = NULL;
+    }
+    if (p_pLoading)
+    {
+        p_pLoading->stopAnimating();
     }
 	if (type == Type_all)
 	{
@@ -478,6 +488,8 @@ void MomentViewController::onRequestMyFinished(const HttpResponseStatus& status,
 		m_currentMyNum += 5;
 	}
 #endif
+    
+    
 	m_myCollectionView->reloadData();
 
 	if (p_pLoading)
@@ -641,7 +653,7 @@ void MomentViewController::tableViewDidDeselectRowAtIndexPath(CATableView* table
 
 void MomentViewController::collectionViewDidSelectCellAtIndexPath(CACollectionView *collectionView, unsigned int section, unsigned int row, unsigned int item)
 {
-    MomentsDetailViewController* vc = new MomentsDetailViewController(m_myMsg[row + item], 1);
+    MomentsDetailViewController* vc = new MomentsDetailViewController(m_myMsg[row * 2 + item], 1);
     vc->init();
     RootWindow::getInstance()->getRootNavigationController()->pushViewController(vc, true);
 }

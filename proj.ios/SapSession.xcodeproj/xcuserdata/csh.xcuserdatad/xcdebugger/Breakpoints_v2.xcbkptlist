@@ -532,11 +532,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../Classes/MomentViewController.cpp"
-            timestampString = "475488376.053079"
+            timestampString = "476271800.908529"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "318"
-            endingLineNumber = "318"
+            startingLineNumber = "324"
+            endingLineNumber = "324"
             landmarkName = "MomentViewController::buttonCallBack(CAControl* btn, DPoint point)"
             landmarkType = "5">
          </BreakpointContent>
@@ -548,12 +548,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../Classes/MomentViewController.cpp"
-            timestampString = "475488376.053079"
+            timestampString = "476271800.908529"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "484"
-            endingLineNumber = "484"
-            landmarkName = "MomentViewController::showAlert()"
+            startingLineNumber = "492"
+            endingLineNumber = "492"
+            landmarkName = "MomentViewController::onRequestMyFinished(const HttpResponseStatus&amp; status, const CSJson::Value&amp; json)"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -564,13 +564,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../Classes/MomentViewController.cpp"
-            timestampString = "475488476.16952"
+            timestampString = "476271800.908529"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "221"
-            endingLineNumber = "221"
-            landmarkName = "MomentViewController::onRequestLikeFinished(const HttpResponseStatus&amp; status, const CSJson::Value&amp; json)"
-            landmarkType = "5">
+            startingLineNumber = "227"
+            endingLineNumber = "227">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -580,11 +578,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../Classes/MomentViewController.cpp"
-            timestampString = "475488477.089357"
+            timestampString = "476271800.908529"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "217"
-            endingLineNumber = "217"
+            startingLineNumber = "223"
+            endingLineNumber = "223"
             landmarkName = "MomentViewController::requestLike(int index)"
             landmarkType = "5">
          </BreakpointContent>

@@ -25,6 +25,8 @@ public:
     
 protected:
     
+    virtual void viewDidAppear();
+    
     void viewDidLoad();
     
     void viewDidUnload();

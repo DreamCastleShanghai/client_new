@@ -390,7 +390,7 @@ void PhotoViewController::getSelectedImage(CAImage *image)
     // moments photo tag
     if (m_type == 1)
     {
-        m_filterButton = CAButton::createWithFrame(DRect((m_winSize.width - _px(200)) / 2, _px(30), _px(200), _px(100)), CAButtonTypeCustom);
+        m_filterButton = CAButton::createWithFrame(DRect(0, _px(30), m_winSize.width, _px(100)), CAButtonTypeCustom);
         m_filterButton->setTitleForState(CAControlStateAll, "Tag");
         m_filterButton->setTitleFontSize(_px(40));
         m_filterButton->setTitleColorForState(CAControlStateAll, CAColor_white);
