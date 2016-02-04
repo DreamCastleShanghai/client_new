@@ -62,7 +62,7 @@ void MomentViewController::viewDidLoad()
 	button->addSubview(imageView);
 
 	button = CAButton::createWithFrame(DRect(m_winSize.width - _px(100), _px(30), _px(70), _px(70)), CAButtonTypeCustom);
-	imageView = CAImageView::createWithImage(CAImage::create("moments/upload_icon.png"));
+	imageView = CAImageView::createWithImage(CAImage::create("moments/upload_icon_white.png"));
 	imageView->setImageViewScaleType(CAImageViewScaleTypeFitImageInside);
 	imageView->setFrame(DRect(_px(20), _px(20), _px(80), _px(80)));
 	button->setBackGroundViewForState(CAControlStateAll, imageView);
@@ -554,7 +554,7 @@ CATableViewCell* MomentViewController::tableCellAtIndex(CATableView* table, cons
 
 		CALabel* label = CALabel::createWithFrame(DRect(_px(140), _px(20), m_winSize.width - _px(140), _px(35)));
 		label->setTextAlignment(CATextAlignmentLeft);
-		label->setColor(CAColor_blue);
+        label->setColor(ccc4(0x0f, 0xaa, 0xff, 0xff));//CAColor_blue);
 		label->setFontSize(_px(30));
 		label->setText(m_allFilterMsg.at(row)->name);
 		label->setFontName("fonts/arial.ttf");

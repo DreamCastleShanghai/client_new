@@ -504,7 +504,7 @@ void MyStatusViewController::onRequestRankFinished(const HttpResponseStatus& sta
     }
     else
     {
-        //showAlert();
+        //showAlert();0faaff
     }
 }
 
@@ -781,7 +781,7 @@ CATableViewCell* MyStatusViewController::tableCellAtIndex(CATableView* table, co
                 label->setFontSize(_px(25));
                 label->setBold(true);
                 label->setVerticalTextAlignmet(CAVerticalTextAlignmentCenter);
-                label->setColor(CAColor_blue);//(ccc4(0x3f, 0x3f, 0x3f, 0xff));
+                label->setColor(ccc4(0x0f, 0xaa, 0xff, 0xff));//CAColor_blue);//(ccc4(0x3f, 0x3f, 0x3f, 0xff));
                 cell->addSubview(label);
             }
         }

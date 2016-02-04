@@ -45,6 +45,7 @@ void FirstSurveyViewController::viewDidLoad()
     // Do any additional setup after loading the view from its nib.
     m_winSize = this->getView()->getBounds().size;
 
+    // header
     m_headerView = CAScale9ImageView::createWithImage(CAImage::create("common/sky_bg.png"));
     if (m_headerView)
     {
@@ -77,6 +78,7 @@ void FirstSurveyViewController::viewDidLoad()
         m_headerView->addSubview(m_headerTitle);
     }
     
+    // body content
     m_bodyScrollView = CAScrollView::createWithFrame(DRect(_px(0), _px(120), m_winSize.width, m_winSize.height - _px(240)));
     if (m_bodyScrollView) {
         //scrollView->setViewSize(DSize(m_winSize.width - _px(40), (m_imageHeight));
@@ -104,9 +106,10 @@ void FirstSurveyViewController::viewDidLoad()
         }
     }
     
+    // button
     m_submitBtn = CAButton::createWithFrame(DRect(_px(40), m_winSize.height - _px(120), m_winSize.width - _px(80), _px(100)), CAButtonTypeCustom);
     if (m_submitBtn) {
-        m_submitBtn->setTitleForState(CAControlStateAll, "Submit");
+        m_submitBtn->setTitleForState(CAControlStateAll, "AGREE");
         m_submitBtn->setTitleFontSize(_px(35));
         m_submitBtn->setTitleColorForState(CAControlStateAll, CAColor_white);
         m_submitBtn->addTarget(this, CAControl_selector(FirstSurveyViewController::buttonCallBack), CAControlEventTouchUpInSide);

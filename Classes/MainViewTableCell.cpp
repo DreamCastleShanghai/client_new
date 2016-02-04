@@ -66,12 +66,14 @@ void MainViewTableCell::initWithCell(sessionMsg &msg)
 
     // session logo
     tempRect = ConstRect::getSessionCellLogoRect();
-    m_urlImageView = CommonUrlImageView::createWithImage(CAImage::create("common/bg.png"));
+    m_urlImageView = CommonUrlImageView::createWithImage(CAImage::create("common/head_bg.png"));
     if (m_urlImageView) {
         m_urlImageView->setFrame(tempRect);
         m_urlImageView->setImageViewScaleType(CAImageViewScaleTypeFitImageCrop);
-        m_urlImageView->setImage(CAImage::create("common/head_bg.png"));
+        //m_urlImageView->setImage(CAImage::create("common/head_bg.png"));
         m_urlImageView->setUrl(m_msg->m_imageUrl);
+        //CCLog("logo : %s", m_msg->m_imageUrl.c_str());
+        //m_urlImageView->setImage(CAImage::create("common/head_bg.png"));
        this->getContentView()->addSubview(m_urlImageView);
     }
 

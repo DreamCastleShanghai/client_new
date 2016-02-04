@@ -150,7 +150,7 @@ void SessionDetailViewController::initView()
     CALabel* btnLabel = CALabel::createWithFrame(DRect(_px(5), _px(5), _px(150), _px(35)));
     btnLabel->setColor(CAColor_white);
     btnLabel->setTextAlignment(CATextAlignmentCenter);
-    btnLabel->setFontSize(_px(28));
+    btnLabel->setFontSize(_px(25));
     btnLabel->setText(crossapp_format_string("SID : %d", m_msg->m_sessionId));
     sessionidView->addSubview(btnLabel);
     

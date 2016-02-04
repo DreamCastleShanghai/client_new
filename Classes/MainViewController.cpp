@@ -19,6 +19,8 @@
 
 #define REFRESH_STEP 5
 
+#define DKOM_SURVEY_LINK ("https://surveys.sap.com/SE/?SID=SV_cOYQMsNXeLGjo7H&Preview=Survey&Q_CHL=preview&BrandID=sapag")
+
 //#define LOCALTEST
 
 MainViewController::MainViewController()
@@ -155,7 +157,7 @@ void MainViewController::viewDidLoad()
         if (label) {
             label->setTextAlignment(CATextAlignmentCenter);
             label->setColor(CAColor_white);
-            label->setFontSize(_px(40));
+            label->setFontSize(_px(36));
             label->setText("SAP d-kom");
             label->setFontName("fonts/arial.ttf");
             label->setTouchEnabled(false);
@@ -203,7 +205,6 @@ void MainViewController::viewDidLoad()
     int butViewHeight = m_winSize.height * 0.15;
     int headerHeight = _px(120);
     int buttitleHeight = _px(40);
-    int tableStartY = pageViewHeight + butViewHeight + headerHeight + buttitleHeight;
     
     /*
     // Page view
@@ -249,22 +250,23 @@ void MainViewController::viewDidLoad()
     //headView->addSubview(m_pageControl);
      */
     
-    int buttonHight = m_winSize.height * 0.15;//_px(116);
+    int buttonHight = _px(150);//m_winSize.height * 0.15;//_px(116);
     // three center button
     for (int i = 0; i < 3; i++)
     {
-        DRect r(i * (m_winSize.width / 3), headerHeight + pageViewHeight, buttonHight, buttonHight);
+        DRect r(i * (m_winSize.width / 3), headerHeight + pageViewHeight, m_winSize.width / 3, buttonHight);
         CAButton* btn = CAButton::createWithFrame(r, CAButtonTypeCustom);
         btn->setTag(300 + i);
-        CAImageView* imageView = CAImageView::createWithImage(CAImage::create(crossapp_format_string("main/short_%d.png", i)));
+        CAImageView* imageView = CAImageView::createWithCenter(DRect(m_winSize.width / 3 / 2, _px(60), _px(60), _px(60)));//createWithImage(CAImage::create(crossapp_format_string("main/short_%d.png", i)));
+        imageView->setImage(CAImage::create(crossapp_format_string("main/short_%d.png", i)));
         imageView->setImageViewScaleType(CAImageViewScaleTypeFitImageXY);
-        imageView->setFrame(DRect(buttonHight * 0.5 - _px(10), buttonHight * 0.2, buttonHight * 0.6, buttonHight * 0.6));
+        //imageView->setFrame(DRect(m_winSize.width / 3 / 2, _px(30), _px(60), _px(60)));
         imageView->setTouchEnabled(false);
         btn->addSubview(imageView);
-        CALabel* label = CALabel::createWithFrame(DRect(0, buttonHight * 0.8, m_winSize.width / 3, _px(30)));
+        CALabel* label = CALabel::createWithCenter(DRect(m_winSize.width / 3 / 2, _px(140), m_winSize.width / 3, _px(60)));
         label->setTextAlignment(CATextAlignmentCenter);
         label->setColor(CAColor_gray);
-        label->setFontSize(_px(25));
+        label->setFontSize(_px(28));
         label->setText(unicode_to_utf8(mainShort[i]));
         label->setFontName("fonts/arial.ttf");
         label->setTouchEnabled(false);
@@ -288,30 +290,31 @@ void MainViewController::viewDidLoad()
      }
      */
     
+    // sub title bar left picture
+    CAView *subViewleft = CAView::createWithCenter(DRect(_px(100), headerHeight + pageViewHeight + buttonHight + _px(20), m_winSize.width / 4, _px(20)));
+    //CAView *subViewleft = CAView::createWithFrame(DRect(0, 0, m_winSize.width, _px(20)));
+    CAImageView* subbarView1 = CAImageView::createWithImage(CAImage::create("main/home_bar.png"));
+    subbarView1->setImageViewScaleType(CAImageViewScaleTypeFitImageXY);
+    subbarView1->setFrame(DRect(0, 0, m_winSize.width / 4, _px(20)));
+    subbarView1->setTouchEnabled(false);
+    subViewleft->addSubview(subbarView1);
+    this->getView()->addSubview(subViewleft);
+
     // sub title
-    CALabel* label = CALabel::createWithCenter(DRect(m_winSize.width / 2, headerHeight + pageViewHeight +buttonHight + _px(30), m_winSize.width / 2, _px(40)));
+    CALabel* label = CALabel::createWithCenter(DRect(m_winSize.width / 2, headerHeight + pageViewHeight + buttonHight + _px(30), m_winSize.width / 2, _px(45)));
     label->setTextAlignment(CATextAlignmentCenter);
-    label->setColor(CAColor_gray);//CAColor_blue);
+    label->setColor(CAColor_gray);//ccc4(0x0f, 0xaa, 0xff, 0xff));//CAColor_gray);//CAColor_blue);
     label->setFontSize(_px(27));
     label->setText("My Agenda");
     label->setFontName("fonts/markerfelt.ttf");
     label->setTouchEnabled(false);
     this->getView()->addSubview(label);
     
-    // sub title bar left picture
-    CAView *subViewleft = CAView::createWithCenter(DRect(0, headerHeight + pageViewHeight +buttonHight + _px(30), m_winSize.width / 4, _px(20)));
-    CAImageView* subbarView1 = CAImageView::createWithImage(CAImage::create("main/home_bar.png"));
-    subbarView1->setImageViewScaleType(CAImageViewScaleTypeFitImageXY);
-    subbarView1->setFrame(DRect(0, 0, m_winSize.width / 2 - _px(30), _px(20)));
-    subbarView1->setTouchEnabled(false);
-    subViewleft->addSubview(subbarView1);
-    this->getView()->addSubview(subViewleft);
-
     // sub title bar right picture
-    CAView *subViewright = CAView::createWithCenter(DRect(m_winSize.width * 0.75, headerHeight + pageViewHeight +buttonHight + _px(30), m_winSize.width / 4, _px(20)));
+    CAView *subViewright = CAView::createWithCenter(DRect(m_winSize.width - _px(100), headerHeight + pageViewHeight +buttonHight + _px(20), m_winSize.width / 4, _px(20)));
     CAImageView* subbarView2 = CAImageView::createWithImage(CAImage::create("main/home_bar.png"));
     subbarView2->setImageViewScaleType(CAImageViewScaleTypeFitImageXY);
-    subbarView2->setFrame(DRect(0, 0, m_winSize.width / 2 - _px(30), _px(20)));
+    subbarView2->setFrame(DRect(0, 0, m_winSize.width / 4, _px(20)));
     subbarView2->setTouchEnabled(false);
     subViewright->addSubview(subbarView2);
     this->getView()->addSubview(subViewright);
@@ -320,6 +323,7 @@ void MainViewController::viewDidLoad()
     //m_msgTableView->setTableHeaderView(headView);
     //m_msgTableView->setTableHeaderHeight(m_winSize.width / 2 + _px(130));
     
+    int tableStartY = pageViewHeight + butViewHeight + headerHeight + buttitleHeight + _px(15);
     m_msgTableView = CATableView::createWithFrame(DRect(0, tableStartY, m_winSize.width, m_winSize.height - tableStartY));
     if (m_msgTableView) {
         m_msgTableView->setTableViewDataSource(this);
@@ -365,6 +369,7 @@ void MainViewController::viewDidUnload()
 
 void MainViewController::scrollViewHeaderBeginRefreshing(CrossApp::CAScrollView *view)
 {
+    /*
     if (m_msg->size() - m_filterMsg.size() > 0)
     {
         int count = 0;
@@ -402,6 +407,8 @@ void MainViewController::scrollViewHeaderBeginRefreshing(CrossApp::CAScrollView 
     {
         m_msgTableView->reloadData();
     }
+     */
+    refreshTable();
 }
 
 void MainViewController::scrollViewFooterBeginRefreshing(CAScrollView* view)
@@ -638,7 +645,7 @@ void MainViewController::onRequestFinished(const HttpResponseStatus& status, con
 		{
 			uInfo->m_voiceVoteIdVec.push_back(voteId);
 		}
-        
+        /*
         quickSort(m_msg, 0, (int)m_msg->size() - 1);
         m_filterMsg.clear();
         for (std::vector<sessionMsg>::iterator it = m_msg->begin(); it != m_msg->end(); it++)
@@ -652,6 +659,7 @@ void MainViewController::onRequestFinished(const HttpResponseStatus& status, con
                 break;
             }
         }
+         */
         refreshTable();
     }
     else
@@ -677,7 +685,7 @@ void MainViewController::buttonCallBack(CAControl* btn, DPoint point)
 	}
 	else if (btn->getTag() == 30) // prize
 	{
-        CADevice::OpenURL("http://www.baidu.com");
+        CADevice::OpenURL(DKOM_SURVEY_LINK);
         /*
         m_sustainbilitySurvey = new FirstSurveyViewController();
         m_sustainbilitySurvey->init();
