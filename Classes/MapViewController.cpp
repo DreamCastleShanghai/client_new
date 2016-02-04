@@ -132,7 +132,7 @@ void MapViewController::viewDidLoad()
         m_pageOne->setHorizontalScrollEnabled(false);
         m_pageOne->setVerticalScrollEnabled(true);
         m_pageOne->setBounceHorizontal(false);
-        m_pageOne->setBounds(DRect(0, _px(240), m_winSize.width, m_winSize.height - _px(240)));
+        m_pageOne->setBounds(DRect(0, _px(240), m_winSize.width, m_winSize.height - hight));
         m_pageOne->setAnchorPoint(DPoint(0.f, 0.f));
         m_pageOne->setShowsHorizontalScrollIndicator(false);
         m_pageOne->setShowsVerticalScrollIndicator(false);
@@ -295,6 +295,7 @@ void MapViewController::onRequestFinished(const HttpResponseStatus& status, cons
         m_pLoading->stopAnimating();
     }
 }
+
 
 /*
 void MapViewController::showAlert()

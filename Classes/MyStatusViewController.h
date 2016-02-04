@@ -37,6 +37,8 @@ protected:
     
     void viewDidUnload();
 
+    void viewDidAppear();
+    
     void initMsgTableView();
     
 	void buttonCallBack(CAControl* btn, DPoint point);
@@ -58,6 +60,10 @@ protected:
     void onRequestScoreHistoryFinished(const HttpResponseStatus& status, const CSJson::Value& json);
 
     void switchNavType();//int index);
+    
+    void requestUserMsg();
+    
+    void onRequestUserMsgFinished(const HttpResponseStatus& status, const CSJson::Value& json);
 
 	virtual CATableViewCell* tableCellAtIndex(CATableView* table, const DSize& cellSize, unsigned int section, unsigned int row);
 	virtual unsigned int numberOfRowsInSection(CATableView *table, unsigned int section);
@@ -103,8 +109,8 @@ private:
     CATableView*                                            m_myCalanderView;
     int                                                     m_navType;
     int                                                     m_pointType;
-    bool                                                    m_canSwitchSeg;
-    bool                                                    m_canSwitchPoint;
+//    bool                                                    m_canSwitchSeg;
+//    bool                                                    m_canSwitchPoint;
     int                                                     m_startTimeFlag;
     std::vector<secVec>                                     m_rowNumOfSection;
     

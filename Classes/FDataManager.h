@@ -186,6 +186,9 @@ public:
     userInfo* getUserInfo() { return &m_userInfo; }
     void setUserInfo(userInfo& ui) { m_userInfo = ui; }
     
+    void setUserDirty(bool dir) { m_userDirty = dir; }
+    bool isUserDirty() { return  m_userDirty; }
+    
 private:
     
  //   int                         m_userId;
@@ -194,6 +197,7 @@ private:
     time_t                      m_diffServerTime;
     vector<sessionMsg>          m_sessionMsgs;
     userInfo                    m_userInfo;
+    bool                        m_userDirty;
 };
 
 

@@ -63,7 +63,7 @@ void MomentsDetailViewController::viewDidLoad()
         
         CALabel* label = CALabel::createWithFrame(DRect(_px(140), _px(20), m_winSize.width - _px(140), _px(35)));
         label->setTextAlignment(CATextAlignmentLeft);
-        label->setColor(CAColor_blue);
+        label->setColor(SAP_DEFAULT_COLOR);
         label->setFontSize(_px(30));
         label->setText(m_msg->name);
         label->setFontName("fonts/arial.ttf");

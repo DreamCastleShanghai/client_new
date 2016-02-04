@@ -24,7 +24,7 @@ protected:
     void viewDidLoad();
     
     void viewDidUnload();
-
+    
 //    void initMsgTableView();
     
 	void buttonCallBack(CAControl* btn, DPoint point);

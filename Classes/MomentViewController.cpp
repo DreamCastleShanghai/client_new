@@ -673,10 +673,10 @@ CACollectionViewCell* MomentViewController::collectionCellAtIndex(CACollectionVi
 		temImage->setTouchEnabled(false);
 		p_Cell->addSubview(temImage);
 
-		CAButton* button = CAButton::createWithFrame(DRect(_size.width - _px(80), 0, _px(80), _px(80)), CAButtonTypeCustom);
+		CAButton* button = CAButton::createWithFrame(DRect(_size.width - _px(60), 0, _px(60), _px(60)), CAButtonTypeCustom);
 		CAImageView* imageView = CAImageView::createWithImage(CAImage::create("moments/delete.png"));
 		imageView->setImageViewScaleType(CAImageViewScaleTypeFitImageInside);
-		imageView->setFrame(DRect(_px(20), _px(20), _px(80), _px(80)));
+		imageView->setFrame(DRect(_px(0), _px(0), _px(60), _px(60)));
 		button->setBackGroundViewForState(CAControlStateAll, imageView);
 		button->addTarget(this, CAControl_selector(MomentViewController::buttonCallBack), CAControlEventTouchUpInSide);
 		button->setTag(400 + row * 2 + item);

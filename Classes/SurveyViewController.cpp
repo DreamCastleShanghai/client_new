@@ -419,6 +419,8 @@ void SurveyViewController::onRequestFinished(const HttpResponseStatus& status, c
         
         if (!std::strcmp(tag.c_str(), surveySubmitTag[0])) {
             if (r == 1) {
+                FDataManager::getInstance()->setUserDirty(true);
+
                 // succeed
                 CAAlertView *alertView = CAAlertView::createWithText("Succeed !", "Thank you take this survey !", "OK", NULL);
                 alertView->show();

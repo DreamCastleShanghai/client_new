@@ -6,13 +6,19 @@
 #define _T(x) L##x
 #define CHAR    wchar_t
 
-//static const std::string httpUrl = "http://localhost:8080/sap";
-static const std::string httpUrl = "http://139.196.195.185:8080/sap";
+//#define LOCAL_DEBUG
 
+#ifdef LOCAL_DEBUG
+static const std::string httpUrl = "http://localhost:8080/sap";
+static const std::string imgPreUrl = "http://localhost:8080/res/";
+#else
+static const std::string httpUrl = "http://139.196.195.185:8080/sap";
 static const std::string imgPreUrl = "http://139.196.195.185:8080/res/";
+#endif
 
 static const char* loginTag = "L0";
 
+#define SAP_DEFAULT_COLOR   (ccc4(0x0f, 0xaa, 0xff, 0xff))
 
 static const char* momentsTag[4] =
 {

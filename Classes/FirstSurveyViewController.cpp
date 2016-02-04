@@ -161,6 +161,8 @@ void FirstSurveyViewController::onRequestSubmitFinished(const HttpResponseStatus
             
             userInfo* info = FDataManager::getInstance()->getUserInfo();
             info->m_greenAmb = true;
+            
+            FDataManager::getInstance()->setUserDirty(true);
         }
         else
         {

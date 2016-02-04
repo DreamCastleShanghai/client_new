@@ -19,7 +19,6 @@ MyStatusViewController::MyStatusViewController()
 , m_pointView(NULL)
 , m_navType(0)
 , m_pointType(0)
-, m_canSwitchSeg(true)
 , m_navSegmentView(NULL)
 , m_pointSegmentView(NULL)
 , m_greenAmbIcon(NULL)
@@ -33,6 +32,14 @@ MyStatusViewController::MyStatusViewController()
 MyStatusViewController::~MyStatusViewController()
 {
 
+}
+
+void MyStatusViewController::viewDidAppear()
+{
+    if (FDataManager::getInstance()->isUserDirty()) {
+        FDataManager::getInstance()->setUserDirty(false);
+        requestUserMsg();
+    }
 }
 
 void MyStatusViewController::viewDidLoad()
@@ -443,7 +450,7 @@ void MyStatusViewController::onRequestScoreHistoryFinished(const HttpResponseSta
         string tempjson = writer.write(json);
         CCLog("receive json == %s",tempjson.c_str());
 
-        m_canSwitchPoint = true;
+//        m_canSwitchPoint = true;
         const CSJson::Value& v2 = json["result"];
         string tag = v2["i"].asString();
         int isServerSucceed = v2["r"].asInt();
@@ -485,9 +492,10 @@ void MyStatusViewController::onRequestRankFinished(const HttpResponseStatus& sta
 {
     if (status == HttpResponseSucceed)
     {
-        m_canSwitchPoint = true;
+//        m_canSwitchPoint = true;
         const CSJson::Value& v2 = json["result"]["rl"];
         int length = v2.size();
+        int points = 0;
         m_rankMsg.clear();
         for (int i = 0; i < length; i++)
         {
@@ -506,6 +514,40 @@ void MyStatusViewController::onRequestRankFinished(const HttpResponseStatus& sta
     {
         //showAlert();0faaff
     }
+}
+
+void MyStatusViewController::requestUserMsg()
+{
+    std::map<std::string, std::string> key_value;
+    key_value["tag"] = userInfoTag[0];
+    key_value["uid"] = crossapp_format_string("%d", FDataManager::getInstance()->getUserId());
+    //key_value["sign"] = getSign(key_value);
+    CommonHttpManager::getInstance()->send_post(httpUrl, key_value, this, CommonHttpJson_selector(MyStatusViewController::onRequestUserMsgFinished));
+    /*
+    {
+        p_pLoading = CAActivityIndicatorView::createWithCenter(DRect(m_winSize.width / 2, m_winSize.height / 2, 50, 50));
+        this->getView()->insertSubview(p_pLoading, CAWindowZOderTop);
+        p_pLoading->setLoadingMinTime(0.5f);
+        //p_pLoading->setTargetOnCancel(this, callfunc_selector(MyStatusViewController::initMsgTableView));
+    }*/
+}
+
+void MyStatusViewController::onRequestUserMsgFinished(const HttpResponseStatus& status, const CSJson::Value& json)
+{
+    if (status == HttpResponseSucceed)
+    {
+        const CSJson::Value& v2 = json["result"];
+        std::string isSucceed = v2["r"].asString();
+        if (isSucceed == "1") {
+            userInfo tmpUser;
+//            tmpUser.m_eggVoted = v2["r"]["EggVoted"].asBool();
+            tmpUser.m_imageUrl = crossapp_format_string("%s%s", imgPreUrl.c_str(), v2["usr"][0]["Icon"].asString().c_str());;
+            tmpUser.m_point = v2["usr"][0]["Score"].asInt();
+//            tmpUser.m_greenAmb = v2["r"]["GreenAmb"].asBool();
+        }
+        refreshUserInfo();
+    }
+    
 }
 
 void MyStatusViewController::switchNavType()
