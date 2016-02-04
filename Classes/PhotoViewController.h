@@ -43,7 +43,7 @@ private:
 	DSize													m_winSize;
     int                                                         m_type;
     std::string                                         m_currentCategory;
-    
+    CAImage *                                       m_getImage;
     CAView*                                             m_filterView;
     CAButton*                                           m_filterButton;
     

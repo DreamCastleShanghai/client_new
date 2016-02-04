@@ -122,32 +122,44 @@ void PhotoViewController::buttonCallBack(CAControl* btn, DPoint point)
             return;
         }
         
-        m_pScrollView->setHorizontalScrollEnabled(false);
-        m_pScrollView->setVerticalScrollEnabled(false);
-        
-        DSize winSize = m_winSize;
-        //m_clv->setAlphaThreshold(1.f);
-        //m_clv->setClippingEnabled(true);
-        //m_photoView->removeSubview(m_clv);
-        m_clv->setVisible(false);
-        
-        m_clvImage->setAlphaThreshold(0.5f);
-        m_clvImage->setClippingEnabled(true);
-
-        int w = _px(100);
-        int h = _px(100);
-        if(m_type == 1)
+        if (m_type == 1)
         {
-            w = m_winSize.width - 100;
-            h = w;
+            std::string imagePath = CCFileUtils::sharedFileUtils()->getWritablePath() + "image/" + "2.jpg";
+            m_getImage->saveToFile(imagePath.c_str());
+            CCLog("path : %s", imagePath.c_str());
+            requestPhotoSubmit(imagePath);
+            
         }
-        CARenderImage* rm = CARenderImage::create(w, h);
-        rm->printscreenWithView(m_clvImage);
-
-        std::string imagePath = CCFileUtils::sharedFileUtils()->getWritablePath() + "image/" + "2.png";
-        rm->saveToFile(imagePath.c_str());
-        CCLog("path : %s", imagePath.c_str());
-        requestPhotoSubmit(imagePath);
+        else
+        {
+            m_pScrollView->setHorizontalScrollEnabled(false);
+            m_pScrollView->setVerticalScrollEnabled(false);
+            
+            DSize winSize = m_winSize;
+            //m_clv->setAlphaThreshold(1.f);
+            //m_clv->setClippingEnabled(true);
+            //m_photoView->removeSubview(m_clv);
+            m_clv->setVisible(false);
+            
+            m_clvImage->setAlphaThreshold(0.5f);
+            m_clvImage->setClippingEnabled(true);
+            
+            int w = _px(100);
+            int h = _px(100);
+            if(m_type == 1)
+            {
+                w = m_winSize.width - 100;
+                h = w;
+            }
+            CARenderImage* rm = CARenderImage::create(w, h);
+            rm->printscreenWithView(m_clvImage);
+            
+            std::string imagePath = CCFileUtils::sharedFileUtils()->getWritablePath() + "image/" + "2.png";
+            rm->saveToFile(imagePath.c_str());
+            CCLog("path : %s", imagePath.c_str());
+            requestPhotoSubmit(imagePath);
+        }
+        
     }
     else if (btn->getTag() == 500) // cancle
     {
@@ -187,18 +199,27 @@ void PhotoViewController::onRequestFinished(const HttpResponseStatus& status, co
             m_basicView->setVisible(true);
             m_photoView->setVisible(false);
             m_photoView->removeAllSubviews();
+            RootWindow::getInstance()->getRootNavigationController()->popViewControllerAnimated(true);
         }
         else
         {
-            m_clv->setVisible(true);
-            m_clvImage->setClippingEnabled(false);
+            if (m_type == 0)
+            {
+                m_clv->setVisible(true);
+                m_clvImage->setClippingEnabled(false);
+            }
+            
         }
         
     }
     else
     {
-        m_clv->setVisible(true);
-        m_clvImage->setClippingEnabled(false);
+        if (m_type == 0)
+        {
+            m_clv->setVisible(true);
+            m_clvImage->setClippingEnabled(false);
+        }
+        
     }
     
     if (p_pLoading)
@@ -261,61 +282,85 @@ void PhotoViewController::getSelectedImage(CAImage *image)
     m_basicView->setVisible(false);
     m_photoView->setVisible(true);
     
-    DSize winSize = DSize(m_winSize.width, m_winSize.height);
-    DRect scrollRect;
-    scrollRect.origin.x = 50;
-    scrollRect.origin.y = winSize.height/4;
-    scrollRect.size.width = winSize.width-100;
-    scrollRect.size.height = scrollRect.size.width;
-    
-    m_clvImage = CAClippingView::create();
-    
-    m_clvImage->setStencil(getStencil(scrollRect.size, 0));
-    m_clvImage->setFrame(scrollRect);
-    m_clvImage->setInverted(false);
-    m_clvImage->setClippingEnabled(false);
-    m_photoView->addSubview(m_clvImage);
-    
-    float temp_mini = 0;
-    if (image->getContentSize().width>image->getContentSize().height) {
-        temp_mini = scrollRect.size.height/image->getContentSize().height;
-    }else{
-        temp_mini = scrollRect.size.width/image->getContentSize().width;
+    if(m_type == 0)
+    {
+        DSize winSize = DSize(m_winSize.width, m_winSize.height);
+        DRect scrollRect;
+        scrollRect.origin.x = 50;
+        scrollRect.origin.y = winSize.height/4;
+        scrollRect.size.width = winSize.width-100;
+        scrollRect.size.height = scrollRect.size.width;
+        
+        m_clvImage = CAClippingView::create();
+        
+        m_clvImage->setStencil(getStencil(scrollRect.size, 0));
+        m_clvImage->setFrame(scrollRect);
+        m_clvImage->setInverted(false);
+        m_clvImage->setClippingEnabled(false);
+        m_photoView->addSubview(m_clvImage);
+        
+        float temp_mini = 0;
+        if (image->getContentSize().width>image->getContentSize().height) {
+            temp_mini = scrollRect.size.height/image->getContentSize().height;
+        }else{
+            temp_mini = scrollRect.size.width/image->getContentSize().width;
+        }
+        m_pScrollView = CAScrollView::createWithFrame(m_clvImage->getBounds());
+        m_pScrollView->setViewSize(DSize(image->getContentSize()));
+        m_pScrollView->setContentOffset(DPoint(0,winSize.height/4), false);
+        m_pScrollView->setMinimumZoomScale(temp_mini);
+        m_pScrollView->setMaximumZoomScale(2.5f);
+        m_pScrollView->setBackGroundColor(CAColor_clear);
+        m_pScrollView->setShowsScrollIndicators(false);
+        m_pScrollView->setBounces(false);
+        m_pScrollView->setScrollViewDelegate(this);
+        m_pScrollView->setDisplayRange(true);
+        m_clvImage->addSubview(m_pScrollView);
+        
+        DRect rect;
+        rect.origin = DPointZero;
+        rect.size = m_pScrollView->getViewSize();
+        CAImageView* imv = CAImageView::createWithFrame(rect);
+        imv->setImage(image);
+        imv->setImageViewScaleType(CAImageViewScaleTypeFitImageInside);
+        m_pScrollView->addSubview(imv);
+        
+        m_clv = CAClippingView::create();
+        m_clv->setStencil(getStencil(scrollRect.size, 0));
+        m_clv->setFrame(scrollRect);
+        m_clv->setInverted(true);
+        m_clv->setTouchEnabled(false);
+        m_photoView->addSubview(m_clv);
+        
+        DRect ivRect;
+        ivRect.size = DSize(m_winSize.width, winSize.height);
+        ivRect.origin = ccpMult(scrollRect.origin, -1);
+        CAView* iv = CAView::createWithColor(ccc4(0,0,0,128));
+        iv->setFrame(ivRect);
+        m_clv->addSubview(iv);
     }
-   m_pScrollView = CAScrollView::createWithFrame(m_clvImage->getBounds());
-    m_pScrollView->setViewSize(DSize(image->getContentSize()));
-    m_pScrollView->setContentOffset(DPoint(0,winSize.height/4), false);
-    m_pScrollView->setMinimumZoomScale(temp_mini);
-    m_pScrollView->setMaximumZoomScale(2.5f);
-    m_pScrollView->setBackGroundColor(CAColor_clear);
-    m_pScrollView->setShowsScrollIndicators(false);
-    m_pScrollView->setBounces(false);
-    m_pScrollView->setScrollViewDelegate(this);
-    m_pScrollView->setDisplayRange(true);
-    m_clvImage->addSubview(m_pScrollView);
-  
-    DRect rect;
-    rect.origin = DPointZero;
-    rect.size = m_pScrollView->getViewSize();
-    CAImageView* imv = CAImageView::createWithFrame(rect);
-    imv->setImage(image);
-    imv->setImageViewScaleType(CAImageViewScaleTypeFitImageInside);
-    m_pScrollView->addSubview(imv);
+    else
+    {
+        int w = image->getPixelsWide();
+        int h = image->getPixelsHigh();
+        if (w * 9 > h * 16)
+        {
+            h = h * _px(640) / w;
+            w = _px(640);
+        }
+        else
+        {
+            w = w * _px(360) / h;
+            h = _px(360);
+        }
+        
+        m_getImage = CAImage::scaleToNewImageWithImage(image, DSize(w, h));
+        CAImageView* iView = CAImageView::createWithImage(m_getImage);
+        iView->setFrame(DRect(0, 0, m_winSize.width, m_winSize.height));
+        iView->setImageViewScaleType(CAImageViewScaleTypeFitImageInside);
+        m_photoView->addSubview(iView);
+    }
 
-    m_clv = CAClippingView::create();
-    m_clv->setStencil(getStencil(scrollRect.size, 0));
-    m_clv->setFrame(scrollRect);
-    m_clv->setInverted(true);
-    m_clv->setTouchEnabled(false);
-    m_photoView->addSubview(m_clv);
-    
-    DRect ivRect;
-	ivRect.size = DSize(m_winSize.width, winSize.height);
-    ivRect.origin = ccpMult(scrollRect.origin, -1);
-    CAView* iv = CAView::createWithColor(ccc4(0,0,0,128));
-    iv->setFrame(ivRect);
-    m_clv->addSubview(iv);
-    
     CAButton* button = CAButton::createWithFrame(DRect(_px(80),  m_winSize.height -  _px(200), _px(200), _px(60)), CAButtonTypeCustom);
     button->setTitleForState(CAControlStateAll, "Select");
     button->setTitleFontName("fonts/arial.ttf");

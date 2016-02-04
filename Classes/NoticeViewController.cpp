@@ -11,12 +11,18 @@ NoticeViewController::NoticeViewController()
 : p_alertView(NULL)
 , p_pLoading(NULL)
 {
-
+    CADevice::getLocalNotificationList(m_msgList);
 }
 
 NoticeViewController::~NoticeViewController()
 {
-
+    for (int i = 0; i < m_msgList.size(); i++)
+    {
+        if (m_msgList[i].startTime <= getTimeSecond())
+        {
+            CADevice::cancelLocalNotification(m_msgList[i].nid.c_str());
+        }
+    }
 }
 
 void NoticeViewController::viewDidLoad()
@@ -53,7 +59,17 @@ void NoticeViewController::viewDidLoad()
     label->setText("Notification");
     label->setFontName("fonts/arial.ttf");
     sView->addSubview(label);
-    requestMsg();
+    
+    
+    m_msgTableView = CATableView::createWithFrame(DRect(0, _px(120), m_winSize.width, m_winSize.height - _px(120)));
+    m_msgTableView->setTableViewDataSource(this);
+    m_msgTableView->setTableViewDelegate(this);
+    m_msgTableView->setAllowsSelection(true);
+    m_msgTableView->setSeparatorColor(ccc4(200, 200, 200, 80));
+    //m_msgTableView->setSeparatorViewHeight(_px(2));
+    this->getView()->addSubview(m_msgTableView);
+    
+    //requestMsg();
     
     CCLog("%f", CAApplication::getApplication()->getWinSize().width);
 }
@@ -71,13 +87,6 @@ void NoticeViewController::initMsgTableView()
         showAlert();
         return;
     }
-	m_msgTableView = CATableView::createWithFrame(DRect(0, _px(120), m_winSize.width, m_winSize.height - _px(120)));
-	m_msgTableView->setTableViewDataSource(this);
-	m_msgTableView->setTableViewDelegate(this);
-	m_msgTableView->setAllowsSelection(true);
-	m_msgTableView->setSeparatorColor(ccc4(200, 200, 200, 80));
-	//m_msgTableView->setSeparatorViewHeight(_px(2));
-	this->getView()->addSubview(m_msgTableView);
 }
 
 void NoticeViewController::requestMsg()
@@ -199,7 +208,7 @@ CATableViewCell* NoticeViewController::tableCellAtIndex(CATableView* table, cons
 		imageView->setFrame(DRect(_px(40), _px(20), _px(80), _px(80)));
 		cell->addSubview(imageView);
 
-		if (m_msg[row].closed == false)
+		//if (m_msg[row].closed == false)
 		{
 			imageView = CAImageView::createWithImage(CAImage::create("notice/icon_reddot.png"));
 			imageView->setImageViewScaleType(CAImageViewScaleTypeFitImageXY);
@@ -208,13 +217,13 @@ CATableViewCell* NoticeViewController::tableCellAtIndex(CATableView* table, cons
 		}
 
 		CALabel* label = CALabel::createWithFrame(DRect(_px(160), _px(20), _px(200), _px(40)));
-		label->setText(m_msg[row].title);
+		label->setText(m_msgList[row].title);
 		label->setFontSize(_px(35));
 		label->setColor(CAColor_black);
 		cell->addSubview(label);
 
 		label = CALabel::createWithFrame(DRect(_px(160), _px(70), _px(200), _px(30)));
-		label->setText(crossapp_format_string("%s - %s", timeToString(m_msg[row].startTime).c_str(), timeToString(m_msg[row].endTime).c_str()));
+		label->setText(crossapp_format_string("%s", timeToString(m_msgList[row].startTime).c_str()));
 		label->setFontSize(_px(28));
 		label->setColor(CAColor_gray);
 		cell->addSubview(label);
@@ -241,7 +250,7 @@ unsigned int NoticeViewController::numberOfSections(CATableView *table)
 
 unsigned int NoticeViewController::numberOfRowsInSection(CATableView *table, unsigned int section)
 {
-    return (int)m_msg.size();
+    return (int)m_msgList.size();
 }
 
 unsigned int NoticeViewController::tableViewHeightForRowAtIndexPath(CATableView* table, unsigned int section, unsigned int row)
