@@ -78,39 +78,39 @@ void MomentViewController::viewDidLoad()
     //label->setFontName("fonts/arial.ttf");
     //sView->addSubview(label);
 
-	CALabel* label = CALabel::createWithFrame(DRect(0, _px(160), m_winSize.width / 2, _px(40)));
+	CALabel* label = CALabel::createWithFrame(DRect(0, _px(130), m_winSize.width / 2, _px(40)));
 	label->setTextAlignment(CATextAlignmentCenter);
 	label->setColor(CAColor_white);
-	label->setFontSize(_px(40));
+	label->setFontSize(_px(30));
 	label->setText("Photos");
 	label->setFontName("fonts/arial.ttf");
 	sView->addSubview(label);
 
-	label = CALabel::createWithFrame(DRect(m_winSize.width / 2, _px(160), m_winSize.width / 2, _px(40)));
+	label = CALabel::createWithFrame(DRect(m_winSize.width / 2, _px(130), m_winSize.width / 2, _px(40)));
 	label->setTextAlignment(CATextAlignmentCenter);
 	label->setColor(CAColor_white);
-	label->setFontSize(_px(40));
+	label->setFontSize(_px(30));
 	label->setText("My Posts");
 	label->setFontName("fonts/arial.ttf");
 	sView->addSubview(label);
 
-	button = CAButton::createWithFrame(DRect(_px(0), _px(120), m_winSize.width / 2, _px(120)), CAButtonTypeCustom);
+	button = CAButton::createWithFrame(DRect(_px(0), _px(120), m_winSize.width / 2, _px(60)), CAButtonTypeCustom);
 	button->addTarget(this, CAControl_selector(MomentViewController::buttonCallBack), CAControlEventTouchUpInSide);
 	button->setTag(200);
 	this->getView()->addSubview(button);
 
-	button = CAButton::createWithFrame(DRect(m_winSize.width / 2, _px(120), m_winSize.width / 2, _px(120)), CAButtonTypeCustom);
+	button = CAButton::createWithFrame(DRect(m_winSize.width / 2, _px(120), m_winSize.width / 2, _px(60)), CAButtonTypeCustom);
 	button->addTarget(this, CAControl_selector(MomentViewController::buttonCallBack), CAControlEventTouchUpInSide);
 	button->setTag(201);
 	this->getView()->addSubview(button);
 
-	m_browView = CAScale9ImageView::createWithFrame(DRect(0, _px(230), m_winSize.width / 2, _px(10)));
+	m_browView = CAScale9ImageView::createWithFrame(DRect(0, _px(170), m_winSize.width / 2, _px(10)));
 	m_browView->setImage(CAImage::create("common/gray_bg.png"));
 	this->getView()->addSubview(m_browView);
 
 	for (int i = 0; i < 2; i++)
 	{
-		m_segView[i] = CAView::createWithFrame(DRect(0, _px(240), m_winSize.width, m_winSize.height - _px(240)));
+		m_segView[i] = CAView::createWithFrame(DRect(0, _px(180), m_winSize.width, m_winSize.height - _px(180)));
 		this->getView()->addSubview(m_segView[i]);
 
 	}
@@ -118,7 +118,7 @@ void MomentViewController::viewDidLoad()
 
 	
 
-	m_msgTableView = CATableView::createWithFrame(DRect(0, 0, m_winSize.width, m_winSize.height - _px(240)));
+	m_msgTableView = CATableView::createWithFrame(DRect(0, 0, m_winSize.width, m_winSize.height - _px(180)));
 	m_msgTableView->setTableViewDataSource(this);
 	m_msgTableView->setTableViewDelegate(this);
 	m_msgTableView->setAllowsSelection(true);
@@ -130,7 +130,7 @@ void MomentViewController::viewDidLoad()
 	footerRefreshView->setTag(0);
 	m_msgTableView->setFooterRefreshView(footerRefreshView);
 
-	m_myCollectionView = CACollectionView::createWithFrame(DRect(0, 0, m_winSize.width, m_winSize.height - _px(240)));
+	m_myCollectionView = CACollectionView::createWithFrame(DRect(0, 0, m_winSize.width, m_winSize.height - _px(180)));
 	m_myCollectionView->setAllowsSelection(true);
 	//p_Conllection->setAllowsMultipleSelection(true);
 	m_myCollectionView->setCollectionViewDelegate(this);
@@ -283,6 +283,7 @@ void MomentViewController::onRequestDeleteFinished(const HttpResponseStatus& sta
 				index++;
 			}
 		}
+        m_msgTableView->reloadData();
 		m_myCollectionView->reloadData();
 	}
 
@@ -318,7 +319,7 @@ void MomentViewController::buttonCallBack(CAControl* btn, DPoint point)
 		{
 			requestMsg(m_segType);
 		}
-		m_browView->setFrame(DRect(0, _px(230), m_winSize.width / 2, _px(10)));
+		m_browView->setFrame(DRect(0, _px(170), m_winSize.width / 2, _px(10)));
 		m_segView[0]->setVisible(true);
 		m_segView[1]->setVisible(false);
     }
@@ -329,7 +330,7 @@ void MomentViewController::buttonCallBack(CAControl* btn, DPoint point)
 		{
 			requestMsg(m_segType);
 		}
-		m_browView->setFrame(DRect(m_winSize.width / 2, _px(230), m_winSize.width / 2, _px(10)));
+		m_browView->setFrame(DRect(m_winSize.width / 2, _px(170), m_winSize.width / 2, _px(10)));
 		m_segView[0]->setVisible(false);
 		m_segView[1]->setVisible(true);
 	}

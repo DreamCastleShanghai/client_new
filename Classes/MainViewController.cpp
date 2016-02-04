@@ -19,8 +19,6 @@
 
 #define REFRESH_STEP 5
 
-#define DKOM_SURVEY_LINK ("https://surveys.sap.com/SE/?SID=SV_cOYQMsNXeLGjo7H&Preview=Survey&Q_CHL=preview&BrandID=sapag")
-
 //#define LOCALTEST
 
 MainViewController::MainViewController()

@@ -20,6 +20,8 @@ static const char* loginTag = "L0";
 
 #define SAP_DEFAULT_COLOR   (ccc4(0x0f, 0xaa, 0xff, 0xff))
 
+#define DKOM_SURVEY_LINK ("https://surveys.sap.com/SE/?SID=SV_cOYQMsNXeLGjo7H")
+
 static const char* momentsTag[4] =
 {
 	"PL0", "PML0", "PV0", "PD0"

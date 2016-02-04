@@ -548,33 +548,33 @@ void SessionsViewController::refreshTableByTime(int index)
     }
     else
     {
+        time_t nowTimeCount = getTimeSecond();
+        struct tm* nowTime = localtime(&nowTimeCount);
+        int nowYear = nowTime->tm_year;
+        int nowDay = nowTime->tm_yday;
+        int nowHour = nowTime->tm_hour;
+        int nowMin = nowTime->tm_min;
+//        CCLog("now : %d %d %d %d", nowYear, nowDay, nowHour, nowMin);
+        
         for (std::vector<sessionMsg>::iterator it = m_msg->begin(); it != m_msg->end(); it++)
         {
             struct tm* startTime = localtime(&(it->m_startTime));
-            struct tm* endTime = localtime(&(it->m_endTime));
-            
-            time_t nowTime = getTimeSecond();
-            struct tm * timeinfo;
-            timeinfo = localtime(&nowTime);
+            int startYear = startTime->tm_year;
+            int startDay = startTime->tm_yday;
+            int startHour = startTime->tm_hour;
+            int startMin = startTime->tm_min;
 
-            if((startTime->tm_hour >= (index + 8) && startTime->tm_hour < (index + 9)) || (startTime->tm_hour >= (index + 8) && endTime->tm_hour > (index + 9)))
-            {
-                m_msgFilter.push_back(&(*it));
-            }
+            struct tm* endTime = localtime(&(it->m_endTime));
+            int endYear = endTime->tm_year;
+            int endDay = endTime->tm_yday;
+            int endHour = endTime->tm_hour;
+            int endMin = endTime->tm_min;
             
-            /*
-            if (timeinfo->tm_yday == startTime->tm_yday && timeinfo->tm_year == startTime->tm_year) {
-                CCLog("----------------");
-                CCLog("id : %d", it->m_sessionId);
-                CCLog("now : MM-DD-YY : %d-%d-%d", timeinfo->tm_hour, timeinfo->tm_yday, timeinfo->tm_year);
-                CCLog("start %d: MM-DD-YY : %d-%d-%d", it->m_endTime, startTime->tm_hour, startTime->tm_yday, startTime->tm_year);
-                CCLog("end %d: MM-DD-YY : %d-%d-%d", it->m_startTime, endTime->tm_hour, endTime->tm_yday, endTime->tm_year);
-                CCLog("----------------");
-                if((startTime->tm_hour >= (index + 8) && startTime->tm_hour < (index + 9))
-                   || (startTime->tm_hour >= (index + 8) && endTime->tm_hour >= (index + 8)))
-                    m_msgFilter.push_back(&(*it));
-            }
-             */
+//            CCLog("start index %d: %d %d %d %d", index, startYear, startDay, startHour, startMin);
+//            CCLog("end   index %d: %d %d %d %d", index, endYear, endDay, endHour, endMin);
+
+            if ((startHour == index + 8) || (endHour >= index + 8 && startHour <= index + 8))
+                m_msgFilter.push_back(&(*it));
         }
     }
     if (m_msgTableView)
