@@ -19,6 +19,7 @@ static const std::string imgPreUrl = "http://139.196.195.185:8080/res/";
 static const char* loginTag = "L0";
 
 #define SAP_DEFAULT_COLOR   (ccc4(0x0f, 0xaa, 0xff, 0xff))
+#define SAP_WHITE_LOW       (ccc4(0xce, 0xea, 0xfd, 0xff))
 
 #define DKOM_SURVEY_LINK ("https://surveys.sap.com/SE/?SID=SV_cOYQMsNXeLGjo7H")
 

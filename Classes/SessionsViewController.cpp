@@ -182,8 +182,7 @@ void SessionsViewController::initMsgTableView()
 			button->setTitleForState(CAControlStateAll, trackFilterItem[i]);
 			button->setTitleFontName("fonts/arial.ttf");
 			button->setTitleColorForState(CAControlStateAll, CAColor_gray);
-            if (i != 0)
-                button->setTitleColorForState(CAControlStateSelected, CAColor_white);
+            button->setTitleColorForState(CAControlStateSelected, CAColor_white);
 			button->setTitleFontSize(_px(27));
 			button->setAllowsSelected(true);
 			//CAImageView* imageView = CAImageView::createWithImage(CAImage::create("common/white_bg.png"));
@@ -202,8 +201,7 @@ void SessionsViewController::initMsgTableView()
 			button->setTitleForState(CAControlStateAll, formatFilterItem[i]);
 			button->setTitleFontName("fonts/arial.ttf");
 			button->setTitleColorForState(CAControlStateAll, CAColor_gray);
-            if (i != 0)
-                button->setTitleColorForState(CAControlStateSelected, CAColor_white);
+            button->setTitleColorForState(CAControlStateSelected, CAColor_white);
 			button->setTitleFontSize(_px(27));
 			button->setAllowsSelected(true);
 			//CAImageView* imageView = CAImageView::createWithImage(CAImage::create("common/white_bg.png"));
