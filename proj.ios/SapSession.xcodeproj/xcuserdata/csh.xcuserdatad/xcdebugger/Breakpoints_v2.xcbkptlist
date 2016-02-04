@@ -498,11 +498,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../Classes/PhotoViewController.cpp"
-            timestampString = "475487258.145728"
+            timestampString = "476247601.835774"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "95"
-            endingLineNumber = "95"
+            startingLineNumber = "96"
+            endingLineNumber = "96"
             landmarkName = "PhotoViewController::buttonCallBack(CAControl* btn, DPoint point)"
             landmarkType = "5">
          </BreakpointContent>
@@ -514,11 +514,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../Classes/PhotoViewController.cpp"
-            timestampString = "475487258.145728"
+            timestampString = "476249521.246726"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "161"
-            endingLineNumber = "161"
+            startingLineNumber = "177"
+            endingLineNumber = "177"
             landmarkName = "PhotoViewController::onRequestFinished(const HttpResponseStatus&amp; status, const CSJson::Value&amp; json)"
             landmarkType = "5">
          </BreakpointContent>
@@ -535,7 +535,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "318"
             endingLineNumber = "318"
-            landmarkName = "MomentViewController::onRequestAllFinished(const HttpResponseStatus&amp; status, const CSJson::Value&amp; json)"
+            landmarkName = "MomentViewController::buttonCallBack(CAControl* btn, DPoint point)"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -551,7 +551,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "484"
             endingLineNumber = "484"
-            landmarkName = "MomentViewController::tableCellAtIndex(CATableView* table, const DSize&amp; cellSize, unsigned int section, unsigned int row)"
+            landmarkName = "MomentViewController::showAlert()"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -583,7 +583,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "217"
             endingLineNumber = "217"
-            landmarkName = "MomentViewController::onRequestLikeFinished(const HttpResponseStatus&amp; status, const CSJson::Value&amp; json)"
+            landmarkName = "MomentViewController::requestLike(int index)"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -648,6 +648,166 @@
             startingLineNumber = "60"
             endingLineNumber = "60"
             landmarkName = "MainViewController::update(float dt)"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../Classes/PhotoViewController.cpp"
+            timestampString = "476249521.246726"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "149"
+            endingLineNumber = "149"
+            landmarkName = "PhotoViewController::buttonCallBack(CAControl* btn, DPoint point)"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../Classes/PhotoViewController.cpp"
+            timestampString = "476249521.246726"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "150"
+            endingLineNumber = "150"
+            landmarkName = "PhotoViewController::buttonCallBack(CAControl* btn, DPoint point)"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../../../CrossApp/view/CARenderImage.cpp"
+            timestampString = "476156236.9322"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "433"
+            endingLineNumber = "433"
+            landmarkName = "CARenderImage::end()"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../../../CrossApp/view/CAClippingView.cpp"
+            timestampString = "476153920.386934"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "331"
+            endingLineNumber = "331"
+            landmarkName = "CAClippingView::visit()"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../../../CrossApp/view/CARenderImage.cpp"
+            timestampString = "476156236.9322"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "434"
+            endingLineNumber = "434"
+            landmarkName = "CARenderImage::end()"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../../../CrossApp/view/CAClippingView.cpp"
+            timestampString = "476155122.094642"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "274"
+            endingLineNumber = "274"
+            landmarkName = "CAClippingView::visit()"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../../../CrossApp/view/CAClippingView.cpp"
+            timestampString = "476155123.617741"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "263"
+            endingLineNumber = "263"
+            landmarkName = "CAClippingView::visit()"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../Classes/PhotoViewController.cpp"
+            timestampString = "476249521.246726"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "147"
+            endingLineNumber = "147"
+            landmarkName = "PhotoViewController::buttonCallBack(CAControl* btn, DPoint point)"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../Classes/PhotoViewController.cpp"
+            timestampString = "476249521.246726"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "144"
+            endingLineNumber = "144"
+            landmarkName = "PhotoViewController::buttonCallBack(CAControl* btn, DPoint point)"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../Classes/PhotoViewController.cpp"
+            timestampString = "476249653.97538"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "139"
+            endingLineNumber = "139"
+            landmarkName = "PhotoViewController::buttonCallBack(CAControl* btn, DPoint point)"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

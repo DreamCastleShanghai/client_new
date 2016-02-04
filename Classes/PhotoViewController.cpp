@@ -8,6 +8,7 @@
 
 PhotoViewController::PhotoViewController(int type)
 : m_type(type)
+, m_currentCategory("")
 {
 dle_ren_index = 0;
 }
@@ -114,39 +115,39 @@ void PhotoViewController::buttonCallBack(CAControl* btn, DPoint point)
     }
     else if (btn->getTag() == 400) // select
     {
-        DSize winSize = m_winSize;
-        m_clv->setAlphaThreshold(1.f);
-        m_photoView->removeSubview(m_clv);
+        if (m_type == 1 && m_currentCategory == "")
+        {
+            CAAlertView *alertView = CAAlertView::createWithText("Warning !", "Select  one photo tag !", "OK", NULL);
+            alertView->show();
+            return;
+        }
         
-        m_clvImage->setAlphaThreshold(0.f);
+        m_pScrollView->setHorizontalScrollEnabled(false);
+        m_pScrollView->setVerticalScrollEnabled(false);
+        
+        DSize winSize = m_winSize;
+        //m_clv->setAlphaThreshold(1.f);
+        //m_clv->setClippingEnabled(true);
+        //m_photoView->removeSubview(m_clv);
+        m_clv->setVisible(false);
+        
+        m_clvImage->setAlphaThreshold(0.5f);
         m_clvImage->setClippingEnabled(true);
 
-        CARenderImage* rm = CARenderImage::create(_px(winSize.width-100), _px(winSize.width-100));
+        int w = _px(100);
+        int h = _px(100);
+        if(m_type == 1)
+        {
+            w = m_winSize.width - 100;
+            h = w;
+        }
+        CARenderImage* rm = CARenderImage::create(w, h);
         rm->printscreenWithView(m_clvImage);
-        
+
         std::string imagePath = CCFileUtils::sharedFileUtils()->getWritablePath() + "image/" + "2.png";
         rm->saveToFile(imagePath.c_str());
-        //m_clvImage->getImage()->saveToFile(imagePath);
         CCLog("path : %s", imagePath.c_str());
         requestPhotoSubmit(imagePath);
-        
-//
-//        renderImage = CAView::createWithFrame(DRect(50,winSize.height/4,winSize.width-100,winSize.width-100));
-//        m_photoView->addSubview(renderImage);
-//        
-//        //m_clvImage->setClippingEnabled(false);
-//        
-//        if (m_clv!=NULL)
-//        {
-//            m_photoView->removeSubview(m_clv);
-//            m_clv = NULL;
-//            m_photoView->removeSubview(m_clvImage);
-//            m_clvImage = NULL;
-//        }
-//        
-//        CAImageView* imageView = CAImageView::createWithFrame(DRect(0,0,winSize.width-100,winSize.width-100));
-//        imageView->setImage(rm->getImageView()->getImage());
-//        renderImage->addSubview(imageView);
     }
     else if (btn->getTag() == 500) // cancle
     {
@@ -154,7 +155,22 @@ void PhotoViewController::buttonCallBack(CAControl* btn, DPoint point)
         m_photoView->setVisible(false);
         m_photoView->removeAllSubviews();
     }
-    
+    else if (btn->getTag() == 600)
+    {
+        m_filterView->setVisible(!(m_filterView->isVisible()));
+    }
+    else if(m_type == 1)
+    {
+        for (int i = 1; i < MOMENTSFILTERNUM; i++)
+        {
+            if (!strcmp(filterMoments[i], btn->getTextTag().c_str()))
+            {
+                m_currentCategory = filterMoments[i];
+                m_filterButton->setTitleForState(CAControlStateAll, m_currentCategory);
+            }
+        }
+        m_filterView->setVisible(false);
+    }
 }
 
 void PhotoViewController::onRequestFinished(const HttpResponseStatus& status, const CSJson::Value& json)
@@ -174,13 +190,15 @@ void PhotoViewController::onRequestFinished(const HttpResponseStatus& status, co
         }
         else
         {
-            
+            m_clv->setVisible(true);
+            m_clvImage->setClippingEnabled(false);
         }
         
     }
     else
     {
-        
+        m_clv->setVisible(true);
+        m_clvImage->setClippingEnabled(false);
     }
     
     if (p_pLoading)
@@ -194,7 +212,7 @@ void PhotoViewController::requestPhotoSubmit(std::string fullPath)
     std::map<std::string, std::string> key_value;
     key_value["tag"] = iconUploadTag[m_type];
     key_value["uid"] = crossapp_format_string("%d", FDataManager::getInstance()->getUserId());
-    key_value["cat"] = "developers";
+    key_value["cat"] = m_currentCategory;
     key_value["ptype"] = "png";
     CommonHttpManager::getInstance()->send_postFile(httpUrl, key_value, fullPath, this, CommonHttpJson_selector(PhotoViewController::onRequestFinished));
     {
@@ -252,7 +270,7 @@ void PhotoViewController::getSelectedImage(CAImage *image)
     
     m_clvImage = CAClippingView::create();
     
-    m_clvImage->setStencil(getStencil(scrollRect.size, 1));
+    m_clvImage->setStencil(getStencil(scrollRect.size, 0));
     m_clvImage->setFrame(scrollRect);
     m_clvImage->setInverted(false);
     m_clvImage->setClippingEnabled(false);
@@ -264,28 +282,28 @@ void PhotoViewController::getSelectedImage(CAImage *image)
     }else{
         temp_mini = scrollRect.size.width/image->getContentSize().width;
     }
-    CAScrollView* scrollView = CAScrollView::createWithFrame(m_clvImage->getBounds());
-    scrollView->setViewSize(DSize(image->getContentSize()));
-    scrollView->setContentOffset(DPoint(0,winSize.height/4), false);
-    scrollView->setMinimumZoomScale(temp_mini);
-    scrollView->setMaximumZoomScale(2.5f);
-    scrollView->setBackGroundColor(CAColor_clear);
-    scrollView->setShowsScrollIndicators(false);
-    scrollView->setBounces(false);
-    scrollView->setScrollViewDelegate(this);
-    scrollView->setDisplayRange(true);
-    m_clvImage->addSubview(scrollView);
-    
+   m_pScrollView = CAScrollView::createWithFrame(m_clvImage->getBounds());
+    m_pScrollView->setViewSize(DSize(image->getContentSize()));
+    m_pScrollView->setContentOffset(DPoint(0,winSize.height/4), false);
+    m_pScrollView->setMinimumZoomScale(temp_mini);
+    m_pScrollView->setMaximumZoomScale(2.5f);
+    m_pScrollView->setBackGroundColor(CAColor_clear);
+    m_pScrollView->setShowsScrollIndicators(false);
+    m_pScrollView->setBounces(false);
+    m_pScrollView->setScrollViewDelegate(this);
+    m_pScrollView->setDisplayRange(true);
+    m_clvImage->addSubview(m_pScrollView);
+  
     DRect rect;
     rect.origin = DPointZero;
-    rect.size = scrollView->getViewSize();
+    rect.size = m_pScrollView->getViewSize();
     CAImageView* imv = CAImageView::createWithFrame(rect);
     imv->setImage(image);
     imv->setImageViewScaleType(CAImageViewScaleTypeFitImageInside);
-    scrollView->addSubview(imv);
+    m_pScrollView->addSubview(imv);
 
     m_clv = CAClippingView::create();
-    m_clv->setStencil(getStencil(scrollRect.size, 1));
+    m_clv->setStencil(getStencil(scrollRect.size, 0));
     m_clv->setFrame(scrollRect);
     m_clv->setInverted(true);
     m_clv->setTouchEnabled(false);
@@ -323,7 +341,35 @@ void PhotoViewController::getSelectedImage(CAImage *image)
     button->setTag(500);
     button->addTarget(this, CAControl_selector(PhotoViewController::buttonCallBack), CAControlEventTouchUpInSide);
     m_photoView->addSubview(button);
-  
+
+    // moments photo tag
+    if (m_type == 1)
+    {
+        m_filterButton = CAButton::createWithFrame(DRect((m_winSize.width - _px(200)) / 2, _px(30), _px(200), _px(100)), CAButtonTypeCustom);
+        m_filterButton->setTitleForState(CAControlStateAll, "Tag");
+        m_filterButton->setTitleFontSize(_px(40));
+        m_filterButton->setTitleColorForState(CAControlStateAll, CAColor_white);
+        m_filterButton->addTarget(this, CAControl_selector(PhotoViewController::buttonCallBack), CAControlEventTouchUpInSide);
+        m_filterButton->setTag(600);
+        m_photoView->addSubview(m_filterButton);
+        
+        m_filterView = CAView::createWithFrame(DRect((m_winSize.width - _px(200)) / 2, _px(100), _px(240), _px(80) * (MOMENTSFILTERNUM - 1)));
+        m_filterView->setColor(ccc4(0, 0, 0, 128));
+        this->getView()->addSubview(m_filterView);
+        m_filterView->setVisible(false);
+        
+        for (int i = 1; i < MOMENTSFILTERNUM; i++)// filterMoments
+        {
+            button = CAButton::createWithFrame(DRect(_px(0), _px(80) * (i - 1), _px(240), _px(80)), CAButtonTypeCustom);
+            button->addTarget(this, CAControl_selector(PhotoViewController::buttonCallBack), CAControlEventTouchUpInSide);
+            button->setTextTag(filterMoments[i]);
+            button->setTitleForState(CAControlStateAll, crossapp_format_string("#%s", filterMoments[i]));
+            button->setTitleFontSize(_px(27));
+            button->setTitleColorForState(CAControlStateAll, CAColor_gray);
+            m_filterView->addSubview(button);
+        }
+    }
+
 }
 
 

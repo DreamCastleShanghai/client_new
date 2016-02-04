@@ -42,6 +42,10 @@ private:
 
 	DSize													m_winSize;
     int                                                         m_type;
+    std::string                                         m_currentCategory;
+    
+    CAView*                                             m_filterView;
+    CAButton*                                           m_filterButton;
     
     CAView*                                             m_basicView;
     CAView*                                             m_photoView;
@@ -49,7 +53,7 @@ private:
 
     CADrawView* getStencil(const DSize& size, int index);
     
-    
+    CAScrollView*                                   m_pScrollView;
     CAView* renderImage;
     CAView* renderImage_mb;
     CAClippingView* m_clvImage;
