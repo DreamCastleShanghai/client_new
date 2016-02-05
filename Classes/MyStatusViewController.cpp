@@ -1018,7 +1018,9 @@ void MyStatusViewController::refreshUserInfo()
     if (info->m_userId > 0)
     {
         CCLog("%s", info->m_imageUrl.c_str());
+        
         m_urlImageView->setUrl(info->m_imageUrl);
+        m_urlImageView->clearOldCache(info->m_imageUrl);
         m_nameLabel->setText(info->m_userName);
         m_pointLabel[0]->setText(crossapp_format_string("%d", info->m_point));
         if (info->m_greenAmb)

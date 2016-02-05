@@ -755,6 +755,14 @@ CommonUrlImageView* CommonUrlImageView::createWithCenter(const DRect& rect)
     return NULL;
 }
 
+
+void CommonUrlImageView::clearOldCache(const std::string& url)
+{
+    std::string key = MD5(DecodeURL(url)).md5();
+    CCLog("%s", key.c_str());
+    CAImageCache::sharedImageCache()->removeImageForKey(key);
+}
+
 void CommonUrlImageView::setUrl(const std::string& url)
 {
     m_sUrl = DecodeURL(url);

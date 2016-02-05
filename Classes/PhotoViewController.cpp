@@ -146,16 +146,12 @@ void PhotoViewController::buttonCallBack(CAControl* btn, DPoint point)
             
             int w = _px(100);
             int h = _px(100);
-            if(m_type == 1)
-            {
-                w = m_winSize.width - 100;
-                h = w;
-            }
-            CARenderImage* rm = CARenderImage::create(w, h);
+            CARenderImage* rm = CARenderImage::create(m_winSize.width - 100, m_winSize.width - 100);
             rm->printscreenWithView(m_clvImage);
             
+            CAImage* image = CAImage::scaleToNewImageWithImage(rm->getImageView()->getImage(), DSize(w, h));
             std::string imagePath = CCFileUtils::sharedFileUtils()->getWritablePath() + "image/" + "2.png";
-            rm->saveToFile(imagePath.c_str());
+            image->saveToFile(imagePath.c_str());
             CCLog("path : %s", imagePath.c_str());
             requestPhotoSubmit(imagePath);
         }

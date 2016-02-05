@@ -5,7 +5,7 @@
 #include "RootWindow.h"
 #include "ConstData/ConstFunc.h"
 
-#define DEBUG_APP
+//#define DEBUG_APP
 
 LoginViewController::LoginViewController()
 : m_pAccount(NULL)
@@ -120,7 +120,7 @@ void LoginViewController::btnCallBack(CAControl* btn, DPoint point)
         ConstFunc::trim(accout);
         ConstFunc::trim(passwd);
 #ifdef DEBUG_APP
-        accout = "d001381";
+        accout = "Alex";
         passwd = "001";
 #endif
         if (accout.length() == 0 || passwd.length() == 0) {

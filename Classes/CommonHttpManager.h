@@ -268,6 +268,8 @@ public:
     static CommonUrlImageView* createWithCenter(const DRect& rect);
     
     void setUrl(const std::string& url);
+    
+    void clearOldCache(const std::string& url);
 
     void setImageAndUrl(CAImage* image, const std::string& url);
     
