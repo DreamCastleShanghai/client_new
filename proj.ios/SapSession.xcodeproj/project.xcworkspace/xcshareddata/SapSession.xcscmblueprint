@@ -1,0 +1,30 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "8D8FDE86949193065922EFE6DEB05CA752391358",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "BE07B47CFF1724079DDDFFCAAE89C20AF180AF0A" : 0,
+    "8D8FDE86949193065922EFE6DEB05CA752391358" : 0
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "B8B267F0-8D5D-4161-AD39-934D0F7E27C1",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "BE07B47CFF1724079DDDFFCAAE89C20AF180AF0A" : "..\/CrossApp",
+    "8D8FDE86949193065922EFE6DEB05CA752391358" : "127\/"
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "SapSession",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "proj.ios\/SapSession.xcodeproj",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/DreamCastleShanghai\/client_new.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "8D8FDE86949193065922EFE6DEB05CA752391358"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/alizwl\/cross.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "BE07B47CFF1724079DDDFFCAAE89C20AF180AF0A"
+    }
+  ]
+}
