@@ -63,15 +63,16 @@ void MapViewController::viewDidLoad()
         CAImageView* imageView = CAImageView::createWithImage(CAImage::create("common/sky_bg.png"));
         imageView->setImageViewScaleType(CAImageViewScaleTypeFitImageXY);
         m_leftBtn->setBackGroundViewForState(CAControlStateAll, imageView);
-        imageView = CAImageView::createWithImage(CAImage::create("common/dsky_bg.png"));
-        imageView->setImageViewScaleType(CAImageViewScaleTypeFitImageXY);
-        m_leftBtn->setBackGroundViewForState(CAControlStateSelected, imageView);
+//        imageView = CAImageView::createWithImage(CAImage::create("common/dsky_bg.png"));
+//        imageView->setImageViewScaleType(CAImageViewScaleTypeFitImageXY);
+//        m_leftBtn->setBackGroundViewForState(CAControlStateSelected, imageView);
         m_leftBtn->addTarget(this, CAControl_selector(MapViewController::buttonCallBack), CAControlEventTouchUpInSide);
         m_leftBtn->setTag(ID_OUTSIDE);
         m_leftBtn->setTitleForState(CAControlStateAll, "Outside");
         m_leftBtn->setTitleFontName("fonts/arial.ttf");
         m_leftBtn->setTitleFontSize(_px(30));
-        m_leftBtn->setTitleColorForState(CAControlStateAll, CAColor_white);
+        m_leftBtn->setTitleColorForState(CAControlStateAll, SAP_WHITE_LOW);
+        m_leftBtn->setTitleColorForState(CAControlStateSelected, CAColor_white);
         this->getView()->addSubview(m_leftBtn);
         
         m_leftBtn->setControlState(CAControlStateSelected);
@@ -85,15 +86,16 @@ void MapViewController::viewDidLoad()
         CAImageView* imageView = CAImageView::createWithImage(CAImage::create("common/sky_bg.png"));
         imageView->setImageViewScaleType(CAImageViewScaleTypeFitImageXY);
         m_rightBtn->setBackGroundViewForState(CAControlStateAll, imageView);
-        imageView = CAImageView::createWithImage(CAImage::create("common/dsky_bg.png"));
-        imageView->setImageViewScaleType(CAImageViewScaleTypeFitImageXY);
-        m_rightBtn->setBackGroundViewForState(CAControlStateSelected, imageView);
+//        imageView = CAImageView::createWithImage(CAImage::create("common/dsky_bg.png"));
+//        imageView->setImageViewScaleType(CAImageViewScaleTypeFitImageXY);
+//        m_rightBtn->setBackGroundViewForState(CAControlStateSelected, imageView);
         m_rightBtn->addTarget(this, CAControl_selector(MapViewController::buttonCallBack), CAControlEventTouchUpInSide);
         m_rightBtn->setTag(ID_INSIDE);
         m_rightBtn->setTitleForState(CAControlStateAll, "Inside");
         m_rightBtn->setTitleFontName("fonts/arial.ttf");
         m_rightBtn->setTitleFontSize(_px(30));
-        m_rightBtn->setTitleColorForState(CAControlStateAll, CAColor_white);
+        m_rightBtn->setTitleColorForState(CAControlStateAll, SAP_WHITE_LOW);
+        m_rightBtn->setTitleColorForState(CAControlStateSelected, CAColor_white);
         this->getView()->addSubview(m_rightBtn);
     }
     

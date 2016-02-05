@@ -72,6 +72,8 @@ bool RootWindow::init()
     CATabBarController* tabBarController = new CATabBarController();
     tabBarController->initWithViewControllers(controllerVec);
     tabBarController->setTabBarSelectedBackGroundColor(CAColor_clear);
+    tabBarController->setTabBarTitleColorForSelected(CAColor_white);
+
     tabBarController->setTabBarBackGroundImage(CAImage::create("common/sky_bg.png"));
     /*
     CANavigationBarItem* temp_nav = CANavigationBarItem::create("");

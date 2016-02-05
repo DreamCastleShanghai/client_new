@@ -78,8 +78,7 @@ void SessionsSearchViewController::viewDidLoad()
 		button->setTitleFontName("fonts/arial.ttf");
         button->setTitleFontSize(_px(30));
 		button->setTitleColorForState(CAControlStateAll, CAColor_gray);
-        button->setTitleColorForState(CAControlStateSelected, CAColor_white);
-		button->addTarget(this, CAControl_selector(SessionsSearchViewController::buttonCallBack), CAControlEventTouchUpInSide);
+ 		button->addTarget(this, CAControl_selector(SessionsSearchViewController::buttonCallBack), CAControlEventTouchUpInSide);
 		button->setTag(300 + i);
 		button->setAllowsSelected(true);
 		m_filterView->addSubview(button);
@@ -98,8 +97,7 @@ void SessionsSearchViewController::viewDidLoad()
 		button->setTitleForState(CAControlStateAll, trackFilterItem[i]);
 		button->setTitleFontName("fonts/arial.ttf");
 		button->setTitleColorForState(CAControlStateAll, CAColor_gray);
-        if (i != 0)
-            button->setTitleColorForState(CAControlStateSelected, CAColor_white);
+        button->setTitleColorForState(CAControlStateSelected, CAColor_white);
         button->setTitleFontSize(_px(27));
 		button->setAllowsSelected(true);
 		//CAImageView* imageView = CAImageView::createWithImage(CAImage::create("common/white_bg.png"));
@@ -118,8 +116,7 @@ void SessionsSearchViewController::viewDidLoad()
 		button->setTitleForState(CAControlStateAll, formatFilterItem[i]);
 		button->setTitleFontName("fonts/arial.ttf");
 		button->setTitleColorForState(CAControlStateAll, CAColor_gray);
-        if (i != 0)
-            button->setTitleColorForState(CAControlStateSelected, CAColor_white);
+        button->setTitleColorForState(CAControlStateSelected, CAColor_white);
 		button->setTitleFontSize(_px(27));
 		button->setAllowsSelected(true);
 		//CAImageView* imageView = CAImageView::createWithImage(CAImage::create("common/white_bg.png"));

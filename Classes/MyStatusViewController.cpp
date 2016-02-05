@@ -588,8 +588,8 @@ void MyStatusViewController::switchNavType()
         
         if (m_pointType == MY_INFO_SCORE_HISTORY) {
             requestScoreHistoryMsg();
-            m_pointLabel[1]->setColor(ccc4(0xce, 0xea, 0xfd, 0xff));
-            m_rankLabel[1]->setColor(ccc4(0xce, 0xea, 0xfd, 0xff));
+            m_pointLabel[1]->setColor(SAP_WHITE_LOW);
+            m_rankLabel[1]->setColor(SAP_WHITE_LOW);
             m_pointLabel[0]->setColor(CAColor_white);
             m_rankLabel[0]->setColor(CAColor_white);
             
@@ -609,8 +609,8 @@ void MyStatusViewController::switchNavType()
             requestRankMsg();
             m_pointLabel[1]->setColor(CAColor_white);
             m_rankLabel[1]->setColor(CAColor_white);
-            m_pointLabel[0]->setColor(ccc4(0xce, 0xea, 0xfd, 0xff));
-            m_rankLabel[0]->setColor(ccc4(0xce, 0xea, 0xfd, 0xff));
+            m_pointLabel[0]->setColor(SAP_WHITE_LOW);
+            m_rankLabel[0]->setColor(SAP_WHITE_LOW);
 
             /*
             m_pointView->setVisible(true);
