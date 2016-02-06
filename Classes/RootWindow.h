@@ -26,6 +26,8 @@ public:
 
 	CC_SYNTHESIZE_READONLY(CANavigationController*, m_pRootNavigationController, RootNavigationController);
     
+    CC_SYNTHESIZE_READONLY(sqlite3*, m_pSqlite3, Sqlite3);
+    
 	virtual void keyBackClicked();
 
     int getUserId() { return m_userId; }

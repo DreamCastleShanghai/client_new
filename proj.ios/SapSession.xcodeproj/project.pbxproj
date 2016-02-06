@@ -154,8 +154,9 @@
 		5C723CEC1C152BA200B28BF3 /* LoginViewController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5C723CEA1C152BA200B28BF3 /* LoginViewController.cpp */; };
 		5C723CF51C15381300B28BF3 /* CommonHttpManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5C723CF31C15381300B28BF3 /* CommonHttpManager.cpp */; };
 		5CC19D2F1C40BAC900594653 /* FServerTime.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5CC19D2D1C40BAC900594653 /* FServerTime.cpp */; };
-		5CCDA5281C42091F006AEC61 /* tmp in Resources */ = {isa = PBXBuildFile; fileRef = 5CCDA5271C42091F006AEC61 /* tmp */; };
 		5CCDA52C1C420953006AEC61 /* map in Resources */ = {isa = PBXBuildFile; fileRef = 5CCDA52B1C420953006AEC61 /* map */; };
+		5CE620451C65AE1E00435EF0 /* FUserManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5CE620431C65AE1E00435EF0 /* FUserManager.cpp */; };
+		5CE620471C65B1A500435EF0 /* notice in Resources */ = {isa = PBXBuildFile; fileRef = 5CE620461C65B1A500435EF0 /* notice */; };
 		5CF668391C194EB0009994C0 /* MainViewController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5CF668371C194EB0009994C0 /* MainViewController.cpp */; };
 		5CF6683F1C1952F0009994C0 /* HttpConnect.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5CF6683D1C1952F0009994C0 /* HttpConnect.cpp */; };
 		5CFA827F1C2824550025C9B5 /* SessionDetailViewController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5CFA82791C2824550025C9B5 /* SessionDetailViewController.cpp */; };
@@ -500,8 +501,10 @@
 		5C723CF41C15381300B28BF3 /* CommonHttpManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CommonHttpManager.h; path = ../Classes/CommonHttpManager.h; sourceTree = "<group>"; };
 		5CC19D2D1C40BAC900594653 /* FServerTime.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = FServerTime.cpp; path = ../Classes/utils/FServerTime.cpp; sourceTree = "<group>"; };
 		5CC19D2E1C40BAC900594653 /* FServerTime.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FServerTime.h; path = ../Classes/utils/FServerTime.h; sourceTree = "<group>"; };
-		5CCDA5271C42091F006AEC61 /* tmp */ = {isa = PBXFileReference; lastKnownFileType = folder; path = tmp; sourceTree = "<group>"; };
 		5CCDA52B1C420953006AEC61 /* map */ = {isa = PBXFileReference; lastKnownFileType = folder; path = map; sourceTree = "<group>"; };
+		5CE620431C65AE1E00435EF0 /* FUserManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = FUserManager.cpp; path = ../Classes/FUserManager.cpp; sourceTree = "<group>"; };
+		5CE620441C65AE1E00435EF0 /* FUserManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FUserManager.h; path = ../Classes/FUserManager.h; sourceTree = "<group>"; };
+		5CE620461C65B1A500435EF0 /* notice */ = {isa = PBXFileReference; lastKnownFileType = folder; path = notice; sourceTree = "<group>"; };
 		5CF668371C194EB0009994C0 /* MainViewController.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MainViewController.cpp; path = ../Classes/MainViewController.cpp; sourceTree = "<group>"; };
 		5CF668381C194EB0009994C0 /* MainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MainViewController.h; path = ../Classes/MainViewController.h; sourceTree = "<group>"; };
 		5CF6683D1C1952F0009994C0 /* HttpConnect.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = HttpConnect.cpp; path = ../Classes/utils/HttpConnect.cpp; sourceTree = "<group>"; };
@@ -664,6 +667,8 @@
 				5C31C85E1C47388000542BF3 /* FDataManager.h */,
 				5C432C301C60EB54008B55A0 /* FirstSurveyViewController.cpp */,
 				5C432C311C60EB54008B55A0 /* FirstSurveyViewController.h */,
+				5CE620431C65AE1E00435EF0 /* FUserManager.cpp */,
+				5CE620441C65AE1E00435EF0 /* FUserManager.h */,
 				5CFCF7001C3E512600DE4410 /* fview */,
 				5C5B69491C55DE28000C9AA4 /* IconUploadViewController.cpp */,
 				5C5B694A1C55DE28000C9AA4 /* IconUploadViewController.h */,
@@ -676,14 +681,14 @@
 				5C6CEB9E1C1E7058000AE9D2 /* MainViewTableCell.h */,
 				5CFCF6FA1C3D589600DE4410 /* MapViewController.cpp */,
 				5CFCF6FB1C3D589600DE4410 /* MapViewController.h */,
+				5C4FB8B31C6323BA00409B96 /* MeInfoViewController.cpp */,
+				5C4FB8B41C6323BA00409B96 /* MeInfoViewController.h */,
 				5C432C331C60EB7B008B55A0 /* MomentsDetailViewController.cpp */,
 				5C432C341C60EB7B008B55A0 /* MomentsDetailViewController.h */,
 				5C5B694B1C55DE28000C9AA4 /* MomentViewController.cpp */,
 				5C5B694C1C55DE28000C9AA4 /* MomentViewController.h */,
 				5CFA82841C282B730025C9B5 /* MyStatusViewController.cpp */,
 				5CFA82851C282B730025C9B5 /* MyStatusViewController.h */,
-				5C4FB8B31C6323BA00409B96 /* MeInfoViewController.cpp */,
-				5C4FB8B41C6323BA00409B96 /* MeInfoViewController.h */,
 				5CFCF7041C3EAE0F00DE4410 /* NoticeViewController.cpp */,
 				5CFCF7051C3EAE0F00DE4410 /* NoticeViewController.h */,
 				5CFA82901C2831260025C9B5 /* PhotoViewController.cpp */,
@@ -1071,10 +1076,10 @@
 				5C6CEBA11C1E709C000AE9D2 /* main */,
 				5CCDA52B1C420953006AEC61 /* map */,
 				5C5B69531C56047F000C9AA4 /* moments */,
+				5CE620461C65B1A500435EF0 /* notice */,
 				5CFA82821C2825F90025C9B5 /* session */,
 				5C5DE7281C2F9E2300D9A8BC /* sound */,
 				B01F71661951682600BA07A6 /* source_material */,
-				5CCDA5271C42091F006AEC61 /* tmp */,
 				5C5B695E1C568ADD000C9AA4 /* vote */,
 			);
 			name = Resources;
@@ -1122,7 +1127,7 @@
 						DevelopmentTeam = 65J6U7BL8K;
 						SystemCapabilities = {
 							com.apple.Push = {
-								enabled = 1;
+								enabled = 0;
 							};
 						};
 					};
@@ -1169,13 +1174,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				5C5B69541C56047F000C9AA4 /* moments in Resources */,
-				5CCDA5281C42091F006AEC61 /* tmp in Resources */,
 				5C5DE7291C2F9E2300D9A8BC /* sound in Resources */,
 				5CCDA52C1C420953006AEC61 /* map in Resources */,
 				026964B31BEB435100C8BCD7 /* CrossApp.xib in Resources */,
 				5CFA82831C2825F90025C9B5 /* session in Resources */,
 				5C6CEBA31C1E709C000AE9D2 /* main in Resources */,
 				5C5B695F1C568ADD000C9AA4 /* vote in Resources */,
+				5CE620471C65B1A500435EF0 /* notice in Resources */,
 				5C6CEBA21C1E709C000AE9D2 /* login in Resources */,
 				3E02A50E1B85AD6000328E71 /* NOTES.txt in Resources */,
 				3E02A50F1B85AD6000328E71 /* TODO in Resources */,
@@ -1201,6 +1206,7 @@
 				3E02A4D81B85AD6000328E71 /* as_math.cpp in Sources */,
 				3E02A4B21B85AD6000328E71 /* ear_clip_triangulate_float.cpp in Sources */,
 				3E02A4BD1B85AD6000328E71 /* tu_file_SDL.cpp in Sources */,
+				5CE620451C65AE1E00435EF0 /* FUserManager.cpp in Sources */,
 				3E02A4E71B85AD6000328E71 /* as_xmlsocket.cpp in Sources */,
 				3E02A4D91B85AD6000328E71 /* as_matrix.cpp in Sources */,
 				5C432C321C60EB54008B55A0 /* FirstSurveyViewController.cpp in Sources */,
@@ -1357,6 +1363,7 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
@@ -1397,7 +1404,7 @@
 				OTHER_CFLAGS = "-O2";
 				PRODUCT_BUNDLE_IDENTIFIER = crossapp.com;
 				PRODUCT_NAME = SapSession;
-				PROVISIONING_PROFILE = "08f7f174-8ca8-41c6-9425-ec95a2d5c42c";
+				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -1412,6 +1419,7 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
@@ -1449,7 +1457,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = crossapp.com;
 				PRODUCT_NAME = SapSession;
-				PROVISIONING_PROFILE = "08f7f174-8ca8-41c6-9425-ec95a2d5c42c";
+				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 1;

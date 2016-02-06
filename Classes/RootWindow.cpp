@@ -5,6 +5,7 @@
 #include "MainViewController.h"
 #include "SessionsViewController.h"
 #include "MyStatusViewController.h"
+#include "FUserManager.h"
 
 static RootWindow* _window = NULL;
 
@@ -29,6 +30,10 @@ RootWindow::RootWindow()
 , m_my(NULL)
 {
     CAApplication::getApplication()->getKeypadDispatcher()->addDelegate(this);
+    
+    std::string fullPath = CCFileUtils::sharedFileUtils()->getWritablePath() + "common.db";
+    sqlite3_open(fullPath.c_str(), &m_pSqlite3);
+    CCLog("%s", fullPath.c_str());
 }
 
 RootWindow::~RootWindow()
@@ -89,8 +94,10 @@ bool RootWindow::init()
 	m_pRootNavigationController->setNavigationBarHidden(true, false);
     m_pRootNavigationController->setScrollEnabled(false);
 
-	if (1)
+    FUser user = FUserManager::sharedFUserManager()->onLineUser();
+	if (user.loginname.length() == 0)
 	{
+        FDataManager::getInstance()->setUserId(user.uid);
 		LoginViewController* _viewController = new LoginViewController();
 		_viewController->init();
 		this->setRootViewController(_viewController);

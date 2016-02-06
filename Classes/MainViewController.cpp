@@ -542,7 +542,7 @@ void MainViewController::onRequestFinished(const HttpResponseStatus& status, con
     {
         CSJson::FastWriter writer;
         string tempjson = writer.write(json);
-        CCLog("receive json == %s",tempjson.c_str());
+        //CCLog("receive json == %s",tempjson.c_str());
         
         const CSJson::Value& value = json["result"];
         int length = value["bar"].size();
