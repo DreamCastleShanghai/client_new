@@ -129,12 +129,9 @@
 		5C432C2B1C60EAB7008B55A0 /* ConstFunc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5C432C211C60EAB7008B55A0 /* ConstFunc.cpp */; };
 		5C432C2C1C60EAB7008B55A0 /* ConstId.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5C432C231C60EAB7008B55A0 /* ConstId.cpp */; };
 		5C432C2D1C60EAB7008B55A0 /* ConstRect.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5C432C251C60EAB7008B55A0 /* ConstRect.cpp */; };
-		5C432C2E1C60EAB7008B55A0 /* ConstRes.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5C432C271C60EAB7008B55A0 /* ConstRes.cpp */; };
-		5C432C2F1C60EAB7008B55A0 /* ConstString.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5C432C291C60EAB7008B55A0 /* ConstString.cpp */; };
 		5C432C321C60EB54008B55A0 /* FirstSurveyViewController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5C432C301C60EB54008B55A0 /* FirstSurveyViewController.cpp */; };
 		5C432C351C60EB7B008B55A0 /* MomentsDetailViewController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5C432C331C60EB7B008B55A0 /* MomentsDetailViewController.cpp */; };
 		5C4FB8B51C6323BA00409B96 /* MeInfoViewController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5C4FB8B31C6323BA00409B96 /* MeInfoViewController.cpp */; };
-		5C4FB8B71C633F6E00409B96 /* notice in Resources */ = {isa = PBXBuildFile; fileRef = 5C4FB8B61C633F6E00409B96 /* notice */; };
 		5C5B694D1C55DE28000C9AA4 /* IconUploadViewController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5C5B69491C55DE28000C9AA4 /* IconUploadViewController.cpp */; };
 		5C5B694E1C55DE28000C9AA4 /* MomentViewController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5C5B694B1C55DE28000C9AA4 /* MomentViewController.cpp */; };
 		5C5B69541C56047F000C9AA4 /* moments in Resources */ = {isa = PBXBuildFile; fileRef = 5C5B69531C56047F000C9AA4 /* moments */; };
@@ -176,7 +173,6 @@
 		5CFD0D941C20711000AD0C21 /* common in Resources */ = {isa = PBXBuildFile; fileRef = 5CFD0D931C20711000AD0C21 /* common */; };
 		B01F71671951682600BA07A6 /* source_material in Resources */ = {isa = PBXBuildFile; fileRef = B01F71661951682600BA07A6 /* source_material */; };
 		B0621BE51AC3B871005EBCA7 /* fonts in Resources */ = {isa = PBXBuildFile; fileRef = B0621BDB1AC3B871005EBCA7 /* fonts */; };
-		B0621E211AC3ECB0005EBCA7 /* FirstViewController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B0621E1D1AC3ECB0005EBCA7 /* FirstViewController.cpp */; };
 		B0621E221AC3ECB0005EBCA7 /* RootWindow.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B0621E1F1AC3ECB0005EBCA7 /* RootWindow.cpp */; };
 		B0A030081A8E071D0005CB8F /* CoreBluetooth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B0A030071A8E071D0005CB8F /* CoreBluetooth.framework */; };
 		B0CA5A2B1A77A79900BECD89 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B0CA5A2A1A77A79900BECD89 /* SystemConfiguration.framework */; };
@@ -457,17 +453,12 @@
 		5C432C241C60EAB7008B55A0 /* ConstId.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ConstId.h; path = ../Classes/ConstData/ConstId.h; sourceTree = "<group>"; };
 		5C432C251C60EAB7008B55A0 /* ConstRect.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ConstRect.cpp; path = ../Classes/ConstData/ConstRect.cpp; sourceTree = "<group>"; };
 		5C432C261C60EAB7008B55A0 /* ConstRect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ConstRect.h; path = ../Classes/ConstData/ConstRect.h; sourceTree = "<group>"; };
-		5C432C271C60EAB7008B55A0 /* ConstRes.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ConstRes.cpp; path = ../Classes/ConstData/ConstRes.cpp; sourceTree = "<group>"; };
-		5C432C281C60EAB7008B55A0 /* ConstRes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ConstRes.h; path = ../Classes/ConstData/ConstRes.h; sourceTree = "<group>"; };
-		5C432C291C60EAB7008B55A0 /* ConstString.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ConstString.cpp; path = ../Classes/ConstData/ConstString.cpp; sourceTree = "<group>"; };
-		5C432C2A1C60EAB7008B55A0 /* ConstString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ConstString.h; path = ../Classes/ConstData/ConstString.h; sourceTree = "<group>"; };
 		5C432C301C60EB54008B55A0 /* FirstSurveyViewController.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = FirstSurveyViewController.cpp; path = ../Classes/FirstSurveyViewController.cpp; sourceTree = "<group>"; };
 		5C432C311C60EB54008B55A0 /* FirstSurveyViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FirstSurveyViewController.h; path = ../Classes/FirstSurveyViewController.h; sourceTree = "<group>"; };
 		5C432C331C60EB7B008B55A0 /* MomentsDetailViewController.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MomentsDetailViewController.cpp; path = ../Classes/MomentsDetailViewController.cpp; sourceTree = "<group>"; };
 		5C432C341C60EB7B008B55A0 /* MomentsDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MomentsDetailViewController.h; path = ../Classes/MomentsDetailViewController.h; sourceTree = "<group>"; };
 		5C4FB8B31C6323BA00409B96 /* MeInfoViewController.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MeInfoViewController.cpp; path = ../Classes/MeInfoViewController.cpp; sourceTree = "<group>"; };
 		5C4FB8B41C6323BA00409B96 /* MeInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MeInfoViewController.h; path = ../Classes/MeInfoViewController.h; sourceTree = "<group>"; };
-		5C4FB8B61C633F6E00409B96 /* notice */ = {isa = PBXFileReference; lastKnownFileType = folder; name = notice; path = map/notice; sourceTree = "<group>"; };
 		5C5B69491C55DE28000C9AA4 /* IconUploadViewController.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = IconUploadViewController.cpp; path = ../Classes/IconUploadViewController.cpp; sourceTree = "<group>"; };
 		5C5B694A1C55DE28000C9AA4 /* IconUploadViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IconUploadViewController.h; path = ../Classes/IconUploadViewController.h; sourceTree = "<group>"; };
 		5C5B694B1C55DE28000C9AA4 /* MomentViewController.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MomentViewController.cpp; path = ../Classes/MomentViewController.cpp; sourceTree = "<group>"; };
@@ -543,8 +534,6 @@
 		B01F71661951682600BA07A6 /* source_material */ = {isa = PBXFileReference; lastKnownFileType = folder; path = source_material; sourceTree = "<group>"; };
 		B056375B195276CF00C63FAA /* CrossApp.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = CrossApp.xcodeproj; path = ../../../CrossApp/proj.ios/CrossApp.xcodeproj; sourceTree = "<group>"; };
 		B0621BDB1AC3B871005EBCA7 /* fonts */ = {isa = PBXFileReference; lastKnownFileType = folder; path = fonts; sourceTree = "<group>"; };
-		B0621E1D1AC3ECB0005EBCA7 /* FirstViewController.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = FirstViewController.cpp; path = ../Classes/FirstViewController.cpp; sourceTree = "<group>"; };
-		B0621E1E1AC3ECB0005EBCA7 /* FirstViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FirstViewController.h; path = ../Classes/FirstViewController.h; sourceTree = "<group>"; };
 		B0621E1F1AC3ECB0005EBCA7 /* RootWindow.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = RootWindow.cpp; path = ../Classes/RootWindow.cpp; sourceTree = "<group>"; };
 		B0621E201AC3ECB0005EBCA7 /* RootWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RootWindow.h; path = ../Classes/RootWindow.h; sourceTree = "<group>"; };
 		B0A030071A8E071D0005CB8F /* CoreBluetooth.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreBluetooth.framework; path = System/Library/Frameworks/CoreBluetooth.framework; sourceTree = SDKROOT; };
@@ -675,8 +664,6 @@
 				5C31C85E1C47388000542BF3 /* FDataManager.h */,
 				5C432C301C60EB54008B55A0 /* FirstSurveyViewController.cpp */,
 				5C432C311C60EB54008B55A0 /* FirstSurveyViewController.h */,
-				B0621E1D1AC3ECB0005EBCA7 /* FirstViewController.cpp */,
-				B0621E1E1AC3ECB0005EBCA7 /* FirstViewController.h */,
 				5CFCF7001C3E512600DE4410 /* fview */,
 				5C5B69491C55DE28000C9AA4 /* IconUploadViewController.cpp */,
 				5C5B694A1C55DE28000C9AA4 /* IconUploadViewController.h */,
@@ -1022,10 +1009,6 @@
 				5C432C241C60EAB7008B55A0 /* ConstId.h */,
 				5C432C251C60EAB7008B55A0 /* ConstRect.cpp */,
 				5C432C261C60EAB7008B55A0 /* ConstRect.h */,
-				5C432C271C60EAB7008B55A0 /* ConstRes.cpp */,
-				5C432C281C60EAB7008B55A0 /* ConstRes.h */,
-				5C432C291C60EAB7008B55A0 /* ConstString.cpp */,
-				5C432C2A1C60EAB7008B55A0 /* ConstString.h */,
 			);
 			name = ConstData;
 			sourceTree = "<group>";
@@ -1088,7 +1071,6 @@
 				5C6CEBA11C1E709C000AE9D2 /* main */,
 				5CCDA52B1C420953006AEC61 /* map */,
 				5C5B69531C56047F000C9AA4 /* moments */,
-				5C4FB8B61C633F6E00409B96 /* notice */,
 				5CFA82821C2825F90025C9B5 /* session */,
 				5C5DE7281C2F9E2300D9A8BC /* sound */,
 				B01F71661951682600BA07A6 /* source_material */,
@@ -1138,6 +1120,11 @@
 				TargetAttributes = {
 					1D6058900D05DD3D006BFB54 = {
 						DevelopmentTeam = 65J6U7BL8K;
+						SystemCapabilities = {
+							com.apple.Push = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -1189,7 +1176,6 @@
 				5CFA82831C2825F90025C9B5 /* session in Resources */,
 				5C6CEBA31C1E709C000AE9D2 /* main in Resources */,
 				5C5B695F1C568ADD000C9AA4 /* vote in Resources */,
-				5C4FB8B71C633F6E00409B96 /* notice in Resources */,
 				5C6CEBA21C1E709C000AE9D2 /* login in Resources */,
 				3E02A50E1B85AD6000328E71 /* NOTES.txt in Resources */,
 				3E02A50F1B85AD6000328E71 /* TODO in Resources */,
@@ -1210,7 +1196,6 @@
 				3E02A4F61B85AD6000328E71 /* gameswf_impl.cpp in Sources */,
 				3E02A4BB1B85AD6000328E71 /* triangulate_sint32.cpp in Sources */,
 				3E02A4EF1B85AD6000328E71 /* gameswf_dlist.cpp in Sources */,
-				B0621E211AC3ECB0005EBCA7 /* FirstViewController.cpp in Sources */,
 				15A3DAEB1682F8A6002FB0C5 /* CDAudioManager.m in Sources */,
 				5CFA82811C2824550025C9B5 /* SessionsViewController.cpp in Sources */,
 				3E02A4D81B85AD6000328E71 /* as_math.cpp in Sources */,
@@ -1240,7 +1225,6 @@
 				3E02A4C91B85AD6000328E71 /* gameswf_abc.cpp in Sources */,
 				3E02A4FE1B85AD6000328E71 /* gameswf_object.cpp in Sources */,
 				3E02A4F81B85AD6000328E71 /* gameswf_jit_opcode.cpp in Sources */,
-				5C432C2E1C60EAB7008B55A0 /* ConstRes.cpp in Sources */,
 				3E02A4F41B85AD6000328E71 /* gameswf_freetype.cpp in Sources */,
 				3E02A5001B85AD6000328E71 /* gameswf_render.cpp in Sources */,
 				5CF6683F1C1952F0009994C0 /* HttpConnect.cpp in Sources */,
@@ -1304,7 +1288,6 @@
 				3E02A4E51B85AD6000328E71 /* as_textformat.cpp in Sources */,
 				1AC3624916D4A1E8000847F2 /* AppController.mm in Sources */,
 				3E02A4FD1B85AD6000328E71 /* gameswf_mutex.cpp in Sources */,
-				5C432C2F1C60EAB7008B55A0 /* ConstString.cpp in Sources */,
 				5C5B694D1C55DE28000C9AA4 /* IconUploadViewController.cpp in Sources */,
 				3E02A4F51B85AD6000328E71 /* gameswf_function.cpp in Sources */,
 				3E02A4E01B85AD6000328E71 /* as_point.cpp in Sources */,
@@ -1373,7 +1356,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD)";
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "Brand Assets";
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
@@ -1414,10 +1397,10 @@
 				OTHER_CFLAGS = "-O2";
 				PRODUCT_BUNDLE_IDENTIFIER = crossapp.com;
 				PRODUCT_NAME = SapSession;
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "08f7f174-8ca8-41c6-9425-ec95a2d5c42c";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 				USER_HEADER_SEARCH_PATHS = "";
 				VALID_ARCHS = "armv6 armv7 arm64";
 			};
@@ -1428,7 +1411,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD)";
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "Brand Assets";
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
@@ -1466,10 +1449,10 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = crossapp.com;
 				PRODUCT_NAME = SapSession;
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "08f7f174-8ca8-41c6-9425-ec95a2d5c42c";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 				USER_HEADER_SEARCH_PATHS = "";
 				VALIDATE_PRODUCT = YES;
 				VALID_ARCHS = "armv6 armv7 arm64";

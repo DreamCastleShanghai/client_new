@@ -10,7 +10,9 @@
 NoticeViewController::NoticeViewController()
 : p_alertView(NULL)
 , p_pLoading(NULL)
+, m_msgTableView(NULL)
 {
+    m_msg.clear();
     CADevice::getLocalNotificationList(m_msgList);
 }
 

@@ -21,7 +21,7 @@ FDataManager::FDataManager()
 //    m_userId = 1;
 //    memset((void*)&m_userInfo, 0, sizeof(userInfo));
 //    m_userInfo.m_userId = 1;
-    m_sessionMsgs.clear();
+//    m_sessionMsgs.clear();
 }
 
 FDataManager::~FDataManager()

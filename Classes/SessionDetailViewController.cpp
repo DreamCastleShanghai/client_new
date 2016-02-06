@@ -16,14 +16,17 @@
 SessionDetailViewController::SessionDetailViewController(sessionMsg &msg)
 : m_msg(&msg)
 , m_surveyButtonView(NULL)
-//, m_canStore(true)
-//, m_canLike(true)
+, m_surveyTimeLabel(NULL)
+, m_storeBtnImage(NULL)
+, m_likeBtnImage(NULL)
+, m_likeNumLabel(NULL)
 , m_isSurveyed(false)
+, p_alertView(NULL)
+, p_pLoading(NULL)
 , m_surveyBtn(NULL)
 , m_surveyBtnLabel1(NULL)
 , m_surveyBtnLabel2(NULL)
 {
-//	m_isLiked = msg.m_liked;
 	m_detailMsg.m_sessionId = -1;
     requestMsg();
 }

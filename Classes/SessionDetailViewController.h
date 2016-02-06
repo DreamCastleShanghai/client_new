@@ -51,12 +51,8 @@ private:
 
 	sessionMsg*                                             m_msg;
 	sessionDetailMsg										m_detailMsg;
- //   bool                                                    m_canStore;
- //   bool                                                    m_isStore;
     CAImageView*                                            m_storeBtnImage;
 
-//	bool                                                    m_canLike;
-//	bool                                                    m_isLiked;
 	CAImageView*                                            m_likeBtnImage;
 	CALabel*												m_likeNumLabel;
 

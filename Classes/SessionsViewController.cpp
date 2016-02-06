@@ -15,10 +15,19 @@ SessionsViewController::SessionsViewController()
 : m_msgTableView(NULL)
 , p_alertView(NULL)
 , p_pLoading(NULL)
+, m_sessionNoticeImageView(NULL)
+, m_listView(NULL)
+, m_filterView(NULL)
 , m_navType(0)
 , m_navTrackType(0)
 , m_navFormatType(0)
 {
+    m_downView[0] = NULL;
+    m_downView[1] = NULL;
+    m_msgFilter.clear();
+    m_filterViewVec.clear();
+    m_trackButtonVec.clear();
+    m_formatButtonVec.clear();
     m_msg = FDataManager::getInstance()->getSessionMsgs();
 }
 

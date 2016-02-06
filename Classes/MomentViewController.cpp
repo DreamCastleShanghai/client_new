@@ -17,10 +17,18 @@ MomentViewController::MomentViewController()
 , m_currentMyNum(0)
 , m_currentCategory("all")
 , m_canDelete(true)
-//, m_canLike(true)
+, m_browView(NULL)
+, m_msgTableView(NULL)
+, m_myCollectionView(NULL)
+, m_filterView(NULL)
 {
+    m_allMsg.clear();
+    m_allFilterMsg.clear();
+    m_myMsg.clear();
     m_likeNumLabelVec.clear();
     m_likeBtnBG.clear();
+    m_segView[0] = NULL;
+    m_segView[1] = NULL;
 }
 
 MomentViewController::~MomentViewController()

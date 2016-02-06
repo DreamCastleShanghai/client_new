@@ -7,11 +7,14 @@
 #include "SimpleAudioEngine.h"
 
 VoteShakeViewController::VoteShakeViewController(demoJamMsg* dMsg, voiceMsg* vMsg)
-: p_alertView(NULL)
-, p_pLoading(NULL)
-, m_shakeNumLabel(NULL)
+: m_view(NULL)
+, m_shakeView(NULL)
+, m_shakeEndView(NULL)
 , m_demoMsg(dMsg)
 , m_voiceMsg(vMsg)
+, p_alertView(NULL)
+, p_pLoading(NULL)
+, m_shakeNumLabel(NULL)
 , m_projectType(0)
 , m_shakeNum(Vote_NotStart)
 , m_voted(false)

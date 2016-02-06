@@ -46,10 +46,13 @@ void FirstSurveyViewController::viewDidLoad()
     m_winSize = this->getView()->getBounds().size;
 
     // header
-    m_headerView = CAScale9ImageView::createWithImage(CAImage::create("common/sky_bg.png"));
+    if (m_headerView) {
+        m_headerView = CAView::createWithFrame(DRect(_px(0), _px(0), m_winSize.width, _px(120)));//Image(CAImage::create("common/sky_bg.png"));
+    }
     if (m_headerView)
     {
-        m_headerView->setFrame(DRect(_px(0), _px(0), m_winSize.width, _px(120)));
+        m_headerView->setColor(SAP_DEFAULT_COLOR);
+        //m_headerView->setFrame(DRect(_px(0), _px(0), m_winSize.width, _px(120)));
         this->getView()->addSubview(m_headerView);
     
         m_backBtn = CAButton::createWithFrame(DRect(_px(0), _px(20), _px(100), _px(100)), CAButtonTypeCustom);

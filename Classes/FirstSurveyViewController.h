@@ -42,7 +42,7 @@ private:
     CALabel*                    m_alertLabel;
     
     // header
-    CAScale9ImageView*          m_headerView;
+    CAView*                     m_headerView;
     CAButton*                   m_backBtn;
     CAImageView*                m_backBtnBG;
     CALabel*                    m_headerTitle;

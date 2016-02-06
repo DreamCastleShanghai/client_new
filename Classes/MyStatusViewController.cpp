@@ -21,12 +21,21 @@ MyStatusViewController::MyStatusViewController()
 , m_pointType(0)
 , m_navSegmentView(NULL)
 , m_pointSegmentView(NULL)
+, m_searchButton(NULL)
+, m_pointButton(NULL)
+, m_urlImageView(NULL)
 , m_greenAmbIcon(NULL)
+, m_nameLabel(NULL)
 , m_msg(FDataManager::getInstance()->getSessionMsgs())
 {
     m_filterMsg.clear();
     m_rankMsg.clear();
     m_shMsg.clear();
+    m_rowNumOfSection.clear();
+    m_pointLabel[0] = NULL;
+    m_pointLabel[1] = NULL;
+    m_rankLabel[0] = NULL;
+    m_rankLabel[1] = NULL;
 }
 
 MyStatusViewController::~MyStatusViewController()

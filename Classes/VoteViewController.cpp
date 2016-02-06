@@ -15,7 +15,17 @@ VoteViewController::VoteViewController()
 , p_pLoading(NULL)
 , m_canVote(true)
 {
-    
+    m_demoMsg.clear();
+    m_voiceMsg.clear();
+    m_hikMsg.clear();
+    for (int i = 0; i < SEG_PAGE; ++i) {
+        m_segView[i] = NULL;
+        m_pageView[i] = NULL;
+        m_pageControl[i] = NULL;
+        m_detailView[i] = NULL;
+        m_segBgView[i] = NULL;
+        m_currentPage[i] = NULL;
+    }
     //CAScheduler::schedule(schedule_selector(CDUIShowView::progressValueChange), this, 0.01, false);
 }
 

@@ -11,6 +11,11 @@ MomentsDetailViewController::MomentsDetailViewController(photoMsg& msg, int type
 , m_msg(&msg)
 //, m_canLike(true)
 , m_type(type)
+, m_view(NULL)
+, m_likeNumLabel(NULL)
+, m_likeBtnImage(NULL)
+, m_scrollView(NULL)
+, m_urlImageVIew(NULL)
 {
     
 }

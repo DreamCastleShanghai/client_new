@@ -31,8 +31,8 @@ protected:
 private:
 
     DSize           m_winSize;
-	CATextField * m_pAccount;
-	CATextField * m_pPassword;
+	CATextField*    m_pAccount;
+	CATextField*    m_pPassword;
 };
 
 

@@ -8,12 +8,22 @@
 #include "FDataManager.h"
 
 SessionsSearchViewController::SessionsSearchViewController(int type)
-: m_alertView(NULL),
-  m_pLoading(NULL),
-  m_type(type),
-  m_navTrackType(0),
-  m_navFormatType(0)
+: m_type(type)
+, m_searchTextField(NULL)
+, m_alertView(NULL)
+, m_pLoading(NULL)
+, m_msg(NULL)
+, m_msgFilter(NULL)
+, m_msgSearchFilter(NULL)
+, m_msgTableView(NULL)
+, m_filterView(NULL)
+, m_trackButtonVec(NULL)
+, m_formatButtonVec(NULL)
+, m_navTrackType(0)
+, m_navFormatType(0)
 {
+    m_downView[0] = NULL;
+    m_downView[1] = NULL;
     m_msg = FDataManager::getInstance()->getSessionMsgs();
 }
 
