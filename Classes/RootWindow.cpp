@@ -97,7 +97,6 @@ bool RootWindow::init()
     FUser user = FUserManager::sharedFUserManager()->onLineUser();
 	if (user.loginname.length() == 0)
 	{
-        FDataManager::getInstance()->setUserId(user.uid);
 		LoginViewController* _viewController = new LoginViewController();
 		_viewController->init();
 		this->setRootViewController(_viewController);
@@ -105,6 +104,7 @@ bool RootWindow::init()
 	}
 	else
 	{
+        FDataManager::getInstance()->setUserId(user.uid);
 		this->setRootViewController(m_pRootNavigationController);
 	}
 
