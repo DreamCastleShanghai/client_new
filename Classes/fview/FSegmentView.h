@@ -31,7 +31,7 @@ public:
     
     void buttonCallBack(CAControl* btn, DPoint point);
 //    
-    virtual void setItemBackGroundImage(CAImageView* imageView, int index);
+    virtual void setItemBackgroundImage(CAImageView* imageView, int index);
 //    
     virtual void setItemTile(std::string tile, int index);
     

@@ -49,7 +49,7 @@ void MapViewController::viewDidLoad()
     CAImageView* imageView = CAImageView::createWithImage(CAImage::create("common/nav_back.png"));
     imageView->setImageViewScaleType(CAImageViewScaleTypeFitImageXY);
     imageView->setFrame(DRect(_px(20), _px(20), _px(80), _px(80)));
-    button->setBackGroundViewForState(CAControlStateAll, imageView);
+    button->setBackgroundViewForState(CAControlStateAll, imageView);
     button->addTarget(this, CAControl_selector(MapViewController::buttonCallBack), CAControlEventTouchUpInSide);
     button->setTag(ID_BACK);
     this->getView()->addSubview(button);
@@ -62,10 +62,10 @@ void MapViewController::viewDidLoad()
         m_leftBtn = CAButton::createWithFrame(DRect(_px(0), hight, m_winSize.width / 2, btnHight), CAButtonTypeCustom);
         CAImageView* imageView = CAImageView::createWithImage(CAImage::create("common/sky_bg.png"));
         imageView->setImageViewScaleType(CAImageViewScaleTypeFitImageXY);
-        m_leftBtn->setBackGroundViewForState(CAControlStateAll, imageView);
+        m_leftBtn->setBackgroundViewForState(CAControlStateAll, imageView);
 //        imageView = CAImageView::createWithImage(CAImage::create("common/dsky_bg.png"));
 //        imageView->setImageViewScaleType(CAImageViewScaleTypeFitImageXY);
-//        m_leftBtn->setBackGroundViewForState(CAControlStateSelected, imageView);
+//        m_leftBtn->setBackgroundViewForState(CAControlStateSelected, imageView);
         m_leftBtn->addTarget(this, CAControl_selector(MapViewController::buttonCallBack), CAControlEventTouchUpInSide);
         m_leftBtn->setTag(ID_OUTSIDE);
         m_leftBtn->setTitleForState(CAControlStateAll, "General");
@@ -85,10 +85,10 @@ void MapViewController::viewDidLoad()
         m_rightBtn = CAButton::createWithFrame(DRect(m_winSize.width / 2, hight, m_winSize.width / 2, btnHight), CAButtonTypeCustom);
         CAImageView* imageView = CAImageView::createWithImage(CAImage::create("common/sky_bg.png"));
         imageView->setImageViewScaleType(CAImageViewScaleTypeFitImageXY);
-        m_rightBtn->setBackGroundViewForState(CAControlStateAll, imageView);
+        m_rightBtn->setBackgroundViewForState(CAControlStateAll, imageView);
 //        imageView = CAImageView::createWithImage(CAImage::create("common/dsky_bg.png"));
 //        imageView->setImageViewScaleType(CAImageViewScaleTypeFitImageXY);
-//        m_rightBtn->setBackGroundViewForState(CAControlStateSelected, imageView);
+//        m_rightBtn->setBackgroundViewForState(CAControlStateSelected, imageView);
         m_rightBtn->addTarget(this, CAControl_selector(MapViewController::buttonCallBack), CAControlEventTouchUpInSide);
         m_rightBtn->setTag(ID_INSIDE);
         m_rightBtn->setTitleForState(CAControlStateAll, "Floors");
@@ -121,7 +121,7 @@ void MapViewController::viewDidLoad()
     imageView = CAImageView::createWithImage(CAImage::create("common/nav_forward.png"));
     imageView->setImageViewScaleType(CAImageViewScaleTypeFitImageXY);
     imageView->setFrame(DRect(_px(20), _px(20), _px(80), _px(80)));
-    button->setBackGroundViewForState(CAControlStateAll, imageView);
+    button->setBackgroundViewForState(CAControlStateAll, imageView);
     button->addTarget(this, CAControl_selector(MapViewController::buttonCallBack), CAControlEventTouchUpInSide);
     button->setTag(30);
     this->getView()->addSubview(button);
@@ -138,7 +138,7 @@ void MapViewController::viewDidLoad()
         m_pageOne->setAnchorPoint(DPoint(0.f, 0.f));
         m_pageOne->setShowsHorizontalScrollIndicator(false);
         m_pageOne->setShowsVerticalScrollIndicator(false);
-        m_pageOne->setBackGroundColor(CAColor_clear);
+        m_pageOne->setBackgroundColor(CAColor_clear);
         m_pageOne->setVisible(true);
         this->getView()->addSubview(m_pageOne);
         
@@ -180,7 +180,7 @@ void MapViewController::viewDidLoad()
         m_pageTwo->setAnchorPoint(DPoint(0.f, 0.f));
         m_pageTwo->setShowsHorizontalScrollIndicator(false);
         m_pageTwo->setShowsVerticalScrollIndicator(false);
-        m_pageTwo->setBackGroundColor(CAColor_clear);
+        m_pageTwo->setBackgroundColor(CAColor_clear);
         m_pageTwo->setVisible(false);
         this->getView()->addSubview(m_pageTwo);
         
@@ -318,8 +318,8 @@ void MapViewController::showAlert()
     btn5->setTag(100);
     btn5->setFrame(DRect(_px(0), _px(0), m_winSize.width, m_winSize.height - _px(120)));
     btn5->setTitleColorForState(CAControlStateNormal, CAColor_white);
-    btn5->setBackGroundViewForState(CAControlStateNormal, bg);
-    btn5->setBackGroundViewForState(CAControlStateHighlighted, bg);
+    btn5->setBackgroundViewForState(CAControlStateNormal, bg);
+    btn5->setBackgroundViewForState(CAControlStateHighlighted, bg);
     btn5->addTarget(this, CAControl_selector(MapViewController::buttonCallBack), CAControlEventTouchUpInSide);
     p_alertView->addSubview(btn5);
     

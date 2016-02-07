@@ -49,7 +49,7 @@ private:
 
 	DSize													m_winSize;
     std::vector<LocalNoticeMsg>         m_msgList;
-	std::vector<noticeMsg>                                  m_msg;
+	std::vector<LocalNoticeMsg>                                  m_msg;
 	CATableView*											m_msgTableView;
 
     CAView*													p_alertView;

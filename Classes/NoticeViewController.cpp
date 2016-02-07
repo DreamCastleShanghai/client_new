@@ -12,7 +12,6 @@ NoticeViewController::NoticeViewController()
 , p_pLoading(NULL)
 , m_msgTableView(NULL)
 {
-    m_msg.clear();
     CADevice::getLocalNotificationList(m_msgList);
 }
 
@@ -40,7 +39,7 @@ void NoticeViewController::viewDidLoad()
     CAImageView* imageView = CAImageView::createWithImage(CAImage::create("common/nav_back.png"));
     imageView->setImageViewScaleType(CAImageViewScaleTypeFitImageXY);
     imageView->setFrame(DRect(_px(20), _px(20), _px(80), _px(80)));
-    button->setBackGroundViewForState(CAControlStateAll, imageView);
+    button->setBackgroundViewForState(CAControlStateAll, imageView);
     button->addTarget(this, CAControl_selector(NoticeViewController::buttonCallBack), CAControlEventTouchUpInSide);
     button->setTag(20);
     this->getView()->addSubview(button);
@@ -49,7 +48,7 @@ void NoticeViewController::viewDidLoad()
 //    imageView = CAImageView::createWithImage(CAImage::create("common/nav_forward.png"));
 //    imageView->setImageViewScaleType(CAImageViewScaleTypeFitImageXY);
 //    imageView->setFrame(DRect(_px(20), _px(20), _px(80), _px(80)));
-//    button->setBackGroundViewForState(CAControlStateAll, imageView);
+//    button->setBackgroundViewForState(CAControlStateAll, imageView);
 //    button->addTarget(this, CAControl_selector(NoticeViewController::buttonCallBack), CAControlEventTouchUpInSide);
 //    button->setTag(30);
 //    this->getView()->addSubview(button);
@@ -84,11 +83,7 @@ void NoticeViewController::viewDidUnload()
 
 void NoticeViewController::initMsgTableView()
 {
-	if (m_msg.empty())
-    {
-        showAlert();
-        return;
-    }
+    
 }
 
 void NoticeViewController::requestMsg()
@@ -180,8 +175,8 @@ void NoticeViewController::showAlert()
     btn5->setTag(100);
     btn5->setFrame(DRect(_px(0), _px(0), m_winSize.width, m_winSize.height - _px(120)));
     btn5->setTitleColorForState(CAControlStateNormal, CAColor_white);
-    btn5->setBackGroundViewForState(CAControlStateNormal, bg);
-    btn5->setBackGroundViewForState(CAControlStateHighlighted, bg);
+    btn5->setBackgroundViewForState(CAControlStateNormal, bg);
+    btn5->setBackgroundViewForState(CAControlStateHighlighted, bg);
     btn5->addTarget(this, CAControl_selector(NoticeViewController::buttonCallBack), CAControlEventTouchUpInSide);
     p_alertView->addSubview(btn5);
     

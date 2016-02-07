@@ -61,7 +61,7 @@ void MomentViewController::viewDidLoad()
         if (imageView) {
             imageView->setImageViewScaleType(CAImageViewScaleTypeFitImageXY);
             imageView->setFrame(DRect(_px(20), _px(20), _px(80), _px(80)));
-            bkBtn->setBackGroundViewForState(CAControlStateAll, imageView);
+            bkBtn->setBackgroundViewForState(CAControlStateAll, imageView);
         }
         bkBtn->addTarget(this, CAControl_selector(MomentViewController::buttonCallBack), CAControlEventTouchUpInSide);
         bkBtn->setTag(20);
@@ -94,7 +94,7 @@ void MomentViewController::viewDidLoad()
         if (imageView) {
             imageView->setImageViewScaleType(CAImageViewScaleTypeFitImageInside);
             imageView->setFrame(DRect(_px(20), _px(20), _px(80), _px(80)));
-            uploadbutton->setBackGroundViewForState(CAControlStateAll, imageView);
+            uploadbutton->setBackgroundViewForState(CAControlStateAll, imageView);
         }
         uploadbutton->addTarget(this, CAControl_selector(MomentViewController::buttonCallBack), CAControlEventTouchUpInSide);
         uploadbutton->setTag(40);
@@ -369,6 +369,7 @@ void MomentViewController::buttonCallBack(CAControl* btn, DPoint point)
     {
         PhotoViewController* vc = new PhotoViewController(1);
         vc->init();
+        vc->autorelease();
         RootWindow::getInstance()->getRootNavigationController()->pushViewController(vc, true);
     }
     else if (btn->getTag() == 100)
@@ -575,8 +576,8 @@ void MomentViewController::showAlert()
     btn5->setTag(100);
     btn5->setFrame(DRect(_px(0), _px(0), m_winSize.width, m_winSize.height - _px(240)));
     btn5->setTitleColorForState(CAControlStateNormal, CAColor_white);
-    btn5->setBackGroundViewForState(CAControlStateNormal, bg);
-    btn5->setBackGroundViewForState(CAControlStateHighlighted, bg);
+    btn5->setBackgroundViewForState(CAControlStateNormal, bg);
+    btn5->setBackgroundViewForState(CAControlStateHighlighted, bg);
     btn5->addTarget(this, CAControl_selector(MomentViewController::buttonCallBack), CAControlEventTouchUpInSide);
     p_alertView->addSubview(btn5);
     
@@ -646,7 +647,7 @@ CATableViewCell* MomentViewController::tableCellAtIndex(CATableView* table, cons
 		imageView->setFrame(DRect(_px(20), _px(20), _px(80), _px(80)));
         if (m_allFilterMsg.at(row)->liked)
             imageView->setImage(CAImage::create("common/btn_like_pre.png"));
-		button->setBackGroundViewForState(CAControlStateAll, imageView);
+		button->setBackgroundViewForState(CAControlStateAll, imageView);
 		button->addTarget(this, CAControl_selector(MomentViewController::buttonCallBack), CAControlEventTouchUpInSide);
 		button->setTag(300 + row);
 		view->addSubview(button);
@@ -701,6 +702,7 @@ void MomentViewController::tableViewDidSelectRowAtIndexPath(CATableView* table, 
     
     MomentsDetailViewController* vc = new MomentsDetailViewController(*(m_allFilterMsg.at(row)), 0);
     vc->init();
+    vc->autorelease();
     RootWindow::getInstance()->getRootNavigationController()->pushViewController(vc, true);
 }
 
@@ -714,6 +716,7 @@ void MomentViewController::collectionViewDidSelectCellAtIndexPath(CACollectionVi
 {
     MomentsDetailViewController* vc = new MomentsDetailViewController(m_myMsg[row * 2 + item], 1);
     vc->init();
+    vc->autorelease();
     RootWindow::getInstance()->getRootNavigationController()->pushViewController(vc, true);
 }
 
@@ -749,7 +752,7 @@ CACollectionViewCell* MomentViewController::collectionCellAtIndex(CACollectionVi
 		CAImageView* imageView = CAImageView::createWithImage(CAImage::create("moments/delete.png"));
 		imageView->setImageViewScaleType(CAImageViewScaleTypeFitImageInside);
 		imageView->setFrame(DRect(_px(0), _px(0), _px(60), _px(60)));
-		button->setBackGroundViewForState(CAControlStateAll, imageView);
+		button->setBackgroundViewForState(CAControlStateAll, imageView);
 		button->addTarget(this, CAControl_selector(MomentViewController::buttonCallBack), CAControlEventTouchUpInSide);
 		button->setTag(400 + row * 2 + item);
 		p_Cell->addSubview(button);

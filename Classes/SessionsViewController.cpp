@@ -69,7 +69,7 @@ void SessionsViewController::viewDidLoad()
     CAButton* button = CAButton::createWithFrame(DRect(_px(0), _px(20), _px(100), _px(100)), CAButtonTypeCustom);
     CAImageView* imageView = CAImageView::createWithImage(CAImage::create("common/nav_search.png"));
     imageView->setImageViewScaleType(CAImageViewScaleTypeFitImageXY);
-    button->setBackGroundViewForState(CAControlStateAll, imageView);
+    button->setBackgroundViewForState(CAControlStateAll, imageView);
     button->addTarget(this, CAControl_selector(SessionsViewController::buttonCallBack), CAControlEventTouchUpInSide);
     button->setTag(20);
     this->getView()->addSubview(button);
@@ -77,9 +77,9 @@ void SessionsViewController::viewDidLoad()
     FSegmentView* seg = FSegmentView::createWithFrame(DRect(m_winSize.width - 240, 45, 200, 50), 2);
     seg->addTarget(this, CAControl_selector(SessionsViewController::buttonCallBack), CAControlEventTouchUpInSide);
     imageView = CAImageView::createWithImage(CAImage::create("common/nav_time.png"));
-    seg->setItemBackGroundImage(imageView, 0);
+    seg->setItemBackgroundImage(imageView, 0);
     imageView = CAImageView::createWithImage(CAImage::create("common/nav_type.png"));
-    seg->setItemBackGroundImage(imageView, 1);
+    seg->setItemBackgroundImage(imageView, 1);
     seg->setTag(200, 0);
     seg->setTag(201, 1);
     this->getView()->addSubview(seg);
@@ -136,7 +136,7 @@ void SessionsViewController::initMsgTableView()
         m_listView->setListViewOrientation(CAListViewOrientationHorizontal);
         m_listView->setShowsScrollIndicators(false);
         m_listView->setSeparatorColor(ccc4(0xf6, 0xf6, 0xf6, 0xff));
-        m_listView->setBackGroundImage(CAImage::create("common/gray_bg.png"));
+        m_listView->setBackgroundImage(CAImage::create("common/gray_bg.png"));
         m_listView->setTag(1);
         //m_listView->setc
         this->getView()->addSubview(m_listView);
@@ -197,9 +197,9 @@ void SessionsViewController::initMsgTableView()
 			button->setTitleFontSize(_px(27));
 			button->setAllowsSelected(true);
 			//CAImageView* imageView = CAImageView::createWithImage(CAImage::create("common/white_bg.png"));
-			//button->setBackGroundViewForState(CAControlStateAll, imageView);
+			//button->setBackgroundViewForState(CAControlStateAll, imageView);
 			CAImageView* imageView = CAImageView::createWithImage(CAImage::create("common/sky_bg.png"));
-			button->setBackGroundViewForState(CAControlStateSelected, imageView);
+			button->setBackgroundViewForState(CAControlStateSelected, imageView);
 			button->addTarget(this, CAControl_selector(SessionsViewController::buttonCallBack), CAControlEventTouchUpInSide);
 			button->setTag(400 + i);
 			m_downView[0]->addSubview(button);
@@ -216,9 +216,9 @@ void SessionsViewController::initMsgTableView()
 			button->setTitleFontSize(_px(27));
 			button->setAllowsSelected(true);
 			//CAImageView* imageView = CAImageView::createWithImage(CAImage::create("common/white_bg.png"));
-			//button->setBackGroundViewForState(CAControlStateAll, imageView);
+			//button->setBackgroundViewForState(CAControlStateAll, imageView);
 			CAImageView* imageView = CAImageView::createWithImage(CAImage::create("common/sky_bg.png"));
-			button->setBackGroundViewForState(CAControlStateSelected, imageView);
+			button->setBackgroundViewForState(CAControlStateSelected, imageView);
 			button->addTarget(this, CAControl_selector(SessionsViewController::buttonCallBack), CAControlEventTouchUpInSide);
 			button->setTag(500 + i);
 			m_downView[1]->addSubview(button);
@@ -286,6 +286,7 @@ void SessionsViewController::buttonCallBack(CAControl* btn, DPoint point)
     {
         SessionsSearchViewController* vc = new SessionsSearchViewController(0);
         vc->init();
+        vc->autorelease();
         RootWindow::getInstance()->getRootNavigationController()->pushViewController(vc, true);
     }
     else if (btn->getTag() == 100)
@@ -529,8 +530,8 @@ void SessionsViewController::showAlert()
     btn5->setTag(100);
     btn5->setFrame(DRect(_px(0), _px(0), m_winSize.width, m_winSize.height - _px(220)));
     btn5->setTitleColorForState(CAControlStateNormal, CAColor_white);
-    btn5->setBackGroundViewForState(CAControlStateNormal, bg);
-    btn5->setBackGroundViewForState(CAControlStateHighlighted, bg);
+    btn5->setBackgroundViewForState(CAControlStateNormal, bg);
+    btn5->setBackgroundViewForState(CAControlStateHighlighted, bg);
     btn5->addTarget(this, CAControl_selector(SessionsViewController::buttonCallBack), CAControlEventTouchUpInSide);
     p_alertView->addSubview(btn5);
     
@@ -737,11 +738,11 @@ CAListViewCell* SessionsViewController::listViewCellAtIndex(CAListView *listView
             sView->setImage(CAImage::create("common/seggreen_bg.png"));
             sView->setTouchEnabled(false);
             button->addSubview(sView);
-            //button->setBackGroundViewForState(CAControlStateAll, sView);
+            //button->setBackgroundViewForState(CAControlStateAll, sView);
             sView = CAScale9ImageView::createWithFrame(DRect(_px(0), _px(0), _px(120), _px(40)));
             sView->setImage(CAImage::create("common/seggreen_bg.png"));
             sView->setColor(ccc4(0x86, 0xBD, 0x45, 0xff));
-            button->setBackGroundViewForState(CAControlStateSelected, sView);
+            button->setBackgroundViewForState(CAControlStateSelected, sView);
             button->setTitleForState(CAControlStateAll, filterItem[index * 2]);
             button->setTitleColorForState(CAControlStateAll, ccc4(0xA0, 0xA0, 0xA0, 0xA0));
             button->setTitleFontSize(_px(20));
@@ -756,13 +757,13 @@ CAListViewCell* SessionsViewController::listViewCellAtIndex(CAListView *listView
             sView->setImage(CAImage::create("common/seggreen_bg.png"));
             sView->setTouchEnabled(false);
             button->addSubview(sView);
-            //button->setBackGroundViewForState(CAControlStateAll, sView);
+            //button->setBackgroundViewForState(CAControlStateAll, sView);
             //button->addSubview(sView);
-            //button->setBackGroundViewForState(CAControlStateAll, sView);
+            //button->setBackgroundViewForState(CAControlStateAll, sView);
             sView = CAScale9ImageView::createWithFrame(DRect(_px(0), _px(0), _px(120), _px(40)));
             sView->setImage(CAImage::create("common/btn_round.png"));
             sView->setColor(ccc4(0x86, 0xBD, 0x45, 0xff));
-            button->setBackGroundViewForState(CAControlStateSelected, sView);
+            button->setBackgroundViewForState(CAControlStateSelected, sView);
             button->setTitleForState(CAControlStateAll, filterItem[index * 2 + 1]);
             button->setTitleColorForState(CAControlStateAll, CAColor_gray);
             button->setTitleFontSize(_px(20));
@@ -818,6 +819,7 @@ void SessionsViewController::tableViewDidSelectRowAtIndexPath(CATableView* table
 {
     SessionDetailViewController* vc = new SessionDetailViewController(*m_msgFilter.at(row));
     vc->init();
+    vc->autorelease();
     RootWindow::getInstance()->getRootNavigationController()->pushViewController(vc, true);
 }
 

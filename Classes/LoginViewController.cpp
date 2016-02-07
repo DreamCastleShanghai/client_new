@@ -50,20 +50,19 @@ void LoginViewController::viewDidLoad()
 
 	m_pAccount = CATextField::createWithFrame(DRect(_px(80), _px(0), m_winSize.width - _px(170), _px(80)));
 	m_pAccount->setTextColor(CAColor_black);
-	m_pAccount->setPlaceHolder("Username");
-    m_pAccount->setKeyboardType(KEY_BOARD_TYPE_ALPHABET);
-    m_pAccount->setFontName("fonts/arial.ttf");
-    m_pAccount->setKeyboardReturnType(KEY_BOARD_RETURN_DONE);
-    m_pAccount->setBackgroundView(CAScale9ImageView::createWithImage(CAImage::create("common/white_bg.png")));
+	m_pAccount->setPlaceHolderText("username");
+    //m_pAccount->setKeyboardType(CATextField::KeyboardTypeNumbersAndPunctuation);
+    m_pAccount->setReturnType(CATextField::Next);
+    m_pAccount->setBackgroundImage(CAImage::create("common/white_bg.png"));
 	loginView->addSubview(m_pAccount);
 
 	m_pPassword = CATextField::createWithFrame(DRect(_px(80), _px(80), m_winSize.width - _px(170), _px(80)));
-    m_pPassword->setBackgroundView(CAScale9ImageView::createWithImage(CAImage::create("common/white_bg.png")));
-	m_pPassword->setPlaceHolder("Password");
-    m_pPassword->setFontName("fonts/arial.ttf");
-	m_pPassword->setInputType(KEY_BOARD_INPUT_PASSWORD);
-    m_pPassword->setKeyboardReturnType(KEY_BOARD_RETURN_DONE);
+    //m_pPassword->setKeyboardType(CATextField::KeyboardTypeNumbersAndPunctuation);
+    m_pPassword->setReturnType(CATextField::Next);
+    m_pPassword->setBackgroundImage(CAImage::create("common/white_bg.png"));
     m_pPassword->setTextColor(CAColor_black);
+    m_pPassword->setSecureTextEntry(true);
+    m_pPassword->setPlaceHolderText("password");
 	loginView->addSubview(m_pPassword);
 
     CAScale9ImageView* sView = CAScale9ImageView::createWithImage(CAImage::create("common/gray_bg.png"));
@@ -75,7 +74,7 @@ void LoginViewController::viewDidLoad()
 	button->setTitleForState(CAControlStateAll, "Log In");
 	button->setTitleFontName("fonts/arial.ttf");
 	button->setTitleColorForState(CAControlStateAll, CAColor_white);
-	button->setBackGroundViewForState(CAControlStateAll, CAScale9ImageView::createWithImage(CAImage::create("common/sky_bg.png")));
+	button->setBackgroundViewForState(CAControlStateAll, CAScale9ImageView::createWithImage(CAImage::create("common/sky_bg.png")));
 	button->setTag(100);
 	button->addTarget(this, CAControl_selector(LoginViewController::btnCallBack), CAControlEventTouchUpInSide);
 	loginView->addSubview(button);
@@ -114,19 +113,19 @@ void LoginViewController::btnCallBack(CAControl* btn, DPoint point)
 
     if (btn->getTag() == 100)
     {
-        string accout = m_pAccount->getText();
+        string account = m_pAccount->getText();
         string passwd = m_pPassword->getText();
-        ConstFunc::trim(accout);
+        ConstFunc::trim(account);
         ConstFunc::trim(passwd);
-        if (accout.length() == 0 || passwd.length() == 0) {
+        if (account.length() == 0 || passwd.length() == 0) {
             CAAlertView *alertView = CAAlertView::createWithText("Waining !", "Account or password cannot be null !", "OK", NULL);
             alertView->show();
             return;
         }
-        
+        m_loginName = account;
         std::map<std::string,std::string> key_value;
         key_value["tag"] = loginTag;
-        key_value["usr"]= accout;
+        key_value["usr"]= account;
         key_value["pwd"]= passwd;
         //key_value["sign_method"]="md5";
         //key_value["sign"] = getSign(key_value);
@@ -145,9 +144,9 @@ void LoginViewController::onRequestLoginFinished(const HttpResponseStatus& statu
 {
     if (status == HttpResponseSucceed)
     {
-        CSJson::FastWriter writer;
-        string tempjson = writer.write(json);
-        CCLog("receive json == %s",tempjson.c_str());
+//        CSJson::FastWriter writer;
+//        string tempjson = writer.write(json);
+//        CCLog("receive json == %s",tempjson.c_str());
         
         if(RootWindow::getInstance()->getRootViewController() == this)
         {
@@ -158,7 +157,7 @@ void LoginViewController::onRequestLoginFinished(const HttpResponseStatus& statu
                 
                 FUser user;
                 user.uid = json["result"]["UserId"].asInt();
-                user.loginname = "Alex";//m_pAccount->getText();
+                user.loginname = m_loginName;
                 FUserManager::sharedFUserManager()->userLogin(user);
             }
             else

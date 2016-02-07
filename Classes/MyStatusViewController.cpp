@@ -72,7 +72,7 @@ void MyStatusViewController::viewDidLoad()
         CAImageView* imageView = CAImageView::createWithImage(CAImage::create("common/nav_search.png"));
         if (imageView) {
             imageView->setImageViewScaleType(CAImageViewScaleTypeFitImageXY);
-            m_searchButton->setBackGroundViewForState(CAControlStateAll, imageView);
+            m_searchButton->setBackgroundViewForState(CAControlStateAll, imageView);
         }
     }
     
@@ -87,7 +87,7 @@ void MyStatusViewController::viewDidLoad()
         CAImageView* imageView = CAImageView::createWithImage(CAImage::create("common/nav_info.png"));
         if (imageView) {
             imageView->setImageViewScaleType(CAImageViewScaleTypeFitImageXY);
-            m_pointButton->setBackGroundViewForState(CAControlStateAll, imageView);
+            m_pointButton->setBackgroundViewForState(CAControlStateAll, imageView);
         }
     }
     
@@ -345,6 +345,7 @@ void MyStatusViewController::buttonCallBack(CAControl* btn, DPoint point)
 	{
         PhotoViewController* vc = new PhotoViewController(0);
         vc->init();
+        vc->autorelease();
         RootWindow::getInstance()->getRootNavigationController()->pushViewController(vc, true);
 	}
 }
@@ -662,8 +663,8 @@ void MyStatusViewController::showAlert()
     btn5->setTag(100);
     btn5->setFrame(DRect(_px(0), _px(120), m_winSize.width, m_winSize.height - _px(120)));
     btn5->setTitleColorForState(CAControlStateNormal, CAColor_white);
-    btn5->setBackGroundViewForState(CAControlStateNormal, bg);
-    btn5->setBackGroundViewForState(CAControlStateHighlighted, bg);
+    btn5->setBackgroundViewForState(CAControlStateNormal, bg);
+    btn5->setBackgroundViewForState(CAControlStateHighlighted, bg);
     btn5->addTarget(this, CAControl_selector(MyStatusViewController::buttonCallBack), CAControlEventTouchUpInSide);
     p_alertView->addSubview(btn5);
     
@@ -978,6 +979,7 @@ void MyStatusViewController::tableViewDidSelectRowAtIndexPath(CATableView* table
         }
         SessionDetailViewController* vc = new SessionDetailViewController(*m_filterMsg[count + row]);
         vc->init();
+        vc->autorelease();
         RootWindow::getInstance()->getRootNavigationController()->pushViewController(vc, true);
     }
     else if (table == m_msgTableView)
@@ -990,6 +992,7 @@ void MyStatusViewController::tableViewDidSelectRowAtIndexPath(CATableView* table
                 if (it->m_sessionId == sessionId) {
                     SessionDetailViewController* vc = new SessionDetailViewController(*it);
                     vc->init();
+                    vc->autorelease();
                     RootWindow::getInstance()->getRootNavigationController()->pushViewController(vc, true);
                     break;
                 }
@@ -1029,7 +1032,6 @@ void MyStatusViewController::refreshUserInfo()
         CCLog("%s", info->m_imageUrl.c_str());
         
         m_urlImageView->setUrl(info->m_imageUrl);
-        m_urlImageView->clearOldCache(info->m_imageUrl);
         m_nameLabel->setText(info->m_userName);
         m_pointLabel[0]->setText(crossapp_format_string("%d", info->m_point));
         if (info->m_greenAmb)

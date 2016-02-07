@@ -27,7 +27,7 @@ void VoteDetailViewController::viewDidLoad()
     CAImageView* imageView = CAImageView::createWithImage(CAImage::create("common/nav_back.png"));
     imageView->setImageViewScaleType(CAImageViewScaleTypeFitImageXY);
     imageView->setFrame(DRect(_px(20), _px(20), _px(80), _px(80)));
-    button->setBackGroundViewForState(CAControlStateAll, imageView);
+    button->setBackgroundViewForState(CAControlStateAll, imageView);
     button->addTarget(this, CAControl_selector(VoteDetailViewController::buttonCallBack), CAControlEventTouchUpInSide);
     button->setTag(20);
     this->getView()->addSubview(button);
@@ -74,7 +74,7 @@ void VoteDetailViewController::viewDidLoad()
 //	button = CAButton::createWithFrame(DRect(_px(40), m_winSize.height - _px(120), m_winSize.width - _px(80), _px(100)), CAButtonTypeCustom);
 //	imageView = CAImageView::createWithImage(CAImage::create("common/sky_bg.png"));
 //	imageView->setImageViewScaleType(CAImageViewScaleTypeFitImageXY);
-//	button->setBackGroundViewForState(CAControlStateAll, imageView);
+//	button->setBackgroundViewForState(CAControlStateAll, imageView);
 //	button->setTitleForState(CAControlStateAll, "Submit and Get Session Points");
 //	button->setTitleFontSize(_px(35));
 //	button->setTitleColorForState(CAControlStateAll, CAColor_white);

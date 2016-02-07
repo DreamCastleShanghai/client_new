@@ -53,7 +53,7 @@ void SurveyViewController::viewDidLoad()
     CAImageView* imageView = CAImageView::createWithImage(CAImage::create("common/nav_back.png"));
     imageView->setImageViewScaleType(CAImageViewScaleTypeFitImageXY);
     imageView->setFrame(DRect(_px(20), _px(20), _px(80), _px(80)));
-    button->setBackGroundViewForState(CAControlStateAll, imageView);
+    button->setBackgroundViewForState(CAControlStateAll, imageView);
     button->addTarget(this, CAControl_selector(SurveyViewController::buttonCallBack), CAControlEventTouchUpInSide);
     button->setTag(ConstId::getBackBtnId());
     button->setAllowsSelected(true);
@@ -104,11 +104,11 @@ void SurveyViewController::viewDidLoad()
             imageView = CAImageView::createWithImage(CAImage::create("common/checkbox_nochecked.png"));
             imageView->setImageViewScaleType(CAImageViewScaleTypeFitImageInside);
             imageView->setFrame(DRect(_px(0), _px(0), _px(40), _px(40)));
-            m_optionBtn1[i]->setBackGroundViewForState(CAControlStateAll, imageView);
+            m_optionBtn1[i]->setBackgroundViewForState(CAControlStateAll, imageView);
             imageView = CAImageView::createWithImage(CAImage::create("common/checkbox_checked.png"));
             imageView->setImageViewScaleType(CAImageViewScaleTypeFitImageInside);
             imageView->setFrame(DRect(_px(0), _px(0), _px(40), _px(40)));
-            m_optionBtn1[i]->setBackGroundViewForState(CAControlStateSelected, imageView);
+            m_optionBtn1[i]->setBackgroundViewForState(CAControlStateSelected, imageView);
             m_optionBtn1[i]->setAllowsSelected(true);
             m_optionBtn1[i]->setTag(400 + i);
             m_optionBtn1[i]->addTarget(this, CAControl_selector(SurveyViewController::buttonCallBack), CAControlEventTouchUpInSide);
@@ -149,11 +149,11 @@ void SurveyViewController::viewDidLoad()
             imageView = CAImageView::createWithImage(CAImage::create("common/checkbox_nochecked.png"));
             imageView->setImageViewScaleType(CAImageViewScaleTypeFitImageInside);
             imageView->setFrame(DRect(_px(0), _px(0), _px(40), _px(40)));
-            m_optionBtn2[i]->setBackGroundViewForState(CAControlStateAll, imageView);
+            m_optionBtn2[i]->setBackgroundViewForState(CAControlStateAll, imageView);
             imageView = CAImageView::createWithImage(CAImage::create("common/checkbox_checked.png"));
             imageView->setImageViewScaleType(CAImageViewScaleTypeFitImageInside);
             imageView->setFrame(DRect(_px(0), _px(0), _px(40), _px(40)));
-            m_optionBtn2[i]->setBackGroundViewForState(CAControlStateSelected, imageView);
+            m_optionBtn2[i]->setBackgroundViewForState(CAControlStateSelected, imageView);
             m_optionBtn2[i]->setAllowsSelected(true);
             m_optionBtn2[i]->setTag(500 + i);
             m_optionBtn2[i]->addTarget(this, CAControl_selector(SurveyViewController::buttonCallBack), CAControlEventTouchUpInSide);
@@ -193,7 +193,7 @@ void SurveyViewController::viewDidLoad()
 		imageView = CAImageView::createWithImage(CAImage::create(crossapp_format_string("session/face%d_btn.png", i + 1)));
 		imageView->setImageViewScaleType(CAImageViewScaleTypeFitImageInside);
 		imageView->setFrame(DRect(_px(20), _px(20), _px(80), _px(80)));
-		button->setBackGroundViewForState(CAControlStateAll, imageView);
+		button->setBackgroundViewForState(CAControlStateAll, imageView);
         //button->setImageForState(CAControlStateAll, CAImage::create(crossapp_format_string("session/face%d_btn.png", i + 1)));
         if (m_stars[i] == NULL) {
             m_stars[i] = CAImage::create(crossapp_format_string("session/face%d_btn_pre.png", i + 1));//CAImageView::createWithImage(CAImage::create(crossapp_format_string("session/face%d_btn_pre.png", i + 1)));
@@ -204,7 +204,7 @@ void SurveyViewController::viewDidLoad()
         imageView = CAImageView::createWithImage(m_stars[i]);
 		imageView->setImageViewScaleType(CAImageViewScaleTypeFitImageInside);
 		imageView->setFrame(DRect(_px(20), _px(20), _px(80), _px(80)));
-		button->setBackGroundViewForState(CAControlStateSelected, imageView);
+		button->setBackgroundViewForState(CAControlStateSelected, imageView);
 		button->setAllowsSelected(true);
 		button->setTag(300 + i);
 		button->addTarget(this, CAControl_selector(SurveyViewController::buttonCallBack), CAControlEventTouchUpInSide);
@@ -226,7 +226,7 @@ void SurveyViewController::viewDidLoad()
 	m_feedBackTextView->setFontSize(_px(35));
 	m_feedBackTextView->setFontName("fonts/arial.ttf");
 	m_feedBackTextView->setColor(ccc4(0xf6, 0xf6, 0xf6, 0xff));
-	m_feedBackTextView->setBackGroundColor(CAColor_gray);
+	m_feedBackTextView->setBackgroundColor(CAColor_gray);
 	view->addSubview(m_feedBackTextView);
 
 	m_alertLabel = CALabel::createWithFrame(DRect(_px(40), _px(640), m_winSize.width - _px(80), _px(40)));
@@ -240,7 +240,7 @@ void SurveyViewController::viewDidLoad()
 	button = CAButton::createWithFrame(DRect(_px(40), m_winSize.height - _px(120), m_winSize.width - _px(80), _px(100)), CAButtonTypeCustom);
 	imageView = CAImageView::createWithImage(CAImage::create("common/sky_bg.png"));
 	imageView->setImageViewScaleType(CAImageViewScaleTypeFitImageXY);
-	button->setBackGroundViewForState(CAControlStateAll, imageView);
+	button->setBackgroundViewForState(CAControlStateAll, imageView);
 	button->setTitleForState(CAControlStateAll, "Submit and Get Session Points");
 	button->setTitleFontSize(_px(35));
 	button->setTitleColorForState(CAControlStateAll, CAColor_white);
@@ -315,9 +315,9 @@ void SurveyViewController::buttonCallBack(CAControl* btn, DPoint point)
 		{
 			if (i <= index)
 			{
-                CAImageView* btnView = (CAImageView*)m_scoreButtonVec[i]->getBackGroundViewForState(CAControlStateSelected);
+                CAImageView* btnView = (CAImageView*)m_scoreButtonVec[i]->getBackgroundViewForState(CAControlStateSelected);
                 btnView->setImage(m_stars[index]);
-                //m_scoreButtonVec[i]->getBackGroundViewForState(CAControlStateSelected)->setImage(m_stars[index]);
+                //m_scoreButtonVec[i]->getBackgroundViewForState(CAControlStateSelected)->setImage(m_stars[index]);
                 //m_scoreButtonVec[i]->setImageForState(CAControlStateSelected, m_stars[index]);
 				m_scoreButtonVec[i]->setControlState(CAControlStateSelected);
 			}

@@ -38,7 +38,8 @@ void MomentsDetailViewController::viewDidLoad()
     m_scrollView->setMaximumZoomScale(5.0f);
     m_scrollView->setShowsHorizontalScrollIndicator(false);
     m_scrollView->setShowsVerticalScrollIndicator(false);
-    m_scrollView->setBackGroundColor(CAColor_black);
+    m_scrollView->setBackgroundColor(CAColor_black);
+    m_scrollView->setMultitouchGesture(CAScrollView::Zoom);
     this->getView()->addSubview(m_scrollView);
     
     m_urlImageVIew = CommonUrlImageView::createWithImage(CAImage::create("common/bg.png"));
@@ -86,7 +87,7 @@ void MomentsDetailViewController::viewDidLoad()
         m_likeBtnImage = CAImageView::createWithImage(CAImage::create("common/btn_like.png"));
         m_likeBtnImage->setImageViewScaleType(CAImageViewScaleTypeFitImageXY);
         m_likeBtnImage->setFrame(DRect(_px(20), _px(20), _px(80), _px(80)));
-        button->setBackGroundViewForState(CAControlStateAll, m_likeBtnImage);
+        button->setBackgroundViewForState(CAControlStateAll, m_likeBtnImage);
         button->addTarget(this, CAControl_selector(MomentsDetailViewController::buttonCallBack), CAControlEventTouchUpInSide);
         button->setTag(300);
         view->addSubview(button);
@@ -115,7 +116,7 @@ void MomentsDetailViewController::viewDidLoad()
     CAImageView* imageView = CAImageView::createWithImage(CAImage::create("common/nav_back.png"));
     imageView->setImageViewScaleType(CAImageViewScaleTypeFitImageXY);
     imageView->setFrame(DRect(_px(20), _px(20), _px(80), _px(80)));
-    button->setBackGroundViewForState(CAControlStateAll, imageView);
+    button->setBackgroundViewForState(CAControlStateAll, imageView);
     button->addTarget(this, CAControl_selector(MomentsDetailViewController::buttonCallBack), CAControlEventTouchUpInSide);
     button->setTag(20);
     this->getView()->addSubview(button);
@@ -169,9 +170,9 @@ void MomentsDetailViewController::onRequestLikeSubmitFinished(const HttpResponse
 {
     if (status == HttpResponseSucceed)
     {
-        CSJson::FastWriter writer;
-        string tempjson = writer.write(json);
-        CCLog("receive json == %s",tempjson.c_str());
+//        CSJson::FastWriter writer;
+//        string tempjson = writer.write(json);
+//        CCLog("receive json == %s",tempjson.c_str());
         
         const CSJson::Value& value = json["result"];
         int islike = value["r"].asBool();

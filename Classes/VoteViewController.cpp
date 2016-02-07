@@ -49,7 +49,7 @@ void VoteViewController::viewDidLoad()
     CAImageView* imageView = CAImageView::createWithImage(CAImage::create("common/nav_back.png"));
     imageView->setImageViewScaleType(CAImageViewScaleTypeFitImageXY);
     imageView->setFrame(DRect(_px(20), _px(20), _px(80), _px(80)));
-    button->setBackGroundViewForState(CAControlStateAll, imageView);
+    button->setBackgroundViewForState(CAControlStateAll, imageView);
     button->addTarget(this, CAControl_selector(VoteViewController::buttonCallBack), CAControlEventTouchUpInSide);
     button->setTag(20);
     this->getView()->addSubview(button);
@@ -58,7 +58,7 @@ void VoteViewController::viewDidLoad()
 //    imageView = CAImageView::createWithImage(CAImage::create("common/nav_forward.png"));
 //    imageView->setImageViewScaleType(CAImageViewScaleTypeFitImageXY);
 //    imageView->setFrame(DRect(_px(20), _px(20), _px(80), _px(80)));
-//    button->setBackGroundViewForState(CAControlStateAll, imageView);
+//    button->setBackgroundViewForState(CAControlStateAll, imageView);
 //    button->addTarget(this, CAControl_selector(VoteViewController::buttonCallBack), CAControlEventTouchUpInSide);
 //    button->setTag(30);
 //    this->getView()->addSubview(button);
@@ -135,14 +135,14 @@ void VoteViewController::initMsgTableView()
         scrollView->setAnchorPoint(DPoint(0.f, 0.f));
         scrollView->setShowsHorizontalScrollIndicator(false);
         scrollView->setShowsVerticalScrollIndicator(false);
-        scrollView->setBackGroundColor(CAColor_clear);
+        scrollView->setBackgroundColor(CAColor_clear);
         m_segView[i]->addSubview(scrollView);
         
         DRect r = DRect(_px(0), _px(150), m_winSize.width - _px(40), m_imageHeight - _px(150));
         m_pageView[i] = CAPageView::createWithFrame(r, CAPageViewDirectionHorizontal);
         m_pageView[i]->setPageViewDelegate(this);
         m_pageView[i]->setCurrPage(0, false);
-        m_pageView[i]->setBackGroundColor(CAColor_clear);
+        m_pageView[i]->setBackgroundColor(CAColor_clear);
         scrollView->addSubview(m_pageView[i]);
         
         r = DRect((m_winSize.width - _px(300)) / 2, m_imageHeight + _px(10), _px(300), _px(50));
@@ -222,7 +222,7 @@ void VoteViewController::initMsgTableView()
         
         button->setTitleFontName("fonts/arial.ttf");
         button->setTitleColorForState(CAControlStateAll, CAColor_white);
-        button->setBackGroundViewForState(CAControlStateAll, imageView);
+        button->setBackgroundViewForState(CAControlStateAll, imageView);
         button->addTarget(this, CAControl_selector(VoteViewController::buttonCallBack), CAControlEventTouchUpInSide);
         button->setTag(400 + i);
         temImage->addSubview(button);
@@ -283,7 +283,7 @@ void VoteViewController::initMsgTableView()
         }
         button->setTitleFontName("fonts/arial.ttf");
         button->setTitleColorForState(CAControlStateAll, CAColor_white);
-        button->setBackGroundViewForState(CAControlStateAll, imageView);
+        button->setBackgroundViewForState(CAControlStateAll, imageView);
         button->addTarget(this, CAControl_selector(VoteViewController::buttonCallBack), CAControlEventTouchUpInSide);
         button->setTag(500 + i);
         temImage->addSubview(button);
@@ -343,7 +343,7 @@ void VoteViewController::initMsgTableView()
         }
         button->setTitleFontName("fonts/arial.ttf");
         button->setTitleColorForState(CAControlStateAll, CAColor_white);
-        button->setBackGroundViewForState(CAControlStateAll, imageView);
+        button->setBackgroundViewForState(CAControlStateAll, imageView);
         button->addTarget(this, CAControl_selector(VoteViewController::buttonCallBack), CAControlEventTouchUpInSide);
         button->setTag(500 + i);
         temImage->addSubview(button);
@@ -485,6 +485,7 @@ void VoteViewController::buttonCallBack(CAControl* btn, DPoint point)
         }
         VoteShakeViewController* vc = new VoteShakeViewController(&m_demoMsg[btn->getTag() - 400], NULL);
         vc->init();
+        vc->autorelease();
         RootWindow::getInstance()->getRootNavigationController()->pushViewController(vc, true);
     }
     else if (btn->getTag() >= 500 && btn->getTag() < 600)
@@ -496,6 +497,7 @@ void VoteViewController::buttonCallBack(CAControl* btn, DPoint point)
         }
         VoteShakeViewController* vc = new VoteShakeViewController(NULL, &m_voiceMsg[btn->getTag() - 500]);
         vc->init();
+        vc->autorelease();
         RootWindow::getInstance()->getRootNavigationController()->pushViewController(vc, true);
     }
     
@@ -505,9 +507,9 @@ void VoteViewController::onRequestFinished(const HttpResponseStatus& status, con
 {
     if (status == HttpResponseSucceed)
     {
-        CSJson::FastWriter writer;
-        string tempjson = writer.write(json);
-        CCLog("receive json == %s",tempjson.c_str());
+//        CSJson::FastWriter writer;
+//        string tempjson = writer.write(json);
+//        CCLog("receive json == %s",tempjson.c_str());
         
         const CSJson::Value& value = json["result"];
         m_demoMsg.clear();

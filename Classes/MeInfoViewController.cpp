@@ -72,7 +72,7 @@ void MeInfoViewController::viewDidLoad()
             {
                 m_backBtnBG->setImageViewScaleType(CAImageViewScaleTypeFitImageXY);
                 m_backBtnBG->setFrame(DRect(_px(20), _px(20), _px(80), _px(80)));
-                m_backBtn->setBackGroundViewForState(CAControlStateAll, m_backBtnBG);
+                m_backBtn->setBackgroundViewForState(CAControlStateAll, m_backBtnBG);
             }
         }
         
@@ -97,7 +97,7 @@ void MeInfoViewController::viewDidLoad()
         m_bodyScrollView->setAnchorPoint(DPoint(0.f, 0.f));
         m_bodyScrollView->setShowsHorizontalScrollIndicator(false);
         m_bodyScrollView->setShowsVerticalScrollIndicator(false);
-        m_bodyScrollView->setBackGroundColor(CAColor_clear);
+        m_bodyScrollView->setBackgroundColor(CAColor_clear);
         this->getView()->addSubview(m_bodyScrollView);
         
         m_bodyContext = CALabel::createWithFrame(DRect(_px(40), _px(40), m_winSize.width - _px(80), m_winSize.height - _px(240)));
@@ -127,7 +127,7 @@ void MeInfoViewController::viewDidLoad()
         m_submitBtnBG = CAImageView::createWithImage(CAImage::create("common/sky_bg.png"));
         if (m_submitBtnBG) {
             m_submitBtnBG->setImageViewScaleType(CAImageViewScaleTypeFitImageXY);
-            m_submitBtn->setBackGroundViewForState(CAControlStateAll, m_submitBtnBG);
+            m_submitBtn->setBackgroundViewForState(CAControlStateAll, m_submitBtnBG);
         }
     }
     */
@@ -159,9 +159,9 @@ void MeInfoViewController::onRequestSubmitFinished(const HttpResponseStatus& sta
 {
     if (status == HttpResponseSucceed)
     {
-        CSJson::FastWriter writer;
-        string tempjson = writer.write(json);
-        CCLog("receive json == %s",tempjson.c_str());
+//        CSJson::FastWriter writer;
+//        string tempjson = writer.write(json);
+//        CCLog("receive json == %s",tempjson.c_str());
         const CSJson::Value& value = json["result"];
         if (value["r"] == 1)
         {
