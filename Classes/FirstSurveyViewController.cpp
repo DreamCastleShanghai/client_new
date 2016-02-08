@@ -46,7 +46,7 @@ void FirstSurveyViewController::viewDidLoad()
     m_winSize = this->getView()->getBounds().size;
 
     // header
-    if (m_headerView) {
+    if (m_headerView == NULL) {
         m_headerView = CAView::createWithFrame(DRect(_px(0), _px(0), m_winSize.width, _px(120)));//Image(CAImage::create("common/sky_bg.png"));
     }
     if (m_headerView)
@@ -74,9 +74,9 @@ void FirstSurveyViewController::viewDidLoad()
         m_headerTitle = CALabel::createWithCenter(DRect(m_winSize.width / 2, _px(70), m_winSize.width, _px(40)));
         m_headerTitle->setTextAlignment(CATextAlignmentCenter);
         m_headerTitle->setColor(CAColor_white);
-        m_headerTitle->setFontSize(_px(40));
+        m_headerTitle->setFontSize(SAP_TITLE_FONT_SIZE);
         m_headerTitle->setText("Sustainability Campaign");
-        m_headerTitle->setFontName("fonts/arial.ttf");
+        m_headerTitle->setFontName(SAP_FONT_ARIAL);
         m_headerTitle->setTouchEnabled(false);
         m_headerView->addSubview(m_headerTitle);
     }
@@ -166,6 +166,7 @@ void FirstSurveyViewController::onRequestSubmitFinished(const HttpResponseStatus
             info->m_greenAmb = true;
             
             FDataManager::getInstance()->setUserDirty(true);
+            FDataManager::getInstance()->setRankDirty(true);
         }
         else
         {

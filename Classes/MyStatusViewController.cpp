@@ -49,6 +49,10 @@ void MyStatusViewController::viewDidAppear()
         FDataManager::getInstance()->setUserDirty(false);
         requestUserMsg();
     }
+    if (FDataManager::getInstance()->isRankDirty()) {
+        FDataManager::getInstance()->setRankDirty(false);
+        switchNavType();
+    }
 }
 
 void MyStatusViewController::viewDidLoad()
@@ -504,7 +508,7 @@ void MyStatusViewController::onRequestRankFinished(const HttpResponseStatus& sta
 //        m_canSwitchPoint = true;
         const CSJson::Value& v2 = json["result"]["rl"];
         int length = v2.size();
-        int points = 0;
+//        int points = 0;
         m_rankMsg.clear();
         for (int i = 0; i < length; i++)
         {

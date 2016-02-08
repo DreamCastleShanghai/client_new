@@ -49,9 +49,9 @@ void PhotoViewController::viewDidLoad()
     CALabel* label = CALabel::createWithCenter(DRect(m_winSize.width / 2, _px(70), m_winSize.width, _px(50)));
     label->setTextAlignment(CATextAlignmentCenter);
     label->setColor(CAColor_white);
-    label->setFontSize(_px(40));
+    label->setFontSize(SAP_TITLE_FONT_SIZE);
     label->setText("Photo");
-    label->setFontName("fonts/arial.ttf");
+    label->setFontName(SAP_FONT_ARIAL);
     label->setTouchEnabled(false);
     sView->addSubview(label);
     
@@ -196,6 +196,11 @@ void PhotoViewController::onRequestFinished(const HttpResponseStatus& status, co
             m_photoView->setVisible(false);
             m_photoView->removeAllSubviews();
             RootWindow::getInstance()->getRootNavigationController()->popViewControllerAnimated(true);
+            if (m_type == 0) {
+                FDataManager::getInstance()->setUserDirty(true);
+            } else if (m_type == 1) {
+                FDataManager::getInstance()->setRankDirty(true);
+            }
         }
         else
         {
@@ -359,7 +364,7 @@ void PhotoViewController::getSelectedImage(CAImage *image)
 
     CAButton* button = CAButton::createWithFrame(DRect(_px(80),  m_winSize.height -  _px(200), _px(200), _px(60)), CAButtonTypeCustom);
     button->setTitleForState(CAControlStateAll, "Select");
-    button->setTitleFontName("fonts/arial.ttf");
+    button->setTitleFontName(SAP_FONT_ARIAL);
     button->setTitleFontSize(_px(40));
     button->setTitleColorForState(CAControlStateAll, CAColor_white);
     CAScale9ImageView* sView = CAScale9ImageView::createWithImage(CAImage::create("common/gray_bg.png"));
@@ -372,7 +377,7 @@ void PhotoViewController::getSelectedImage(CAImage *image)
     
     button = CAButton::createWithFrame(DRect(m_winSize.width - _px(280),  m_winSize.height -  _px(200), _px(200), _px(60)), CAButtonTypeCustom);
     button->setTitleForState(CAControlStateAll, "Cancel");
-    button->setTitleFontName("fonts/arial.ttf");
+    button->setTitleFontName(SAP_FONT_ARIAL);
     button->setTitleFontSize(_px(40));
     button->setTitleColorForState(CAControlStateAll, CAColor_white);
     sView = CAScale9ImageView::createWithImage(CAImage::create("common/gray_bg.png"));

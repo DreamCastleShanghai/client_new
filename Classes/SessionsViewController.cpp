@@ -91,9 +91,9 @@ void SessionsViewController::viewDidLoad()
     CALabel* label = CALabel::createWithCenter(DRect(m_winSize.width / 2, _px(75), m_winSize.width, _px(50)));
     label->setTextAlignment(CATextAlignmentCenter);
     label->setColor(CAColor_white);
-    label->setFontSize(_px(40));
+    label->setFontSize(SAP_TITLE_FONT_SIZE);
     label->setText("Agenda");
-    label->setFontName("fonts/arial.ttf");
+    label->setFontName(SAP_FONT_ARIAL);
     sView->addSubview(label);
     
     if (m_msg->empty())
@@ -166,7 +166,7 @@ void SessionsViewController::initMsgTableView()
 		{
 			CAButton* button = CAButton::createWithFrame(DRect(i * m_winSize.width / 2, 0, m_winSize.width / 2, _px(60)), CAButtonTypeCustom);
 			button->setTitleForState(CAControlStateAll, filterItem[i]);
-			button->setTitleFontName("fonts/arial.ttf");
+			button->setTitleFontName(SAP_FONT_ARIAL);
             button->setTitleFontSize(_px(30));
 			button->setTitleColorForState(CAControlStateAll, CAColor_gray);
 			button->addTarget(this, CAControl_selector(SessionsViewController::buttonCallBack), CAControlEventTouchUpInSide);
@@ -191,7 +191,7 @@ void SessionsViewController::initMsgTableView()
 		{
 			CAButton* button = CAButton::createWithFrame(DRect(_px(20), _px(50) * i, m_winSize.width / 2 - _px(40), _px(50)), CAButtonTypeCustom);
 			button->setTitleForState(CAControlStateAll, trackFilterItem[i]);
-			button->setTitleFontName("fonts/arial.ttf");
+			button->setTitleFontName(SAP_FONT_ARIAL);
 			button->setTitleColorForState(CAControlStateAll, CAColor_gray);
             button->setTitleColorForState(CAControlStateSelected, CAColor_white);
 			button->setTitleFontSize(_px(27));
@@ -210,7 +210,7 @@ void SessionsViewController::initMsgTableView()
 		{
 			CAButton* button = CAButton::createWithFrame(DRect(_px(20), _px(50) * i, m_winSize.width / 2 - _px(40), _px(50)), CAButtonTypeCustom);
 			button->setTitleForState(CAControlStateAll, formatFilterItem[i]);
-			button->setTitleFontName("fonts/arial.ttf");
+			button->setTitleFontName(SAP_FONT_ARIAL);
 			button->setTitleColorForState(CAControlStateAll, CAColor_gray);
             button->setTitleColorForState(CAControlStateSelected, CAColor_white);
 			button->setTitleFontSize(_px(27));

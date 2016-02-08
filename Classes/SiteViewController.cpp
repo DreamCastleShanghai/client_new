@@ -39,7 +39,7 @@ void SiteViewController::viewDidLoad()
 	mc->setFontSize(_px(40));
 	mc->setText("Site");
 	mc->setColor(CAColor_white);
-	mc->setFontName("fonts/arial.ttf");
+	mc->setFontName(SAP_FONT_ARIAL);
 	this->getView()->addSubview(mc);
 
     imageView = CAImageView::createWithFrame(DRect(0, _px(150), m_winSize.width, m_winSize.height - _px(150)));

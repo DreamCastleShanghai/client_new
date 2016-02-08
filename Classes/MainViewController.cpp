@@ -155,9 +155,9 @@ void MainViewController::viewDidLoad()
         if (label) {
             label->setTextAlignment(CATextAlignmentCenter);
             label->setColor(CAColor_white);
-            label->setFontSize(_px(36));
+            label->setFontSize(SAP_TITLE_FONT_SIZE);
             label->setText("SAP d-kom");
-            label->setFontName("fonts/arial.ttf");
+            label->setFontName(SAP_FONT_ARIAL);
             label->setTouchEnabled(false);
             header->addSubview(label);
         }
@@ -266,7 +266,7 @@ void MainViewController::viewDidLoad()
         label->setColor(CAColor_gray);
         label->setFontSize(_px(28));
         label->setText(unicode_to_utf8(mainShort[i]));
-        label->setFontName("fonts/arial.ttf");
+        label->setFontName(SAP_FONT_ARIAL);
         label->setTouchEnabled(false);
         btn->addSubview(label);
         btn->addTarget(this, CAControl_selector(MainViewController::buttonCallBack), CAControlEventTouchUpInSide);
@@ -304,7 +304,7 @@ void MainViewController::viewDidLoad()
     label->setColor(CAColor_gray);//ccc4(0x0f, 0xaa, 0xff, 0xff));//CAColor_gray);//CAColor_blue);
     label->setFontSize(_px(27));
     label->setText("My Agenda");
-    label->setFontName("fonts/arial.ttf");//markerfelt.ttf");
+    label->setFontName(SAP_FONT_ARIAL);//markerfelt.ttf");
     label->setTouchEnabled(false);
     this->getView()->addSubview(label);
     

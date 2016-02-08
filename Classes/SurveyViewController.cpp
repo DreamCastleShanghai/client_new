@@ -63,9 +63,9 @@ void SurveyViewController::viewDidLoad()
     CALabel* label = CALabel::createWithCenter(DRect(m_winSize.width / 2, _px(70), m_winSize.width, _px(40)));
     label->setTextAlignment(CATextAlignmentCenter);
     label->setColor(CAColor_white);
-    label->setFontSize(_px(40));
+    label->setFontSize(SAP_TITLE_FONT_SIZE);
     label->setText("Session Survey");
-    label->setFontName("fonts/arial.ttf");
+    label->setFontName(SAP_FONT_ARIAL);
     header->addSubview(label);
     
     // scroll view
@@ -93,7 +93,7 @@ void SurveyViewController::viewDidLoad()
         m_question1->setColor(CAColor_gray);
         m_question1->setFontSize(_px(28));
         m_question1->setText("Question 1");
-        m_question1->setFontName("fonts/arial.ttf");
+        m_question1->setFontName(SAP_FONT_ARIAL);
         partOne->addSubview(m_question1);
     }
     
@@ -120,7 +120,7 @@ void SurveyViewController::viewDidLoad()
             m_option1[i]->setColor(CAColor_gray);
             m_option1[i]->setFontSize(_px(27));
             m_option1[i]->setText(crossapp_format_string("option 1 test %d", i));
-            m_option1[i]->setFontName("fonts/arial.ttf");
+            m_option1[i]->setFontName(SAP_FONT_ARIAL);
             partOne->addSubview(m_option1[i]);
         }
     }
@@ -138,7 +138,7 @@ void SurveyViewController::viewDidLoad()
         m_question2->setColor(CAColor_gray);
         m_question2->setFontSize(_px(28));
         m_question2->setText("Question 2?");
-        m_question2->setFontName("fonts/arial.ttf");
+        m_question2->setFontName(SAP_FONT_ARIAL);
         partTwo->addSubview(m_question2);
     }
     
@@ -165,7 +165,7 @@ void SurveyViewController::viewDidLoad()
             m_option2[i]->setColor(CAColor_gray);
             m_option2[i]->setFontSize(_px(27));
             m_option2[i]->setText(crossapp_format_string("option 2 test %d", i));
-            m_option2[i]->setFontName("fonts/arial.ttf");
+            m_option2[i]->setFontName(SAP_FONT_ARIAL);
             partTwo->addSubview(m_option2[i]);
         }
     }
@@ -184,7 +184,7 @@ void SurveyViewController::viewDidLoad()
 	label->setColor(CAColor_gray);
 	label->setFontSize(_px(28));
 	label->setText("How do you like this session?");
-	label->setFontName("fonts/arial.ttf");
+	label->setFontName(SAP_FONT_ARIAL);
 	partThree->addSubview(label);
 
 	for (int i = 0; i < STAR_CNT; i++)
@@ -426,7 +426,8 @@ void SurveyViewController::onRequestFinished(const HttpResponseStatus& status, c
         {
             //            CAAlertView *alertView = CAAlertView::createWithText("Succeed !", "Thanks for take this survey !", "OK", NULL);
             //            alertView->show();
-            FDataManager::getInstance()->setUserDirty(true);
+            FDataManager::getInstance()->setRankDirty(true);
+            //FDataManager::getInstance()->setUserDirty(true);
             //            userInfo* info = FDataManager::getInstance()->getUserInfo();
             //            info->m_greenAmb = true;
             srv->setCorrect(true);

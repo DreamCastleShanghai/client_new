@@ -39,9 +39,9 @@ void MapViewController::viewDidLoad()
     CALabel* label = CALabel::createWithCenter(DRect(m_winSize.width / 2, _px(70), m_winSize.width, _px(50)));
     label->setTextAlignment(CATextAlignmentCenter);
     label->setColor(CAColor_white);
-    label->setFontSize(_px(40));
+    label->setFontSize(SAP_TITLE_FONT_SIZE);
     label->setText("Onsite Guide");
-    label->setFontName("fonts/arial.ttf");
+    label->setFontName(SAP_FONT_ARIAL);
     sView->addSubview(label);
 
     // header back btn
@@ -69,8 +69,8 @@ void MapViewController::viewDidLoad()
         m_leftBtn->addTarget(this, CAControl_selector(MapViewController::buttonCallBack), CAControlEventTouchUpInSide);
         m_leftBtn->setTag(ID_OUTSIDE);
         m_leftBtn->setTitleForState(CAControlStateAll, "General");
-        m_leftBtn->setTitleFontName("fonts/arial.ttf");
-        m_leftBtn->setTitleFontSize(_px(30));
+        m_leftBtn->setTitleFontName(SAP_FONT_ARIAL);
+        m_leftBtn->setTitleFontSize(SAP_TITLE_FONT_SIZE);
         m_leftBtn->setTitleColorForState(CAControlStateAll, SAP_WHITE_LOW);
         m_leftBtn->setTitleColorForState(CAControlStateSelected, CAColor_white);
         this->getView()->addSubview(m_leftBtn);
@@ -92,7 +92,7 @@ void MapViewController::viewDidLoad()
         m_rightBtn->addTarget(this, CAControl_selector(MapViewController::buttonCallBack), CAControlEventTouchUpInSide);
         m_rightBtn->setTag(ID_INSIDE);
         m_rightBtn->setTitleForState(CAControlStateAll, "Floors");
-        m_rightBtn->setTitleFontName("fonts/arial.ttf");
+        m_rightBtn->setTitleFontName(SAP_FONT_ARIAL);
         m_rightBtn->setTitleFontSize(_px(30));
         m_rightBtn->setTitleColorForState(CAControlStateAll, SAP_WHITE_LOW);
         m_rightBtn->setTitleColorForState(CAControlStateSelected, CAColor_white);
@@ -151,7 +151,7 @@ void MapViewController::viewDidLoad()
             m_pageOneAddressLabel->setFontSize(_px(30));
             m_pageOneAddressLabel->setBold(true);
             //label->setItalics(true);
-            m_pageOneAddressLabel->setFontName("fonts/arial.ttf");
+            m_pageOneAddressLabel->setFontName(SAP_FONT_ARIAL);
             m_pageOne->addSubview(m_pageOneAddressLabel);
         }
         

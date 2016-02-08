@@ -35,9 +35,9 @@ void VoteDetailViewController::viewDidLoad()
     CALabel* label = CALabel::createWithCenter(DRect(m_winSize.width / 2, _px(70), m_winSize.width, _px(40)));
     label->setTextAlignment(CATextAlignmentCenter);
     label->setColor(CAColor_white);
-    label->setFontSize(_px(40));
+    label->setFontSize(SAP_TITLE_FONT_SIZE);
     label->setText("Vote Notice");
-    label->setFontName("fonts/arial.ttf");
+    label->setFontName(SAP_FONT_ARIAL);
     sView->addSubview(label);
 
 	CAView* view = CAView::createWithFrame(DRect(0, _px(120), m_winSize.width, m_winSize.height - _px(120)));
@@ -67,7 +67,7 @@ void VoteDetailViewController::viewDidLoad()
 	label->setColor(CAColor_gray);
 	label->setFontSize(_px(35));
 	label->setText("Vote event will be start after the show!");
-	label->setFontName("fonts/arial.ttf");
+	label->setFontName(SAP_FONT_ARIAL);
 	view->addSubview(label);
 //
 //

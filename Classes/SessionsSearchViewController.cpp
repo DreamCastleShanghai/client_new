@@ -55,7 +55,7 @@ void SessionsSearchViewController::viewDidLoad()
     m_searchTextField = CATextField::createWithFrame(DRect(_px(150), _px(40), m_winSize.width - _px(310), _px(60)));
     m_searchTextField->setTextColor(SAP_DEFAULT_COLOR);//ccc4(0xa0, 0xa0, 0xa0, 0xff));
     m_searchTextField->setFontSize(_px(26));
-    m_searchTextField->setFontName("fonts/arial.ttf");
+    m_searchTextField->setFontName(SAP_FONT_ARIAL);
     this->getView()->addSubview(m_searchTextField);
     
     button = CAButton::createWithFrame(DRect(m_winSize.width - _px(140), _px(20), _px(100), _px(100)), CAButtonTypeCustom);
@@ -87,7 +87,7 @@ void SessionsSearchViewController::viewDidLoad()
 	{
 		CAButton* button = CAButton::createWithFrame(DRect(i * m_winSize.width / 2, 0, m_winSize.width / 2, _px(60)), CAButtonTypeCustom);
 		button->setTitleForState(CAControlStateAll, filterItem[i]);
-		button->setTitleFontName("fonts/arial.ttf");
+		button->setTitleFontName(SAP_FONT_ARIAL);
         button->setTitleFontSize(_px(30));
 		button->setTitleColorForState(CAControlStateAll, CAColor_gray);
  		button->addTarget(this, CAControl_selector(SessionsSearchViewController::buttonCallBack), CAControlEventTouchUpInSide);
@@ -107,7 +107,7 @@ void SessionsSearchViewController::viewDidLoad()
 	{
 		CAButton* button = CAButton::createWithFrame(DRect(_px(20), _px(50) * i, m_winSize.width / 2 - _px(40), _px(50)), CAButtonTypeCustom);
 		button->setTitleForState(CAControlStateAll, trackFilterItem[i]);
-		button->setTitleFontName("fonts/arial.ttf");
+		button->setTitleFontName(SAP_FONT_ARIAL);
 		button->setTitleColorForState(CAControlStateAll, CAColor_gray);
         button->setTitleColorForState(CAControlStateSelected, CAColor_white);
         button->setTitleFontSize(_px(27));
@@ -126,7 +126,7 @@ void SessionsSearchViewController::viewDidLoad()
 	{
 		CAButton* button = CAButton::createWithFrame(DRect(_px(20), _px(50) * i, m_winSize.width / 2 - _px(40), _px(50)), CAButtonTypeCustom);
 		button->setTitleForState(CAControlStateAll, formatFilterItem[i]);
-		button->setTitleFontName("fonts/arial.ttf");
+		button->setTitleFontName(SAP_FONT_ARIAL);
 		button->setTitleColorForState(CAControlStateAll, CAColor_gray);
         button->setTitleColorForState(CAControlStateSelected, CAColor_white);
 		button->setTitleFontSize(_px(27));

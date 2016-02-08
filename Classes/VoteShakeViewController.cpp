@@ -51,9 +51,9 @@ void VoteShakeViewController::viewDidLoad()
     CALabel* label = CALabel::createWithCenter(DRect(m_winSize.width / 2, _px(70), m_winSize.width, _px(40)));
     label->setTextAlignment(CATextAlignmentCenter);
     label->setColor(CAColor_white);
-    label->setFontSize(_px(40));
+    label->setFontSize(SAP_TITLE_FONT_SIZE);
     label->setText("Vote");
-    label->setFontName("fonts/arial.ttf");
+    label->setFontName(SAP_FONT_ARIAL);
     sView->addSubview(label);
 
 	m_view = CAView::createWithFrame(DRect(0, _px(120), m_winSize.width, m_winSize.height - _px(120)));
@@ -106,7 +106,7 @@ void VoteShakeViewController::initView()
         label->setColor(CAColor_white);
         label->setFontSize(_px(35));
         label->setText("Vote event will be start after the show!");
-        label->setFontName("fonts/arial.ttf");
+        label->setFontName(SAP_FONT_ARIAL);
         m_shakeView->addSubview(label);
     }
     else if (m_voteStatus == Vote_Start)
@@ -128,7 +128,7 @@ void VoteShakeViewController::initView()
         {
             label->setText(crossapp_format_string("Shake your phone, Vote for %s", m_voiceMsg->m_playerName.c_str()));
         }
-        label->setFontName("fonts/arial.ttf");
+        label->setFontName(SAP_FONT_ARIAL);
         m_shakeView->addSubview(label);
         
         m_shakeNumLabel = CALabel::createWithFrame(DRect(_px(40), _px(550), m_winSize.width - _px(80), _px(80)));
@@ -136,7 +136,7 @@ void VoteShakeViewController::initView()
         m_shakeNumLabel->setColor(CAColor_gray);
         m_shakeNumLabel->setFontSize(_px(50));
         m_shakeNumLabel->setText(crossapp_format_string("Shake Number: %d", m_shakeNum));
-        m_shakeNumLabel->setFontName("fonts/arial.ttf");
+        m_shakeNumLabel->setFontName(SAP_FONT_ARIAL);
         m_shakeView->addSubview(m_shakeNumLabel);
         
         label = CALabel::createWithFrame(DRect(_px(40), _px(300), m_winSize.width - _px(80), _px(80)));
@@ -151,7 +151,7 @@ void VoteShakeViewController::initView()
         {
             label->setText(crossapp_format_string("You have been voted for %s, thank you!", m_voiceMsg->m_playerName.c_str()));
         }
-        label->setFontName("fonts/arial.ttf");
+        label->setFontName(SAP_FONT_ARIAL);
         m_shakeEndView->addSubview(label);
     }
     else if(m_voteStatus == Vote_End)
@@ -161,7 +161,7 @@ void VoteShakeViewController::initView()
         label->setColor(CAColor_white);
         label->setFontSize(_px(35));
         label->setText("This event has been over!");
-        label->setFontName("fonts/arial.ttf");
+        label->setFontName(SAP_FONT_ARIAL);
         m_shakeView->addSubview(label);
     }
 }

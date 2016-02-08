@@ -6,7 +6,7 @@
 #define _T(x) L##x
 #define CHAR    wchar_t
 
-//#define LOCAL_DEBUG
+#define LOCAL_DEBUG
 
 #ifdef LOCAL_DEBUG
 static const std::string httpUrl = "http://localhost:8080/sap";
@@ -22,11 +22,13 @@ static const char* loginTag = "L0";
 #define SAP_WHITE_LOW       (ccc4(0xce, 0xea, 0xfd, 0xff))
 #define SAP_GRAY            (ccc4(0x96, 0x96, 0x96, 0xff))
 
+// Font Size
+#define SAP_TITLE_FONT_SIZE (_px(36))
 
 // Font
 #define SAP_FONT_ARIAL      ("fonts/arial.ttf")
 
-#define DKOM_SURVEY_LINK ("https://surveys.sap.com/SE/?SID=SV_cOYQMsNXeLGjo7H")
+#define DKOM_SURVEY_LINK    ("https://surveys.sap.com/SE/?SID=SV_cOYQMsNXeLGjo7H")
 
 static const char* momentsTag[4] =
 {

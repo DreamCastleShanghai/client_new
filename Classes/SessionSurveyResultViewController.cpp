@@ -88,7 +88,7 @@ void SessionSurveyResultViewController::viewDidLoad()
         m_headerTitle = CALabel::createWithCenter(DRect(m_winSize.width / 2, _px(70), m_winSize.width, _px(30)));
         m_headerTitle->setTextAlignment(CATextAlignmentCenter);
         m_headerTitle->setColor(CAColor_white);
-        m_headerTitle->setFontSize(_px(30));
+        m_headerTitle->setFontSize(SAP_TITLE_FONT_SIZE);
         m_headerTitle->setText("Your Points");
         m_headerTitle->setFontName(SAP_FONT_ARIAL);
         m_headerTitle->setTouchEnabled(false);

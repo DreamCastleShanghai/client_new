@@ -71,7 +71,7 @@ void MomentsDetailViewController::viewDidLoad()
         label->setColor(SAP_DEFAULT_COLOR);
         label->setFontSize(_px(30));
         label->setText(m_msg->name);
-        label->setFontName("fonts/arial.ttf");
+        label->setFontName(SAP_FONT_ARIAL);
         view->addSubview(label);
         
         label = CALabel::createWithFrame(DRect(_px(140), _px(60), m_winSize.width - _px(140), _px(30)));
@@ -79,7 +79,7 @@ void MomentsDetailViewController::viewDidLoad()
         label->setColor(CAColor_white);
         label->setFontSize(_px(25));
         label->setText(crossapp_format_string("#%s", m_msg->caterory.c_str()));
-        label->setFontName("fonts/arial.ttf");
+        label->setFontName(SAP_FONT_ARIAL);
         view->addSubview(label);
         
         CAButton* button = CAButton::createWithFrame(DRect(m_winSize.width - _px(160), _px(40), _px(50), _px(50)), CAButtonTypeCustom);
@@ -106,7 +106,7 @@ void MomentsDetailViewController::viewDidLoad()
         m_likeNumLabel->setColor(CAColor_white);
         m_likeNumLabel->setFontSize(_px(25));
         m_likeNumLabel->setText(crossapp_format_string("%d", m_msg->likeNum));
-        m_likeNumLabel->setFontName("fonts/arial.ttf");
+        m_likeNumLabel->setFontName(SAP_FONT_ARIAL);
         view->addSubview(m_likeNumLabel);
     }
 

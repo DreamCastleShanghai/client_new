@@ -41,7 +41,7 @@ void PrizeViewController::viewDidLoad()
     label->setColor(CAColor_white);
     label->setFontSize(_px(40));
     label->setText("Prize");
-    label->setFontName("fonts/arial.ttf");
+    label->setFontName(SAP_FONT_ARIAL);
     sView->addSubview(label);
     requestMsg();
     

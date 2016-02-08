@@ -71,7 +71,8 @@ void MomentViewController::viewDidLoad()
 	CAButton*  tagbutton = CAButton::createWithFrame(DRect((m_winSize.width - _px(200)) / 2, _px(30), _px(200), _px(100)), CAButtonTypeCustom);
     if (tagbutton) {
         tagbutton->setTitleForState(CAControlStateAll, "Moments");
-        tagbutton->setTitleFontSize(_px(40));
+        tagbutton->setTitleFontName(SAP_FONT_ARIAL);
+        tagbutton->setTitleFontSize(SAP_TITLE_FONT_SIZE);
         tagbutton->setTitleColorForState(CAControlStateAll, CAColor_white);
         
         tagbutton->addTarget(this, CAControl_selector(MomentViewController::buttonCallBack), CAControlEventTouchUpInSide);
@@ -135,7 +136,7 @@ void MomentViewController::viewDidLoad()
         m_leftBtn->setTitleFontSize(30);
         m_leftBtn->setTitleColorForState(CAControlStateAll, SAP_WHITE_LOW);
         m_leftBtn->setTitleColorForState(CAControlStateSelected, CAColor_white);
-        m_leftBtn->setTitleFontName("fonts/arial.ttf");
+        m_leftBtn->setTitleFontName(SAP_FONT_ARIAL);
         m_leftBtn->setTitleForState(CAControlStateAll, "Photos");
         this->getView()->addSubview(m_leftBtn);
         m_leftBtn->setControlState(CAControlStateSelected);
@@ -150,7 +151,7 @@ void MomentViewController::viewDidLoad()
         m_rightBtn->setTitleFontSize(30);
         m_rightBtn->setTitleColorForState(CAControlStateAll, SAP_WHITE_LOW);
         m_rightBtn->setTitleColorForState(CAControlStateSelected, CAColor_white);
-        m_rightBtn->setTitleFontName("fonts/arial.ttf");
+        m_rightBtn->setTitleFontName(SAP_FONT_ARIAL);
         m_rightBtn->setTitleForState(CAControlStateAll, "My Posts");
         this->getView()->addSubview(m_rightBtn);
     }
@@ -292,7 +293,7 @@ void MomentViewController::onRequestLikeFinished(const HttpResponseStatus& statu
         string tempjson = writer.write(json);
         CCLog("receive json == %s",tempjson.c_str());
         
-        const CSJson::Value& value = json["result"];
+//        const CSJson::Value& value = json["result"];
         bool isLike = json["result"]["r"].asBool();
         if (isLike)
         {
@@ -629,7 +630,7 @@ CATableViewCell* MomentViewController::tableCellAtIndex(CATableView* table, cons
         label->setColor(ccc4(0x0f, 0xaa, 0xff, 0xff));//CAColor_blue);
 		label->setFontSize(_px(30));
 		label->setText(m_allFilterMsg.at(row)->name);
-		label->setFontName("fonts/arial.ttf");
+		label->setFontName(SAP_FONT_ARIAL);
 		view->addSubview(label);
 
 		label = CALabel::createWithFrame(DRect(_px(140), _px(60), m_winSize.width - _px(140), _px(30)));
@@ -637,7 +638,7 @@ CATableViewCell* MomentViewController::tableCellAtIndex(CATableView* table, cons
 		label->setColor(CAColor_white);
 		label->setFontSize(_px(25));
 		label->setText(crossapp_format_string("#%s", m_allFilterMsg.at(row)->caterory.c_str()));
-		label->setFontName("fonts/arial.ttf");
+		label->setFontName(SAP_FONT_ARIAL);
 		view->addSubview(label);
 
 		CAButton* button = CAButton::createWithFrame(DRect(m_winSize.width - _px(160), _px(40), _px(50), _px(50)), CAButtonTypeCustom);
@@ -657,7 +658,7 @@ CATableViewCell* MomentViewController::tableCellAtIndex(CATableView* table, cons
 		label->setColor(CAColor_white);
 		label->setFontSize(_px(25));
 		label->setText(crossapp_format_string("%d", m_allFilterMsg.at(row)->likeNum));
-		label->setFontName("fonts/arial.ttf");
+		label->setFontName(SAP_FONT_ARIAL);
 		view->addSubview(label);
 		m_likeNumLabelVec.push_back(label);
 

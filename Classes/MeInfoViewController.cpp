@@ -79,9 +79,9 @@ void MeInfoViewController::viewDidLoad()
         m_headerTitle = CALabel::createWithCenter(DRect(m_winSize.width / 2, _px(70), m_winSize.width, _px(40)));
         m_headerTitle->setTextAlignment(CATextAlignmentCenter);
         m_headerTitle->setColor(CAColor_white);
-        m_headerTitle->setFontSize(_px(40));
+        m_headerTitle->setFontSize(SAP_TITLE_FONT_SIZE);
         m_headerTitle->setText("Information");
-        m_headerTitle->setFontName("fonts/arial.ttf");
+        m_headerTitle->setFontName(SAP_FONT_ARIAL);
         m_headerTitle->setTouchEnabled(false);
         m_headerView->addSubview(m_headerTitle);
     }
@@ -109,7 +109,7 @@ void MeInfoViewController::viewDidLoad()
             m_bodyContext->setFontSize(_px(30));
             m_bodyContext->setBold(true);
             //label->setItalics(true);
-            m_bodyContext->setFontName("fonts/arial.ttf");
+            m_bodyContext->setFontName(SAP_FONT_ARIAL);
             m_bodyScrollView->addSubview(m_bodyContext);
         }
     }

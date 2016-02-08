@@ -186,8 +186,8 @@ public:
     userInfo* getUserInfo() { return &m_userInfo; }
     void setUserInfo(userInfo& ui) { m_userInfo = ui; }
     
-    void setUserDirty(bool dir) { m_userDirty = dir; }
-    bool isUserDirty() { return  m_userDirty; }
+    CC_SYNTHESIZE_IS(bool, m_userDirty, UserDirty);
+    CC_SYNTHESIZE_IS(bool, m_rankDirty, RankDirty);
     
 private:
     
@@ -197,7 +197,6 @@ private:
     time_t                      m_diffServerTime;
     vector<sessionMsg>          m_sessionMsgs;
     userInfo                    m_userInfo;
-    bool                        m_userDirty;
 };
 
 
