@@ -31,7 +31,7 @@ void PrizeViewController::viewDidLoad()
     CAImageView* imageView = CAImageView::createWithImage(CAImage::create("common/nav_back.png"));
     imageView->setImageViewScaleType(CAImageViewScaleTypeFitImageXY);
     imageView->setFrame(DRect(_px(20), _px(20), _px(80), _px(80)));
-    button->setBackGroundViewForState(CAControlStateAll, imageView);
+    button->setBackgroundViewForState(CAControlStateAll, imageView);
     button->addTarget(this, CAControl_selector(PrizeViewController::buttonCallBack), CAControlEventTouchUpInSide);
     button->setTag(20);
     this->getView()->addSubview(button);
@@ -74,7 +74,7 @@ void PrizeViewController::initMsgTableView()
     CAButton* button = CAButton::createWithFrame(DRect(_px(40), m_winSize.height - _px(160), m_winSize.width - _px(80), _px(120)), CAButtonTypeCustom);
     CAImageView* imageView = CAImageView::createWithImage(CAImage::create("common/sky_bg.png"));
     imageView->setImageViewScaleType(CAImageViewScaleTypeFitImageXY);
-    button->setBackGroundViewForState(CAControlStateAll, imageView);
+    button->setBackgroundViewForState(CAControlStateAll, imageView);
     button->setTitleColorForState(CAControlStateAll, CAColor_white);
     button->setTitleForState(CAControlStateAll, "View My Points");
     button->setTitleFontSize(_px(36));
@@ -176,8 +176,8 @@ void PrizeViewController::showAlert()
     btn5->setTag(100);
     btn5->setFrame(DRect(_px(0), _px(0), m_winSize.width, m_winSize.height - _px(120)));
     btn5->setTitleColorForState(CAControlStateNormal, CAColor_white);
-    btn5->setBackGroundViewForState(CAControlStateNormal, bg);
-    btn5->setBackGroundViewForState(CAControlStateHighlighted, bg);
+    btn5->setBackgroundViewForState(CAControlStateNormal, bg);
+    btn5->setBackgroundViewForState(CAControlStateHighlighted, bg);
     btn5->addTarget(this, CAControl_selector(PrizeViewController::buttonCallBack), CAControlEventTouchUpInSide);
     p_alertView->addSubview(btn5);
     

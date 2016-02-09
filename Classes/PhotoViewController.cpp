@@ -41,7 +41,7 @@ void PhotoViewController::viewDidLoad()
     CAImageView* imageView = CAImageView::createWithImage(CAImage::create("common/nav_back.png"));
     imageView->setImageViewScaleType(CAImageViewScaleTypeFitImageXY);
     imageView->setFrame(DRect(_px(20), _px(20), _px(80), _px(80)));
-    button->setBackGroundViewForState(CAControlStateAll, imageView);
+    button->setBackgroundViewForState(CAControlStateAll, imageView);
     button->addTarget(this, CAControl_selector(PhotoViewController::buttonCallBack), CAControlEventTouchUpInSide);
     button->setTag(20);
     sView->addSubview(button);
@@ -185,9 +185,9 @@ void PhotoViewController::onRequestFinished(const HttpResponseStatus& status, co
 {
     if (status == HttpResponseSucceed)
     {
-        CSJson::FastWriter writer;
-        string tempjson = writer.write(json);
-        CCLog("receive json == %s",tempjson.c_str());
+//        CSJson::FastWriter writer;
+//        string tempjson = writer.write(json);
+//        CCLog("receive json == %s",tempjson.c_str());
         
         const CSJson::Value& value = json["result"];
         if(value["r"].asString() == "1")
@@ -311,11 +311,12 @@ void PhotoViewController::getSelectedImage(CAImage *image)
         m_pScrollView->setContentOffset(DPoint(0,winSize.height/4), false);
         m_pScrollView->setMinimumZoomScale(temp_mini);
         m_pScrollView->setMaximumZoomScale(2.5f);
-        m_pScrollView->setBackGroundColor(CAColor_clear);
+        m_pScrollView->setBackgroundColor(CAColor_clear);
         m_pScrollView->setShowsScrollIndicators(false);
         m_pScrollView->setBounces(false);
         m_pScrollView->setScrollViewDelegate(this);
         m_pScrollView->setDisplayRange(true);
+        m_pScrollView->setMultitouchGesture(CAScrollView::Zoom);
         m_clvImage->addSubview(m_pScrollView);
         
         DRect rect;
@@ -370,7 +371,7 @@ void PhotoViewController::getSelectedImage(CAImage *image)
     CAScale9ImageView* sView = CAScale9ImageView::createWithImage(CAImage::create("common/gray_bg.png"));
     sView->setFrame(DRect(_px(0), _px(0), _px(200), _px(60)));
     //button->addSubview(sView);
-    //button->setBackGroundViewForState(CAControlStateAll, CAScale9ImageView::createWithImage(CAImage::create("common/gray_bg.png")));
+    //button->setBackgroundViewForState(CAControlStateAll, CAScale9ImageView::createWithImage(CAImage::create("common/gray_bg.png")));
     button->setTag(400);
     button->addTarget(this, CAControl_selector(PhotoViewController::buttonCallBack), CAControlEventTouchUpInSide);
     m_photoView->addSubview(button);
@@ -383,7 +384,7 @@ void PhotoViewController::getSelectedImage(CAImage *image)
     sView = CAScale9ImageView::createWithImage(CAImage::create("common/gray_bg.png"));
     sView->setFrame(DRect(_px(0), _px(0), _px(200), _px(60)));
     //button->addSubview(sView);
-    //button->setBackGroundViewForState(CAControlStateAll, CAScale9ImageView::createWithImage(CAImage::create("common/gray_bg.png")));
+    //button->setBackgroundViewForState(CAControlStateAll, CAScale9ImageView::createWithImage(CAImage::create("common/gray_bg.png")));
     button->setTag(500);
     button->addTarget(this, CAControl_selector(PhotoViewController::buttonCallBack), CAControlEventTouchUpInSide);
     m_photoView->addSubview(button);

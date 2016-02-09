@@ -27,7 +27,7 @@ VoteShakeViewController::VoteShakeViewController(demoJamMsg* dMsg, voiceMsg* vMs
 
 VoteShakeViewController::~VoteShakeViewController()
 {
-
+    CAApplication::getApplication()->getAccelerometer()->setDelegate(NULL);
 }
 
 void VoteShakeViewController::viewDidLoad()
@@ -43,7 +43,7 @@ void VoteShakeViewController::viewDidLoad()
     CAImageView* imageView = CAImageView::createWithImage(CAImage::create("common/nav_back.png"));
     imageView->setImageViewScaleType(CAImageViewScaleTypeFitImageXY);
     imageView->setFrame(DRect(_px(20), _px(20), _px(80), _px(80)));
-    button->setBackGroundViewForState(CAControlStateAll, imageView);
+    button->setBackgroundViewForState(CAControlStateAll, imageView);
     button->addTarget(this, CAControl_selector(VoteShakeViewController::buttonCallBack), CAControlEventTouchUpInSide);
     button->setTag(20);
     this->getView()->addSubview(button);
@@ -229,9 +229,9 @@ void VoteShakeViewController::onRequestFinished(const HttpResponseStatus& status
 {
     if (status == HttpResponseSucceed)
     {
-        CSJson::FastWriter writer;
-        string tempjson = writer.write(json);
-        CCLog("receive json == %s",tempjson.c_str());
+//        CSJson::FastWriter writer;
+//        string tempjson = writer.write(json);
+//        CCLog("receive json == %s",tempjson.c_str());
         
         const CSJson::Value& value = json["result"];
         
@@ -293,9 +293,9 @@ void VoteShakeViewController::onRequestVoteFinished(const HttpResponseStatus& st
 {
     if (status == HttpResponseSucceed)
     {
-        CSJson::FastWriter writer;
-        string tempjson = writer.write(json);
-        CCLog("receive json == %s",tempjson.c_str());
+//        CSJson::FastWriter writer;
+//        string tempjson = writer.write(json);
+//        CCLog("receive json == %s",tempjson.c_str());
         
         const CSJson::Value& value = json["result"];
         if(value["r"].asInt() == 1)
@@ -343,7 +343,7 @@ void VoteShakeViewController::didAccelerate(CCAcceleration* pAccelerationValue)
     float nowGY = (pAccelerationValue->y)*9.81f;
     
     float dt = 30.f;
-    if(m_voteStatus == Vote_Start && !m_voted && m_canVote && (nowGX<-dt||nowGX>dt || nowGY<-dt||nowGY>dt))
+    if(m_voteStatus == Vote_Start && !m_voted && m_canVote && (nowGX<-dt || nowGY<-dt))
     {
         m_shakeNum++;
         if (m_shakeNum % 5 == 0 || m_shakeNum == 1)

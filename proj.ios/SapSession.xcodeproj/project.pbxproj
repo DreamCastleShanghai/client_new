@@ -238,7 +238,7 @@
 		1AFCDA8016D4A25900906EA6 /* RootViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RootViewController.h; sourceTree = SOURCE_ROOT; };
 		1AFCDA8116D4A25900906EA6 /* RootViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = RootViewController.mm; sourceTree = SOURCE_ROOT; };
 		1D30AB110D05D00D00671497 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
-		1D6058910D05DD3D006BFB54 /* SapSession.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SapSession.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		1D6058910D05DD3D006BFB54 /* d-kom 2016.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "d-kom 2016.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1DF5F4DF0D08C38300B7A737 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		2150400B1C66062A005AB8B7 /* SessionSurveyResultViewController.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SessionSurveyResultViewController.cpp; path = ../Classes/SessionSurveyResultViewController.cpp; sourceTree = "<group>"; };
 		2150400C1C66062A005AB8B7 /* SessionSurveyResultViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SessionSurveyResultViewController.h; path = ../Classes/SessionSurveyResultViewController.h; sourceTree = "<group>"; };
@@ -725,7 +725,7 @@
 		19C28FACFE9D520D11CA2CBB /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				1D6058910D05DD3D006BFB54 /* SapSession.app */,
+				1D6058910D05DD3D006BFB54 /* d-kom 2016.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1117,7 +1117,7 @@
 			);
 			name = SapSession;
 			productName = iphone;
-			productReference = 1D6058910D05DD3D006BFB54 /* SapSession.app */;
+			productReference = 1D6058910D05DD3D006BFB54 /* d-kom 2016.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -1132,7 +1132,7 @@
 						DevelopmentTeam = 65J6U7BL8K;
 						SystemCapabilities = {
 							com.apple.Push = {
-								enabled = 0;
+								enabled = 1;
 							};
 						};
 					};
@@ -1369,8 +1369,8 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Dream Castle Co., Ltd. (65J6U7BL8K)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Dream Castle Co., Ltd. (65J6U7BL8K)";
 				COPY_PHASE_STRIP = NO;
 				ENABLE_BITCODE = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -1410,7 +1410,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.dc.app.sap2015ap;
 				PRODUCT_NAME = "d-kom 2016";
 				PROVISIONING_PROFILE = "08f7f174-8ca8-41c6-9425-ec95a2d5c42c";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "08f7f174-8ca8-41c6-9425-ec95a2d5c42c";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 1;
 				USER_HEADER_SEARCH_PATHS = "";
@@ -1424,8 +1424,8 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Dream Castle Co., Ltd. (65J6U7BL8K)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Dream Castle Co., Ltd. (65J6U7BL8K)";
 				COPY_PHASE_STRIP = YES;
 				ENABLE_BITCODE = NO;
 				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
@@ -1462,7 +1462,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.dc.app.sap2015ap;
 				PRODUCT_NAME = "d-kom 2016";
 				PROVISIONING_PROFILE = "08f7f174-8ca8-41c6-9425-ec95a2d5c42c";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "08f7f174-8ca8-41c6-9425-ec95a2d5c42c";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 1;
 				USER_HEADER_SEARCH_PATHS = "";

@@ -55,6 +55,8 @@ public:
     void updatePageView(float dt);
     
     void refreshTable();
+    
+    void reloadTableData();
 
 	virtual void scrollViewHeaderBeginRefreshing(CAScrollView* view);
 	virtual void scrollViewFooterBeginRefreshing(CAScrollView* view);
@@ -93,13 +95,15 @@ private:
     time_t                                                  m_timeForPageView;
 
 	DSize													m_winSize;
-    CAViewController*                                       m_notice;
     CAViewController*                                       m_sustainbilitySurvey;
     CAViewController*                                       m_monent;
     CAViewController*                                       m_vote;
     CAViewController*                                       m_map;
     CAViewController*                                       m_session;
     CAViewController*                                       m_my;
+    
+    CAPullToRefreshView *                               m_headRefreshView;
+    CAPullToRefreshView *                               m_rootRefreshView;
 };
 
 

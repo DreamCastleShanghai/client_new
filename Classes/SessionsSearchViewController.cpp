@@ -47,7 +47,7 @@ void SessionsSearchViewController::viewDidLoad()
     CAImageView* imageView = CAImageView::createWithImage(CAImage::create("common/nav_back.png"));
     imageView->setImageViewScaleType(CAImageViewScaleTypeFitImageXY);
     imageView->setFrame(DRect(_px(20), _px(20), _px(80), _px(80)));
-    button->setBackGroundViewForState(CAControlStateAll, imageView);
+    button->setBackgroundViewForState(CAControlStateAll, imageView);
     button->addTarget(this, CAControl_selector(SessionsSearchViewController::buttonCallBack), CAControlEventTouchUpInSide);
     button->setTag(20);
     this->getView()->addSubview(button);
@@ -55,14 +55,15 @@ void SessionsSearchViewController::viewDidLoad()
     m_searchTextField = CATextField::createWithFrame(DRect(_px(150), _px(40), m_winSize.width - _px(310), _px(60)));
     m_searchTextField->setTextColor(SAP_DEFAULT_COLOR);//ccc4(0xa0, 0xa0, 0xa0, 0xff));
     m_searchTextField->setFontSize(_px(26));
-    m_searchTextField->setFontName(SAP_FONT_ARIAL);
+    //m_searchTextField->setFontName(SAP_FONT_ARIAL);
+    //m_searchTextField->setFontName("fonts/arial.ttf");
     this->getView()->addSubview(m_searchTextField);
     
     button = CAButton::createWithFrame(DRect(m_winSize.width - _px(140), _px(20), _px(100), _px(100)), CAButtonTypeCustom);
     imageView = CAImageView::createWithImage(CAImage::create("common/nav_search.png"));
     //imageView->setImageViewScaleType(CAImageViewScaleTypeFitImageXY);
     //imageView->setFrame(DRect(_px(20), _px(20), _px(80), _px(80)));
-    button->setBackGroundViewForState(CAControlStateAll, imageView);
+    button->setBackgroundViewForState(CAControlStateAll, imageView);
     button->addTarget(this, CAControl_selector(SessionsSearchViewController::buttonCallBack), CAControlEventTouchUpInSide);
     button->setTag(30);
     this->getView()->addSubview(button);
@@ -113,9 +114,9 @@ void SessionsSearchViewController::viewDidLoad()
         button->setTitleFontSize(_px(27));
 		button->setAllowsSelected(true);
 		//CAImageView* imageView = CAImageView::createWithImage(CAImage::create("common/white_bg.png"));
-		//button->setBackGroundViewForState(CAControlStateAll, imageView);
+		//button->setBackgroundViewForState(CAControlStateAll, imageView);
 		imageView = CAImageView::createWithImage(CAImage::create("common/sky_bg.png"));
-		button->setBackGroundViewForState(CAControlStateSelected, imageView);
+		button->setBackgroundViewForState(CAControlStateSelected, imageView);
 		button->addTarget(this, CAControl_selector(SessionsSearchViewController::buttonCallBack), CAControlEventTouchUpInSide);
 		button->setTag(400 + i);
 		m_downView[0]->addSubview(button);
@@ -132,9 +133,9 @@ void SessionsSearchViewController::viewDidLoad()
 		button->setTitleFontSize(_px(27));
 		button->setAllowsSelected(true);
 		//CAImageView* imageView = CAImageView::createWithImage(CAImage::create("common/white_bg.png"));
-		//button->setBackGroundViewForState(CAControlStateAll, imageView);
+		//button->setBackgroundViewForState(CAControlStateAll, imageView);
 		imageView = CAImageView::createWithImage(CAImage::create("common/sky_bg.png"));
-		button->setBackGroundViewForState(CAControlStateSelected, imageView);
+		button->setBackgroundViewForState(CAControlStateSelected, imageView);
 		button->addTarget(this, CAControl_selector(SessionsSearchViewController::buttonCallBack), CAControlEventTouchUpInSide);
 		button->setTag(500 + i);
 		m_downView[1]->addSubview(button);
@@ -352,6 +353,7 @@ void SessionsSearchViewController::tableViewDidSelectRowAtIndexPath(CATableView*
 {
     SessionDetailViewController* vc = new SessionDetailViewController(*m_msgFilter[row]);
     vc->init();
+    vc->autorelease();
     RootWindow::getInstance()->getRootNavigationController()->pushViewController(vc, true);
 }
 

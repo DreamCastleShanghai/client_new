@@ -37,7 +37,6 @@ MainViewController::MainViewController()
 //, m_pastSection(0)
 //, m_nextSection(1)
 , m_timeForPageView(getTimeSecond())
-, m_notice(NULL)
 , m_sustainbilitySurvey(NULL)
 , m_monent(NULL)
 , m_vote(NULL)
@@ -195,7 +194,7 @@ void MainViewController::viewDidLoad()
         CAImageView* imageView = CAImageView::createWithImage(CAImage::create("main/nav_survey.png"));
         if (imageView) {
             imageView->setImageViewScaleType(CAImageViewScaleTypeFitImageXY);
-            button->setBackGroundViewForState(CAControlStateAll, imageView);
+            button->setBackgroundViewForState(CAControlStateAll, imageView);
         }
     }
 	
@@ -337,11 +336,11 @@ void MainViewController::viewDidLoad()
             refreshDiscount->setLabelColor(CAColor_black);
             m_msgTableView->setFooterRefreshView(refreshDiscount);
         }
-        CAPullToRefreshView *refreshDiscount1 = CAPullToRefreshView::create(CAPullToRefreshView::CAPullToRefreshTypeHeader);
-        if (refreshDiscount1) {
-            refreshDiscount1->setLabelColor(CAColor_black);
-            m_msgTableView->setHeaderRefreshView(refreshDiscount1);
-        }
+//        CAPullToRefreshView *refreshDiscount1 = CAPullToRefreshView::create(CAPullToRefreshView::CAPullToRefreshTypeHeader);
+//        if (refreshDiscount1) {
+//            refreshDiscount1->setLabelColor(CAColor_black);
+//            m_msgTableView->setHeaderRefreshView(refreshDiscount1);
+//        }
     }
     
     if (m_msg->empty())
@@ -444,6 +443,11 @@ void MainViewController::scrollViewFooterBeginRefreshing(CAScrollView* view)
             }
         }
     }
+    CAScheduler::schedule(schedule_selector(MainViewController::reloadTableData), this, 0.1, 0, 0.5f, false);
+}
+
+void MainViewController::reloadTableData()
+{
     if (m_msgTableView)
     {
         m_msgTableView->reloadData();
@@ -494,8 +498,8 @@ void MainViewController::showAlert()
     btn5->setTag(100);
     btn5->setFrame(DRect(_px(0), _px(0), m_winSize.width, m_winSize.height - _px(220)));
     btn5->setTitleColorForState(CAControlStateNormal, CAColor_white);
-    btn5->setBackGroundViewForState(CAControlStateNormal, bg);
-    btn5->setBackGroundViewForState(CAControlStateHighlighted, bg);
+    btn5->setBackgroundViewForState(CAControlStateNormal, bg);
+    btn5->setBackgroundViewForState(CAControlStateHighlighted, bg);
     btn5->addTarget(this, CAControl_selector(MainViewController::buttonCallBack), CAControlEventTouchUpInSide);
     p_alertView->addSubview(btn5);
     
@@ -674,12 +678,10 @@ void MainViewController::buttonCallBack(CAControl* btn, DPoint point)
 {
 	if (btn->getTag() == 20) // note
 	{
-        m_notice = (NoticeViewController*)new NoticeViewController();
-        m_notice->init();
-        m_notice->autorelease();
-//        NoticeViewController* vc = new NoticeViewController();
-//        vc->init();
-        RootWindow::getInstance()->getRootNavigationController()->pushViewController(m_notice, true);
+        NoticeViewController* vc = new NoticeViewController();
+        vc->init();
+        vc->autorelease();
+        RootWindow::getInstance()->getRootNavigationController()->pushViewController(vc, true);
 	}
 	else if (btn->getTag() == 30) // prize
 	{

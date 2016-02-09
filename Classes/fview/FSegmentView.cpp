@@ -32,9 +32,9 @@ FSegmentView* FSegmentView::createWithFrame(const DRect &rect, int num)
             CAButton* button = CAButton::createWithFrame(r, CAButtonTypeCustom);
             button->setAllowsSelected(true);
             CAScale9ImageView* sView = CAScale9ImageView::createWithImage(CAImage::create("source_material/dsky_bg.png"));
-            button->setBackGroundViewForState(CAControlStateSelected, sView);
+            button->setBackgroundViewForState(CAControlStateSelected, sView);
             sView = CAScale9ImageView::createWithImage(CAImage::create("source_material/sky_bg.png"));
-            button->setBackGroundViewForState(CAControlStateNormal, sView);
+            button->setBackgroundViewForState(CAControlStateNormal, sView);
             pRet->m_fSegButtonList.push_back(button);
             pRet->addSubview(button);
         }
@@ -107,7 +107,7 @@ void FSegmentView::setItemTile(std::string tile, int index, int type)
     m_fSegButtonList[index]->setTitleColorForState(CAControlStateSelected, ccc4(0xce, 0xea, 0xfd, 0xff));
 }
 
-void FSegmentView::setItemBackGroundImage(CAImageView* imageView, int index)
+void FSegmentView::setItemBackgroundImage(CAImageView* imageView, int index)
 {
     if(imageView && m_fSegButtonList.size() > index)
     {

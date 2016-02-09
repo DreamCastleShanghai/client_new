@@ -52,7 +52,7 @@ void SessionDetailViewController::viewDidLoad()
     CAImageView* imageView = CAImageView::createWithImage(CAImage::create("common/nav_back.png"));
     imageView->setImageViewScaleType(CAImageViewScaleTypeFitImageXY);
     imageView->setFrame(DRect(_px(20), _px(20), _px(80), _px(80)));
-    button->setBackGroundViewForState(CAControlStateAll, imageView);
+    button->setBackgroundViewForState(CAControlStateAll, imageView);
     button->addTarget(this, CAControl_selector(SessionDetailViewController::buttonCallBack), CAControlEventTouchUpInSide);
     button->setTag(20);
     this->getView()->addSubview(button);
@@ -145,7 +145,7 @@ void SessionDetailViewController::initView()
     //sessionidView->setColor(ccc4(0x99, 0x99, 0x99, 0x0));
     //CAImageView * sessionidView = CAImageView::createWithImage(CAImage::create("common/gray_bg.png"));
     //sessionidView->setImageViewScaleType(CAImageViewScaleTypeFitImageXY);
-    //sessionId->setBackGroundViewForState(CAControlStateAll, sessionidView);
+    //sessionId->setBackgroundViewForState(CAControlStateAll, sessionidView);
     //sessionId->setControlState(CAControlStateDisabled);
     scrollView->addSubview(sessionidView);
     
@@ -261,7 +261,7 @@ void SessionDetailViewController::initView()
 	m_storeBtnImage->setFrame(DRect(_px(30), _px(10), _px(80), _px(80)));
 	CAButton* storeBtn = CAButton::createWithFrame(DRect(_px(0), _px(0), _px(125), _px(100)), CAButtonTypeCustom);
 	storeBtn->setAllowsSelected(true);
-	//storeBtn->setBackGroundViewForState(CAControlStateAll, m_storeBtnImage);
+	//storeBtn->setBackgroundViewForState(CAControlStateAll, m_storeBtnImage);
 	storeBtn->addTarget(this, CAControl_selector(SessionDetailViewController::buttonCallBack), CAControlEventTouchUpInSide);
 	storeBtn->addSubview(m_storeBtnImage);
 	storeBtn->setTag(300);
@@ -283,7 +283,7 @@ void SessionDetailViewController::initView()
 	CAButton* likeBtn = CAButton::createWithFrame(DRect(_px(130), _px(0), _px(125), _px(100)), CAButtonTypeCustom);
 	likeBtn->setAllowsSelected(true);
 	likeBtn->setTag(400);
-	//likeBtn->setBackGroundViewForState(CAControlStateAll, m_likeBtnImage);
+	//likeBtn->setBackgroundViewForState(CAControlStateAll, m_likeBtnImage);
 	likeBtn->addTarget(this, CAControl_selector(SessionDetailViewController::buttonCallBack), CAControlEventTouchUpInSide);
 	likeBtn->addSubview(m_likeBtnImage);
 
@@ -347,10 +347,10 @@ void SessionDetailViewController::initView()
         m_surveyBtn = CAButton::createWithFrame(DRect(_px(300), 0, m_winSize.width - _px(300), _px(100)), CAButtonTypeCustom);
         CAImageView* imageView = CAImageView::createWithImage(CAImage::create("common/dgray_bg.png"));
         imageView->setImageViewScaleType(CAImageViewScaleTypeFitImageXY);
-        m_surveyBtn->setBackGroundViewForState(CAControlStateAll, imageView);
+        m_surveyBtn->setBackgroundViewForState(CAControlStateAll, imageView);
         imageView = CAImageView::createWithImage(CAImage::create("common/sky_bg.png"));
         imageView->setImageViewScaleType(CAImageViewScaleTypeFitImageXY);
-        m_surveyBtn->setBackGroundViewForState(CAControlStateNormal, imageView);
+        m_surveyBtn->setBackgroundViewForState(CAControlStateNormal, imageView);
         m_surveyBtn->addTarget(this, CAControl_selector(SessionDetailViewController::buttonCallBack), CAControlEventTouchUpInSide);
         m_surveyBtn->setControlState(CAControlStateDisabled);
         m_surveyBtn->setTag(200);
@@ -383,6 +383,7 @@ void SessionDetailViewController::buttonCallBack(CAControl* btn, DPoint point)
     {
 		SurveyViewController* vc = new SurveyViewController(m_msg->m_sessionId);
         vc->init();
+        vc->autorelease();
         RootWindow::getInstance()->getRootNavigationController()->pushViewController(vc, true);
     }
 	else if (btn->getTag() == 300)

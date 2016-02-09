@@ -129,7 +129,7 @@ void MainViewTableCell::initWithCell(sessionMsg &msg)
         m_likeBtnImage = CAImageView::createWithImage(CAImage::create("common/btn_like.png"));
         if (m_likeBtnImage) {
             m_likeBtnImage->setImageViewScaleType(CAImageViewScaleTypeFitViewByHorizontal);
-            m_likeBtn->setBackGroundViewForState(CAControlStateAll, m_likeBtnImage);
+            m_likeBtn->setBackgroundViewForState(CAControlStateAll, m_likeBtnImage);
         }
     }
     //view->addSubview(button);
@@ -170,7 +170,7 @@ void MainViewTableCell::initWithCell(sessionMsg &msg)
         m_storeBtnImage = CAImageView::createWithImage(CAImage::create("common/btn_collect_pre.png"));
         if (m_storeBtnImage) {
             m_storeBtnImage->setImageViewScaleType(CAImageViewScaleTypeFitViewByHorizontal);
-            m_storeBtn->setBackGroundViewForState(CAControlStateAll, m_storeBtnImage);
+            m_storeBtn->setBackgroundViewForState(CAControlStateAll, m_storeBtnImage);
         }
     }
 
@@ -247,9 +247,9 @@ void MainViewTableCell::onStoreRequestFinished(const HttpResponseStatus& status,
     
     if (status == HttpResponseSucceed)
     {
-        CSJson::FastWriter writer;
-        string tempjson = writer.write(json);
-        CCLog("receive json == %s",tempjson.c_str());
+//        CSJson::FastWriter writer;
+//        string tempjson = writer.write(json);
+//        CCLog("receive json == %s",tempjson.c_str());
         
         const CSJson::Value& value = json["result"];
         if (value["r"].asBool() == true)
@@ -280,9 +280,9 @@ void MainViewTableCell::onLikeRequestFinished(const HttpResponseStatus& status, 
 		m_likeNumLabel->setText(crossapp_format_string("%d", m_msg->m_likeNum));
 		m_likeBtnImage->setImage(CAImage::create("common/btn_like_pre.png"));
         */
-        CSJson::FastWriter writer;
-        string tempjson = writer.write(json);
-        CCLog("receive json == %s",tempjson.c_str());
+//        CSJson::FastWriter writer;
+//        string tempjson = writer.write(json);
+//        CCLog("receive json == %s",tempjson.c_str());
         
         const CSJson::Value& value = json["result"];
         if (value["r"].asBool() == true)

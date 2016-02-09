@@ -30,7 +30,7 @@ void SiteViewController::viewDidLoad()
     CAImageView* imageView = CAImageView::createWithImage(CAImage::create("common/nav_back.png"));
     imageView->setImageViewScaleType(CAImageViewScaleTypeFitImageXY);
     imageView->setFrame(DRect(_px(20), _px(20), _px(80), _px(80)));
-    button->setBackGroundViewForState(CAControlStateAll, imageView);
+    button->setBackgroundViewForState(CAControlStateAll, imageView);
     button->addTarget(this, CAControl_selector(SiteViewController::buttonCallBack), CAControlEventTouchUpInSide);
     button->setTag(20);
     this->getView()->addSubview(button);
@@ -51,7 +51,7 @@ void SiteViewController::viewDidLoad()
 	imageView = CAImageView::createWithImage(CAImage::create("common/share_btn.png"));
 	imageView->setImageViewScaleType(CAImageViewScaleTypeFitViewByHorizontal);
 	button->setTag(200);
-	button->setBackGroundViewForState(CAControlStateAll, imageView);
+	button->setBackgroundViewForState(CAControlStateAll, imageView);
 	button->addTarget(this, CAControl_selector(SiteViewController::buttonCallBack), CAControlEventTouchUpInSide);
 	this->getView()->addSubview(button);
 
@@ -126,8 +126,8 @@ void SiteViewController::showAlert()
 	btn5->setTag(500);
 	btn5->setCenter(DRect(m_winSize.width / 2, (m_winSize.height - _px(150)) / 2, m_winSize.width, m_winSize.height - _px(150)));
 	btn5->setTitleColorForState(CAControlStateNormal, CAColor_white);
-	btn5->setBackGroundViewForState(CAControlStateNormal, bg);
-	btn5->setBackGroundViewForState(CAControlStateHighlighted, bg);
+	btn5->setBackgroundViewForState(CAControlStateNormal, bg);
+	btn5->setBackgroundViewForState(CAControlStateHighlighted, bg);
 	btn5->addTarget(this, CAControl_selector(SiteViewController::buttonCallBack), CAControlEventTouchUpInSide);
 	m_alertView->addSubview(btn5);
 

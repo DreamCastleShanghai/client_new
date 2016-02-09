@@ -76,6 +76,7 @@ void CommonImageCacheManager::update()
 {
     CAImageCache::sharedImageCache()->removeImage(m_dImageQueue.front());
     m_dImageQueue.popFront();
+    CCLog("------- %ld", m_dImageQueue.size());
 }
 
 void CommonImageCacheManager::pushImage(CAImage* image)
@@ -216,7 +217,7 @@ void CommonHttpManager::send_post(const std::string& url,
         }
         while (1);
     }
-    CCLog("---%s %s",url.c_str(), postData.c_str());
+    //CCLog("---%s %s",url.c_str(), postData.c_str());
 
     CAHttpRequest* httpRequest = new CAHttpRequest();
     httpRequest->setUrl(url.c_str());
@@ -256,7 +257,6 @@ void CommonHttpManager::send_postFile(const std::string& url,
         }
         while (1);
     }
-    CCLog("---%s %s",url.c_str(), postData.c_str());
     
     CAHttpRequest* httpRequest = new CAHttpRequest();
     httpRequest->setUrl(url.c_str());
@@ -300,7 +300,7 @@ void CommonHttpManager::get_image(const std::string& url,
         std::string imagePath = CCFileUtils::sharedFileUtils()->getWritablePath() + "image/" + key;
         
         unsigned long pSize = 0;
-        
+
         FILE* fp = fopen(imagePath.c_str(), "rb");
         if (fp)
         {
@@ -734,7 +734,7 @@ CommonUrlImageView* CommonUrlImageView::createWithImage(CAImage* image)
 CommonUrlImageView* CommonUrlImageView::createWithFrame(const DRect& rect)
 {
     CommonUrlImageView* imageView = new CommonUrlImageView();
-    if (imageView && imageView->CAImageView::createWithFrame(rect))
+    if (imageView && imageView->CAView::initWithFrame(rect))
     {
         imageView->autorelease();
         return imageView;
@@ -746,21 +746,13 @@ CommonUrlImageView* CommonUrlImageView::createWithFrame(const DRect& rect)
 CommonUrlImageView* CommonUrlImageView::createWithCenter(const DRect& rect)
 {
     CommonUrlImageView* imageView = new CommonUrlImageView();
-    if (imageView && imageView->CAImageView::createWithCenter(rect))
+    if (imageView && imageView->CAView::initWithCenter(rect))
     {
         imageView->autorelease();
         return imageView;
     }
     CC_SAFE_DELETE(imageView);
     return NULL;
-}
-
-
-void CommonUrlImageView::clearOldCache(const std::string& url)
-{
-    std::string key = MD5(DecodeURL(url)).md5();
-    CCLog("%s", key.c_str());
-    CAImageCache::sharedImageCache()->removeImageForKey(key);
 }
 
 void CommonUrlImageView::setUrl(const std::string& url)
