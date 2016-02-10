@@ -274,7 +274,11 @@ void SessionsViewController::buttonCallBack(CAControl* btn, DPoint point)
 	}
 	else
 	{
+        if (!m_filterView) {
+            return;
+        }
 		CAButton* button = (CAButton*)m_filterView->getSubviewByTag(300);
+        
 		button->setControlState(CAControlStateNormal);
 		button = (CAButton*)m_filterView->getSubviewByTag(301);
 		button->setControlState(CAControlStateNormal);

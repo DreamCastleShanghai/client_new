@@ -95,7 +95,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "160"
             endingLineNumber = "160"
-            landmarkName = "LoginViewController::onRequestLoginFinished(const HttpResponseStatus&amp; status, const CSJson::Value&amp; json)"
+            landmarkName = "LoginViewController::btnCallBack(CAControl* btn, DPoint point)"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
