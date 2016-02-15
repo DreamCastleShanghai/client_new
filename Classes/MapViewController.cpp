@@ -93,7 +93,7 @@ void MapViewController::viewDidLoad()
         m_rightBtn->setTag(ID_INSIDE);
         m_rightBtn->setTitleForState(CAControlStateAll, "Floors");
         m_rightBtn->setTitleFontName(SAP_FONT_ARIAL);
-        m_rightBtn->setTitleFontSize(_px(30));
+        m_rightBtn->setTitleFontSize(SAP_TITLE_FONT_SIZE);
         m_rightBtn->setTitleColorForState(CAControlStateAll, SAP_WHITE_LOW);
         m_rightBtn->setTitleColorForState(CAControlStateSelected, CAColor_white);
         this->getView()->addSubview(m_rightBtn);
