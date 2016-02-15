@@ -28,12 +28,10 @@
 	<string>1.0</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
-	<key>NSMainNibFile</key>
+	<key>NSMainNibFile~iphone</key>
 	<string>CrossApp</string>
 	<key>UIAppFonts</key>
 	<array/>
-	<key>UILaunchStoryboardName</key>
-	<string>CrossApp</string>
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>

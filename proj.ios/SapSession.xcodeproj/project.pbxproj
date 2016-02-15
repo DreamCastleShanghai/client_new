@@ -25,7 +25,9 @@
 		1AFCDA8216D4A25900906EA6 /* RootViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1AFCDA8116D4A25900906EA6 /* RootViewController.mm */; };
 		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
 		1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
+		21250EA41C6C667900ECCF70 /* launchimage in Resources */ = {isa = PBXBuildFile; fileRef = 21250EA31C6C667900ECCF70 /* launchimage */; };
 		2150400D1C66062B005AB8B7 /* SessionSurveyResultViewController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2150400B1C66062A005AB8B7 /* SessionSurveyResultViewController.cpp */; };
+		216106E11C6AE06600ABF8AE /* icon in Resources */ = {isa = PBXBuildFile; fileRef = 216106E01C6AE06600ABF8AE /* icon */; };
 		288765A50DF7441C002DB57D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 288765A40DF7441C002DB57D /* CoreGraphics.framework */; };
 		3E02A4AE1B85AD6000328E71 /* component_hackery.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3E02A3DF1B85AD6000328E71 /* component_hackery.cpp */; };
 		3E02A4AF1B85AD6000328E71 /* configvars.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3E02A3E01B85AD6000328E71 /* configvars.cpp */; };
@@ -240,8 +242,10 @@
 		1D30AB110D05D00D00671497 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		1D6058910D05DD3D006BFB54 /* d-kom 2016.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "d-kom 2016.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1DF5F4DF0D08C38300B7A737 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		21250EA31C6C667900ECCF70 /* launchimage */ = {isa = PBXFileReference; lastKnownFileType = folder; path = launchimage; sourceTree = "<group>"; };
 		2150400B1C66062A005AB8B7 /* SessionSurveyResultViewController.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SessionSurveyResultViewController.cpp; path = ../Classes/SessionSurveyResultViewController.cpp; sourceTree = "<group>"; };
 		2150400C1C66062A005AB8B7 /* SessionSurveyResultViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SessionSurveyResultViewController.h; path = ../Classes/SessionSurveyResultViewController.h; sourceTree = "<group>"; };
+		216106E01C6AE06600ABF8AE /* icon */ = {isa = PBXFileReference; lastKnownFileType = folder; path = icon; sourceTree = "<group>"; };
 		288765A40DF7441C002DB57D /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		3E02A3DF1B85AD6000328E71 /* component_hackery.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = component_hackery.cpp; sourceTree = "<group>"; };
 		3E02A3E01B85AD6000328E71 /* configvars.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = configvars.cpp; sourceTree = "<group>"; };
@@ -1074,6 +1078,8 @@
 		78C7DDAA14EBA5050085D0C2 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				21250EA31C6C667900ECCF70 /* launchimage */,
+				216106E01C6AE06600ABF8AE /* icon */,
 				5CFD0D931C20711000AD0C21 /* common */,
 				B0621BDB1AC3B871005EBCA7 /* fonts */,
 				026964B01BEB433600C8BCD7 /* Images.xcassets */,
@@ -1182,6 +1188,7 @@
 				5C5DE7291C2F9E2300D9A8BC /* sound in Resources */,
 				5CCDA52C1C420953006AEC61 /* map in Resources */,
 				026964B31BEB435100C8BCD7 /* CrossApp.xib in Resources */,
+				21250EA41C6C667900ECCF70 /* launchimage in Resources */,
 				5CFA82831C2825F90025C9B5 /* session in Resources */,
 				5C6CEBA31C1E709C000AE9D2 /* main in Resources */,
 				5C5B695F1C568ADD000C9AA4 /* vote in Resources */,
@@ -1191,6 +1198,7 @@
 				3E02A50F1B85AD6000328E71 /* TODO in Resources */,
 				026964B11BEB433600C8BCD7 /* Images.xcassets in Resources */,
 				B01F71671951682600BA07A6 /* source_material in Resources */,
+				216106E11C6AE06600ABF8AE /* icon in Resources */,
 				5CFD0D941C20711000AD0C21 /* common in Resources */,
 				B0621BE51AC3B871005EBCA7 /* fonts in Resources */,
 			);
@@ -1369,6 +1377,7 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Dream Castle Co., Ltd. (65J6U7BL8K)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Dream Castle Co., Ltd. (65J6U7BL8K)";
 				COPY_PHASE_STRIP = NO;
@@ -1409,8 +1418,8 @@
 				OTHER_CFLAGS = "-O2";
 				PRODUCT_BUNDLE_IDENTIFIER = com.dc.app.sap2015ap;
 				PRODUCT_NAME = "d-kom 2016";
-				PROVISIONING_PROFILE = "08f7f174-8ca8-41c6-9425-ec95a2d5c42c";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "08f7f174-8ca8-41c6-9425-ec95a2d5c42c";
+				PROVISIONING_PROFILE = "014ec486-14bc-4372-a23d-d3061773834e";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "014ec486-14bc-4372-a23d-d3061773834e";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 1;
 				USER_HEADER_SEARCH_PATHS = "";
@@ -1424,6 +1433,7 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Dream Castle Co., Ltd. (65J6U7BL8K)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Dream Castle Co., Ltd. (65J6U7BL8K)";
 				COPY_PHASE_STRIP = YES;
@@ -1461,8 +1471,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.dc.app.sap2015ap;
 				PRODUCT_NAME = "d-kom 2016";
-				PROVISIONING_PROFILE = "08f7f174-8ca8-41c6-9425-ec95a2d5c42c";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "08f7f174-8ca8-41c6-9425-ec95a2d5c42c";
+				PROVISIONING_PROFILE = "014ec486-14bc-4372-a23d-d3061773834e";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "014ec486-14bc-4372-a23d-d3061773834e";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 1;
 				USER_HEADER_SEARCH_PATHS = "";
