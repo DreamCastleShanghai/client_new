@@ -9,6 +9,7 @@
 PhotoViewController::PhotoViewController(int type)
 : m_type(type)
 , m_currentCategory("")
+, m_mask(NULL)
 {
 dle_ren_index = 0;
 }
@@ -139,19 +140,70 @@ void PhotoViewController::buttonCallBack(CAControl* btn, DPoint point)
             //m_clv->setAlphaThreshold(1.f);
             //m_clv->setClippingEnabled(true);
             //m_photoView->removeSubview(m_clv);
-            m_clv->setVisible(false);
+            //m_clv->setVisible(false);
             
-            m_clvImage->setAlphaThreshold(0.5f);
-            m_clvImage->setClippingEnabled(true);
+            //m_clvImage->setAlphaThreshold(0.5f);
+            //m_clvImage->setClippingEnabled(true);
+            //m_clvImage->visit();
             
-            int w = _px(100);
-            int h = _px(100);
+            int w = _px(120);
+            int h = _px(120);
             CARenderImage* rm = CARenderImage::create(m_winSize.width - 100, m_winSize.width - 100);
-            rm->printscreenWithView(m_clvImage);
+            rm->printscreenWithView(m_clvImage, CAColor_black);
             
+            CAImage* mask = CAImage::create("common/head_bg.png");
             CAImage* image = CAImage::scaleToNewImageWithImage(rm->getImageView()->getImage(), DSize(w, h));
+            
+            CAImage* newImage = new CAImage();
+            unsigned char* data = new unsigned char[w * h * 4];
+            
+            // Resample.  Simple average 2x2 --> 1, in-place.
+            int	pitch = 4;
+            for (int j = 0; j < h * w; j++)
+            {
+                int	r, g, b, a, ma;
+                unsigned char*	out = ((unsigned char*)data) + j * pitch;
+                unsigned char*	in = ((unsigned char*)image->getData()) + j * pitch;
+                unsigned char*  msk = ((unsigned char*)mask->getData()) + j * pitch;
+                r = *(in + 0);
+                g = *(in + 1);
+                b = *(in + 2);
+                a = *(in + 3);
+                ma = *(msk + 3);
+                
+                *(out + 0) = r;
+                *(out + 1) = g;
+                *(out + 2) = b;
+                
+                if (ma == 0) {
+                    *(out + 3) = 0;
+                } else {
+                    *(out + 3) = a;
+                }
+                /*
+                for (int i = 0; i < w; i++)
+                {
+                    int	r, g, b, a;
+                    r = (*(in + 0) + *(in + 4) + *(in + 0 + pitch) + *(in + 4 + pitch));
+                    g = (*(in + 1) + *(in + 5) + *(in + 1 + pitch) + *(in + 5 + pitch));
+                    b = (*(in + 2) + *(in + 6) + *(in + 2 + pitch) + *(in + 6 + pitch));
+                    a = (*(in + 3) + *(in + 7) + *(in + 3 + pitch) + *(in + 7 + pitch));
+                    *(out + 0) = r >> 2;
+                    *(out + 1) = g >> 2;
+                    *(out + 2) = b >> 2;
+                    *(out + 3) = a >> 2;
+                    out += 4;
+                    in += 8;
+                }
+                 */
+            }
+            newImage->initWithRawData(data, CAImage::PixelFormat_RGBA8888, w, h);
+            newImage->autorelease();
+            delete[] data;
+
             std::string imagePath = CCFileUtils::sharedFileUtils()->getWritablePath() + "image/" + "2.png";
-            image->saveToFile(imagePath.c_str());
+            newImage->saveToFile(imagePath.c_str());
+            //image->saveToFile(imagePath.c_str());
             CCLog("path : %s", imagePath.c_str());
             requestPhotoSubmit(imagePath);
         }
@@ -162,6 +214,7 @@ void PhotoViewController::buttonCallBack(CAControl* btn, DPoint point)
         m_basicView->setVisible(true);
         m_photoView->setVisible(false);
         m_photoView->removeAllSubviews();
+        m_filterView->setVisible(false);
     }
     else if (btn->getTag() == 600)
     {
@@ -206,7 +259,7 @@ void PhotoViewController::onRequestFinished(const HttpResponseStatus& status, co
         {
             if (m_type == 0)
             {
-                m_clv->setVisible(true);
+                //m_clv->setVisible(true);
                 m_clvImage->setClippingEnabled(false);
             }
             
@@ -217,7 +270,7 @@ void PhotoViewController::onRequestFinished(const HttpResponseStatus& status, co
     {
         if (m_type == 0)
         {
-            m_clv->setVisible(true);
+            //m_clv->setVisible(true);
             m_clvImage->setClippingEnabled(false);
         }
         
@@ -248,6 +301,9 @@ void PhotoViewController::requestPhotoSubmit(std::string fullPath)
 
 CADrawView* PhotoViewController::getStencil(const DSize& size, int index)
 {
+    if (m_mask == NULL) {
+        
+    }
     if (index == 0)
     {
         DPoint ver[4];
@@ -255,11 +311,10 @@ CADrawView* PhotoViewController::getStencil(const DSize& size, int index)
         ver[1] = DPoint(0, size.height);
         ver[2] = DPoint(size.width, size.height);
         ver[3] = DPoint(size.width, 0);
-        CADrawView* stencil = CADrawView::create();
-        stencil->drawPolygon(ver, 4, ccc4f(255, 0, 0, 0), 2, ccc4f(255, 0, 0, 0));
+        m_mask = CADrawView::create();
+        m_mask->drawPolygon(ver, 4, ccc4f(255, 0, 0, 0), 2, ccc4f(255, 0, 0, 0));
         //stencil->drawDot(DPoint(size.width / 2, size.height / 2), size.width / 2, ccc4f(255, 255, 0, 0));
-        stencil->setFrameOrigin(DPoint(0, size.height));
-        return stencil;
+        m_mask->setFrameOrigin(DPoint(0, size.height));
     }
     else if (index == 1)
     {
@@ -270,12 +325,11 @@ CADrawView* PhotoViewController::getStencil(const DSize& size, int index)
             float y = sinf(i * M_PI/180.f) * size.width/2;
             cir[i] = DPoint(x, y);
         }
-        CADrawView* stencil = CADrawView::create();
-        stencil->drawPolygon(cir, 720, ccc4f(1, 1, 1, 0.5), 0, ccc4f(1, 1, 1, 0));
-        stencil->setCenterOrigin(DPoint(size.width/2, size.height/2));
-        return stencil;
+        m_mask = CADrawView::create();
+        m_mask->drawPolygon(cir, 720, ccc4f(0, 0, 0, 144), 0, ccc4f(1, 1, 1, 0));
+        m_mask->setCenterOrigin(DPoint(size.width/2, size.height/2));
     }
-    return NULL;
+    return m_mask;
 }
 
 void PhotoViewController::getSelectedImage(CAImage *image)
@@ -294,10 +348,11 @@ void PhotoViewController::getSelectedImage(CAImage *image)
         
         m_clvImage = CAClippingView::create();
         
-        m_clvImage->setStencil(getStencil(scrollRect.size, 0));
+        m_clvImage->setStencil(getStencil(scrollRect.size, 1));
         m_clvImage->setFrame(scrollRect);
         m_clvImage->setInverted(false);
-        m_clvImage->setClippingEnabled(false);
+        //m_clvImage->setAlphaThreshold(0.5f);
+        m_clvImage->setClippingEnabled(true);
         m_photoView->addSubview(m_clvImage);
         
         float temp_mini = 0;
@@ -326,7 +381,7 @@ void PhotoViewController::getSelectedImage(CAImage *image)
         imv->setImage(image);
         imv->setImageViewScaleType(CAImageViewScaleTypeFitImageInside);
         m_pScrollView->addSubview(imv);
-        
+/*
         m_clv = CAClippingView::create();
         m_clv->setStencil(getStencil(scrollRect.size, 0));
         m_clv->setFrame(scrollRect);
@@ -340,6 +395,7 @@ void PhotoViewController::getSelectedImage(CAImage *image)
         CAView* iv = CAView::createWithColor(ccc4(0,0,0,128));
         iv->setFrame(ivRect);
         m_clv->addSubview(iv);
+        *///
     }
     else
     {
@@ -412,7 +468,7 @@ void PhotoViewController::getSelectedImage(CAImage *image)
             button->setTextTag(filterMoments[i]);
             button->setTitleForState(CAControlStateAll, crossapp_format_string("#%s", filterMoments[i]));
             button->setTitleFontSize(_px(27));
-            button->setTitleColorForState(CAControlStateAll, CAColor_gray);
+            button->setTitleColorForState(CAControlStateAll, CAColor_white);
             m_filterView->addSubview(button);
         }
     }

@@ -582,12 +582,12 @@ void SessionsViewController::refreshTableByTime(int index)
 //            int endYear = endTime->tm_year;
 //            int endDay = endTime->tm_yday;
             int endHour = endTime->tm_hour;
-//            int endMin = endTime->tm_min;
+            int endMin = endTime->tm_min;
             
 //            CCLog("start index %d: %d %d %d %d", index, startYear, startDay, startHour, startMin);
 //            CCLog("end   index %d: %d %d %d %d", index, endYear, endDay, endHour, endMin);
 
-            if ((startHour == index + 8) || (endHour >= index + 8 && startHour <= index + 8))
+            if ((startHour == index + 8) || (endHour >= index + 8 && startHour < index + 8 && endMin != 0))
                 m_msgFilter.push_back(&(*it));
         }
     }

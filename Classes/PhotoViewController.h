@@ -40,25 +40,26 @@ protected:
     
 private:
 
-	DSize													m_winSize;
-    int                                                         m_type;
-    std::string                                         m_currentCategory;
-    CAImage *                                       m_getImage;
-    CAView*                                             m_filterView;
-    CAButton*                                           m_filterButton;
+	DSize									m_winSize;
+    int                                     m_type;
+    std::string                             m_currentCategory;
+    CAImage *                               m_getImage;
+    CAView*                                 m_filterView;
+    CAButton*                               m_filterButton;
     
-    CAView*                                             m_basicView;
-    CAView*                                             m_photoView;
-    CAActivityIndicatorView*								p_pLoading;
+    CAView*                                 m_basicView;
+    CAView*                                 m_photoView;
+    CAActivityIndicatorView*				p_pLoading;
 
     CADrawView* getStencil(const DSize& size, int index);
     
-    CAScrollView*                                   m_pScrollView;
-    CAView* renderImage;
-    CAView* renderImage_mb;
-    CAClippingView* m_clvImage;
-    CAClippingView* m_clv;
-    int dle_ren_index;
+    CAScrollView*                           m_pScrollView;
+    CAView*                                 renderImage;
+    CAView*                                 renderImage_mb;
+    CAClippingView*                         m_clvImage;
+    CAClippingView*                         m_clv;
+    CADrawView*                             m_mask;
+    int                                     dle_ren_index;
 };
 
 
