@@ -18,7 +18,6 @@ FUserManager::FUserManager()
 {
     
     int ret = 0;
-    
     const char *sql_createtable = "CREATE TABLE IF NOT EXISTS user(id int auto_increment, uid int, loginname VARCHAR(256), photo VARCHAR(256) , status int);";
 	sqlite3_stmt *stmt;
     int ok=sqlite3_prepare_v2(RootWindow::getInstance()->getSqlite3(), sql_createtable, -1, &stmt, NULL);

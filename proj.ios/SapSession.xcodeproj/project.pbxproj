@@ -25,9 +25,7 @@
 		1AFCDA8216D4A25900906EA6 /* RootViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1AFCDA8116D4A25900906EA6 /* RootViewController.mm */; };
 		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
 		1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
-		21250EA41C6C667900ECCF70 /* launchimage in Resources */ = {isa = PBXBuildFile; fileRef = 21250EA31C6C667900ECCF70 /* launchimage */; };
 		2150400D1C66062B005AB8B7 /* SessionSurveyResultViewController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2150400B1C66062A005AB8B7 /* SessionSurveyResultViewController.cpp */; };
-		216106E11C6AE06600ABF8AE /* icon in Resources */ = {isa = PBXBuildFile; fileRef = 216106E01C6AE06600ABF8AE /* icon */; };
 		288765A50DF7441C002DB57D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 288765A40DF7441C002DB57D /* CoreGraphics.framework */; };
 		3E02A4AE1B85AD6000328E71 /* component_hackery.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3E02A3DF1B85AD6000328E71 /* component_hackery.cpp */; };
 		3E02A4AF1B85AD6000328E71 /* configvars.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3E02A3E01B85AD6000328E71 /* configvars.cpp */; };
@@ -129,6 +127,7 @@
 		3E02A50F1B85AD6000328E71 /* TODO in Resources */ = {isa = PBXBuildFile; fileRef = 3E02A4AC1B85AD6000328E71 /* TODO */; };
 		5C31C85F1C47388000542BF3 /* FDataManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5C31C85D1C47388000542BF3 /* FDataManager.cpp */; };
 		5C31C8641C47FA0800542BF3 /* SurveyViewController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5C31C8621C47FA0800542BF3 /* SurveyViewController.cpp */; };
+		5C38F63B1C71BBDC002C4124 /* FNoticeManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5C38F6391C71BBDC002C4124 /* FNoticeManager.cpp */; };
 		5C432C2B1C60EAB7008B55A0 /* ConstFunc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5C432C211C60EAB7008B55A0 /* ConstFunc.cpp */; };
 		5C432C2C1C60EAB7008B55A0 /* ConstId.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5C432C231C60EAB7008B55A0 /* ConstId.cpp */; };
 		5C432C2D1C60EAB7008B55A0 /* ConstRect.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5C432C251C60EAB7008B55A0 /* ConstRect.cpp */; };
@@ -242,10 +241,8 @@
 		1D30AB110D05D00D00671497 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		1D6058910D05DD3D006BFB54 /* d-kom 2016.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "d-kom 2016.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1DF5F4DF0D08C38300B7A737 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
-		21250EA31C6C667900ECCF70 /* launchimage */ = {isa = PBXFileReference; lastKnownFileType = folder; path = launchimage; sourceTree = "<group>"; };
 		2150400B1C66062A005AB8B7 /* SessionSurveyResultViewController.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SessionSurveyResultViewController.cpp; path = ../Classes/SessionSurveyResultViewController.cpp; sourceTree = "<group>"; };
 		2150400C1C66062A005AB8B7 /* SessionSurveyResultViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SessionSurveyResultViewController.h; path = ../Classes/SessionSurveyResultViewController.h; sourceTree = "<group>"; };
-		216106E01C6AE06600ABF8AE /* icon */ = {isa = PBXFileReference; lastKnownFileType = folder; path = icon; sourceTree = "<group>"; };
 		288765A40DF7441C002DB57D /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		3E02A3DF1B85AD6000328E71 /* component_hackery.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = component_hackery.cpp; sourceTree = "<group>"; };
 		3E02A3E01B85AD6000328E71 /* configvars.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = configvars.cpp; sourceTree = "<group>"; };
@@ -455,6 +452,8 @@
 		5C31C85E1C47388000542BF3 /* FDataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FDataManager.h; path = ../Classes/FDataManager.h; sourceTree = "<group>"; };
 		5C31C8621C47FA0800542BF3 /* SurveyViewController.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SurveyViewController.cpp; path = ../Classes/SurveyViewController.cpp; sourceTree = "<group>"; };
 		5C31C8631C47FA0800542BF3 /* SurveyViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SurveyViewController.h; path = ../Classes/SurveyViewController.h; sourceTree = "<group>"; };
+		5C38F6391C71BBDC002C4124 /* FNoticeManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = FNoticeManager.cpp; path = ../Classes/FNoticeManager.cpp; sourceTree = "<group>"; };
+		5C38F63A1C71BBDC002C4124 /* FNoticeManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FNoticeManager.h; path = ../Classes/FNoticeManager.h; sourceTree = "<group>"; };
 		5C432C211C60EAB7008B55A0 /* ConstFunc.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ConstFunc.cpp; path = ../Classes/ConstData/ConstFunc.cpp; sourceTree = "<group>"; };
 		5C432C221C60EAB7008B55A0 /* ConstFunc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ConstFunc.h; path = ../Classes/ConstData/ConstFunc.h; sourceTree = "<group>"; };
 		5C432C231C60EAB7008B55A0 /* ConstId.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ConstId.cpp; path = ../Classes/ConstData/ConstId.cpp; sourceTree = "<group>"; };
@@ -676,6 +675,8 @@
 				5C432C311C60EB54008B55A0 /* FirstSurveyViewController.h */,
 				5CE620431C65AE1E00435EF0 /* FUserManager.cpp */,
 				5CE620441C65AE1E00435EF0 /* FUserManager.h */,
+				5C38F6391C71BBDC002C4124 /* FNoticeManager.cpp */,
+				5C38F63A1C71BBDC002C4124 /* FNoticeManager.h */,
 				5CFCF7001C3E512600DE4410 /* fview */,
 				5C5B69491C55DE28000C9AA4 /* IconUploadViewController.cpp */,
 				5C5B694A1C55DE28000C9AA4 /* IconUploadViewController.h */,
@@ -1078,8 +1079,6 @@
 		78C7DDAA14EBA5050085D0C2 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				21250EA31C6C667900ECCF70 /* launchimage */,
-				216106E01C6AE06600ABF8AE /* icon */,
 				5CFD0D931C20711000AD0C21 /* common */,
 				B0621BDB1AC3B871005EBCA7 /* fonts */,
 				026964B01BEB433600C8BCD7 /* Images.xcassets */,
@@ -1188,7 +1187,6 @@
 				5C5DE7291C2F9E2300D9A8BC /* sound in Resources */,
 				5CCDA52C1C420953006AEC61 /* map in Resources */,
 				026964B31BEB435100C8BCD7 /* CrossApp.xib in Resources */,
-				21250EA41C6C667900ECCF70 /* launchimage in Resources */,
 				5CFA82831C2825F90025C9B5 /* session in Resources */,
 				5C6CEBA31C1E709C000AE9D2 /* main in Resources */,
 				5C5B695F1C568ADD000C9AA4 /* vote in Resources */,
@@ -1198,7 +1196,6 @@
 				3E02A50F1B85AD6000328E71 /* TODO in Resources */,
 				026964B11BEB433600C8BCD7 /* Images.xcassets in Resources */,
 				B01F71671951682600BA07A6 /* source_material in Resources */,
-				216106E11C6AE06600ABF8AE /* icon in Resources */,
 				5CFD0D941C20711000AD0C21 /* common in Resources */,
 				B0621BE51AC3B871005EBCA7 /* fonts in Resources */,
 			);
@@ -1262,6 +1259,7 @@
 				3E02A4E11B85AD6000328E71 /* as_selection.cpp in Sources */,
 				5C6CEB9F1C1E7058000AE9D2 /* MainViewTableCell.cpp in Sources */,
 				3E02A4E31B85AD6000328E71 /* as_sound.cpp in Sources */,
+				5C38F63B1C71BBDC002C4124 /* FNoticeManager.cpp in Sources */,
 				3E02A4F31B85AD6000328E71 /* gameswf_fontlib.cpp in Sources */,
 				5C5B694E1C55DE28000C9AA4 /* MomentViewController.cpp in Sources */,
 				5C5DE7D01C3035A900D9A8BC /* qrinput.c in Sources */,

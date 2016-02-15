@@ -6,23 +6,36 @@
 #include "utils/HttpConnect.h"
 #include "SessionDetailViewController.h"
 #include "FServerTime.h"
+#include "FNoticeManager.h"
 
 NoticeViewController::NoticeViewController()
 : p_alertView(NULL)
 , p_pLoading(NULL)
 , m_msgTableView(NULL)
 {
-    CADevice::getLocalNotificationList(m_msgList);
+    std::vector<FNotice>& notices = FNoticeManager::sharedFNoticeManager()->getNotices();
+    m_msgList.clear();
+    for (int i = 0; i < notices.size(); i++)
+    {
+        if (notices[i].startTime > getTimeSecond() + PRETIME)
+        {
+            continue;
+        }
+        LocalNoticeMsg tmp;
+        tmp.nid = crossapp_format_string("%d", notices[i].sid);
+        tmp.type = notices[i].type;
+        tmp.title = notices[i].title;
+        tmp.startTime = notices[i].startTime;
+        tmp.readed = notices[i].readed;
+        m_msgList.push_back(tmp);
+    }
 }
 
 NoticeViewController::~NoticeViewController()
 {
     for (int i = 0; i < m_msgList.size(); i++)
     {
-        if (m_msgList[i].startTime <= getTimeSecond())
-        {
-            CADevice::cancelLocalNotification(m_msgList[i].nid.c_str());
-        }
+        FNoticeManager::sharedFNoticeManager()->readNotice(atoi(m_msgList[i].nid.c_str()));
     }
 }
 
@@ -205,7 +218,7 @@ CATableViewCell* NoticeViewController::tableCellAtIndex(CATableView* table, cons
 		imageView->setFrame(DRect(_px(40), _px(20), _px(80), _px(80)));
 		cell->addSubview(imageView);
 
-		//if (m_msg[row].closed == false)
+		if (m_msgList[row].readed == false)
 		{
 			imageView = CAImageView::createWithImage(CAImage::create("notice/icon_reddot.png"));
 			imageView->setImageViewScaleType(CAImageViewScaleTypeFitImageXY);

@@ -8,6 +8,7 @@
 #include "FServerTime.h"
 #include "SurveyViewController.h"
 #include "ConstData/ConstRect.h"
+#include "FNoticeManager.h"
 #include <stdio.h>
 #include <time.h>
 
@@ -505,13 +506,13 @@ void SessionDetailViewController::onStoreRequestFinished(const HttpResponseStatu
         const CSJson::Value& value = json["result"];
         if (value["r"].asBool() == true)
         {
-            CADevice::sendLocalNotification("session", m_msg->m_title.c_str(), m_msg->m_startTime - getTimeSecond() - 5 * 60, crossapp_format_string("%d", m_msg->m_sessionId).c_str());
+            FNoticeManager::sharedFNoticeManager()->addNotice(m_msg->m_sessionId, notice_session, m_msg->m_title, m_msg->m_startTime, m_msg->m_endTime);
             m_msg->m_stored = true;
             m_storeBtnImage->setImage(CAImage::create("common/btn_collect_pre.png"));
         }
         else
         {
-            CADevice::cancelLocalNotification(crossapp_format_string("%d", m_msg->m_sessionId).c_str());
+            FNoticeManager::sharedFNoticeManager()->deleteNotice(m_msg->m_sessionId);
             m_msg->m_stored = false;
             m_storeBtnImage->setImage(CAImage::create("common/btn_collect.png"));
         }

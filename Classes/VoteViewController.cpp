@@ -321,31 +321,12 @@ void VoteViewController::initMsgTableView()
         imageView->setImageViewScaleType(CAImageViewScaleTypeFitImageXY);
         imageView->setFrame(DRect(_px(20), _px(20), _px(80), _px(80)));
         
-        userInfo* uInfo = FDataManager::getInstance()->getUserInfo();
-        if (uInfo->m_voiceVoteIdVec.size() >= 2)
-        {
-            button->setControlStateDisabled();
-        }
-        
-        bool cVote = true;
-        for (int j = 0; j < uInfo->m_voiceVoteIdVec.size(); j++)
-        {
-            if (m_hikMsg[i].m_projectId == uInfo->m_voiceVoteIdVec[j])
-            {
-                cVote = false;
-                button->setTitleForState(CAControlStateAll, "Voted");
-                break;
-            }
-        }
-        if (cVote)
-        {
-            button->setTitleForState(CAControlStateAll, "Vote");
-        }
+        button->setTitleForState(CAControlStateAll, "Vote");
         button->setTitleFontName(SAP_FONT_ARIAL);
         button->setTitleColorForState(CAControlStateAll, CAColor_white);
         button->setBackgroundViewForState(CAControlStateAll, imageView);
         button->addTarget(this, CAControl_selector(VoteViewController::buttonCallBack), CAControlEventTouchUpInSide);
-        button->setTag(500 + i);
+        button->setTag(600 + i);
         temImage->addSubview(button);
         
         viewList.pushBack(temImage);
@@ -500,6 +481,18 @@ void VoteViewController::buttonCallBack(CAControl* btn, DPoint point)
         vc->autorelease();
         RootWindow::getInstance()->getRootNavigationController()->pushViewController(vc, true);
     }
+    else if (btn->getTag() >= 600 && btn->getTag() < 700)
+    {
+        userInfo* uInfo = FDataManager::getInstance()->getUserInfo();
+        if (uInfo->m_voiceVoteIdVec.size() >= 2)
+        {
+            return;
+        }
+        VoteShakeViewController* vc = new VoteShakeViewController(NULL, &m_voiceMsg[btn->getTag() - 600]);
+        vc->init();
+        vc->autorelease();
+        RootWindow::getInstance()->getRootNavigationController()->pushViewController(vc, true);
+    }
     
 }
 
@@ -612,18 +605,3 @@ void VoteViewController::pageViewDidEndTurning(CAPageView* pageView)
     m_pageControl[m_navType]->setCurrentPage(pageView->getCurrPage());
     m_pageControl[m_navType]->updateCurrentPageDisplay();
 }
-//
-//void VoteViewController::didAccelerate(CCAcceleration* pAccelerationValue)
-//{
-//    float nowGX = (pAccelerationValue->x)*9.81f;
-//    float nowGY = (pAccelerationValue->y)*9.81f;
-//    
-//    float dt = 30.f;
-//    if(m_canVote && (nowGX<-dt||nowGX>dt || nowGY<-dt||nowGY>dt))
-//    {
-//        m_canVote = false;
-//        //m_voteLabel->setText("vote success !");
-//        CocosDenshion::SimpleAudioEngine::sharedEngine()->playEffect("sound/vote.wav");
-//    }
-//    
-//}
