@@ -10,6 +10,7 @@ PhotoViewController::PhotoViewController(int type)
 : m_type(type)
 , m_currentCategory("")
 , m_mask(NULL)
+, m_filterView(NULL)
 {
 dle_ren_index = 0;
 }
@@ -206,6 +207,8 @@ void PhotoViewController::buttonCallBack(CAControl* btn, DPoint point)
             //image->saveToFile(imagePath.c_str());
             CCLog("path : %s", imagePath.c_str());
             requestPhotoSubmit(imagePath);
+            
+            FDataManager::getInstance()->setUserDirty(true);
         }
         
     }
@@ -214,7 +217,9 @@ void PhotoViewController::buttonCallBack(CAControl* btn, DPoint point)
         m_basicView->setVisible(true);
         m_photoView->setVisible(false);
         m_photoView->removeAllSubviews();
-        m_filterView->setVisible(false);
+        if (m_filterView != NULL) {
+            m_filterView->setVisible(false);
+        }
     }
     else if (btn->getTag() == 600)
     {

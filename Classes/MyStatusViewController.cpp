@@ -553,10 +553,11 @@ void MyStatusViewController::onRequestUserMsgFinished(const HttpResponseStatus& 
         const CSJson::Value& v2 = json["result"];
         std::string isSucceed = v2["r"].asString();
         if (isSucceed == "1") {
-            userInfo tmpUser;
-//            tmpUser.m_eggVoted = v2["r"]["EggVoted"].asBool();
-            tmpUser.m_imageUrl = crossapp_format_string("%s%s", imgPreUrl.c_str(), v2["usr"][0]["Icon"].asString().c_str());;
-            tmpUser.m_point = v2["usr"][0]["Score"].asInt();
+            userInfo* tmpUser = FDataManager::getInstance()->getUserInfo();
+            tmpUser->m_imageUrl = crossapp_format_string("%s%s", imgPreUrl.c_str(), v2["usr"][0]["Icon"].asString().c_str());;
+            tmpUser->m_point = v2["usr"][0]["Score"].asInt();
+//            if (m_urlImageView != NULL)
+//                m_urlImageView->setUrl(tmpUser.m_imageUrl);
 //            tmpUser.m_greenAmb = v2["r"]["GreenAmb"].asBool();
         }
         refreshUserInfo();
