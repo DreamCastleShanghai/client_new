@@ -4,12 +4,12 @@
 
   },
   "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
-    "BE07B47CFF1724079DDDFFCAAE89C20AF180AF0A" : 0,
+    "A5F62A4EE5F262E9BBB543CC0CFC3CDE22CD8D35" : 0,
     "8D8FDE86949193065922EFE6DEB05CA752391358" : 0
   },
   "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "B8B267F0-8D5D-4161-AD39-934D0F7E27C1",
   "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
-    "BE07B47CFF1724079DDDFFCAAE89C20AF180AF0A" : "..\/CrossApp",
+    "A5F62A4EE5F262E9BBB543CC0CFC3CDE22CD8D35" : "..\/CrossApp",
     "8D8FDE86949193065922EFE6DEB05CA752391358" : "127\/"
   },
   "DVTSourceControlWorkspaceBlueprintNameKey" : "SapSession",
@@ -24,7 +24,7 @@
     {
       "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/alizwl\/cross.git",
       "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
-      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "BE07B47CFF1724079DDDFFCAAE89C20AF180AF0A"
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "A5F62A4EE5F262E9BBB543CC0CFC3CDE22CD8D35"
     }
   ]
 }
