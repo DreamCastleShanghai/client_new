@@ -53,10 +53,10 @@ void SessionSurveyResultViewController::viewDidLoad()
     m_winSize = this->getView()->getBounds().size;
     
     int hight = 0;
-    int upHight = _px(520);
+    int upHight = (520);
     // header
     if (m_headerView == NULL)
-        m_headerView = CAView::createWithFrame(DRect(_px(0), _px(0), m_winSize.width, upHight));
+        m_headerView = CAView::createWithFrame(DRect((0), (0), m_winSize.width, upHight));
     
     if (m_headerView)
     {
@@ -65,11 +65,11 @@ void SessionSurveyResultViewController::viewDidLoad()
         } else {
             m_headerView->setColor(SAP_GRAY);
         }
-//        m_headerView->setFrame(DRect(_px(0), _px(0), m_winSize.width, _px(420)));
+//        m_headerView->setFrame(DRect((0), (0), m_winSize.width, (420)));
         this->getView()->addSubview(m_headerView);
         
         // header back btn
-        m_backBtn = CAButton::createWithFrame(DRect(_px(0), _px(20), _px(100), _px(100)), CAButtonTypeCustom);
+        m_backBtn = CAButton::createWithFrame(DRect((0), (20), (100), (100)), CAButtonTypeCustom);
         if (m_backBtn)
         {
             m_backBtn->addTarget(this, CAControl_selector(SessionSurveyResultViewController::buttonCallBack), CAControlEventTouchUpInSide);
@@ -80,12 +80,12 @@ void SessionSurveyResultViewController::viewDidLoad()
             if (m_backBtnBG)
             {
                 m_backBtnBG->setImageViewScaleType(CAImageViewScaleTypeFitImageXY);
-                m_backBtnBG->setFrame(DRect(_px(20), _px(20), _px(80), _px(80)));
+                m_backBtnBG->setFrame(DRect((20), (20), (80), (80)));
                 m_backBtn->setBackgroundViewForState(CAControlStateAll, m_backBtnBG);
             }
         }
         
-        m_headerTitle = CALabel::createWithCenter(DRect(m_winSize.width / 2, _px(70), m_winSize.width, _px(30)));
+        m_headerTitle = CALabel::createWithCenter(DRect(m_winSize.width / 2, (70), m_winSize.width, (30)));
         m_headerTitle->setTextAlignment(CATextAlignmentCenter);
         m_headerTitle->setColor(CAColor_white);
         m_headerTitle->setFontSize(SAP_TITLE_FONT_SIZE);
@@ -94,9 +94,9 @@ void SessionSurveyResultViewController::viewDidLoad()
         m_headerTitle->setTouchEnabled(false);
         m_headerView->addSubview(m_headerTitle);
         
-        hight += _px(70) + _px(15) + _px(90);
+        hight += (70) + (15) + (90);
         
-        m_messageLabel = CALabel::createWithCenter(DRect(m_winSize.width / 2, hight, m_winSize.width, _px(50)));
+        m_messageLabel = CALabel::createWithCenter(DRect(m_winSize.width / 2, hight, m_winSize.width, (50)));
         if (m_messageLabel) {
             m_messageLabel->setTextAlignment(CATextAlignmentCenter);
             m_messageLabel->setColor(CAColor_white);
@@ -111,9 +111,9 @@ void SessionSurveyResultViewController::viewDidLoad()
             }
         }
         
-        hight += _px(10) + _px(30) + _px(100);
+        hight += (10) + (30) + (100);
         
-        m_pointLabel = CALabel::createWithCenter(DRect(m_winSize.width / 2, hight, m_winSize.width, _px(160)));
+        m_pointLabel = CALabel::createWithCenter(DRect(m_winSize.width / 2, hight, m_winSize.width, (160)));
         if (m_pointLabel) {
             m_pointLabel->setTextAlignment(CATextAlignmentCenter);
             m_pointLabel->setColor(CAColor_white);
@@ -124,9 +124,9 @@ void SessionSurveyResultViewController::viewDidLoad()
             m_pointLabel->setText(crossapp_format_string("%d", getPoint()));
         }
         
-        hight += _px(50) + _px(70);// + _px(50);
+        hight += (50) + (70);// + (50);
         
-        m_rankLabel = CALabel::createWithCenter(DRect(m_winSize.width / 2, hight, m_winSize.width, _px(50)));
+        m_rankLabel = CALabel::createWithCenter(DRect(m_winSize.width / 2, hight, m_winSize.width, (50)));
         if (m_rankLabel) {
             m_rankLabel->setTextAlignment(CATextAlignmentCenter);
             m_rankLabel->setColor(CAColor_white);
@@ -140,36 +140,36 @@ void SessionSurveyResultViewController::viewDidLoad()
     }
     
     // body scroll view
-    m_bodyScrollView = CAScrollView::createWithFrame(DRect(_px(0), upHight, m_winSize.width, m_winSize.height - upHight));
+    m_bodyScrollView = CAScrollView::createWithFrame(DRect((0), upHight, m_winSize.width, m_winSize.height - upHight));
     if (m_bodyScrollView) {
-        //scrollView->setViewSize(DSize(m_winSize.width - _px(40), (m_imageHeight));
+        //scrollView->setViewSize(DSize(m_winSize.width - (40), (m_imageHeight));
         m_bodyScrollView->setHorizontalScrollEnabled(false);
         m_bodyScrollView->setVerticalScrollEnabled(true);
         m_bodyScrollView->setBounceHorizontal(false);
-        m_bodyScrollView->setBounds(DRect(0, 0, m_winSize.width, m_winSize.height - upHight - _px(120)));
+        m_bodyScrollView->setBounds(DRect(0, 0, m_winSize.width, m_winSize.height - upHight - (120)));
         m_bodyScrollView->setAnchorPoint(DPoint(0.f, 0.f));
         m_bodyScrollView->setShowsHorizontalScrollIndicator(false);
         m_bodyScrollView->setShowsVerticalScrollIndicator(false);
         m_bodyScrollView->setBackgroundColor(CAColor_clear);
         this->getView()->addSubview(m_bodyScrollView);
         
-        hight = _px(40);
+        hight = (40);
         
-        m_ruleChTitle = CALabel::createWithFrame(DRect(_px(40), hight, m_winSize.width - _px(80), _px(30)));
+        m_ruleChTitle = CALabel::createWithFrame(DRect((40), hight, m_winSize.width - (80), (30)));
         if (m_ruleChTitle) {
             m_ruleChTitle->setColor(CAColor_black);
-            m_ruleChTitle->setFontSize(_px(30));
+            m_ruleChTitle->setFontSize((30));
             m_ruleChTitle->setBold(true);
             m_ruleChTitle->setText("Game Rule");
             m_ruleChTitle->setFontName(SAP_FONT_ARIAL);
             m_bodyScrollView->addSubview(m_ruleChTitle);
         }
         
-        hight += _px(30) + _px(30);
-        m_ruleChContent = CALabel::createWithFrame(DRect(_px(40), hight, m_winSize.width - _px(80), _px(120)));
+        hight += (30) + (30);
+        m_ruleChContent = CALabel::createWithFrame(DRect((40), hight, m_winSize.width - (80), (120)));
         if (m_ruleChContent) {
             m_ruleChContent->setColor(CAColor_black);
-            m_ruleChContent->setFontSize(_px(30));
+            m_ruleChContent->setFontSize((30));
             m_ruleChContent->setBold(true);
             m_ruleChContent->setText(gameRuleContent);
             m_ruleChContent->setFontName(SAP_FONT_ARIAL);
@@ -177,24 +177,24 @@ void SessionSurveyResultViewController::viewDidLoad()
         }
         
         /*
-        hight += _px(120) + _px(30);
+        hight += (120) + (30);
         
-        m_ruleChTitle = CALabel::createWithFrame(DRect(_px(40), hight, m_winSize.width - _px(80), _px(30)));
+        m_ruleChTitle = CALabel::createWithFrame(DRect((40), hight, m_winSize.width - (80), (30)));
         if (m_ruleChTitle) {
             m_ruleChTitle->setColor(CAColor_black);
-            m_ruleChTitle->setFontSize(_px(30));
+            m_ruleChTitle->setFontSize((30));
             m_ruleChTitle->setBold(true);
             m_ruleChTitle->setText("Game Rule");
             m_ruleChTitle->setFontName(SAP_FONT_ARIAL);
             m_bodyScrollView->addSubview(m_ruleChTitle);
         }
         
-        hight += _px(30);
+        hight += (30);
         
-        m_ruleChContent = CALabel::createWithFrame(DRect(_px(40), hight, m_winSize.width - _px(80), _px(120)));
+        m_ruleChContent = CALabel::createWithFrame(DRect((40), hight, m_winSize.width - (80), (120)));
         if (m_ruleChContent) {
             m_ruleChContent->setColor(CAColor_black);
-            m_ruleChContent->setFontSize(_px(30));
+            m_ruleChContent->setFontSize((30));
             m_ruleChContent->setBold(true);
             m_ruleChContent->setText("Game Rule Content");
             m_ruleChContent->setFontName(SAP_FONT_ARIAL);
@@ -203,10 +203,10 @@ void SessionSurveyResultViewController::viewDidLoad()
         
     }
     /*
-     m_submitBtn = CAButton::createWithFrame(DRect(_px(40), m_winSize.height - _px(120), m_winSize.width - _px(80), _px(100)), CAButtonTypeCustom);
+     m_submitBtn = CAButton::createWithFrame(DRect((40), m_winSize.height - (120), m_winSize.width - (80), (100)), CAButtonTypeCustom);
      if (m_submitBtn) {
          m_submitBtn->setTitleForState(CAControlStateAll, "I know.");
-         m_submitBtn->setTitleFontSize(_px(35));
+         m_submitBtn->setTitleFontSize((35));
          m_submitBtn->setTitleColorForState(CAControlStateAll, CAColor_white);
          m_submitBtn->addTarget(this, CAControl_selector(SessionSurveyResultViewController::buttonCallBack), CAControlEventTouchUpInSide);
          m_submitBtn->setTag(200);

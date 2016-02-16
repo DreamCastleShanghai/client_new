@@ -41,23 +41,23 @@ void VoteViewController::viewDidLoad()
     
     // header bg
     CAScale9ImageView* sView = CAScale9ImageView::createWithImage(CAImage::create("common/sky_bg.png"));
-    sView->setFrame(DRect(_px(0), _px(0), m_winSize.width, _px(120)));
+    sView->setFrame(DRect((0), (0), m_winSize.width, (120)));
     this->getView()->addSubview(sView);
     
     // left back button
-    CAButton* button = CAButton::createWithFrame(DRect(_px(0), _px(20), _px(100), _px(100)), CAButtonTypeCustom);
+    CAButton* button = CAButton::createWithFrame(DRect((0), (20), (100), (100)), CAButtonTypeCustom);
     CAImageView* imageView = CAImageView::createWithImage(CAImage::create("common/nav_back.png"));
     imageView->setImageViewScaleType(CAImageViewScaleTypeFitImageXY);
-    imageView->setFrame(DRect(_px(20), _px(20), _px(80), _px(80)));
+    imageView->setFrame(DRect((20), (20), (80), (80)));
     button->setBackgroundViewForState(CAControlStateAll, imageView);
     button->addTarget(this, CAControl_selector(VoteViewController::buttonCallBack), CAControlEventTouchUpInSide);
     button->setTag(20);
     this->getView()->addSubview(button);
     
-//    button = CAButton::createWithFrame(DRect(m_winSize.width - _px(100), _px(20), _px(100), _px(100)), CAButtonTypeCustom);
+//    button = CAButton::createWithFrame(DRect(m_winSize.width - (100), (20), (100), (100)), CAButtonTypeCustom);
 //    imageView = CAImageView::createWithImage(CAImage::create("common/nav_forward.png"));
 //    imageView->setImageViewScaleType(CAImageViewScaleTypeFitImageXY);
-//    imageView->setFrame(DRect(_px(20), _px(20), _px(80), _px(80)));
+//    imageView->setFrame(DRect((20), (20), (80), (80)));
 //    button->setBackgroundViewForState(CAControlStateAll, imageView);
 //    button->addTarget(this, CAControl_selector(VoteViewController::buttonCallBack), CAControlEventTouchUpInSide);
 //    button->setTag(30);
@@ -78,10 +78,10 @@ void VoteViewController::viewDidLoad()
     
     for (int i = 0; i < SEG_PAGE; i++)
     {
-        m_segView[i] = CAView::createWithFrame(DRect(0, _px(120), m_winSize.width, m_winSize.height - _px(120)));
+        m_segView[i] = CAView::createWithFrame(DRect(0, (120), m_winSize.width, m_winSize.height - (120)));
         this->getView()->addSubview(m_segView[i]);
         
-        imageView = CAImageView::createWithFrame(DRect(0, 0, m_winSize.width, m_winSize.height - _px(120)));
+        imageView = CAImageView::createWithFrame(DRect(0, 0, m_winSize.width, m_winSize.height - (120)));
         imageView->setImage(CAImage::create(crossapp_format_string("common/vote_%d_bg.jpg", i)));
         imageView->setTouchEnabled(false);
         m_segView[i]->addSubview(imageView);
@@ -114,38 +114,38 @@ void VoteViewController::initMsgTableView()
         return;
     }
     
-//    CALabel* label = CALabel::createWithFrame(DRect(0, _px(150), m_winSize.width, _px(100)));
+//    CALabel* label = CALabel::createWithFrame(DRect(0, (150), m_winSize.width, (100)));
 //    label->setText("03:20:28");
 //    label->setTextAlignment(CATextAlignmentCenter);
 //    label->setVerticalTextAlignmet(CAVerticalTextAlignmentCenter);
 //    label->setColor(CAColor_white);
-//    label->setFontSize(_px(80));
+//    label->setFontSize((80));
 //    this->getView()->addSubview(label);
     
     float whRatio = 1.33f;
-    m_imageHeight = (m_winSize.width - _px(40)) * whRatio;
+    m_imageHeight = (m_winSize.width - (40)) * whRatio;
     for (int i = 0; i < SEG_PAGE; i++)
     {
-        CAScrollView* scrollView = CAScrollView::createWithFrame(DRect(_px(20), _px(0), m_winSize.width - _px(40), m_imageHeight + _px(320)));
-        //scrollView->setViewSize(DSize(m_winSize.width - _px(40), (m_imageHeight));
+        CAScrollView* scrollView = CAScrollView::createWithFrame(DRect((20), (0), m_winSize.width - (40), m_imageHeight + (320)));
+        //scrollView->setViewSize(DSize(m_winSize.width - (40), (m_imageHeight));
         scrollView->setHorizontalScrollEnabled(false);
         scrollView->setVerticalScrollEnabled(true);
         scrollView->setBounceHorizontal(false);
-        scrollView->setBounds(DRect(0, 0, m_winSize.width - _px(40), m_winSize.height - _px(120)));
+        scrollView->setBounds(DRect(0, 0, m_winSize.width - (40), m_winSize.height - (120)));
         scrollView->setAnchorPoint(DPoint(0.f, 0.f));
         scrollView->setShowsHorizontalScrollIndicator(false);
         scrollView->setShowsVerticalScrollIndicator(false);
         scrollView->setBackgroundColor(CAColor_clear);
         m_segView[i]->addSubview(scrollView);
         
-        DRect r = DRect(_px(0), _px(150), m_winSize.width - _px(40), m_imageHeight - _px(150));
+        DRect r = DRect((0), (150), m_winSize.width - (40), m_imageHeight - (150));
         m_pageView[i] = CAPageView::createWithFrame(r, CAPageViewDirectionHorizontal);
         m_pageView[i]->setPageViewDelegate(this);
         m_pageView[i]->setCurrPage(0, false);
         m_pageView[i]->setBackgroundColor(CAColor_clear);
         scrollView->addSubview(m_pageView[i]);
         
-        r = DRect((m_winSize.width - _px(300)) / 2, m_imageHeight + _px(10), _px(300), _px(50));
+        r = DRect((m_winSize.width - (300)) / 2, m_imageHeight + (10), (300), (50));
         m_pageControl[i] = CAPageControl::createWithFrame(r);
         m_pageControl[i]->setTag(300 + i);
         m_pageControl[i]->addTarget(this, CAControl_selector(VoteViewController::buttonCallBack));
@@ -165,7 +165,7 @@ void VoteViewController::initMsgTableView()
         m_pageControl[i]->setTouchEnabled(false);
         scrollView->addSubview(m_pageControl[i]);
         
-        m_detailView[i] = CAView::createWithFrame(DRect(_px(40), m_imageHeight + _px(40), m_winSize.width - _px(80), _px(300)));
+        m_detailView[i] = CAView::createWithFrame(DRect((40), m_imageHeight + (40), m_winSize.width - (80), (300)));
         m_detailView[i]->setTouchEnabled(false);
         m_detailView[i]->setColor(CAColor_clear);
         scrollView->addSubview(m_detailView[i]);
@@ -174,31 +174,31 @@ void VoteViewController::initMsgTableView()
     CAVector<CAView* > viewList;
     for (int i = 0; i < m_demoMsg.size(); i++)
     {
-        DRect r(0, 0, m_winSize.width - _px(40), m_imageHeight);
+        DRect r(0, 0, m_winSize.width - (40), m_imageHeight);
         CommonUrlImageView* temImage = CommonUrlImageView::createWithFrame(r);
         temImage->setImageViewScaleType(CAImageViewScaleTypeFitViewByVertical);
         temImage->setImage(CAImage::create("common/bg.png"));
         temImage->setUrl(m_demoMsg[i].m_imageUrl);
         //temImage->setTouchEnabled(false);
         
-        CALabel* label = CALabel::createWithFrame(DRect(_px(30), _px(30), _px(250), _px(40)));
+        CALabel* label = CALabel::createWithFrame(DRect((30), (30), (250), (40)));
         label->setText(m_demoMsg[i].m_teamName);
-        label->setFontSize(_px(33));
+        label->setFontSize((33));
         label->setTouchEnabled(false);
         label->setColor(CAColor_white);
         temImage->addSubview(label);
-        label = CALabel::createWithFrame(DRect(_px(30), _px(80), _px(150), _px(30)));
+        label = CALabel::createWithFrame(DRect((30), (80), (150), (30)));
         label->setText(m_demoMsg[i].m_department);
-        label->setFontSize(_px(25));
+        label->setFontSize((25));
         label->setTouchEnabled(false);
         label->setColor(CAColor_white);
         temImage->addSubview(label);
         
-        r = DRect((m_winSize.width - _px(200)) / 2,  m_imageHeight - _px(300), _px(200), _px(62));
+        r = DRect((m_winSize.width - (200)) / 2,  m_imageHeight - (300), (200), (62));
         CAButton* button = CAButton::createWithFrame(r, CAButtonTypeCustom);
         CAImageView* imageView = CAImageView::createWithImage(CAImage::create("vote/d_vote_btn.png"));
         imageView->setImageViewScaleType(CAImageViewScaleTypeFitImageXY);
-        imageView->setFrame(DRect(_px(20), _px(20), _px(80), _px(80)));
+        imageView->setFrame(DRect((20), (20), (80), (80)));
         
         userInfo* uInfo = FDataManager::getInstance()->getUserInfo();
         if (uInfo->m_demoVoteIdVec.size() >= 2)
@@ -235,31 +235,31 @@ void VoteViewController::initMsgTableView()
     viewList.clear();
     for (int i = 0; i < m_voiceMsg.size(); i++)
     {
-        DRect r(0, 0, m_winSize.width - _px(40), m_imageHeight);
+        DRect r(0, 0, m_winSize.width - (40), m_imageHeight);
         CommonUrlImageView* temImage = CommonUrlImageView::createWithFrame(r);
         temImage->setImageViewScaleType(CAImageViewScaleTypeFitViewByVertical);
         temImage->setImage(CAImage::create("common/bg.png"));
         temImage->setUrl(m_voiceMsg[i].m_imageUrl);
         //temImage->setTouchEnabled(false);
         
-        CALabel* label = CALabel::createWithFrame(DRect(_px(30), _px(30), _px(250), _px(40)));
+        CALabel* label = CALabel::createWithFrame(DRect((30), (30), (250), (40)));
         label->setText(m_voiceMsg[i].m_playerName);
-        label->setFontSize(_px(33));
+        label->setFontSize((33));
         label->setTouchEnabled(false);
         label->setColor(CAColor_white);
         temImage->addSubview(label);
-        label = CALabel::createWithFrame(DRect(_px(30), _px(80), _px(150), _px(30)));
+        label = CALabel::createWithFrame(DRect((30), (80), (150), (30)));
         label->setText(m_voiceMsg[i].m_projectName);
-        label->setFontSize(_px(25));
+        label->setFontSize((25));
         label->setTouchEnabled(false);
         label->setColor(CAColor_white);
         temImage->addSubview(label);
         
-        r = DRect((m_winSize.width - _px(200)) / 2,  m_imageHeight - _px(300), _px(200), _px(62));
+        r = DRect((m_winSize.width - (200)) / 2,  m_imageHeight - (300), (200), (62));
         CAButton* button = CAButton::createWithFrame(r, CAButtonTypeCustom);
         CAImageView* imageView = CAImageView::createWithImage(CAImage::create("vote/v_vote_btn.png"));
         imageView->setImageViewScaleType(CAImageViewScaleTypeFitImageXY);
-        imageView->setFrame(DRect(_px(20), _px(20), _px(80), _px(80)));
+        imageView->setFrame(DRect((20), (20), (80), (80)));
         
         userInfo* uInfo = FDataManager::getInstance()->getUserInfo();
         if (uInfo->m_voiceVoteIdVec.size() >= 2)
@@ -295,31 +295,31 @@ void VoteViewController::initMsgTableView()
     viewList.clear();
     for (int i = 0; i < m_hikMsg.size(); i++)
     {
-        DRect r(0, 0, m_winSize.width - _px(40), m_imageHeight);
+        DRect r(0, 0, m_winSize.width - (40), m_imageHeight);
         CommonUrlImageView* temImage = CommonUrlImageView::createWithFrame(r);
         temImage->setImageViewScaleType(CAImageViewScaleTypeFitImageCrop);
         temImage->setImage(CAImage::create("common/bg.png"));
         temImage->setUrl(m_hikMsg[i].m_imageUrl);
         //temImage->setTouchEnabled(false);
         
-        CALabel* label = CALabel::createWithFrame(DRect(_px(30), _px(30), _px(250), _px(40)));
+        CALabel* label = CALabel::createWithFrame(DRect((30), (30), (250), (40)));
         label->setText(m_hikMsg[i].m_playerName);
-        label->setFontSize(_px(33));
+        label->setFontSize((33));
         label->setTouchEnabled(false);
         label->setColor(CAColor_white);
         temImage->addSubview(label);
-        label = CALabel::createWithFrame(DRect(_px(30), _px(80), _px(150), _px(30)));
+        label = CALabel::createWithFrame(DRect((30), (80), (150), (30)));
         label->setText(m_hikMsg[i].m_projectName);
-        label->setFontSize(_px(25));
+        label->setFontSize((25));
         label->setTouchEnabled(false);
         label->setColor(CAColor_white);
         temImage->addSubview(label);
         
-        r = DRect((m_winSize.width - _px(200)) / 2,  m_imageHeight - _px(300), _px(200), _px(62));
+        r = DRect((m_winSize.width - (200)) / 2,  m_imageHeight - (300), (200), (62));
         CAButton* button = CAButton::createWithFrame(r, CAButtonTypeCustom);
         CAImageView* imageView = CAImageView::createWithImage(CAImage::create("vote/v_vote_btn.png"));
         imageView->setImageViewScaleType(CAImageViewScaleTypeFitImageXY);
-        imageView->setFrame(DRect(_px(20), _px(20), _px(80), _px(80)));
+        imageView->setFrame(DRect((20), (20), (80), (80)));
         
         button->setTitleForState(CAControlStateAll, "Vote");
         button->setTitleFontName(SAP_FONT_ARIAL);
@@ -355,12 +355,12 @@ void VoteViewController::setDetailView(int type, int index)
     }
     m_detailView[type]->removeAllSubviews();
     
-    DSize _size = DSize(m_winSize.width - _px(80), _px(300));
-    CALabel* label = CALabel::createWithFrame(DRect(0, _px(0), _size.width, _px(300)));
+    DSize _size = DSize(m_winSize.width - (80), (300));
+    CALabel* label = CALabel::createWithFrame(DRect(0, (0), _size.width, (300)));
     label->setColor(CAColor_white);
     label->setTextAlignment(CATextAlignmentLeft);
     label->setVerticalTextAlignmet(CAVerticalTextAlignmentTop);
-    label->setFontSize(_px(32));
+    label->setFontSize((32));
     
     if(type == 0) {
         label->setText(m_demoMsg[index].m_teamDetail.c_str());
@@ -400,8 +400,8 @@ void VoteViewController::requestMsg()
     key_value["uid"] = FDataManager::getInstance()->getUserId();
     CommonHttpManager::getInstance()->send_post(httpUrl, key_value, this, CommonHttpJson_selector(VoteViewController::onRequestFinished));
     {
-        DRect r(m_winSize.width / 2, (m_winSize.height - _px(120)) / 2 + _px(120),
-                m_winSize.width, m_winSize.height - _px(120));
+        DRect r(m_winSize.width / 2, (m_winSize.height - (120)) / 2 + (120),
+                m_winSize.width, m_winSize.height - (120));
         p_pLoading = CAActivityIndicatorView::createWithCenter(r);
         p_pLoading->setLoadingMinTime(0.5f);
         p_pLoading->setTargetOnCancel(this, callfunc_selector(VoteViewController::initMsgTableView));
@@ -570,22 +570,22 @@ void VoteViewController::showAlert()
         p_alertView = NULL;
     }
     
-    p_alertView = CAView::createWithFrame(DRect(_px(0), _px(120), m_winSize.width, m_winSize.height - _px(120)));
+    p_alertView = CAView::createWithFrame(DRect((0), (120), m_winSize.width, m_winSize.height - (120)));
     p_alertView->setColor(CAColor_clear);
     this->getView()->addSubview(p_alertView);
     
     CAButton* button = CAButton::create(CAButtonTypeCustom);
     button->setTag(100);
     button->setColor(CAColor_clear);
-    button->setFrame(DRect(0, 0, m_winSize.width, m_winSize.height - _px(120)));
+    button->setFrame(DRect(0, 0, m_winSize.width, m_winSize.height - (120)));
     button->addTarget(this, CAControl_selector(VoteViewController::buttonCallBack), CAControlEventTouchUpInSide);
     p_alertView->addSubview(button);
     
-    CALabel* test = CALabel::createWithCenter(DRect(m_winSize.width / 2, m_winSize.height - _px(300), m_winSize.width, _px(30)));
+    CALabel* test = CALabel::createWithCenter(DRect(m_winSize.width / 2, m_winSize.height - (300), m_winSize.width, (30)));
     test->setColor(CAColor_gray);
     test->setTextAlignment(CATextAlignmentCenter);
     test->setVerticalTextAlignmet(CAVerticalTextAlignmentCenter);
-    test->setFontSize(_px(24));
+    test->setFontSize((24));
     test->setText("Network cannot connect!");
     test->setTouchEnabled(false);
     p_alertView->addSubview(test);

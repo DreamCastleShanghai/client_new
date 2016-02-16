@@ -85,7 +85,7 @@ void MainViewTableCell::initWithCell(sessionMsg &msg)
     if (m_titleLabel) {
         m_titleLabel->setColor(ccc4(0x5f, 0x5f, 0x5f, 0xff));
         m_titleLabel->setTextAlignment(CATextAlignmentLeft);
-        m_titleLabel->setFontSize(_px(27));
+        m_titleLabel->setFontSize((27));
         m_titleLabel->setText(m_msg->m_title);
         this->getContentView()->addSubview(m_titleLabel);
     }
@@ -98,29 +98,29 @@ void MainViewTableCell::initWithCell(sessionMsg &msg)
         m_timeLabel->setColor(ccc4(0x5f, 0x5f, 0x5f, 0xff));
         m_timeLabel->setTextAlignment(CATextAlignmentLeft);
         //m_timeLabel->setVerticalTextAlignmet(CAVerticalTextAlignmentTop);
-        m_timeLabel->setFontSize(_px(25));
+        m_timeLabel->setFontSize((25));
         m_timeLabel->setText(crossapp_format_string("%s - %s", timeToString(m_msg->m_startTime).c_str(), timeToString(m_msg->m_endTime).c_str()));//%lld
         this->getContentView()->addSubview(m_timeLabel);
     }
     
     // session location
     tempRect = ConstRect::getSessionCellLocationRect();
-    tempRect.size.width = _size.width - _px(210);
+    tempRect.size.width = _size.width - (210);
 	m_locationLabel = CALabel::createWithFrame(tempRect);
     if (m_locationLabel) {
         m_locationLabel->setColor(ccc4(0xa1, 0xa1, 0xa1, 0xff));
         m_locationLabel->setTextAlignment(CATextAlignmentLeft);
-        m_locationLabel->setFontSize(_px(25));
+        m_locationLabel->setFontSize((25));
         m_locationLabel->setText(crossapp_format_string("Location: %s", m_msg->m_location.c_str()));
         this->getContentView()->addSubview(m_locationLabel);
     }
 
-    //CAView* view = CAView::createWithFrame(DRect(_size.width - _px(140), _px(40), _px(100), _px(50)));
+    //CAView* view = CAView::createWithFrame(DRect(_size.width - (140), (40), (100), (50)));
 	//this->getContentView()->addSubview(view);
 
     // session like button
     tempRect = ConstRect::getSessionCellLikeRect();
-    tempRect.origin.x = _size.width - _px(140);
+    tempRect.origin.x = _size.width - (140);
 	m_likeBtn = CAButton::createWithFrame(tempRect, CAButtonTypeRoundedRect);
     if (m_likeBtn) {
         m_likeBtn->setAllowsSelected(true);
@@ -137,13 +137,13 @@ void MainViewTableCell::initWithCell(sessionMsg &msg)
     
     // session like number label
     tempRect = ConstRect::getSessionCellLikeLableRect();
-    tempRect.origin.x = _size.width - _px(80);
+    tempRect.origin.x = _size.width - (80);
     m_likeNumLabel = CALabel::createWithFrame(tempRect);
     if (m_likeNumLabel) {
         m_likeNumLabel->setColor(ccc4(0xa1, 0xa1, 0xa1, 0xff));
         m_likeNumLabel->setTextAlignment(CATextAlignmentLeft);
         m_likeNumLabel->setVerticalTextAlignmet(CAVerticalTextAlignmentCenter);
-        m_likeNumLabel->setFontSize(_px(28));
+        m_likeNumLabel->setFontSize((28));
         m_likeNumLabel->setText(crossapp_format_string("%d", m_msg->m_likeNum));
         this->addSubview(m_likeNumLabel);
     }
@@ -151,7 +151,7 @@ void MainViewTableCell::initWithCell(sessionMsg &msg)
     
     // right arrow button
     tempRect = ConstRect::getSessionCellDetailArrowRect();
-    tempRect.origin.x = _size.width - _px(60);
+    tempRect.origin.x = _size.width - (60);
     m_rightArrow = CAImageView::createWithImage(CAImage::create("common/btn_rightarrow.png"));
     if (m_rightArrow) {
         m_rightArrow->setImageViewScaleType(CAImageViewScaleTypeFitViewByHorizontal);
@@ -161,7 +161,7 @@ void MainViewTableCell::initWithCell(sessionMsg &msg)
     
     // session store button
     tempRect = ConstRect::getSessionCellCollectionRect();
-    tempRect.origin.x = _size.width - _px(200);
+    tempRect.origin.x = _size.width - (200);
 	m_storeBtn = CAButton::createWithFrame(tempRect, CAButtonTypeRoundedRect);
     if (m_storeBtn) {
         m_storeBtn->setAllowsSelected(true);

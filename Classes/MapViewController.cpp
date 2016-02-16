@@ -29,14 +29,14 @@ void MapViewController::viewDidLoad()
     // Do any additional setup after loading the view from its nib.
     m_winSize = this->getView()->getBounds().size;
 
-    int hight = _px(120);
+    int hight = (120);
     // header
     CAScale9ImageView* sView = CAScale9ImageView::createWithImage(CAImage::create("common/sky_bg.png"));
-    sView->setFrame(DRect(_px(0), _px(0), m_winSize.width, hight));
+    sView->setFrame(DRect((0), (0), m_winSize.width, hight));
     this->getView()->addSubview(sView);
     
     // head title
-    CALabel* label = CALabel::createWithCenter(DRect(m_winSize.width / 2, _px(70), m_winSize.width, _px(50)));
+    CALabel* label = CALabel::createWithCenter(DRect(m_winSize.width / 2, (70), m_winSize.width, (50)));
     label->setTextAlignment(CATextAlignmentCenter);
     label->setColor(CAColor_white);
     label->setFontSize(SAP_TITLE_FONT_SIZE);
@@ -45,21 +45,21 @@ void MapViewController::viewDidLoad()
     sView->addSubview(label);
 
     // header back btn
-    CAButton* button = CAButton::createWithFrame(DRect(_px(0), _px(20), _px(100), _px(100)), CAButtonTypeCustom);
+    CAButton* button = CAButton::createWithFrame(DRect((0), (20), (100), (100)), CAButtonTypeCustom);
     CAImageView* imageView = CAImageView::createWithImage(CAImage::create("common/nav_back.png"));
     imageView->setImageViewScaleType(CAImageViewScaleTypeFitImageXY);
-    imageView->setFrame(DRect(_px(20), _px(20), _px(80), _px(80)));
+    imageView->setFrame(DRect((20), (20), (80), (80)));
     button->setBackgroundViewForState(CAControlStateAll, imageView);
     button->addTarget(this, CAControl_selector(MapViewController::buttonCallBack), CAControlEventTouchUpInSide);
     button->setTag(ID_BACK);
     this->getView()->addSubview(button);
     
-    int btnHight = _px(60);
+    int btnHight = (60);
     
     // left btn
     if (m_leftBtn == NULL)
     {
-        m_leftBtn = CAButton::createWithFrame(DRect(_px(0), hight, m_winSize.width / 2, btnHight), CAButtonTypeCustom);
+        m_leftBtn = CAButton::createWithFrame(DRect((0), hight, m_winSize.width / 2, btnHight), CAButtonTypeCustom);
         CAImageView* imageView = CAImageView::createWithImage(CAImage::create("common/sky_bg.png"));
         imageView->setImageViewScaleType(CAImageViewScaleTypeFitImageXY);
         m_leftBtn->setBackgroundViewForState(CAControlStateAll, imageView);
@@ -104,7 +104,7 @@ void MapViewController::viewDidLoad()
     
     
     /*
-    m_segView = FSegmentView::createWithFrame(DRect(m_winSize.width / 2, _px(120), m_winSize.width, 60), 2);
+    m_segView = FSegmentView::createWithFrame(DRect(m_winSize.width / 2, (120), m_winSize.width, 60), 2);
     if (m_segView)
     {
         m_segView->addTarget(this, CAControl_selector(MapViewController::buttonCallBack), CAControlEventTouchUpInSide);
@@ -117,10 +117,10 @@ void MapViewController::viewDidLoad()
      */
 
     /*
-    button = CAButton::createWithFrame(DRect(m_winSize.width - _px(140), _px(20), _px(100), _px(100)), CAButtonTypeCustom);
+    button = CAButton::createWithFrame(DRect(m_winSize.width - (140), (20), (100), (100)), CAButtonTypeCustom);
     imageView = CAImageView::createWithImage(CAImage::create("common/nav_forward.png"));
     imageView->setImageViewScaleType(CAImageViewScaleTypeFitImageXY);
-    imageView->setFrame(DRect(_px(20), _px(20), _px(80), _px(80)));
+    imageView->setFrame(DRect((20), (20), (80), (80)));
     button->setBackgroundViewForState(CAControlStateAll, imageView);
     button->addTarget(this, CAControl_selector(MapViewController::buttonCallBack), CAControlEventTouchUpInSide);
     button->setTag(30);
@@ -130,11 +130,11 @@ void MapViewController::viewDidLoad()
     // page one
     m_pageOne = CAScrollView::createWithFrame(DRect(0, hight, m_winSize.width, m_winSize.height - hight));
     if (m_pageOne) {
-        //scrollView->setViewSize(DSize(m_winSize.width - _px(40), (m_imageHeight));
+        //scrollView->setViewSize(DSize(m_winSize.width - (40), (m_imageHeight));
         m_pageOne->setHorizontalScrollEnabled(false);
         m_pageOne->setVerticalScrollEnabled(true);
         m_pageOne->setBounceHorizontal(false);
-        m_pageOne->setBounds(DRect(0, _px(240), m_winSize.width, m_winSize.height - hight));
+        m_pageOne->setBounds(DRect(0, (240), m_winSize.width, m_winSize.height - hight));
         m_pageOne->setAnchorPoint(DPoint(0.f, 0.f));
         m_pageOne->setShowsHorizontalScrollIndicator(false);
         m_pageOne->setShowsVerticalScrollIndicator(false);
@@ -142,20 +142,20 @@ void MapViewController::viewDidLoad()
         m_pageOne->setVisible(true);
         this->getView()->addSubview(m_pageOne);
         
-        m_pageOneAddressLabel = CALabel::createWithFrame(DRect(_px(40), _px(40), m_winSize.width - _px(80), _px(100)));
+        m_pageOneAddressLabel = CALabel::createWithFrame(DRect((40), (40), m_winSize.width - (80), (100)));
         if (m_pageOneAddressLabel) {
             m_pageOneAddressLabel->setText("address content");//surveyDetail[0]
             m_pageOneAddressLabel->setVerticalScrollEnabled(true);
             m_pageOneAddressLabel->setHorizontalScrollEnabled(true);
             m_pageOneAddressLabel->setColor(CAColor_black);
-            m_pageOneAddressLabel->setFontSize(_px(30));
+            m_pageOneAddressLabel->setFontSize((30));
             m_pageOneAddressLabel->setBold(true);
             //label->setItalics(true);
             m_pageOneAddressLabel->setFontName(SAP_FONT_ARIAL);
             m_pageOne->addSubview(m_pageOneAddressLabel);
         }
         
-        m_pageOneImage = CommonUrlImageView::createWithFrame(DRect(0, _px(140), m_winSize.width - _px(80), _px(400)));
+        m_pageOneImage = CommonUrlImageView::createWithFrame(DRect(0, (140), m_winSize.width - (80), (400)));
         if (m_pageOneImage) {
             // test code
             m_pageOneImage->setImageViewScaleType(CAImageViewScaleTypeFitImageXY);
@@ -165,14 +165,14 @@ void MapViewController::viewDidLoad()
         //test code
         CAImageView* temp = CAImageView::createWithImage(CAImage::create("login/login_bg.png"));
         temp->setImageViewScaleType(CAImageViewScaleTypeFitImageXY);
-        temp->setFrame(DRect(0, _px(140), m_winSize.width, m_winSize.height));
+        temp->setFrame(DRect(0, (140), m_winSize.width, m_winSize.height));
         m_pageOne->addSubview(temp);
     }
 
     // page two
     m_pageTwo = CAScrollView::createWithFrame(DRect(0, hight, m_winSize.width, m_winSize.height - hight));
     if (m_pageTwo) {
-        //scrollView->setViewSize(DSize(m_winSize.width - _px(40), (m_imageHeight));
+        //scrollView->setViewSize(DSize(m_winSize.width - (40), (m_imageHeight));
         m_pageTwo->setHorizontalScrollEnabled(false);
         m_pageTwo->setVerticalScrollEnabled(true);
         m_pageTwo->setBounceHorizontal(false);
@@ -307,27 +307,27 @@ void MapViewController::showAlert()
         p_alertView = NULL;
     }
     
-    p_alertView = CAView::createWithFrame(DRect(_px(0), _px(120), m_winSize.width, m_winSize.height - _px(120)));
+    p_alertView = CAView::createWithFrame(DRect((0), (120), m_winSize.width, m_winSize.height - (120)));
     this->getView()->addSubview(p_alertView);
     
-    CAImageView* bg = CAImageView::createWithFrame(DRect(_px(0), _px(120), m_winSize.width, m_winSize.height - _px(120)));
+    CAImageView* bg = CAImageView::createWithFrame(DRect((0), (120), m_winSize.width, m_winSize.height - (120)));
     bg->setImageViewScaleType(CAImageViewScaleTypeFitImageCrop);
     bg->setImage(CAImage::create("common/bg.png"));
     
     CAButton* btn5 = CAButton::create(CAButtonTypeSquareRect);
     btn5->setTag(100);
-    btn5->setFrame(DRect(_px(0), _px(0), m_winSize.width, m_winSize.height - _px(120)));
+    btn5->setFrame(DRect((0), (0), m_winSize.width, m_winSize.height - (120)));
     btn5->setTitleColorForState(CAControlStateNormal, CAColor_white);
     btn5->setBackgroundViewForState(CAControlStateNormal, bg);
     btn5->setBackgroundViewForState(CAControlStateHighlighted, bg);
     btn5->addTarget(this, CAControl_selector(MapViewController::buttonCallBack), CAControlEventTouchUpInSide);
     p_alertView->addSubview(btn5);
     
-    CALabel* test = CALabel::createWithCenter(DRect(m_winSize.width / 2, m_winSize.height - _px(400), m_winSize.width, _px(30)));
+    CALabel* test = CALabel::createWithCenter(DRect(m_winSize.width / 2, m_winSize.height - (400), m_winSize.width, (30)));
     test->setColor(CAColor_gray);
     test->setTextAlignment(CATextAlignmentCenter);
     test->setVerticalTextAlignmet(CAVerticalTextAlignmentCenter);
-    test->setFontSize(_px(24));
+    test->setFontSize((24));
     test->setText("Network cannot connect!");
     p_alertView->addSubview(test);
 

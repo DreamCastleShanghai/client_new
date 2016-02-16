@@ -56,28 +56,28 @@ void NoticeViewController::viewDidLoad()
     m_msg = FDataManager::getInstance()->getSessionMsgs();
     
     CAScale9ImageView* sView = CAScale9ImageView::createWithImage(CAImage::create("common/sky_bg.png"));
-    sView->setFrame(DRect(_px(0), _px(0), m_winSize.width, _px(120)));
+    sView->setFrame(DRect((0), (0), m_winSize.width, (120)));
     this->getView()->addSubview(sView);
     
-    CAButton* button = CAButton::createWithFrame(DRect(_px(0), _px(20), _px(100), _px(100)), CAButtonTypeCustom);
+    CAButton* button = CAButton::createWithFrame(DRect((0), (20), (100), (100)), CAButtonTypeCustom);
     CAImageView* imageView = CAImageView::createWithImage(CAImage::create("common/nav_back.png"));
     imageView->setImageViewScaleType(CAImageViewScaleTypeFitImageXY);
-    imageView->setFrame(DRect(_px(20), _px(20), _px(80), _px(80)));
+    imageView->setFrame(DRect((20), (20), (80), (80)));
     button->setBackgroundViewForState(CAControlStateAll, imageView);
     button->addTarget(this, CAControl_selector(NoticeViewController::buttonCallBack), CAControlEventTouchUpInSide);
     button->setTag(20);
     this->getView()->addSubview(button);
 //    
-//    button = CAButton::createWithFrame(DRect(m_winSize.width - _px(140), _px(20), _px(100), _px(100)), CAButtonTypeCustom);
+//    button = CAButton::createWithFrame(DRect(m_winSize.width - (140), (20), (100), (100)), CAButtonTypeCustom);
 //    imageView = CAImageView::createWithImage(CAImage::create("common/nav_forward.png"));
 //    imageView->setImageViewScaleType(CAImageViewScaleTypeFitImageXY);
-//    imageView->setFrame(DRect(_px(20), _px(20), _px(80), _px(80)));
+//    imageView->setFrame(DRect((20), (20), (80), (80)));
 //    button->setBackgroundViewForState(CAControlStateAll, imageView);
 //    button->addTarget(this, CAControl_selector(NoticeViewController::buttonCallBack), CAControlEventTouchUpInSide);
 //    button->setTag(30);
 //    this->getView()->addSubview(button);
     
-    CALabel* label = CALabel::createWithCenter(DRect(m_winSize.width / 2, _px(70), m_winSize.width, _px(40)));
+    CALabel* label = CALabel::createWithCenter(DRect(m_winSize.width / 2, (70), m_winSize.width, (40)));
     label->setTextAlignment(CATextAlignmentCenter);
     label->setColor(CAColor_white);
     label->setFontSize(SAP_TITLE_FONT_SIZE);
@@ -86,12 +86,12 @@ void NoticeViewController::viewDidLoad()
     sView->addSubview(label);
     
     
-    m_msgTableView = CATableView::createWithFrame(DRect(0, _px(120), m_winSize.width, m_winSize.height - _px(120)));
+    m_msgTableView = CATableView::createWithFrame(DRect(0, (120), m_winSize.width, m_winSize.height - (120)));
     m_msgTableView->setTableViewDataSource(this);
     m_msgTableView->setTableViewDelegate(this);
     m_msgTableView->setAllowsSelection(true);
     m_msgTableView->setSeparatorColor(ccc4(200, 200, 200, 80));
-    //m_msgTableView->setSeparatorViewHeight(_px(2));
+    //m_msgTableView->setSeparatorViewHeight((2));
     this->getView()->addSubview(m_msgTableView);
     
     //requestMsg();
@@ -188,27 +188,27 @@ void NoticeViewController::showAlert()
         p_alertView = NULL;
     }
     
-    p_alertView = CAView::createWithFrame(DRect(_px(0), _px(120), m_winSize.width, m_winSize.height - _px(120)));
+    p_alertView = CAView::createWithFrame(DRect((0), (120), m_winSize.width, m_winSize.height - (120)));
     this->getView()->addSubview(p_alertView);
     
-    CAImageView* bg = CAImageView::createWithFrame(DRect(_px(0), _px(120), m_winSize.width, m_winSize.height - _px(120)));
+    CAImageView* bg = CAImageView::createWithFrame(DRect((0), (120), m_winSize.width, m_winSize.height - (120)));
     bg->setImageViewScaleType(CAImageViewScaleTypeFitImageCrop);
     bg->setImage(CAImage::create("common/bg.png"));
     
     CAButton* btn5 = CAButton::create(CAButtonTypeSquareRect);
     btn5->setTag(100);
-    btn5->setFrame(DRect(_px(0), _px(0), m_winSize.width, m_winSize.height - _px(120)));
+    btn5->setFrame(DRect((0), (0), m_winSize.width, m_winSize.height - (120)));
     btn5->setTitleColorForState(CAControlStateNormal, CAColor_white);
     btn5->setBackgroundViewForState(CAControlStateNormal, bg);
     btn5->setBackgroundViewForState(CAControlStateHighlighted, bg);
     btn5->addTarget(this, CAControl_selector(NoticeViewController::buttonCallBack), CAControlEventTouchUpInSide);
     p_alertView->addSubview(btn5);
     
-    CALabel* test = CALabel::createWithCenter(DRect(m_winSize.width / 2, m_winSize.height - _px(400), m_winSize.width, _px(30)));
+    CALabel* test = CALabel::createWithCenter(DRect(m_winSize.width / 2, m_winSize.height - (400), m_winSize.width, (30)));
     test->setColor(CAColor_gray);
     test->setTextAlignment(CATextAlignmentCenter);
     test->setVerticalTextAlignmet(CAVerticalTextAlignmentCenter);
-    test->setFontSize(_px(24));
+    test->setFontSize((24));
     test->setText("Network cannot connect!");
     p_alertView->addSubview(test);
 
@@ -228,36 +228,36 @@ CATableViewCell* NoticeViewController::tableCellAtIndex(CATableView* table, cons
 
 		CAImageView* imageView = CAImageView::createWithImage(CAImage::create(crossapp_format_string("notice/level_%d.png", row % 2)));
 		imageView->setImageViewScaleType(CAImageViewScaleTypeFitImageXY);
-		imageView->setFrame(DRect(_px(40), _px(20), _px(80), _px(80)));
+		imageView->setFrame(DRect((40), (20), (80), (80)));
 		cell->addSubview(imageView);
 
 		if (m_msgList[row].readed == false)
 		{
 			imageView = CAImageView::createWithImage(CAImage::create("notice/icon_reddot.png"));
 			imageView->setImageViewScaleType(CAImageViewScaleTypeFitImageXY);
-			imageView->setFrame(DRect(_px(100), _px(20), _px(10), _px(10)));
+			imageView->setFrame(DRect((100), (20), (10), (10)));
 			cell->addSubview(imageView);
 		}
 
-		CALabel* label = CALabel::createWithFrame(DRect(_px(160), _px(20), m_winSize.width - _px(200), _px(40)));
+		CALabel* label = CALabel::createWithFrame(DRect((160), (20), m_winSize.width - (200), (40)));
 		label->setText(m_msgList[row].title);
-		label->setFontSize(_px(35));
+		label->setFontSize((35));
 		label->setColor(CAColor_black);
 		cell->addSubview(label);
 
-		label = CALabel::createWithFrame(DRect(_px(160), _px(70), _px(200), _px(30)));
+		label = CALabel::createWithFrame(DRect((160), (70), (200), (30)));
 		label->setText(crossapp_format_string("%s", timeToString(m_msgList[row].startTime).c_str()));
-		label->setFontSize(_px(28));
+		label->setFontSize((28));
 		label->setColor(CAColor_gray);
 		cell->addSubview(label);
 
 		imageView = CAImageView::createWithImage(CAImage::create("common/btn_rightarrow.png"));
 		imageView->setImageViewScaleType(CAImageViewScaleTypeFitViewByHorizontal);
-		imageView->setFrame(DRect(_size.width - _px(90), (_size.height - _px(50)) / 2, _px(50), _px(50)));
+		imageView->setFrame(DRect(_size.width - (90), (_size.height - (50)) / 2, (50), (50)));
 		cell->addSubview(imageView);
 
         //CAScale9ImageView* sView = CAScale9ImageView::createWithImage(CAImage::create("common/gray_bg.png"));
-        //sView->setFrame(DRect(_px(0), _px(0), _size.width, _size.height));
+        //sView->setFrame(DRect((0), (0), _size.width, _size.height));
         //cell->setBackgroundView(sView);
     }
     //cell->setModel(m_msgFilter[row]);
@@ -278,7 +278,7 @@ unsigned int NoticeViewController::numberOfRowsInSection(CATableView *table, uns
 
 unsigned int NoticeViewController::tableViewHeightForRowAtIndexPath(CATableView* table, unsigned int section, unsigned int row)
 {
-    return _px(120);
+    return (120);
 }
 
 void NoticeViewController::tableViewDidSelectRowAtIndexPath(CATableView* table, unsigned int section, unsigned int row)

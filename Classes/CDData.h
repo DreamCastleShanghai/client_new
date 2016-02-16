@@ -23,7 +23,7 @@ static const char* loginTag = "L0";
 #define SAP_GRAY            (ccc4(0x96, 0x96, 0x96, 0xff))
 
 // Font Size
-#define SAP_TITLE_FONT_SIZE (_px(36))
+#define SAP_TITLE_FONT_SIZE ((36))
 
 // Font
 #define SAP_FONT_ARIAL      ("fonts/arial.ttf")

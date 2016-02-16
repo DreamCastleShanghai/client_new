@@ -49,18 +49,18 @@ void MomentViewController::viewDidLoad()
     // Do any additional setup after loading the view from its nib.
     m_winSize = this->getView()->getBounds().size;
     
-    CAView* sView = CAView::createWithFrame(DRect(_px(0), _px(0), m_winSize.width, _px(240)));
+    CAView* sView = CAView::createWithFrame(DRect((0), (0), m_winSize.width, (240)));
     if (sView) {
         sView->setColor(SAP_DEFAULT_COLOR);
         this->getView()->addSubview(sView);
     }
     
-    CAButton* bkBtn = CAButton::createWithFrame(DRect(_px(0), _px(20), _px(100), _px(100)), CAButtonTypeCustom);
+    CAButton* bkBtn = CAButton::createWithFrame(DRect((0), (20), (100), (100)), CAButtonTypeCustom);
     if (bkBtn) {
         CAImageView* imageView = CAImageView::createWithImage(CAImage::create("common/nav_back.png"));
         if (imageView) {
             imageView->setImageViewScaleType(CAImageViewScaleTypeFitImageXY);
-            imageView->setFrame(DRect(_px(20), _px(20), _px(80), _px(80)));
+            imageView->setFrame(DRect((20), (20), (80), (80)));
             bkBtn->setBackgroundViewForState(CAControlStateAll, imageView);
         }
         bkBtn->addTarget(this, CAControl_selector(MomentViewController::buttonCallBack), CAControlEventTouchUpInSide);
@@ -68,7 +68,7 @@ void MomentViewController::viewDidLoad()
         this->getView()->addSubview(bkBtn);
     }
 
-	CAButton*  tagbutton = CAButton::createWithFrame(DRect((m_winSize.width - _px(200)) / 2, _px(30), _px(200), _px(100)), CAButtonTypeCustom);
+	CAButton*  tagbutton = CAButton::createWithFrame(DRect((m_winSize.width - (200)) / 2, (30), (200), (100)), CAButtonTypeCustom);
     if (tagbutton) {
         tagbutton->setTitleForState(CAControlStateAll, "Moments");
         tagbutton->setTitleFontName(SAP_FONT_ARIAL);
@@ -83,18 +83,18 @@ void MomentViewController::viewDidLoad()
         CAImageView* imageView = CAImageView::createWithImage(CAImage::create("session/down.png"));
         if (imageView) {
             imageView->setImageViewScaleType(CAImageViewScaleTypeFitImageXY);
-            imageView->setFrame(DRect(_px(180), _px(15), _px(60), _px(60)));
+            imageView->setFrame(DRect((180), (15), (60), (60)));
             tagbutton->addSubview(imageView);
         }
     }
 
 
-	CAButton* uploadbutton = CAButton::createWithFrame(DRect(m_winSize.width - _px(100), _px(30), _px(70), _px(70)), CAButtonTypeCustom);
+	CAButton* uploadbutton = CAButton::createWithFrame(DRect(m_winSize.width - (100), (30), (70), (70)), CAButtonTypeCustom);
     if (uploadbutton) {
         CAImageView* imageView = CAImageView::createWithImage(CAImage::create("moments/upload_icon_white.png"));
         if (imageView) {
             imageView->setImageViewScaleType(CAImageViewScaleTypeFitImageInside);
-            imageView->setFrame(DRect(_px(20), _px(20), _px(80), _px(80)));
+            imageView->setFrame(DRect((20), (20), (80), (80)));
             uploadbutton->setBackgroundViewForState(CAControlStateAll, imageView);
         }
         uploadbutton->addTarget(this, CAControl_selector(MomentViewController::buttonCallBack), CAControlEventTouchUpInSide);
@@ -102,33 +102,33 @@ void MomentViewController::viewDidLoad()
         this->getView()->addSubview(uploadbutton);
     }
     
-    //CALabel* label = CALabel::createWithCenter(DRect(m_winSize.width / 2, _px(70), m_winSize.width, _px(40)));
+    //CALabel* label = CALabel::createWithCenter(DRect(m_winSize.width / 2, (70), m_winSize.width, (40)));
     //label->setTextAlignment(CATextAlignmentCenter);
     //label->setColor(CAColor_white);
-    //label->setFontSize(_px(40));
+    //label->setFontSize((40));
     //label->setText("Moments");
     //label->setFontName("fonts/arial.ttf");
     //sView->addSubview(label);
 
     /*
-	CALabel* label = CALabel::createWithFrame(DRect(0, _px(130), m_winSize.width / 2, _px(40)));
+	CALabel* label = CALabel::createWithFrame(DRect(0, (130), m_winSize.width / 2, (40)));
 	label->setTextAlignment(CATextAlignmentCenter);
 	label->setColor(CAColor_white);
-	label->setFontSize(_px(30));
+	label->setFontSize((30));
 	label->setText("Photos");
 	label->setFontName("fonts/arial.ttf");
 	sView->addSubview(label);
 
-	label = CALabel::createWithFrame(DRect(m_winSize.width / 2, _px(130), m_winSize.width / 2, _px(40)));
+	label = CALabel::createWithFrame(DRect(m_winSize.width / 2, (130), m_winSize.width / 2, (40)));
 	label->setTextAlignment(CATextAlignmentCenter);
 	label->setColor(CAColor_white);
-	label->setFontSize(_px(30));
+	label->setFontSize((30));
 	label->setText("My Posts");
 	label->setFontName("fonts/arial.ttf");
 	sView->addSubview(label);
 */
     if (m_leftBtn == NULL) {
-        m_leftBtn = CAButton::createWithFrame(DRect(_px(0), _px(120), m_winSize.width / 2, _px(60)), CAButtonTypeCustom);
+        m_leftBtn = CAButton::createWithFrame(DRect((0), (120), m_winSize.width / 2, (60)), CAButtonTypeCustom);
     }
     if (m_leftBtn) {
         m_leftBtn->addTarget(this, CAControl_selector(MomentViewController::buttonCallBack), CAControlEventTouchUpInSide);
@@ -143,7 +143,7 @@ void MomentViewController::viewDidLoad()
     }
     
     if (m_rightBtn == NULL) {
-        m_rightBtn = CAButton::createWithFrame(DRect(m_winSize.width / 2, _px(120), m_winSize.width / 2, _px(60)), CAButtonTypeCustom);
+        m_rightBtn = CAButton::createWithFrame(DRect(m_winSize.width / 2, (120), m_winSize.width / 2, (60)), CAButtonTypeCustom);
     }
     if (m_rightBtn) {
         m_rightBtn->addTarget(this, CAControl_selector(MomentViewController::buttonCallBack), CAControlEventTouchUpInSide);
@@ -157,20 +157,20 @@ void MomentViewController::viewDidLoad()
     }
     
     /*
-	button = CAButton::createWithFrame(DRect(m_winSize.width / 2, _px(120), m_winSize.width / 2, _px(60)), CAButtonTypeCustom);
+	button = CAButton::createWithFrame(DRect(m_winSize.width / 2, (120), m_winSize.width / 2, (60)), CAButtonTypeCustom);
 	button->addTarget(this, CAControl_selector(MomentViewController::buttonCallBack), CAControlEventTouchUpInSide);
 	button->setTag(201);
 	this->getView()->addSubview(button);
 */
     /*
-	m_browView = CAScale9ImageView::createWithFrame(DRect(0, _px(170), m_winSize.width / 2, _px(10)));
+	m_browView = CAScale9ImageView::createWithFrame(DRect(0, (170), m_winSize.width / 2, (10)));
 	m_browView->setImage(CAImage::create("common/gray_bg.png"));
 	this->getView()->addSubview(m_browView);
      */
 
 	for (int i = 0; i < 2; i++)
 	{
-		m_segView[i] = CAView::createWithFrame(DRect(0, _px(180), m_winSize.width, m_winSize.height - _px(180)));
+		m_segView[i] = CAView::createWithFrame(DRect(0, (180), m_winSize.width, m_winSize.height - (180)));
 		this->getView()->addSubview(m_segView[i]);
 
 	}
@@ -178,7 +178,7 @@ void MomentViewController::viewDidLoad()
 
 	
 
-	m_msgTableView = CATableView::createWithFrame(DRect(0, 0, m_winSize.width, m_winSize.height - _px(180)));
+	m_msgTableView = CATableView::createWithFrame(DRect(0, 0, m_winSize.width, m_winSize.height - (180)));
 	m_msgTableView->setTableViewDataSource(this);
 	m_msgTableView->setTableViewDelegate(this);
 	m_msgTableView->setAllowsSelection(true);
@@ -190,33 +190,33 @@ void MomentViewController::viewDidLoad()
 	footerRefreshView->setTag(0);
 	m_msgTableView->setFooterRefreshView(footerRefreshView);
 
-	m_myCollectionView = CACollectionView::createWithFrame(DRect(0, 0, m_winSize.width, m_winSize.height - _px(180)));
+	m_myCollectionView = CACollectionView::createWithFrame(DRect(0, 0, m_winSize.width, m_winSize.height - (180)));
 	m_myCollectionView->setAllowsSelection(true);
 	//p_Conllection->setAllowsMultipleSelection(true);
 	m_myCollectionView->setCollectionViewDelegate(this);
 	m_myCollectionView->setCollectionViewDataSource(this);
 	m_myCollectionView->setScrollViewDelegate(this);
-	//m_myCollectionView->setHoriInterval(_px(0));
-	//m_myCollectionView->setVertInterval(_px(0));
+	//m_myCollectionView->setHoriInterval((0));
+	//m_myCollectionView->setVertInterval((0));
 	m_segView[1]->addSubview(m_myCollectionView);
 
 	footerRefreshView = CAPullToRefreshView::create(CAPullToRefreshView::CAPullToRefreshTypeFooter);
 	footerRefreshView->setTag(1);
 	m_myCollectionView->setFooterRefreshView(footerRefreshView);
 
-	m_filterView = CAView::createWithFrame(DRect((m_winSize.width - _px(200)) / 2, _px(100), _px(240), _px(80) * MOMENTSFILTERNUM));
+	m_filterView = CAView::createWithFrame(DRect((m_winSize.width - (200)) / 2, (100), (240), (80) * MOMENTSFILTERNUM));
 	m_filterView->setColor(ccc4(0, 0, 0, 128));
 	this->getView()->addSubview(m_filterView);
 	m_filterView->setVisible(false);
 
 	for (int i = 0; i < MOMENTSFILTERNUM; i++)// filterMoments
 	{
-		CAButton* button = CAButton::createWithFrame(DRect(_px(0), _px(80) * i, _px(240), _px(80)), CAButtonTypeCustom);
+		CAButton* button = CAButton::createWithFrame(DRect((0), (80) * i, (240), (80)), CAButtonTypeCustom);
         if (button) {
             button->addTarget(this, CAControl_selector(MomentViewController::buttonCallBack), CAControlEventTouchUpInSide);
             button->setTextTag(filterMoments[i]);
             button->setTitleForState(CAControlStateAll, crossapp_format_string("#%s", filterMoments[i]));
-            button->setTitleFontSize(_px(27));
+            button->setTitleFontSize((27));
             button->setTitleColorForState(CAControlStateAll, CAColor_white);//CAColor_gray);
             m_filterView->addSubview(button);
         }
@@ -388,7 +388,7 @@ void MomentViewController::buttonCallBack(CAControl* btn, DPoint point)
 		{
 			requestMsg(m_segType);
 		}
-//		m_browView->setFrame(DRect(0, _px(170), m_winSize.width / 2, _px(10)));
+//		m_browView->setFrame(DRect(0, (170), m_winSize.width / 2, (10)));
 		m_segView[0]->setVisible(true);
 		m_segView[1]->setVisible(false);
         m_leftBtn->setControlState(CAControlStateSelected);
@@ -401,7 +401,7 @@ void MomentViewController::buttonCallBack(CAControl* btn, DPoint point)
 		{
 			requestMsg(m_segType);
 		}
-//		m_browView->setFrame(DRect(m_winSize.width / 2, _px(170), m_winSize.width / 2, _px(10)));
+//		m_browView->setFrame(DRect(m_winSize.width / 2, (170), m_winSize.width / 2, (10)));
 		m_segView[0]->setVisible(false);
 		m_segView[1]->setVisible(true);
         m_leftBtn->setControlState(CAControlStateNormal);
@@ -568,27 +568,27 @@ void MomentViewController::showAlert()
         p_alertView = NULL;
     }
     
-    p_alertView = CAView::createWithFrame(DRect(_px(0), _px(240), m_winSize.width, m_winSize.height - _px(240)));
+    p_alertView = CAView::createWithFrame(DRect((0), (240), m_winSize.width, m_winSize.height - (240)));
     this->getView()->addSubview(p_alertView);
     
-    CAImageView* bg = CAImageView::createWithFrame(DRect(_px(0), _px(0), m_winSize.width, m_winSize.height - _px(240)));
+    CAImageView* bg = CAImageView::createWithFrame(DRect((0), (0), m_winSize.width, m_winSize.height - (240)));
     bg->setImageViewScaleType(CAImageViewScaleTypeFitImageCrop);
     bg->setImage(CAImage::create("common/bg.png"));
     
     CAButton* btn5 = CAButton::create(CAButtonTypeSquareRect);
     btn5->setTag(100);
-    btn5->setFrame(DRect(_px(0), _px(0), m_winSize.width, m_winSize.height - _px(240)));
+    btn5->setFrame(DRect((0), (0), m_winSize.width, m_winSize.height - (240)));
     btn5->setTitleColorForState(CAControlStateNormal, CAColor_white);
     btn5->setBackgroundViewForState(CAControlStateNormal, bg);
     btn5->setBackgroundViewForState(CAControlStateHighlighted, bg);
     btn5->addTarget(this, CAControl_selector(MomentViewController::buttonCallBack), CAControlEventTouchUpInSide);
     p_alertView->addSubview(btn5);
     
-    CALabel* test = CALabel::createWithCenter(DRect(m_winSize.width / 2, m_winSize.height - _px(400), m_winSize.width, _px(30)));
+    CALabel* test = CALabel::createWithCenter(DRect(m_winSize.width / 2, m_winSize.height - (400), m_winSize.width, (30)));
     test->setColor(CAColor_gray);
     test->setTextAlignment(CATextAlignmentCenter);
     test->setVerticalTextAlignmet(CAVerticalTextAlignmentCenter);
-    test->setFontSize(_px(24));
+    test->setFontSize((24));
     test->setText("Network cannot connect!");
     p_alertView->addSubview(test);
 
@@ -615,12 +615,12 @@ CATableViewCell* MomentViewController::tableCellAtIndex(CATableView* table, cons
 		temImage->setTouchEnabled(false);
 		cell->addSubview(temImage);
 
-		CAView* view = CAView::createWithFrame(DRect(0, _size.height - _px(120), _size.width, _px(120)));
+		CAView* view = CAView::createWithFrame(DRect(0, _size.height - (120), _size.width, (120)));
 		view->setColor(ccc4(0, 0, 0, 128));
 		cell->addSubview(view);
 
 		temImage = CommonUrlImageView::createWithImage(CAImage::create("common/bg.png"));
-		temImage->setFrame(DRect(_px(40), _px(20), _px(80), _px(80)));
+		temImage->setFrame(DRect((40), (20), (80), (80)));
 		//CommonUrlImageView::createWithFrame(DRect(0, 0, _size.width, _size.height));
 		temImage->setImageViewScaleType(CAImageViewScaleTypeFitImageInside);
 		temImage->setImage(CAImage::create("common/bg.png"));
@@ -628,26 +628,26 @@ CATableViewCell* MomentViewController::tableCellAtIndex(CATableView* table, cons
 		temImage->setTouchEnabled(false);
 		view->addSubview(temImage);
 
-		CALabel* label = CALabel::createWithFrame(DRect(_px(140), _px(20), m_winSize.width - _px(140), _px(35)));
+		CALabel* label = CALabel::createWithFrame(DRect((140), (20), m_winSize.width - (140), (35)));
 		label->setTextAlignment(CATextAlignmentLeft);
         label->setColor(ccc4(0x0f, 0xaa, 0xff, 0xff));//CAColor_blue);
-		label->setFontSize(_px(30));
+		label->setFontSize((30));
 		label->setText(m_allFilterMsg.at(row)->name);
 		label->setFontName(SAP_FONT_ARIAL);
 		view->addSubview(label);
 
-		label = CALabel::createWithFrame(DRect(_px(140), _px(60), m_winSize.width - _px(140), _px(30)));
+		label = CALabel::createWithFrame(DRect((140), (60), m_winSize.width - (140), (30)));
 		label->setTextAlignment(CATextAlignmentLeft);
 		label->setColor(CAColor_white);
-		label->setFontSize(_px(25));
+		label->setFontSize((25));
 		label->setText(crossapp_format_string("#%s", m_allFilterMsg.at(row)->caterory.c_str()));
 		label->setFontName(SAP_FONT_ARIAL);
 		view->addSubview(label);
 
-		CAButton* button = CAButton::createWithFrame(DRect(m_winSize.width - _px(160), _px(40), _px(50), _px(50)), CAButtonTypeCustom);
+		CAButton* button = CAButton::createWithFrame(DRect(m_winSize.width - (160), (40), (50), (50)), CAButtonTypeCustom);
 		CAImageView* imageView = CAImageView::createWithImage(CAImage::create("common/btn_like.png"));
 		imageView->setImageViewScaleType(CAImageViewScaleTypeFitImageXY);
-		imageView->setFrame(DRect(_px(20), _px(20), _px(80), _px(80)));
+		imageView->setFrame(DRect((20), (20), (80), (80)));
         if (m_allFilterMsg.at(row)->liked)
             imageView->setImage(CAImage::create("common/btn_like_pre.png"));
 		button->setBackgroundViewForState(CAControlStateAll, imageView);
@@ -656,10 +656,10 @@ CATableViewCell* MomentViewController::tableCellAtIndex(CATableView* table, cons
 		view->addSubview(button);
         m_likeBtnBG.push_back(imageView);
 
-		label = CALabel::createWithFrame(DRect(m_winSize.width - _px(100), _px(50), _px(200), _px(30)));
+		label = CALabel::createWithFrame(DRect(m_winSize.width - (100), (50), (200), (30)));
 		label->setTextAlignment(CATextAlignmentLeft);
 		label->setColor(CAColor_white);
-		label->setFontSize(_px(25));
+		label->setFontSize((25));
 		label->setText(crossapp_format_string("%d", m_allFilterMsg.at(row)->likeNum));
 		label->setFontName(SAP_FONT_ARIAL);
 		view->addSubview(label);
@@ -751,10 +751,10 @@ CACollectionViewCell* MomentViewController::collectionCellAtIndex(CACollectionVi
 		temImage->setTouchEnabled(false);
 		p_Cell->addSubview(temImage);
 
-		CAButton* button = CAButton::createWithFrame(DRect(_size.width - _px(60), 0, _px(60), _px(60)), CAButtonTypeCustom);
+		CAButton* button = CAButton::createWithFrame(DRect(_size.width - (60), 0, (60), (60)), CAButtonTypeCustom);
 		CAImageView* imageView = CAImageView::createWithImage(CAImage::create("moments/delete.png"));
 		imageView->setImageViewScaleType(CAImageViewScaleTypeFitImageInside);
-		imageView->setFrame(DRect(_px(0), _px(0), _px(60), _px(60)));
+		imageView->setFrame(DRect((0), (0), (60), (60)));
 		button->setBackgroundViewForState(CAControlStateAll, imageView);
 		button->addTarget(this, CAControl_selector(MomentViewController::buttonCallBack), CAControlEventTouchUpInSide);
 		button->setTag(400 + row * 2 + item);

@@ -36,19 +36,19 @@ void VoteShakeViewController::viewDidLoad()
     m_winSize = this->getView()->getBounds().size;
     
     CAScale9ImageView* sView = CAScale9ImageView::createWithImage(CAImage::create("common/sky_bg.png"));
-    sView->setFrame(DRect(_px(0), _px(0), m_winSize.width, _px(120)));
+    sView->setFrame(DRect((0), (0), m_winSize.width, (120)));
     this->getView()->addSubview(sView);
     
-    CAButton* button = CAButton::createWithFrame(DRect(_px(0), _px(20), _px(100), _px(100)), CAButtonTypeCustom);
+    CAButton* button = CAButton::createWithFrame(DRect((0), (20), (100), (100)), CAButtonTypeCustom);
     CAImageView* imageView = CAImageView::createWithImage(CAImage::create("common/nav_back.png"));
     imageView->setImageViewScaleType(CAImageViewScaleTypeFitImageXY);
-    imageView->setFrame(DRect(_px(20), _px(20), _px(80), _px(80)));
+    imageView->setFrame(DRect((20), (20), (80), (80)));
     button->setBackgroundViewForState(CAControlStateAll, imageView);
     button->addTarget(this, CAControl_selector(VoteShakeViewController::buttonCallBack), CAControlEventTouchUpInSide);
     button->setTag(20);
     this->getView()->addSubview(button);
     
-    CALabel* label = CALabel::createWithCenter(DRect(m_winSize.width / 2, _px(70), m_winSize.width, _px(40)));
+    CALabel* label = CALabel::createWithCenter(DRect(m_winSize.width / 2, (70), m_winSize.width, (40)));
     label->setTextAlignment(CATextAlignmentCenter);
     label->setColor(CAColor_white);
     label->setFontSize(SAP_TITLE_FONT_SIZE);
@@ -56,11 +56,11 @@ void VoteShakeViewController::viewDidLoad()
     label->setFontName(SAP_FONT_ARIAL);
     sView->addSubview(label);
 
-	m_view = CAView::createWithFrame(DRect(0, _px(120), m_winSize.width, m_winSize.height - _px(120)));
+	m_view = CAView::createWithFrame(DRect(0, (120), m_winSize.width, m_winSize.height - (120)));
 	this->getView()->addSubview(m_view);
     
     CommonUrlImageView* urlImageVIew = CommonUrlImageView::createWithImage(CAImage::create("common/bg.png"));
-    urlImageVIew->setFrame(DRect(0, 0, m_winSize.width, m_winSize.height - _px(120)));
+    urlImageVIew->setFrame(DRect(0, 0, m_winSize.width, m_winSize.height - (120)));
     urlImageVIew->setImageViewScaleType(CAImageViewScaleTypeFitImageCrop);
     urlImageVIew->setColor(ccc4(128, 128, 128, 255));
     urlImageVIew->setTouchEnabled(false);
@@ -74,12 +74,12 @@ void VoteShakeViewController::viewDidLoad()
         urlImageVIew->setUrl(m_voiceMsg->m_imageUrl);
     }
 
-    m_shakeView = CAView::createWithFrame(DRect(0, 0, m_winSize.width, m_winSize.height - _px(120)));
+    m_shakeView = CAView::createWithFrame(DRect(0, 0, m_winSize.width, m_winSize.height - (120)));
     m_shakeView->setColor(CAColor_clear);
     m_view->addSubview(m_shakeView);
     //m_shakeView->setVisible(false);
     
-    m_shakeEndView = CAView::createWithFrame(DRect(0, 0, m_winSize.width, m_winSize.height - _px(120)));
+    m_shakeEndView = CAView::createWithFrame(DRect(0, 0, m_winSize.width, m_winSize.height - (120)));
     m_shakeEndView->setColor(CAColor_clear);
     m_view->addSubview(m_shakeEndView);
     m_shakeEndView->setVisible(false);
@@ -101,10 +101,10 @@ void VoteShakeViewController::initView()
 {
     if (m_voteStatus == Vote_NotStart)
     {
-        CALabel* label = CALabel::createWithFrame(DRect(_px(40), _px(300), m_winSize.width - _px(80), _px(80)));
+        CALabel* label = CALabel::createWithFrame(DRect((40), (300), m_winSize.width - (80), (80)));
         label->setTextAlignment(CATextAlignmentCenter);
         label->setColor(CAColor_white);
-        label->setFontSize(_px(35));
+        label->setFontSize((35));
         label->setText("Vote event will be start after the show!");
         label->setFontName(SAP_FONT_ARIAL);
         m_shakeView->addSubview(label);
@@ -113,13 +113,13 @@ void VoteShakeViewController::initView()
     {
         CAImageView* imageView = CAImageView::createWithImage(CAImage::create("vote/icon_shake.png"));
         imageView->setImageViewScaleType(CAImageViewScaleTypeFitImageCrop);
-        imageView->setFrame(DRect((m_winSize.width - _px(260)) / 2, _px(150), _px(260), _px(260)));
+        imageView->setFrame(DRect((m_winSize.width - (260)) / 2, (150), (260), (260)));
         m_shakeView->addSubview(imageView);
         
-        CALabel* label = CALabel::createWithFrame(DRect(_px(40), _px(450), m_winSize.width - _px(80), _px(80)));
+        CALabel* label = CALabel::createWithFrame(DRect((40), (450), m_winSize.width - (80), (80)));
         label->setTextAlignment(CATextAlignmentCenter);
         label->setColor(CAColor_red);
-        label->setFontSize(_px(35));
+        label->setFontSize((35));
         if (m_demoMsg)
         {
             label->setText(crossapp_format_string("Shake your phone, Vote for %s", m_demoMsg->m_teamName.c_str()));
@@ -131,18 +131,18 @@ void VoteShakeViewController::initView()
         label->setFontName(SAP_FONT_ARIAL);
         m_shakeView->addSubview(label);
         
-        m_shakeNumLabel = CALabel::createWithFrame(DRect(_px(40), _px(550), m_winSize.width - _px(80), _px(80)));
+        m_shakeNumLabel = CALabel::createWithFrame(DRect((40), (550), m_winSize.width - (80), (80)));
         m_shakeNumLabel->setTextAlignment(CATextAlignmentCenter);
         m_shakeNumLabel->setColor(CAColor_gray);
-        m_shakeNumLabel->setFontSize(_px(50));
+        m_shakeNumLabel->setFontSize((50));
         m_shakeNumLabel->setText(crossapp_format_string("Shake Number: %d", m_shakeNum));
         m_shakeNumLabel->setFontName(SAP_FONT_ARIAL);
         m_shakeView->addSubview(m_shakeNumLabel);
         
-        label = CALabel::createWithFrame(DRect(_px(40), _px(300), m_winSize.width - _px(80), _px(80)));
+        label = CALabel::createWithFrame(DRect((40), (300), m_winSize.width - (80), (80)));
         label->setTextAlignment(CATextAlignmentCenter);
         label->setColor(CAColor_white);
-        label->setFontSize(_px(35));
+        label->setFontSize((35));
         if (m_demoMsg)
         {
             label->setText(crossapp_format_string("You have been voted for %s, thank you!", m_demoMsg->m_teamName.c_str()));
@@ -156,10 +156,10 @@ void VoteShakeViewController::initView()
     }
     else if(m_voteStatus == Vote_End)
     {
-        CALabel* label = CALabel::createWithFrame(DRect(_px(40), _px(300), m_winSize.width - _px(80), _px(80)));
+        CALabel* label = CALabel::createWithFrame(DRect((40), (300), m_winSize.width - (80), (80)));
         label->setTextAlignment(CATextAlignmentCenter);
         label->setColor(CAColor_white);
-        label->setFontSize(_px(35));
+        label->setFontSize((35));
         label->setText("This event has been over!");
         label->setFontName(SAP_FONT_ARIAL);
         m_shakeView->addSubview(label);

@@ -56,11 +56,11 @@ void MeInfoViewController::viewDidLoad()
     m_headerView = CAScale9ImageView::createWithImage(CAImage::create("common/sky_bg.png"));
     if (m_headerView)
     {
-        m_headerView->setFrame(DRect(_px(0), _px(0), m_winSize.width, _px(120)));
+        m_headerView->setFrame(DRect((0), (0), m_winSize.width, (120)));
         this->getView()->addSubview(m_headerView);
         
         // header back btn
-        m_backBtn = CAButton::createWithFrame(DRect(_px(0), _px(20), _px(100), _px(100)), CAButtonTypeCustom);
+        m_backBtn = CAButton::createWithFrame(DRect((0), (20), (100), (100)), CAButtonTypeCustom);
         if (m_backBtn)
         {
             m_backBtn->addTarget(this, CAControl_selector(MeInfoViewController::buttonCallBack), CAControlEventTouchUpInSide);
@@ -71,12 +71,12 @@ void MeInfoViewController::viewDidLoad()
             if (m_backBtnBG)
             {
                 m_backBtnBG->setImageViewScaleType(CAImageViewScaleTypeFitImageXY);
-                m_backBtnBG->setFrame(DRect(_px(20), _px(20), _px(80), _px(80)));
+                m_backBtnBG->setFrame(DRect((20), (20), (80), (80)));
                 m_backBtn->setBackgroundViewForState(CAControlStateAll, m_backBtnBG);
             }
         }
         
-        m_headerTitle = CALabel::createWithCenter(DRect(m_winSize.width / 2, _px(70), m_winSize.width, _px(40)));
+        m_headerTitle = CALabel::createWithCenter(DRect(m_winSize.width / 2, (70), m_winSize.width, (40)));
         m_headerTitle->setTextAlignment(CATextAlignmentCenter);
         m_headerTitle->setColor(CAColor_white);
         m_headerTitle->setFontSize(SAP_TITLE_FONT_SIZE);
@@ -87,26 +87,26 @@ void MeInfoViewController::viewDidLoad()
     }
     
     // body scroll view
-    m_bodyScrollView = CAScrollView::createWithFrame(DRect(_px(0), _px(120), m_winSize.width, m_winSize.height - _px(240)));
+    m_bodyScrollView = CAScrollView::createWithFrame(DRect((0), (120), m_winSize.width, m_winSize.height - (240)));
     if (m_bodyScrollView) {
-        //scrollView->setViewSize(DSize(m_winSize.width - _px(40), (m_imageHeight));
+        //scrollView->setViewSize(DSize(m_winSize.width - (40), (m_imageHeight));
         m_bodyScrollView->setHorizontalScrollEnabled(false);
         m_bodyScrollView->setVerticalScrollEnabled(true);
         m_bodyScrollView->setBounceHorizontal(false);
-        m_bodyScrollView->setBounds(DRect(0, 0, m_winSize.width, m_winSize.height - _px(240)));
+        m_bodyScrollView->setBounds(DRect(0, 0, m_winSize.width, m_winSize.height - (240)));
         m_bodyScrollView->setAnchorPoint(DPoint(0.f, 0.f));
         m_bodyScrollView->setShowsHorizontalScrollIndicator(false);
         m_bodyScrollView->setShowsVerticalScrollIndicator(false);
         m_bodyScrollView->setBackgroundColor(CAColor_clear);
         this->getView()->addSubview(m_bodyScrollView);
         
-        m_bodyContext = CALabel::createWithFrame(DRect(_px(40), _px(40), m_winSize.width - _px(80), m_winSize.height - _px(240)));
+        m_bodyContext = CALabel::createWithFrame(DRect((40), (40), m_winSize.width - (80), m_winSize.height - (240)));
         if (m_bodyContext) {
             //m_bodyContext->setText();//surveyDetail[0]
             m_bodyContext->setVerticalScrollEnabled(true);
             m_bodyContext->setHorizontalScrollEnabled(true);
             m_bodyContext->setColor(CAColor_gray);
-            m_bodyContext->setFontSize(_px(30));
+            m_bodyContext->setFontSize((30));
             m_bodyContext->setBold(true);
             //label->setItalics(true);
             m_bodyContext->setFontName(SAP_FONT_ARIAL);
@@ -115,10 +115,10 @@ void MeInfoViewController::viewDidLoad()
     }
     
     /*
-    m_submitBtn = CAButton::createWithFrame(DRect(_px(40), m_winSize.height - _px(120), m_winSize.width - _px(80), _px(100)), CAButtonTypeCustom);
+    m_submitBtn = CAButton::createWithFrame(DRect((40), m_winSize.height - (120), m_winSize.width - (80), (100)), CAButtonTypeCustom);
     if (m_submitBtn) {
         m_submitBtn->setTitleForState(CAControlStateAll, "I know.");
-        m_submitBtn->setTitleFontSize(_px(35));
+        m_submitBtn->setTitleFontSize((35));
         m_submitBtn->setTitleColorForState(CAControlStateAll, CAColor_white);
         m_submitBtn->addTarget(this, CAControl_selector(MeInfoViewController::buttonCallBack), CAControlEventTouchUpInSide);
         m_submitBtn->setTag(200);

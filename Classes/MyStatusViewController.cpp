@@ -63,12 +63,12 @@ void MyStatusViewController::viewDidLoad()
     // header bg
     CAScale9ImageView* sView = CAScale9ImageView::createWithImage(CAImage::create("common/sky_bg.png"));
     if (sView) {
-        sView->setFrame(DRect(_px(0), _px(0), m_winSize.width, _px(120)));
+        sView->setFrame(DRect((0), (0), m_winSize.width, (120)));
         this->getView()->addSubview(sView);
     }
     
     // search btn in header
-    m_searchButton = CAButton::createWithFrame(DRect(_px(0), _px(20), _px(100), _px(100)), CAButtonTypeCustom);
+    m_searchButton = CAButton::createWithFrame(DRect((0), (20), (100), (100)), CAButtonTypeCustom);
     if (m_searchButton) {
         m_searchButton->addTarget(this, CAControl_selector(MyStatusViewController::buttonCallBack), CAControlEventTouchUpInSide);
         m_searchButton->setTag(20);
@@ -81,7 +81,7 @@ void MyStatusViewController::viewDidLoad()
     }
     
     // information btn
-    m_pointButton = CAButton::createWithFrame(DRect(m_winSize.width - _px(120), _px(20), _px(100), _px(100)), CAButtonTypeCustom);
+    m_pointButton = CAButton::createWithFrame(DRect(m_winSize.width - (120), (20), (100), (100)), CAButtonTypeCustom);
     if (m_pointButton) {
         m_pointButton->addTarget(this, CAControl_selector(MyStatusViewController::buttonCallBack), CAControlEventTouchUpInSide);
         m_pointButton->setTag(30);
@@ -110,38 +110,38 @@ void MyStatusViewController::viewDidLoad()
     // my calander table view
     if (m_myCalanderView == NULL)
     {
-        m_myCalanderView = CATableView::createWithFrame(DRect(0, _px(120), m_winSize.width, m_winSize.height - _px(120)));
+        m_myCalanderView = CATableView::createWithFrame(DRect(0, (120), m_winSize.width, m_winSize.height - (120)));
         m_myCalanderView->setTableViewDataSource(this);
         m_myCalanderView->setTableViewDelegate(this);
         m_myCalanderView->setScrollViewDelegate(this);
         m_myCalanderView->setAllowsSelection(true);
         m_myCalanderView->setSeparatorColor(ccc4(200, 200, 200, 80));
-        //m_msgTableView->setSeparatorViewHeight(_px(2));
+        //m_msgTableView->setSeparatorViewHeight((2));
         this->getView()->addSubview(m_myCalanderView);
     }
     
     // user information table
     if (m_msgTableView == NULL)
     {
-        //m_msgTableView = CATableView::createWithFrame(DRect(0, _px(120), m_winSize.width, m_winSize.height - _px(120)));
-        m_msgTableView = CATableView::createWithFrame(DRect(0, _px(420), m_winSize.width, m_winSize.height - _px(420)));
+        //m_msgTableView = CATableView::createWithFrame(DRect(0, (120), m_winSize.width, m_winSize.height - (120)));
+        m_msgTableView = CATableView::createWithFrame(DRect(0, (420), m_winSize.width, m_winSize.height - (420)));
         m_msgTableView->setTableViewDataSource(this);
         m_msgTableView->setTableViewDelegate(this);
         m_msgTableView->setScrollViewDelegate(this);
         m_msgTableView->setAllowsSelection(true);
         m_msgTableView->setSeparatorColor(ccc4(200, 200, 200, 80));
-        //m_msgTableView->setSeparatorViewHeight(_px(2));
+        //m_msgTableView->setSeparatorViewHeight((2));
         this->getView()->addSubview(m_msgTableView);
     }
 
-    m_pointView = CAView::createWithFrame(DRect(0, _px(120), m_winSize.width, _px(300)));
+    m_pointView = CAView::createWithFrame(DRect(0, (120), m_winSize.width, (300)));
     if (m_pointView) {
         m_pointView->setColor(ccc4(0, 0xa8, 0xfc, 0xff));
         m_pointView->setVisible(false);
         this->getView()->addSubview(m_pointView);
         
         // user logo
-        CAButton* button = CAButton::createWithFrame(DRect((m_winSize.width - _px(120)) / 2, _px(30), _px(120), _px(120)), CAButtonTypeCustom);
+        CAButton* button = CAButton::createWithFrame(DRect((m_winSize.width - (120)) / 2, (30), (120), (120)), CAButtonTypeCustom);
         if (button) {
             button->addTarget(this, CAControl_selector(MyStatusViewController::buttonCallBack), CAControlEventTouchUpInSide);
             button->setTag(400);
@@ -149,7 +149,7 @@ void MyStatusViewController::viewDidLoad()
             
             m_urlImageView = CommonUrlImageView::createWithImage(CAImage::create("common/head_bg.png"));
             if (m_urlImageView) {
-                m_urlImageView->setFrame(DRect(0, 0, _px(120), _px(120)));
+                m_urlImageView->setFrame(DRect(0, 0, (120), (120)));
                 m_urlImageView->setImageViewScaleType(CAImageViewScaleTypeFitImageCrop);
                 button->addSubview(m_urlImageView);
                 
@@ -157,7 +157,7 @@ void MyStatusViewController::viewDidLoad()
                 m_greenAmbIcon = CAImageView::createWithImage(CAImage::create("common/green_amb.png"));
                 if (m_greenAmbIcon) {
                     m_greenAmbIcon->setImageViewScaleType(CAImageViewScaleTypeFitImageCrop);
-                    m_greenAmbIcon->setFrame(DRect(80, 80, _px(40), _px(40)));
+                    m_greenAmbIcon->setFrame(DRect(80, 80, (40), (40)));
                     m_greenAmbIcon->setVisible(false);
                     m_urlImageView->addSubview(m_greenAmbIcon);
                 }
@@ -165,9 +165,9 @@ void MyStatusViewController::viewDidLoad()
         }
         
         // user name
-        m_nameLabel = CALabel::createWithFrame(DRect((m_winSize.width - _px(200)) / 2, _px(170), _px(200), _px(35)));
+        m_nameLabel = CALabel::createWithFrame(DRect((m_winSize.width - (200)) / 2, (170), (200), (35)));
         if (m_nameLabel) {
-            m_nameLabel->setFontSize(_px(30));
+            m_nameLabel->setFontSize((30));
             m_nameLabel->setColor(CAColor_white);
             m_nameLabel->setVerticalTextAlignmet(CAVerticalTextAlignmentCenter);
             m_nameLabel->setTextAlignment(CATextAlignmentCenter);
@@ -175,7 +175,7 @@ void MyStatusViewController::viewDidLoad()
         }
         
         // score history & rank list
-        m_pointSegmentView = FSegmentView::createWithFrame(DRect(0, _px(200), m_winSize.width, _px(100)), 2, 1);
+        m_pointSegmentView = FSegmentView::createWithFrame(DRect(0, (200), m_winSize.width, (100)), 2, 1);
         m_pointSegmentView->addTarget(this, CAControl_selector(MyStatusViewController::buttonCallBack), CAControlEventTouchUpInSide);
         m_pointSegmentView->setTag(300, 0);
         m_pointSegmentView->setTag(301, 1);
@@ -184,21 +184,21 @@ void MyStatusViewController::viewDidLoad()
 
         for (int i = 0; i < 2; i++)
         {
-            m_pointLabel[i] = CALabel::createWithFrame(DRect(i * m_winSize.width / 2, _px(200), m_winSize.width / 2, _px(60)));
+            m_pointLabel[i] = CALabel::createWithFrame(DRect(i * m_winSize.width / 2, (200), m_winSize.width / 2, (60)));
             if (m_pointLabel[i]) {
                 m_pointLabel[i]->setTextAlignment(CATextAlignmentCenter);
                 m_pointLabel[i]->setVerticalTextAlignmet(CAVerticalTextAlignmentCenter);
-                m_pointLabel[i]->setFontSize(_px(50));
+                m_pointLabel[i]->setFontSize((50));
                 m_pointLabel[i]->setTouchEnabled(false);
                 m_pointLabel[i]->setColor(CAColor_white);
                 m_pointView->addSubview(m_pointLabel[i]);
             }
             
-            m_rankLabel[i] = CALabel::createWithFrame(DRect(i * m_winSize.width / 2, _px(260), m_winSize.width / 2, _px(35)));
+            m_rankLabel[i] = CALabel::createWithFrame(DRect(i * m_winSize.width / 2, (260), m_winSize.width / 2, (35)));
             if (m_rankLabel[i]) {
                 m_rankLabel[i]->setTextAlignment(CATextAlignmentCenter);
                 m_rankLabel[i]->setVerticalTextAlignmet(CAVerticalTextAlignmentCenter);
-                m_rankLabel[i]->setFontSize(_px(30));
+                m_rankLabel[i]->setFontSize((30));
                 m_rankLabel[i]->setTouchEnabled(false);
                 m_rankLabel[i]->setColor(CAColor_white);
                 m_pointView->addSubview(m_rankLabel[i]);
@@ -261,13 +261,13 @@ void MyStatusViewController::initMsgTableView()
  
     if (m_msgTableView == NULL)
     {
-        m_msgTableView = CATableView::createWithFrame(DRect(0, _px(120), m_winSize.width, m_winSize.height - _px(120)));
+        m_msgTableView = CATableView::createWithFrame(DRect(0, (120), m_winSize.width, m_winSize.height - (120)));
         m_msgTableView->setTableViewDataSource(this);
         m_msgTableView->setTableViewDelegate(this);
         m_msgTableView->setScrollViewDelegate(this);
         m_msgTableView->setAllowsSelection(true);
         m_msgTableView->setSeparatorColor(ccc4(200, 200, 200, 80));
-        //m_msgTableView->setSeparatorViewHeight(_px(2));
+        //m_msgTableView->setSeparatorViewHeight((2));
         this->getView()->addSubview(m_msgTableView);
     }
 }
@@ -587,7 +587,7 @@ void MyStatusViewController::switchNavType()
                 m_filterMsg.push_back(&(*it));
             }
         }
-        m_msgTableView->setFrame(DRect(0, _px(120), m_winSize.width, m_winSize.height - _px(120)));
+        m_msgTableView->setFrame(DRect(0, (120), m_winSize.width, m_winSize.height - (120)));
         m_msgTableView->reloadData();
         */
     }
@@ -617,7 +617,7 @@ void MyStatusViewController::switchNavType()
              m_filterMsg.push_back(&(*it));
              }
              }
-             m_msgTableView->setFrame(DRect(0, _px(420), m_winSize.width, m_winSize.height - _px(420)));
+             m_msgTableView->setFrame(DRect(0, (420), m_winSize.width, m_winSize.height - (420)));
              m_msgTableView->reloadData();
              */
         } else if (m_pointType == MY_INFO_RANK) {
@@ -631,7 +631,7 @@ void MyStatusViewController::switchNavType()
             m_pointView->setVisible(true);
             m_searchButton->setVisible(false);
             m_pointButton->setVisible(true);
-            m_msgTableView->setFrame(DRect(0, _px(420), m_winSize.width, m_winSize.height - _px(420)));
+            m_msgTableView->setFrame(DRect(0, (420), m_winSize.width, m_winSize.height - (420)));
             m_msgTableView->reloadData();
              */
         }
@@ -660,24 +660,24 @@ void MyStatusViewController::showAlert()
     p_alertView = CAView::createWithFrame(this->getView()->getBounds());
     this->getView()->addSubview(p_alertView);
     
-    CAImageView* bg = CAImageView::createWithFrame(DRect(_px(0), _px(120), m_winSize.width, m_winSize.height - _px(120)));
+    CAImageView* bg = CAImageView::createWithFrame(DRect((0), (120), m_winSize.width, m_winSize.height - (120)));
     bg->setImageViewScaleType(CAImageViewScaleTypeFitImageCrop);
     bg->setImage(CAImage::create("common/bg.png"));
     
     CAButton* btn5 = CAButton::create(CAButtonTypeSquareRect);
     btn5->setTag(100);
-    btn5->setFrame(DRect(_px(0), _px(120), m_winSize.width, m_winSize.height - _px(120)));
+    btn5->setFrame(DRect((0), (120), m_winSize.width, m_winSize.height - (120)));
     btn5->setTitleColorForState(CAControlStateNormal, CAColor_white);
     btn5->setBackgroundViewForState(CAControlStateNormal, bg);
     btn5->setBackgroundViewForState(CAControlStateHighlighted, bg);
     btn5->addTarget(this, CAControl_selector(MyStatusViewController::buttonCallBack), CAControlEventTouchUpInSide);
     p_alertView->addSubview(btn5);
     
-    CALabel* test = CALabel::createWithCenter(DRect(m_winSize.width / 2, (m_winSize.height - _px(120)) / 2, m_winSize.width, m_winSize.height - _px(120)));
+    CALabel* test = CALabel::createWithCenter(DRect(m_winSize.width / 2, (m_winSize.height - (120)) / 2, m_winSize.width, m_winSize.height - (120)));
     test->setColor(CAColor_gray);
     test->setTextAlignment(CATextAlignmentCenter);
     test->setVerticalTextAlignmet(CAVerticalTextAlignmentCenter);
-    test->setFontSize(_px(24));
+    test->setFontSize((24));
     test->setText("Network cannot connect!");
     p_alertView->addSubview(test);
 
@@ -707,9 +707,9 @@ CATableViewCell* MyStatusViewController::tableCellAtIndex(CATableView* table, co
             cell = MainViewTableCell::create(crossapp_format_string("0%d", msg->m_sessionId), DRect(0, 0, _size.width, _size.height));
             ((MainViewTableCell*)cell)->initWithCell(*msg);
             /*
-            CALabel* label = CALabel::createWithFrame(DRect(_px(40), _px(10), m_winSize.width - _px(40) * 2, _px(30)));
+            CALabel* label = CALabel::createWithFrame(DRect((40), (10), m_winSize.width - (40) * 2, (30)));
             label->setText(msg->m_title);
-            label->setFontSize(_px(25));
+            label->setFontSize((25));
             label->setVerticalTextAlignmet(CAVerticalTextAlignmentCenter);
             label->setColor(ccc4(0x3f, 0x3f, 0x3f, 0xff));
             cell->addSubview(label);*/
@@ -724,15 +724,15 @@ CATableViewCell* MyStatusViewController::tableCellAtIndex(CATableView* table, co
                 /*
                  sessionMsg* msg = m_filterMsg[row];
                  cell = CATableViewCell::create("CrossApp1");
-                 CALabel* label = CALabel::createWithFrame(DRect(_px(40), _px(10), _px(300), _px(30)));
+                 CALabel* label = CALabel::createWithFrame(DRect((40), (10), (300), (30)));
                  label->setText(crossapp_format_string("+%d", msg->m_point));
-                 label->setFontSize(_px(25));
+                 label->setFontSize((25));
                  label->setVerticalTextAlignmet(CAVerticalTextAlignmentCenter);
                  label->setColor(ccc4(0x3f, 0x3f, 0x3f, 0xff));
                  cell->addSubview(label);
-                 label = CALabel::createWithFrame(DRect(_px(120), _px(10), m_winSize.width - _px(120) - _px(40), _px(30)));
+                 label = CALabel::createWithFrame(DRect((120), (10), m_winSize.width - (120) - (40), (30)));
                  label->setText(msg->m_title);
-                 label->setFontSize(_px(25));
+                 label->setFontSize((25));
                  label->setVerticalTextAlignmet(CAVerticalTextAlignmentCenter);
                  label->setColor(ccc4(0x3f, 0x3f, 0x3f, 0xff));
                  cell->addSubview(label);*/
@@ -745,10 +745,10 @@ CATableViewCell* MyStatusViewController::tableCellAtIndex(CATableView* table, co
                     //CCLog("%d", it.m_score);
                     //CCLog("%d", it.m_scoreType);
                     //CCLog("%s", it.m_scoreDetail.c_str());
-                CALabel* scorelabel = CALabel::createWithFrame(DRect(_px(40), _px(20), _px(300), _px(60)));
+                CALabel* scorelabel = CALabel::createWithFrame(DRect((40), (20), (300), (60)));
                 if (scorelabel) {
                     scorelabel->setText(crossapp_format_string("+%d", it.m_score));
-                    scorelabel->setFontSize(_px(30));
+                    scorelabel->setFontSize((30));
                     scorelabel->setVerticalTextAlignmet(CAVerticalTextAlignmentCenter);
                     scorelabel->setColor(ccc4(0x3f, 0x3f, 0x3f, 0xff));
                     cell->addSubview(scorelabel);
@@ -756,16 +756,16 @@ CATableViewCell* MyStatusViewController::tableCellAtIndex(CATableView* table, co
                 if (it.m_scoreType == 0 || it.m_scoreType == 6)
                 {
                     // show score reason
-                    CALabel* typelabel = CALabel::createWithFrame(DRect(_px(120), _px(10), m_winSize.width - _px(120) - _px(40), _px(30)));
+                    CALabel* typelabel = CALabel::createWithFrame(DRect((120), (10), m_winSize.width - (120) - (40), (30)));
                     if (typelabel) {
                         typelabel->setText(scoreType[it.m_scoreType]);
-                        typelabel->setFontSize(_px(25));
+                        typelabel->setFontSize((25));
                         typelabel->setVerticalTextAlignmet(CAVerticalTextAlignmentCenter);
                         typelabel->setColor(ccc4(0x3f, 0x3f, 0x3f, 0xff));
                         cell->addSubview(typelabel);
                     }
                     // show session title
-                    CALabel* detaillabel = CALabel::createWithFrame(DRect(_px(120), _px(60), m_winSize.width - _px(120) - _px(40), _px(30)));
+                    CALabel* detaillabel = CALabel::createWithFrame(DRect((120), (60), m_winSize.width - (120) - (40), (30)));
                     if (detaillabel) {
                         for (std::vector<sessionMsg>::iterator it = m_msg->begin(); it != m_msg->end(); it++) {
                             if (it->m_sessionId == sessionId) {
@@ -773,7 +773,7 @@ CATableViewCell* MyStatusViewController::tableCellAtIndex(CATableView* table, co
                                 break;
                             }
                         }
-                        detaillabel->setFontSize(_px(25));
+                        detaillabel->setFontSize((25));
                         detaillabel->setVerticalTextAlignmet(CAVerticalTextAlignmentCenter);
                         detaillabel->setColor(ccc4(0x3f, 0x3f, 0x3f, 0xff));
                         cell->addSubview(detaillabel);
@@ -782,10 +782,10 @@ CATableViewCell* MyStatusViewController::tableCellAtIndex(CATableView* table, co
                 else
                 {
                     // show score reason
-                    CALabel* typelabel = CALabel::createWithFrame(DRect(_px(120), _px(35), m_winSize.width - _px(120) - _px(40), _px(30)));
+                    CALabel* typelabel = CALabel::createWithFrame(DRect((120), (35), m_winSize.width - (120) - (40), (30)));
                     if (typelabel) {
                         typelabel->setText(scoreType[it.m_scoreType]);
-                        typelabel->setFontSize(_px(25));
+                        typelabel->setFontSize((25));
                         typelabel->setVerticalTextAlignmet(CAVerticalTextAlignmentCenter);
                         typelabel->setColor(ccc4(0x3f, 0x3f, 0x3f, 0xff));
                         cell->addSubview(typelabel);
@@ -802,8 +802,8 @@ CATableViewCell* MyStatusViewController::tableCellAtIndex(CATableView* table, co
                 cell = CATableViewCell::create(crossapp_format_string("2%d", m_rankMsg[row].m_userId));
                 //cell = CATableViewCell::create("rank");
                 CommonUrlImageView* urlImageView = CommonUrlImageView::createWithImage(CAImage::create("common/head_bg.png"));
-                //createWithFrame(DRect(_px(30), _px(40), _px(80), _px(80)));
-                urlImageView->setFrame(DRect(_px(140), _px(5), _px(40), _px(40)));
+                //createWithFrame(DRect((30), (40), (80), (80)));
+                urlImageView->setFrame(DRect((140), (5), (40), (40)));
                 urlImageView->setImageViewScaleType(CAImageViewScaleTypeFitImageCrop);
                 //urlImageView->setImage(CAImage::create("common/bg.png"));
                 urlImageView->setUrl(m_rankMsg[row].m_imageUrl);
@@ -814,28 +814,28 @@ CATableViewCell* MyStatusViewController::tableCellAtIndex(CATableView* table, co
                 if (m_rankMsg[row].m_greenAmb) {
                     CAImageView* greenAmbIcon = CAImageView::createWithImage(CAImage::create("common/green_amb.png"));
                     greenAmbIcon->setImageViewScaleType(CAImageViewScaleTypeFitImageCrop);
-                    greenAmbIcon->setFrame(DRect(25, 25, _px(20), _px(20)));
+                    greenAmbIcon->setFrame(DRect(25, 25, (20), (20)));
                     greenAmbIcon->setVisible(true);
                     urlImageView->addSubview(greenAmbIcon);
                 }
                 
-                CALabel* label = CALabel::createWithFrame(DRect(_px(200), _px(10), _px(300), _px(30)));
+                CALabel* label = CALabel::createWithFrame(DRect((200), (10), (300), (30)));
                 label->setText(m_rankMsg[row].m_userName);
-                label->setFontSize(_px(25));
+                label->setFontSize((25));
                 label->setVerticalTextAlignmet(CAVerticalTextAlignmentCenter);
                 label->setColor(ccc4(0x3f, 0x3f, 0x3f, 0xff));
                 cell->addSubview(label);
                 
-                label = CALabel::createWithFrame(DRect(m_winSize.width * 0.75, _px(10), _px(300), _px(30)));
+                label = CALabel::createWithFrame(DRect(m_winSize.width * 0.75, (10), (300), (30)));
                 label->setText(crossapp_format_string("%d", m_rankMsg[row].m_point));
-                label->setFontSize(_px(25));
+                label->setFontSize((25));
                 label->setVerticalTextAlignmet(CAVerticalTextAlignmentCenter);
                 label->setColor(ccc4(0x3f, 0x3f, 0x3f, 0xff));
                 cell->addSubview(label);
                 
-                label = CALabel::createWithFrame(DRect(_px(60), _px(10), _px(300), _px(30)));
+                label = CALabel::createWithFrame(DRect((60), (10), (300), (30)));
                 label->setText(crossapp_format_string("%d", m_rankMsg[row].m_pointRank));
-                label->setFontSize(_px(25));
+                label->setFontSize((25));
                 label->setBold(true);
                 label->setVerticalTextAlignmet(CAVerticalTextAlignmentCenter);
                 label->setColor(ccc4(0x0f, 0xaa, 0xff, 0xff));//CAColor_blue);//(ccc4(0x3f, 0x3f, 0x3f, 0xff));
@@ -858,11 +858,11 @@ CAView* MyStatusViewController::tableViewSectionViewForHeaderInSection(CATableVi
     {
         view = CAView::createWithColor(ccc4(0xf3, 0xf3, 0xf3, 0xf3));
         
-        CALabel* label = CALabel::createWithFrame(DRect(_px(40), _px(0), _px(300), _px(50)));
+        CALabel* label = CALabel::createWithFrame(DRect((40), (0), (300), (50)));
         int hour = m_rowNumOfSection[section].hour;
         label->setText(crossapp_format_string("%02d:00 - %02d:00", hour, hour + 1));
         CCLog("head %d %d", section, hour);
-        label->setFontSize(_px(25));
+        label->setFontSize((25));
         label->setColor(ccc4(0, 0xa8, 0xfc, 0xff));
         label->setVerticalTextAlignmet(CAVerticalTextAlignmentCenter);
         view->addSubview(label);
@@ -949,7 +949,7 @@ unsigned int MyStatusViewController::tableViewHeightForHeaderInSection(CATableVi
     int hight = 0;
     if (table == m_myCalanderView)
     {
-        hight = _px(50);
+        hight = (50);
     }
     return hight;
 }
@@ -957,20 +957,20 @@ unsigned int MyStatusViewController::tableViewHeightForHeaderInSection(CATableVi
 unsigned int MyStatusViewController::tableViewHeightForRowAtIndexPath(CATableView* table, unsigned int section, unsigned int row)
 {
     if (table == m_myCalanderView) {
-        return _px(240);
+        return (240);
     }
     else if (table == m_msgTableView)
     {
         if (m_pointType == MY_INFO_SCORE_HISTORY)
         {
-            return _px(100);
+            return (100);
         }
         else if (m_pointType == MY_INFO_RANK)
         {
-            return _px(50);
+            return (50);
         }
     }
-	return _px(50);
+	return (50);
 }
 
 void MyStatusViewController::tableViewDidSelectRowAtIndexPath(CATableView* table, unsigned int section, unsigned int row)

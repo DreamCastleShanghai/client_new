@@ -21,41 +21,41 @@ void IconUploadViewController::viewDidLoad()
     m_winSize = this->getView()->getBounds().size;
     
     CAScale9ImageView* sView = CAScale9ImageView::createWithImage(CAImage::create("common/sky_bg.png"));
-    sView->setFrame(DRect(_px(0), _px(0), m_winSize.width, _px(120)));
+    sView->setFrame(DRect((0), (0), m_winSize.width, (120)));
     this->getView()->addSubview(sView);
     
-    CAButton* button = CAButton::createWithFrame(DRect(_px(0), _px(20), _px(100), _px(100)), CAButtonTypeCustom);
+    CAButton* button = CAButton::createWithFrame(DRect((0), (20), (100), (100)), CAButtonTypeCustom);
     CAImageView* imageView = CAImageView::createWithImage(CAImage::create("common/nav_back.png"));
     imageView->setImageViewScaleType(CAImageViewScaleTypeFitImageXY);
-    imageView->setFrame(DRect(_px(20), _px(20), _px(80), _px(80)));
+    imageView->setFrame(DRect((20), (20), (80), (80)));
     button->setBackgroundViewForState(CAControlStateAll, imageView);
     button->addTarget(this, CAControl_selector(IconUploadViewController::buttonCallBack), CAControlEventTouchUpInSide);
     button->setTag(20);
     this->getView()->addSubview(button);
     
-    button = CAButton::createWithFrame(DRect(m_winSize.width - _px(140), _px(20), _px(100), _px(100)), CAButtonTypeCustom);
+    button = CAButton::createWithFrame(DRect(m_winSize.width - (140), (20), (100), (100)), CAButtonTypeCustom);
     imageView = CAImageView::createWithImage(CAImage::create("common/nav_album.png"));
     imageView->setImageViewScaleType(CAImageViewScaleTypeFitImageXY);
-    imageView->setFrame(DRect(_px(20), _px(20), _px(80), _px(80)));
+    imageView->setFrame(DRect((20), (20), (80), (80)));
     button->setBackgroundViewForState(CAControlStateAll, imageView);
     button->addTarget(this, CAControl_selector(IconUploadViewController::buttonCallBack), CAControlEventTouchUpInSide);
     button->setTag(30);
     this->getView()->addSubview(button);
     
-    CALabel* label = CALabel::createWithCenter(DRect(m_winSize.width / 2, _px(70), m_winSize.width, _px(50)));
+    CALabel* label = CALabel::createWithCenter(DRect(m_winSize.width / 2, (70), m_winSize.width, (50)));
     label->setTextAlignment(CATextAlignmentCenter);
     label->setColor(CAColor_white);
-    label->setFontSize(_px(40));
+    label->setFontSize((40));
     label->setText("Photo");
     label->setFontName("fonts/arial.ttf");
     sView->addSubview(label);
 
     
     ///////////////////
-    button = CAButton::createWithFrame(DRect(m_winSize.width - _px(140), _px(20), _px(100), _px(100)), CAButtonTypeCustom);
+    button = CAButton::createWithFrame(DRect(m_winSize.width - (140), (20), (100), (100)), CAButtonTypeCustom);
     imageView = CAImageView::createWithImage(CAImage::create("common/nav_album.png"));
     imageView->setImageViewScaleType(CAImageViewScaleTypeFitImageXY);
-    imageView->setFrame(DRect(_px(20), _px(20), _px(80), _px(80)));
+    imageView->setFrame(DRect((20), (20), (80), (80)));
     button->setBackgroundViewForState(CAControlStateAll, imageView);
     button->addTarget(this, CAControl_selector(IconUploadViewController::buttonCallBack), CAControlEventTouchUpInSide);
     button->setTag(30);
@@ -77,7 +77,7 @@ void IconUploadViewController::buttonCallBack(CAControl* btn, DPoint point)
     if(btn->getTag()==2) {
         DSize winSize = m_winSize;
         m_clvImage->setClippingEnabled(true);
-        CARenderImage* rm = CARenderImage::create(_px(winSize.width-100), _px(winSize.width-100));
+        CARenderImage* rm = CARenderImage::create((winSize.width-100), (winSize.width-100));
         rm->printscreenWithView(m_clvImage);
         
         renderImage = CAView::createWithFrame(DRect(50,winSize.height/4,winSize.width-100,winSize.width-100));
@@ -163,7 +163,7 @@ CADrawView* IconUploadViewController::getStencil(const DSize& size, int index)
 
 void IconUploadViewController::getSelectedImage(CAImage *image)
 {
-    DSize winSize = DSize(m_winSize.width, m_winSize.height - _px(120));
+    DSize winSize = DSize(m_winSize.width, m_winSize.height - (120));
     DRect scrollRect;
     scrollRect.origin.x = 50;
     scrollRect.origin.y = winSize.height/4;
@@ -214,7 +214,7 @@ void IconUploadViewController::getSelectedImage(CAImage *image)
     this->getView()->addSubview(m_clv);
     
     DRect ivRect;
-	ivRect.size = DSize(m_winSize.width, winSize.height - _px(120));
+	ivRect.size = DSize(m_winSize.width, winSize.height - (120));
     ivRect.origin = ccpMult(scrollRect.origin, -1);
     CAView* iv = CAView::createWithColor(ccc4(0,0,0,128));
     iv->setFrame(ivRect);

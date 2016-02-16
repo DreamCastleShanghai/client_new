@@ -26,7 +26,7 @@ void LoginViewController::viewDidLoad()
     m_winSize = this->getView()->getBounds().size;
     int iw = 0, ih = 0;
     int offY = m_winSize.height / 2;
-    int offW = _px(240);
+    int offW = (240);
     
     CAImageView* imageView = CAImageView::createWithImage(CAImage::create("login/login_bg.jpg"));
     if (imageView) {
@@ -35,7 +35,7 @@ void LoginViewController::viewDidLoad()
         this->getView()->addSubview(imageView);
     }
 	
-    CAImageView* logoView = CAImageView::createWithCenter(DRect(m_winSize.width / 2, _px(200), _px(512), _px(151)));
+    CAImageView* logoView = CAImageView::createWithCenter(DRect(m_winSize.width / 2, (200), (512), (151)));
     if (logoView) {
         logoView->setImage(CAImage::create("login/login_logo.png"));
         logoView->setImageViewScaleType(CAImageViewScaleTypeFitImageXY);
@@ -43,22 +43,22 @@ void LoginViewController::viewDidLoad()
     }
     
     
-    CAView* loginView = CAView::createWithCenter(DRect(m_winSize.width / 2, offY, m_winSize.width - _px(80), offW));
+    CAView* loginView = CAView::createWithCenter(DRect(m_winSize.width / 2, offY, m_winSize.width - (80), offW));
     loginView->setColor(CAColor_white);
     
-    iw = _px(50);
-    ih = _px(50);
+    iw = (50);
+    ih = (50);
 	imageView = CAImageView::createWithImage(CAImage::create("login/login_name.png"));
 	imageView->setImageViewScaleType(CAImageViewScaleTypeFitImageCrop);
-	imageView->setFrame(DRect(_px(10), _px(10), iw, ih));
+	imageView->setFrame(DRect((10), (10), iw, ih));
 	loginView->addSubview(imageView);
 
 	imageView = CAImageView::createWithImage(CAImage::create("login/login_passwd.png"));
 	imageView->setImageViewScaleType(CAImageViewScaleTypeFitImageCrop);
-	imageView->setFrame(DRect(_px(10), _px(90), iw, ih));
+	imageView->setFrame(DRect((10), (90), iw, ih));
 	loginView->addSubview(imageView);
 
-	m_pAccount = CATextField::createWithFrame(DRect(_px(80), _px(0), m_winSize.width - _px(170), _px(80)));
+	m_pAccount = CATextField::createWithFrame(DRect((80), (0), m_winSize.width - (170), (80)));
 	m_pAccount->setTextColor(CAColor_black);
     /*
 	m_pAccount->setPlaceHolder("Username");
@@ -68,7 +68,7 @@ void LoginViewController::viewDidLoad()
     m_pAccount->setBackgroundView(CAScale9ImageView::createWithImage(CAImage::create("common/white_bg.png")));
 	loginView->addSubview(m_pAccount);
 
-	m_pPassword = CATextField::createWithFrame(DRect(_px(80), _px(80), m_winSize.width - _px(170), _px(80)));
+	m_pPassword = CATextField::createWithFrame(DRect((80), (80), m_winSize.width - (170), (80)));
     m_pPassword->setBackgroundView(CAScale9ImageView::createWithImage(CAImage::create("common/white_bg.png")));
 	m_pPassword->setPlaceHolder("Password");
     m_pPassword->setFontName(SAP_FONT_ARIAL);
@@ -81,7 +81,7 @@ void LoginViewController::viewDidLoad()
     m_pAccount->setBackgroundImage(CAImage::create("common/white_bg.png"));
 	loginView->addSubview(m_pAccount);
 
-	m_pPassword = CATextField::createWithFrame(DRect(_px(80), _px(80), m_winSize.width - _px(170), _px(80)));
+	m_pPassword = CATextField::createWithFrame(DRect((80), (80), m_winSize.width - (170), (80)));
     //m_pPassword->setKeyboardType(CATextField::KeyboardTypeNumbersAndPunctuation);
     m_pPassword->setReturnType(CATextField::Next);
     m_pPassword->setBackgroundImage(CAImage::create("common/white_bg.png"));
@@ -91,11 +91,11 @@ void LoginViewController::viewDidLoad()
 	loginView->addSubview(m_pPassword);
 
     CAScale9ImageView* sView = CAScale9ImageView::createWithImage(CAImage::create("common/gray_bg.png"));
-    sView->setFrame(DRect(_px(0), _px(80), m_winSize.width - _px(80), _px(1)));
+    sView->setFrame(DRect((0), (80), m_winSize.width - (80), (1)));
     sView->setColor(ccc4(255, 255, 255, 128));
     loginView->addSubview(sView);
     
-	CAButton* button = CAButton::createWithFrame(DRect(_px(0), _px(160), m_winSize.width - _px(80), _px(80)), CAButtonTypeCustom);
+	CAButton* button = CAButton::createWithFrame(DRect((0), (160), m_winSize.width - (80), (80)), CAButtonTypeCustom);
 	button->setTitleForState(CAControlStateAll, "Log In");
 	button->setTitleFontName(SAP_FONT_ARIAL);
 	button->setTitleColorForState(CAControlStateAll, CAColor_white);
@@ -106,18 +106,18 @@ void LoginViewController::viewDidLoad()
     
 	this->getView()->addSubview(loginView);
 
-    offY = m_winSize.height / 2 + _px(200);
-    offW = _px(80);
-    CALabel* label = CALabel::createWithFrame(DRect(m_winSize.width - _px(500), offY, m_winSize.width, offW));
+    offY = m_winSize.height / 2 + (200);
+    offW = (80);
+    CALabel* label = CALabel::createWithFrame(DRect(m_winSize.width - (500), offY, m_winSize.width, offW));
     label->setText("Forget Registration Code?");
     label->setColor(CAColor_white);
     label->setFontName(SAP_FONT_ARIAL);
-    label->setFontSize(_px(24));
+    label->setFontSize((24));
     label->setTextAlignment(CATextAlignmentCenter);
     label->setUnderLine(true);
     this->getView()->addSubview(label);
     
-	button = CAButton::createWithFrame(DRect(m_winSize.width - _px(500), offY, m_winSize.width, offW), CAButtonTypeCustom);
+	button = CAButton::createWithFrame(DRect(m_winSize.width - (500), offY, m_winSize.width, offW), CAButtonTypeCustom);
 	button->setTag(200);
 	button->addTarget(this, CAControl_selector(LoginViewController::btnCallBack), CAControlEventTouchUpInSide);
 	this->getView()->addSubview(button);

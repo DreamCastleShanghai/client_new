@@ -30,7 +30,7 @@ void MomentsDetailViewController::viewDidLoad()
     // Do any additional setup after loading the view from its nib.
     m_winSize = this->getView()->getBounds().size;
 
-    //m_view = CAView::createWithFrame(DRect(0, _px(120), m_winSize.width, m_winSize.height - _px(120)));
+    //m_view = CAView::createWithFrame(DRect(0, (120), m_winSize.width, m_winSize.height - (120)));
     //this->getView()->addSubview(m_view);
     
     m_scrollView= CAScrollView::createWithFrame(DRect(0, 0,m_winSize.width,m_winSize.height));
@@ -54,12 +54,12 @@ void MomentsDetailViewController::viewDidLoad()
     
     if (m_type == 0)
     {
-        CAView* view = CAView::createWithFrame(DRect(0, m_winSize.height - _px(120), m_winSize.width, _px(120)));
+        CAView* view = CAView::createWithFrame(DRect(0, m_winSize.height - (120), m_winSize.width, (120)));
         view->setColor(ccc4(0, 0, 0, 100));
         this->getView()->addSubview(view);
         
         CommonUrlImageView* temImage = CommonUrlImageView::createWithImage(CAImage::create("common/bg.png"));
-        temImage->setFrame(DRect(_px(40), _px(20), _px(80), _px(80)));
+        temImage->setFrame(DRect((40), (20), (80), (80)));
         //CommonUrlImageView::createWithFrame(DRect(0, 0, _size.width, _size.height));
         temImage->setImageViewScaleType(CAImageViewScaleTypeFitImageInside);
         //temImage->setImage(CAImage::create("common/bg.png"));
@@ -67,26 +67,26 @@ void MomentsDetailViewController::viewDidLoad()
         temImage->setTouchEnabled(false);
         view->addSubview(temImage);
         
-        CALabel* label = CALabel::createWithFrame(DRect(_px(140), _px(20), m_winSize.width - _px(140), _px(35)));
+        CALabel* label = CALabel::createWithFrame(DRect((140), (20), m_winSize.width - (140), (35)));
         label->setTextAlignment(CATextAlignmentLeft);
         label->setColor(SAP_DEFAULT_COLOR);
-        label->setFontSize(_px(30));
+        label->setFontSize((30));
         label->setText(m_msg->name);
         label->setFontName(SAP_FONT_ARIAL);
         view->addSubview(label);
         
-        label = CALabel::createWithFrame(DRect(_px(140), _px(60), m_winSize.width - _px(140), _px(30)));
+        label = CALabel::createWithFrame(DRect((140), (60), m_winSize.width - (140), (30)));
         label->setTextAlignment(CATextAlignmentLeft);
         label->setColor(CAColor_white);
-        label->setFontSize(_px(25));
+        label->setFontSize((25));
         label->setText(crossapp_format_string("#%s", m_msg->caterory.c_str()));
         label->setFontName(SAP_FONT_ARIAL);
         view->addSubview(label);
         
-        CAButton* button = CAButton::createWithFrame(DRect(m_winSize.width - _px(160), _px(40), _px(50), _px(50)), CAButtonTypeCustom);
+        CAButton* button = CAButton::createWithFrame(DRect(m_winSize.width - (160), (40), (50), (50)), CAButtonTypeCustom);
         m_likeBtnImage = CAImageView::createWithImage(CAImage::create("common/btn_like.png"));
         m_likeBtnImage->setImageViewScaleType(CAImageViewScaleTypeFitImageXY);
-        m_likeBtnImage->setFrame(DRect(_px(20), _px(20), _px(80), _px(80)));
+        m_likeBtnImage->setFrame(DRect((20), (20), (80), (80)));
         button->setBackgroundViewForState(CAControlStateAll, m_likeBtnImage);
         button->addTarget(this, CAControl_selector(MomentsDetailViewController::buttonCallBack), CAControlEventTouchUpInSide);
         button->setTag(300);
@@ -102,20 +102,20 @@ void MomentsDetailViewController::viewDidLoad()
             m_likeBtnImage->setImage(CAImage::create("common/btn_like.png"));
         }
         
-        m_likeNumLabel = CALabel::createWithFrame(DRect(m_winSize.width - _px(100), _px(50), _px(200), _px(30)));
+        m_likeNumLabel = CALabel::createWithFrame(DRect(m_winSize.width - (100), (50), (200), (30)));
         m_likeNumLabel->setTextAlignment(CATextAlignmentLeft);
         m_likeNumLabel->setColor(CAColor_white);
-        m_likeNumLabel->setFontSize(_px(25));
+        m_likeNumLabel->setFontSize((25));
         m_likeNumLabel->setText(crossapp_format_string("%d", m_msg->likeNum));
         m_likeNumLabel->setFontName(SAP_FONT_ARIAL);
         view->addSubview(m_likeNumLabel);
     }
 
     
-    CAButton* button = CAButton::createWithFrame(DRect(_px(0), _px(20), _px(100), _px(100)), CAButtonTypeCustom);
+    CAButton* button = CAButton::createWithFrame(DRect((0), (20), (100), (100)), CAButtonTypeCustom);
     CAImageView* imageView = CAImageView::createWithImage(CAImage::create("common/nav_back.png"));
     imageView->setImageViewScaleType(CAImageViewScaleTypeFitImageXY);
-    imageView->setFrame(DRect(_px(20), _px(20), _px(80), _px(80)));
+    imageView->setFrame(DRect((20), (20), (80), (80)));
     button->setBackgroundViewForState(CAControlStateAll, imageView);
     button->addTarget(this, CAControl_selector(MomentsDetailViewController::buttonCallBack), CAControlEventTouchUpInSide);
     button->setTag(20);

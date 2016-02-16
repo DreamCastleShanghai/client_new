@@ -27,28 +27,28 @@ void PhotoViewController::viewDidLoad()
     
     
     m_photoView = CAScale9ImageView::createWithImage(CAImage::create("common/black_bg.png"));
-    m_photoView->setFrame(DRect(_px(0), _px(0), m_winSize.width, m_winSize.height));
+    m_photoView->setFrame(DRect((0), (0), m_winSize.width, m_winSize.height));
     this->getView()->addSubview(m_photoView);
     m_photoView->setVisible(false);
     
     m_basicView = CAScale9ImageView::createWithImage(CAImage::create("common/white_bg.png"));
-    m_basicView->setFrame(DRect(_px(0), _px(0), m_winSize.width, m_winSize.height));
+    m_basicView->setFrame(DRect((0), (0), m_winSize.width, m_winSize.height));
     this->getView()->addSubview(m_basicView);
     
     CAScale9ImageView* sView = CAScale9ImageView::createWithImage(CAImage::create("common/sky_bg.png"));
-    sView->setFrame(DRect(_px(0), _px(0), m_winSize.width, _px(120)));
+    sView->setFrame(DRect((0), (0), m_winSize.width, (120)));
     m_basicView->addSubview(sView);
     
-    CAButton* button = CAButton::createWithFrame(DRect(_px(0), _px(20), _px(100), _px(100)), CAButtonTypeCustom);
+    CAButton* button = CAButton::createWithFrame(DRect((0), (20), (100), (100)), CAButtonTypeCustom);
     CAImageView* imageView = CAImageView::createWithImage(CAImage::create("common/nav_back.png"));
     imageView->setImageViewScaleType(CAImageViewScaleTypeFitImageXY);
-    imageView->setFrame(DRect(_px(20), _px(20), _px(80), _px(80)));
+    imageView->setFrame(DRect((20), (20), (80), (80)));
     button->setBackgroundViewForState(CAControlStateAll, imageView);
     button->addTarget(this, CAControl_selector(PhotoViewController::buttonCallBack), CAControlEventTouchUpInSide);
     button->setTag(20);
     sView->addSubview(button);
     
-    CALabel* label = CALabel::createWithCenter(DRect(m_winSize.width / 2, _px(70), m_winSize.width, _px(50)));
+    CALabel* label = CALabel::createWithCenter(DRect(m_winSize.width / 2, (70), m_winSize.width, (50)));
     label->setTextAlignment(CATextAlignmentCenter);
     label->setColor(CAColor_white);
     label->setFontSize(SAP_TITLE_FONT_SIZE);
@@ -58,25 +58,25 @@ void PhotoViewController::viewDidLoad()
     sView->addSubview(label);
     
     ///////////////////
-    button = CAButton::createWithFrame(DRect(_px(40), _px(160), _px(200), _px(200)), CAButtonTypeCustom);
+    button = CAButton::createWithFrame(DRect((40), (160), (200), (200)), CAButtonTypeCustom);
     sView = CAScale9ImageView::createWithImage(CAImage::create("common/gray_bg.png"));
-    sView->setFrame(DRect(_px(0), _px(0), _px(200), _px(200)));
+    sView->setFrame(DRect((0), (0), (200), (200)));
     button->addSubview(sView);
     imageView = CAImageView::createWithImage(CAImage::create("moments/upload_icon.png"));
     imageView->setImageViewScaleType(CAImageViewScaleTypeFitImageInside);
-    imageView->setFrame(DRect(_px(50), _px(50), _px(100), _px(100)));
+    imageView->setFrame(DRect((50), (50), (100), (100)));
     button->addSubview(imageView);
     button->addTarget(this, CAControl_selector(PhotoViewController::buttonCallBack), CAControlEventTouchUpInSide);
     button->setTag(200);
     m_basicView->addSubview(button);
 
-    button = CAButton::createWithFrame(DRect(_px(280), _px(160), _px(200), _px(200)), CAButtonTypeCustom);
+    button = CAButton::createWithFrame(DRect((280), (160), (200), (200)), CAButtonTypeCustom);
     sView = CAScale9ImageView::createWithImage(CAImage::create("common/gray_bg.png"));
-    sView->setFrame(DRect(_px(0), _px(0), _px(200), _px(200)));
+    sView->setFrame(DRect((0), (0), (200), (200)));
     button->addSubview(sView);
     imageView = CAImageView::createWithImage(CAImage::create("moments/album.png"));
     imageView->setImageViewScaleType(CAImageViewScaleTypeFitImageInside);
-    imageView->setFrame(DRect(_px(50), _px(50), _px(100), _px(100)));
+    imageView->setFrame(DRect((50), (50), (100), (100)));
     button->addSubview(imageView);
     button->setColor(CAColor_magenta);
     button->addTarget(this, CAControl_selector(PhotoViewController::buttonCallBack), CAControlEventTouchUpInSide);
@@ -138,17 +138,17 @@ void PhotoViewController::buttonCallBack(CAControl* btn, DPoint point)
             m_pScrollView->setVerticalScrollEnabled(false);
             
             DSize winSize = m_winSize;
-            //m_clv->setAlphaThreshold(1.f);
+            m_clv->setAlphaThreshold(1.f);
             //m_clv->setClippingEnabled(true);
             //m_photoView->removeSubview(m_clv);
-            //m_clv->setVisible(false);
+            m_clv->setVisible(false);
             
-            //m_clvImage->setAlphaThreshold(0.5f);
-            //m_clvImage->setClippingEnabled(true);
-            //m_clvImage->visit();
+            m_clvImage->setAlphaThreshold(0.5f);
+            m_clvImage->setClippingEnabled(true);
+            m_clvImage->visit();
             
-            int w = _px(120);
-            int h = _px(120);
+            int w = (120);
+            int h = (120);
             CARenderImage* rm = CARenderImage::create(m_winSize.width - 100, m_winSize.width - 100);
             rm->printscreenWithView(m_clvImage, CAColor_black);
             
@@ -264,7 +264,7 @@ void PhotoViewController::onRequestFinished(const HttpResponseStatus& status, co
         {
             if (m_type == 0)
             {
-                //m_clv->setVisible(true);
+                m_clv->setVisible(true);
                 m_clvImage->setClippingEnabled(false);
             }
             
@@ -275,7 +275,7 @@ void PhotoViewController::onRequestFinished(const HttpResponseStatus& status, co
     {
         if (m_type == 0)
         {
-            //m_clv->setVisible(true);
+            m_clv->setVisible(true);
             m_clvImage->setClippingEnabled(false);
         }
         
@@ -296,8 +296,8 @@ void PhotoViewController::requestPhotoSubmit(std::string fullPath)
     key_value["ptype"] = "png";
     CommonHttpManager::getInstance()->send_postFile(httpUrl, key_value, fullPath, this, CommonHttpJson_selector(PhotoViewController::onRequestFinished));
     {
-        DRect r(m_winSize.width / 2, (m_winSize.height - _px(120)) / 2 + _px(120),
-                m_winSize.width, m_winSize.height - _px(120));
+        DRect r(m_winSize.width / 2, (m_winSize.height - (120)) / 2 + (120),
+                m_winSize.width, m_winSize.height - (120));
         p_pLoading = CAActivityIndicatorView::createWithCenter(r);
         p_pLoading->setLoadingMinTime(0.5f);
         this->getView()->insertSubview(p_pLoading, CAWindowZOderTop);
@@ -356,8 +356,7 @@ void PhotoViewController::getSelectedImage(CAImage *image)
         m_clvImage->setStencil(getStencil(scrollRect.size, 1));
         m_clvImage->setFrame(scrollRect);
         m_clvImage->setInverted(false);
-        //m_clvImage->setAlphaThreshold(0.5f);
-        m_clvImage->setClippingEnabled(true);
+        m_clvImage->setClippingEnabled(false);
         m_photoView->addSubview(m_clvImage);
         
         float temp_mini = 0;
@@ -386,9 +385,9 @@ void PhotoViewController::getSelectedImage(CAImage *image)
         imv->setImage(image);
         imv->setImageViewScaleType(CAImageViewScaleTypeFitImageInside);
         m_pScrollView->addSubview(imv);
-/*
+
         m_clv = CAClippingView::create();
-        m_clv->setStencil(getStencil(scrollRect.size, 0));
+        m_clv->setStencil(getStencil(scrollRect.size, 1));
         m_clv->setFrame(scrollRect);
         m_clv->setInverted(true);
         m_clv->setTouchEnabled(false);
@@ -400,7 +399,6 @@ void PhotoViewController::getSelectedImage(CAImage *image)
         CAView* iv = CAView::createWithColor(ccc4(0,0,0,128));
         iv->setFrame(ivRect);
         m_clv->addSubview(iv);
-        *///
     }
     else
     {
@@ -408,13 +406,13 @@ void PhotoViewController::getSelectedImage(CAImage *image)
         int h = image->getPixelsHigh();
         if (w * 9 > h * 16)
         {
-            h = h * _px(640) / w;
-            w = _px(640);
+            h = h * (640) / w;
+            w = (640);
         }
         else
         {
-            w = w * _px(360) / h;
-            h = _px(360);
+            w = w * (360) / h;
+            h = (360);
         }
         
         m_getImage = CAImage::scaleToNewImageWithImage(image, DSize(w, h));
@@ -424,26 +422,26 @@ void PhotoViewController::getSelectedImage(CAImage *image)
         m_photoView->addSubview(iView);
     }
 
-    CAButton* button = CAButton::createWithFrame(DRect(_px(80),  m_winSize.height -  _px(200), _px(200), _px(60)), CAButtonTypeCustom);
+    CAButton* button = CAButton::createWithFrame(DRect((80),  m_winSize.height -  (200), (200), (60)), CAButtonTypeCustom);
     button->setTitleForState(CAControlStateAll, "Select");
     button->setTitleFontName(SAP_FONT_ARIAL);
-    button->setTitleFontSize(_px(40));
+    button->setTitleFontSize((40));
     button->setTitleColorForState(CAControlStateAll, CAColor_white);
     CAScale9ImageView* sView = CAScale9ImageView::createWithImage(CAImage::create("common/gray_bg.png"));
-    sView->setFrame(DRect(_px(0), _px(0), _px(200), _px(60)));
+    sView->setFrame(DRect((0), (0), (200), (60)));
     //button->addSubview(sView);
     //button->setBackgroundViewForState(CAControlStateAll, CAScale9ImageView::createWithImage(CAImage::create("common/gray_bg.png")));
     button->setTag(400);
     button->addTarget(this, CAControl_selector(PhotoViewController::buttonCallBack), CAControlEventTouchUpInSide);
     m_photoView->addSubview(button);
     
-    button = CAButton::createWithFrame(DRect(m_winSize.width - _px(280),  m_winSize.height -  _px(200), _px(200), _px(60)), CAButtonTypeCustom);
+    button = CAButton::createWithFrame(DRect(m_winSize.width - (280),  m_winSize.height -  (200), (200), (60)), CAButtonTypeCustom);
     button->setTitleForState(CAControlStateAll, "Cancel");
     button->setTitleFontName(SAP_FONT_ARIAL);
-    button->setTitleFontSize(_px(40));
+    button->setTitleFontSize((40));
     button->setTitleColorForState(CAControlStateAll, CAColor_white);
     sView = CAScale9ImageView::createWithImage(CAImage::create("common/gray_bg.png"));
-    sView->setFrame(DRect(_px(0), _px(0), _px(200), _px(60)));
+    sView->setFrame(DRect((0), (0), (200), (60)));
     //button->addSubview(sView);
     //button->setBackgroundViewForState(CAControlStateAll, CAScale9ImageView::createWithImage(CAImage::create("common/gray_bg.png")));
     button->setTag(500);
@@ -453,26 +451,26 @@ void PhotoViewController::getSelectedImage(CAImage *image)
     // moments photo tag
     if (m_type == 1)
     {
-        m_filterButton = CAButton::createWithFrame(DRect(0, _px(30), m_winSize.width, _px(100)), CAButtonTypeCustom);
+        m_filterButton = CAButton::createWithFrame(DRect(0, (30), m_winSize.width, (100)), CAButtonTypeCustom);
         m_filterButton->setTitleForState(CAControlStateAll, "Tag");
-        m_filterButton->setTitleFontSize(_px(40));
+        m_filterButton->setTitleFontSize((40));
         m_filterButton->setTitleColorForState(CAControlStateAll, CAColor_white);
         m_filterButton->addTarget(this, CAControl_selector(PhotoViewController::buttonCallBack), CAControlEventTouchUpInSide);
         m_filterButton->setTag(600);
         m_photoView->addSubview(m_filterButton);
         
-        m_filterView = CAView::createWithFrame(DRect((m_winSize.width - _px(200)) / 2, _px(100), _px(240), _px(80) * (MOMENTSFILTERNUM - 1)));
+        m_filterView = CAView::createWithFrame(DRect((m_winSize.width - (200)) / 2, (100), (240), (80) * (MOMENTSFILTERNUM - 1)));
         m_filterView->setColor(ccc4(0, 0, 0, 128));
         this->getView()->addSubview(m_filterView);
         m_filterView->setVisible(false);
         
         for (int i = 1; i < MOMENTSFILTERNUM; i++)// filterMoments
         {
-            button = CAButton::createWithFrame(DRect(_px(0), _px(80) * (i - 1), _px(240), _px(80)), CAButtonTypeCustom);
+            button = CAButton::createWithFrame(DRect((0), (80) * (i - 1), (240), (80)), CAButtonTypeCustom);
             button->addTarget(this, CAControl_selector(PhotoViewController::buttonCallBack), CAControlEventTouchUpInSide);
             button->setTextTag(filterMoments[i]);
             button->setTitleForState(CAControlStateAll, crossapp_format_string("#%s", filterMoments[i]));
-            button->setTitleFontSize(_px(27));
+            button->setTitleFontSize((27));
             button->setTitleColorForState(CAControlStateAll, CAColor_white);
             m_filterView->addSubview(button);
         }

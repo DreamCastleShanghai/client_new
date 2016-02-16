@@ -145,12 +145,12 @@ void MainViewController::viewDidLoad()
     // header
     CAScale9ImageView* header = CAScale9ImageView::createWithImage(CAImage::create("common/sky_bg.png"));
     if (header) {
-        header->setFrame(DRect(_px(0), _px(0), m_winSize.width, _px(120)));
+        header->setFrame(DRect((0), (0), m_winSize.width, (120)));
         header->setTouchEnabled(false);
         this->getView()->addSubview(header);
         
         // title lable
-        CALabel* label = CALabel::createWithCenter(DRect(m_winSize.width / 2, _px(80), m_winSize.width, _px(50)));
+        CALabel* label = CALabel::createWithCenter(DRect(m_winSize.width / 2, (80), m_winSize.width, (50)));
         if (label) {
             label->setTextAlignment(CATextAlignmentCenter);
             label->setColor(CAColor_white);
@@ -163,7 +163,7 @@ void MainViewController::viewDidLoad()
     }
 
     // left notification button
-    CAButton* button = CAButton::createWithFrame(DRect(_px(0), _px(20), _px(100), _px(100)), CAButtonTypeCustom);
+    CAButton* button = CAButton::createWithFrame(DRect((0), (20), (100), (100)), CAButtonTypeCustom);
     if (button) {
         button->addTarget(this, CAControl_selector(MainViewController::buttonCallBack), CAControlEventTouchUpInSide);
         button->setTag(20);
@@ -175,7 +175,7 @@ void MainViewController::viewDidLoad()
             button->setBackGroundViewForState(CAControlStateAll, imageView);
         }
         
-        m_timeNoticeImageView = CAImageView::createWithFrame(DRect(_px(60), _px(30), _px(10), _px(10)));
+        m_timeNoticeImageView = CAImageView::createWithFrame(DRect((60), (30), (10), (10)));
         if (m_timeNoticeImageView) {
             m_timeNoticeImageView->setImage(CAImage::create("common/reddot.png"));
             button->addSubview(m_timeNoticeImageView);
@@ -185,7 +185,7 @@ void MainViewController::viewDidLoad()
     // notification alert point
 
     // right survey button
-	button = CAButton::createWithFrame(DRect(m_winSize.width - _px(100), _px(20), _px(100), _px(100)), CAButtonTypeCustom);
+	button = CAButton::createWithFrame(DRect(m_winSize.width - (100), (20), (100), (100)), CAButtonTypeCustom);
     if (button) {
         button->addTarget(this, CAControl_selector(MainViewController::buttonCallBack), CAControlEventTouchUpInSide);
         button->setTag(30);
@@ -200,8 +200,8 @@ void MainViewController::viewDidLoad()
 	
     int pageViewHeight = m_winSize.height * 0.3;
     int butViewHeight = m_winSize.height * 0.15;
-    int headerHeight = _px(120);
-    int buttitleHeight = _px(40);
+    int headerHeight = (120);
+    int buttitleHeight = (40);
     
     /*
     // Page view
@@ -215,7 +215,7 @@ void MainViewController::viewDidLoad()
              CAVector<CAView* > viewList;
              for (int i = 0; i<m_page.size(); i++)
              {
-             CommonUrlImageView* temImage = CommonUrlImageView::createWithFrame(DRect(0, _px(0), m_winSize.width, pageViewHeight - headerHeight));
+             CommonUrlImageView* temImage = CommonUrlImageView::createWithFrame(DRect(0, (0), m_winSize.width, pageViewHeight - headerHeight));
              temImage->setImageViewScaleType(CAImageViewScaleTypeFitImageCrop);
              temImage->setImage(CAImage::create("common/bg.png"));
              temImage->setUrl(m_page[i].m_imageUrl);
@@ -231,13 +231,13 @@ void MainViewController::viewDidLoad()
     
     // picture dots bg in page view
     m_pageControlBG = CAView::createWithColor(ccc4(0, 0, 0, 20));
-    m_pageControlBG->setFrame(DRect(0, pageViewHeight + headerHeight - _px(50), m_winSize.width, _px(50)));
+    m_pageControlBG->setFrame(DRect(0, pageViewHeight + headerHeight - (50), m_winSize.width, (50)));
     m_pageControlBG->setTouchEnabled(false);
     this->getView()->addSubview(m_pageControlBG);
     //headView->addSubview(bg);
     
     // picture dots
-    m_pageControl = CAPageControl::createWithCenter(DRect(m_winSize.width / 2, pageViewHeight + headerHeight - _px(25), _px(120), _px(50)));
+    m_pageControl = CAPageControl::createWithCenter(DRect(m_winSize.width / 2, pageViewHeight + headerHeight - (25), (120), (50)));
     if (m_pageControl) {
         m_pageControl->setNumberOfPages((int)m_page.size());
         m_pageControl->setTag(200);
@@ -247,23 +247,23 @@ void MainViewController::viewDidLoad()
     //headView->addSubview(m_pageControl);
      */
     
-    int buttonHight = _px(150);//m_winSize.height * 0.15;//_px(116);
+    int buttonHight = (150);//m_winSize.height * 0.15;//(116);
     // three center button
     for (int i = 0; i < 3; i++)
     {
         DRect r(i * (m_winSize.width / 3), headerHeight + pageViewHeight, m_winSize.width / 3, buttonHight);
         CAButton* btn = CAButton::createWithFrame(r, CAButtonTypeCustom);
         btn->setTag(300 + i);
-        CAImageView* imageView = CAImageView::createWithCenter(DRect(m_winSize.width / 3 / 2, _px(60), _px(60), _px(60)));//createWithImage(CAImage::create(crossapp_format_string("main/short_%d.png", i)));
+        CAImageView* imageView = CAImageView::createWithCenter(DRect(m_winSize.width / 3 / 2, (60), (60), (60)));//createWithImage(CAImage::create(crossapp_format_string("main/short_%d.png", i)));
         imageView->setImage(CAImage::create(crossapp_format_string("main/short_%d.png", i)));
         imageView->setImageViewScaleType(CAImageViewScaleTypeFitImageXY);
-        //imageView->setFrame(DRect(m_winSize.width / 3 / 2, _px(30), _px(60), _px(60)));
+        //imageView->setFrame(DRect(m_winSize.width / 3 / 2, (30), (60), (60)));
         imageView->setTouchEnabled(false);
         btn->addSubview(imageView);
-        CALabel* label = CALabel::createWithCenter(DRect(m_winSize.width / 3 / 2, _px(140), m_winSize.width / 3, _px(60)));
+        CALabel* label = CALabel::createWithCenter(DRect(m_winSize.width / 3 / 2, (140), m_winSize.width / 3, (60)));
         label->setTextAlignment(CATextAlignmentCenter);
         label->setColor(CAColor_gray);
-        label->setFontSize(_px(28));
+        label->setFontSize((28));
         label->setText(unicode_to_utf8(mainShort[i]));
         label->setFontName(SAP_FONT_ARIAL);
         label->setTouchEnabled(false);
@@ -279,7 +279,7 @@ void MainViewController::viewDidLoad()
      m_pageViewTitle = CALabel::createWithFrame(DRect(20, m_winSize.width / 2 - 40, m_winSize.width - 50, 50));
      m_pageViewTitle->setText(m_page[0].m_title);
      m_pageViewTitle->setColor(CAColor_white);
-     m_pageViewTitle->setFontSize(_px(28));
+     m_pageViewTitle->setFontSize((28));
      m_pageViewTitle->setScrollEnabled(false);
      m_pageViewTitle->setTouchEnabled(false);
      this->getView()->addSubview(m_pageViewTitle);
@@ -288,39 +288,39 @@ void MainViewController::viewDidLoad()
      */
     
     // sub title bar left picture
-    CAView *subViewleft = CAView::createWithCenter(DRect(_px(100), headerHeight + pageViewHeight + buttonHight + _px(20), m_winSize.width / 4, _px(20)));
-    //CAView *subViewleft = CAView::createWithFrame(DRect(0, 0, m_winSize.width, _px(20)));
+    CAView *subViewleft = CAView::createWithCenter(DRect((100), headerHeight + pageViewHeight + buttonHight + (20), m_winSize.width / 4, (20)));
+    //CAView *subViewleft = CAView::createWithFrame(DRect(0, 0, m_winSize.width, (20)));
     CAImageView* subbarView1 = CAImageView::createWithImage(CAImage::create("main/home_bar.png"));
     subbarView1->setImageViewScaleType(CAImageViewScaleTypeFitImageXY);
-    subbarView1->setFrame(DRect(0, 0, m_winSize.width / 4, _px(20)));
+    subbarView1->setFrame(DRect(0, 0, m_winSize.width / 4, (20)));
     subbarView1->setTouchEnabled(false);
     subViewleft->addSubview(subbarView1);
     this->getView()->addSubview(subViewleft);
 
     // sub title
-    CALabel* label = CALabel::createWithCenter(DRect(m_winSize.width / 2, headerHeight + pageViewHeight + buttonHight + _px(30), m_winSize.width / 2, _px(45)));
+    CALabel* label = CALabel::createWithCenter(DRect(m_winSize.width / 2, headerHeight + pageViewHeight + buttonHight + (30), m_winSize.width / 2, (45)));
     label->setTextAlignment(CATextAlignmentCenter);
     label->setColor(CAColor_gray);//ccc4(0x0f, 0xaa, 0xff, 0xff));//CAColor_gray);//CAColor_blue);
-    label->setFontSize(_px(27));
+    label->setFontSize((27));
     label->setText("My Agenda");
     label->setFontName(SAP_FONT_ARIAL);//markerfelt.ttf");
     label->setTouchEnabled(false);
     this->getView()->addSubview(label);
     
     // sub title bar right picture
-    CAView *subViewright = CAView::createWithCenter(DRect(m_winSize.width - _px(100), headerHeight + pageViewHeight +buttonHight + _px(20), m_winSize.width / 4, _px(20)));
+    CAView *subViewright = CAView::createWithCenter(DRect(m_winSize.width - (100), headerHeight + pageViewHeight +buttonHight + (20), m_winSize.width / 4, (20)));
     CAImageView* subbarView2 = CAImageView::createWithImage(CAImage::create("main/home_bar.png"));
     subbarView2->setImageViewScaleType(CAImageViewScaleTypeFitImageXY);
-    subbarView2->setFrame(DRect(0, 0, m_winSize.width / 4, _px(20)));
+    subbarView2->setFrame(DRect(0, 0, m_winSize.width / 4, (20)));
     subbarView2->setTouchEnabled(false);
     subViewright->addSubview(subbarView2);
     this->getView()->addSubview(subViewright);
 
-    //CAView* headView = CAView::createWithFrame(DRect(0, 0, m_winSize.width, m_winSize.width * 0.6 - _px(120)));
+    //CAView* headView = CAView::createWithFrame(DRect(0, 0, m_winSize.width, m_winSize.width * 0.6 - (120)));
     //m_msgTableView->setTableHeaderView(headView);
-    //m_msgTableView->setTableHeaderHeight(m_winSize.width / 2 + _px(130));
+    //m_msgTableView->setTableHeaderHeight(m_winSize.width / 2 + (130));
     
-    int tableStartY = pageViewHeight + butViewHeight + headerHeight + buttitleHeight + _px(15);
+    int tableStartY = pageViewHeight + butViewHeight + headerHeight + buttitleHeight + (15);
     m_msgTableView = CATableView::createWithFrame(DRect(0, tableStartY, m_winSize.width, m_winSize.height - tableStartY));
     if (m_msgTableView) {
         m_msgTableView->setTableViewDataSource(this);
@@ -328,7 +328,7 @@ void MainViewController::viewDidLoad()
         m_msgTableView->setScrollViewDelegate(this);
         m_msgTableView->setAllowsSelection(true);
         m_msgTableView->setSeparatorColor(ccc4(200, 200, 200, 80));
-        //m_msgTableView->setSeparatorViewHeight(_px(2));
+        //m_msgTableView->setSeparatorViewHeight((2));
         this->getView()->addSubview(m_msgTableView);
         
         CAPullToRefreshView *refreshDiscount = CAPullToRefreshView::create(CAPullToRefreshView::CAPullToRefreshTypeFooter);
@@ -486,28 +486,28 @@ void MainViewController::showAlert()
         p_alertView = NULL;
     }
     
-    p_alertView = CAView::createWithFrame(DRect(_px(0), _px(120), m_winSize.width, m_winSize.height - _px(220)));
+    p_alertView = CAView::createWithFrame(DRect((0), (120), m_winSize.width, m_winSize.height - (220)));
     this->getView()->addSubview(p_alertView);
     
-    CAImageView* bg = CAImageView::createWithFrame(DRect(_px(0), _px(0), m_winSize.width, m_winSize.height - _px(220)));
+    CAImageView* bg = CAImageView::createWithFrame(DRect((0), (0), m_winSize.width, m_winSize.height - (220)));
     bg->setImageViewScaleType(CAImageViewScaleTypeFitImageCrop);
     bg->setImage(CAImage::create("common/bg.png"));
     bg->setTouchEnabled(false);
     
     CAButton* btn5 = CAButton::create(CAButtonTypeSquareRect);
     btn5->setTag(100);
-    btn5->setFrame(DRect(_px(0), _px(0), m_winSize.width, m_winSize.height - _px(220)));
+    btn5->setFrame(DRect((0), (0), m_winSize.width, m_winSize.height - (220)));
     btn5->setTitleColorForState(CAControlStateNormal, CAColor_white);
     btn5->setBackgroundViewForState(CAControlStateNormal, bg);
     btn5->setBackgroundViewForState(CAControlStateHighlighted, bg);
     btn5->addTarget(this, CAControl_selector(MainViewController::buttonCallBack), CAControlEventTouchUpInSide);
     p_alertView->addSubview(btn5);
     
-    CALabel* test = CALabel::createWithFrame(DRect(0, m_winSize.height - _px(300), m_winSize.width, _px(40)));
+    CALabel* test = CALabel::createWithFrame(DRect(0, m_winSize.height - (300), m_winSize.width, (40)));
     test->setColor(CAColor_gray);
     test->setTextAlignment(CATextAlignmentCenter);
     test->setVerticalTextAlignmet(CAVerticalTextAlignmentCenter);
-    test->setFontSize(_px(30));
+    test->setFontSize((30));
     test->setText("Network cannot connect!");
     p_alertView->addSubview(test);
     
@@ -571,13 +571,13 @@ void MainViewController::onRequestFinished(const HttpResponseStatus& status, con
 //        if (m_pageView)
 //        {
             int pageViewHeight = m_winSize.height * 0.3;
-            int headerHeight = _px(120);
+            int headerHeight = (120);
 //            m_pageView = CAPageView::createWithFrame(DRect(0, headerHeight, m_winSize.width, pageViewHeight), CAPageViewDirectionHorizontal);
             if (m_pageView) {
                 CAVector<CAView* > viewList;
                 for (int i = 0; i<m_page.size(); i++)
                 {
-                    CommonUrlImageView* temImage = CommonUrlImageView::createWithFrame(DRect(0, _px(0), m_winSize.width, pageViewHeight - headerHeight));
+                    CommonUrlImageView* temImage = CommonUrlImageView::createWithFrame(DRect(0, (0), m_winSize.width, pageViewHeight - headerHeight));
                     temImage->setImageViewScaleType(CAImageViewScaleTypeFitImageCrop);
                     temImage->setImage(CAImage::create("common/bg.png"));
                     temImage->setUrl(m_page[i].m_imageUrl);
@@ -785,7 +785,7 @@ unsigned int MainViewController::numberOfRowsInSection(CATableView *table, unsig
 
 unsigned int MainViewController::tableViewHeightForRowAtIndexPath(CATableView* table, unsigned int section, unsigned int row)
 {
-    return _px(240);
+    return (240);
 }
 
 void MainViewController::pageViewDidBeginTurning(CAPageView* pageView)
@@ -840,7 +840,7 @@ void MainViewController::tableViewDidDeselectRowAtIndexPath(CATableView* table, 
 void MainViewController::initPageView()
 {
     int pageViewHeight = m_winSize.height * 0.3;
-    int headerHeight = _px(120);
+    int headerHeight = (120);
     // Page view
     if (!m_pageView)
     {
@@ -852,7 +852,7 @@ void MainViewController::initPageView()
             CAVector<CAView* > viewList;
             for (int i = 0; i<m_page.size(); i++)
             {
-                CommonUrlImageView* temImage = CommonUrlImageView::createWithFrame(DRect(0, _px(0), m_winSize.width, pageViewHeight - headerHeight));
+                CommonUrlImageView* temImage = CommonUrlImageView::createWithFrame(DRect(0, (0), m_winSize.width, pageViewHeight - headerHeight));
                 temImage->setImageViewScaleType(CAImageViewScaleTypeFitImageCrop);
                 temImage->setImage(CAImage::create("common/bg.png"));
                 temImage->setUrl(m_page[i].m_imageUrl);
@@ -872,13 +872,13 @@ void MainViewController::initPageView()
     
     // picture dots bg in page view
     m_pageControlBG = CAView::createWithColor(ccc4(0, 0, 0, 20));
-    m_pageControlBG->setFrame(DRect(0, pageViewHeight + headerHeight - _px(50), m_winSize.width, _px(50)));
+    m_pageControlBG->setFrame(DRect(0, pageViewHeight + headerHeight - (50), m_winSize.width, (50)));
     m_pageControlBG->setTouchEnabled(false);
     this->getView()->addSubview(m_pageControlBG);
     //headView->addSubview(bg);
     
     // picture dots
-    m_pageControl = CAPageControl::createWithCenter(DRect(m_winSize.width / 2, pageViewHeight + headerHeight - _px(25), _px(120), _px(50)));
+    m_pageControl = CAPageControl::createWithCenter(DRect(m_winSize.width / 2, pageViewHeight + headerHeight - (25), (120), (50)));
     if (m_pageControl) {
         m_pageControl->setNumberOfPages((int)m_page.size());
         m_pageControl->setTag(200);

@@ -7,20 +7,21 @@
 //
 
 #include "ConstRect.h"
+#include "CDData.h"
 
 DRect gRect[] = {
-    DRect(_px(30), _px(120), _px(80), _px(80)),     // session table cell : logo size 80 x 80
-    DRect(_px(30), _px(30), 0, _px(100)),           // session table cell : title
-    DRect(_px(140), _px(120), 0, _px(30)),          // session table cell : time
-    DRect(_px(140), _px(165), 0, _px(30)),          // session table cell : location
-    DRect(0, _px(165), _px(100), _px(50)),          // session table cell : like btn
-    DRect(0, _px(183), _px(50), _px(30)),           // session table cell : like lable
-    DRect(0, _px(165), _px(50), _px(50)),           // session table cell : collection btn
-    DRect(0, _px(100), _px(50), _px(50)),           // session table cell : detal arrow
+    DRect((30), (120), (80), (80)),     // session table cell : logo size 80 x 80
+    DRect((30), (30), 0, (100)),           // session table cell : title
+    DRect((140), (120), 0, (30)),          // session table cell : time
+    DRect((140), (165), 0, (30)),          // session table cell : location
+    DRect(0, (165), (100), (50)),          // session table cell : like btn
+    DRect(0, (183), (50), (30)),           // session table cell : like lable
+    DRect(0, (165), (50), (50)),           // session table cell : collection btn
+    DRect(0, (100), (50), (50)),           // session table cell : detal arrow
 
-    DRect(_px(40), _px(470), 0, _px(300)),          // session detail : session description
-    DRect(0, _px(870), _px(80), _px(80)),           // session detail : speaker logo
-    DRect(0, _px(960), _px(200), _px(30)),          // session detail : speaker name lable
+    DRect((40), (470), 0, (300)),          // session detail : session description
+    DRect(0, (870), (80), (80)),           // session detail : speaker logo
+    DRect(0, (960), (200), (30)),          // session detail : speaker name lable
 };
 
 enum CDRectId {
