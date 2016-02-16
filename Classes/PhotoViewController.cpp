@@ -25,12 +25,6 @@ void PhotoViewController::viewDidLoad()
     // Do any additional setup after loading the view from its nib.
     m_winSize = this->getView()->getBounds().size;
     
-    
-    m_photoView = CAScale9ImageView::createWithImage(CAImage::create("common/black_bg.png"));
-    m_photoView->setFrame(DRect((0), (0), m_winSize.width, m_winSize.height));
-    this->getView()->addSubview(m_photoView);
-    m_photoView->setVisible(false);
-    
     m_basicView = CAScale9ImageView::createWithImage(CAImage::create("common/white_bg.png"));
     m_basicView->setFrame(DRect((0), (0), m_winSize.width, m_winSize.height));
     this->getView()->addSubview(m_basicView);
@@ -215,11 +209,8 @@ void PhotoViewController::buttonCallBack(CAControl* btn, DPoint point)
     else if (btn->getTag() == 500) // cancle
     {
         m_basicView->setVisible(true);
-        m_photoView->setVisible(false);
-        m_photoView->removeAllSubviews();
-        if (m_filterView != NULL) {
-            m_filterView->setVisible(false);
-        }
+        this->getView()->removeSubview(m_photoView);
+        m_photoView = NULL;
     }
     else if (btn->getTag() == 600)
     {
@@ -251,8 +242,8 @@ void PhotoViewController::onRequestFinished(const HttpResponseStatus& status, co
         if(value["r"].asString() == "1")
         {
             m_basicView->setVisible(true);
-            m_photoView->setVisible(false);
-            m_photoView->removeAllSubviews();
+            this->getView()->removeSubview(m_photoView);
+            m_photoView = NULL;
             RootWindow::getInstance()->getRootNavigationController()->popViewControllerAnimated(true);
             if (m_type == 0) {
                 FDataManager::getInstance()->setUserDirty(true);
@@ -340,7 +331,10 @@ CADrawView* PhotoViewController::getStencil(const DSize& size, int index)
 void PhotoViewController::getSelectedImage(CAImage *image)
 {
     m_basicView->setVisible(false);
-    m_photoView->setVisible(true);
+    
+    m_photoView = CAScale9ImageView::createWithImage(CAImage::create("common/black_bg.png"));
+    m_photoView->setFrame(DRect((0), (0), m_winSize.width, m_winSize.height));
+    this->getView()->addSubview(m_photoView);
     
     if(m_type == 0)
     {
@@ -461,7 +455,7 @@ void PhotoViewController::getSelectedImage(CAImage *image)
         
         m_filterView = CAView::createWithFrame(DRect((m_winSize.width - (200)) / 2, (100), (240), (80) * (MOMENTSFILTERNUM - 1)));
         m_filterView->setColor(ccc4(0, 0, 0, 128));
-        this->getView()->addSubview(m_filterView);
+        m_photoView->addSubview(m_filterView);
         m_filterView->setVisible(false);
         
         for (int i = 1; i < MOMENTSFILTERNUM; i++)// filterMoments
