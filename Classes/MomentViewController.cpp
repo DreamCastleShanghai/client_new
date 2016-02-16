@@ -382,6 +382,8 @@ void MomentViewController::buttonCallBack(CAControl* btn, DPoint point)
     else if (btn->getTag() == 200)
     {
 		m_segType = Type_all;
+        m_currentAllNum = 0;
+        m_allMsg.clear();
 		if (m_allMsg.empty())
 		{
 			requestMsg(m_segType);
