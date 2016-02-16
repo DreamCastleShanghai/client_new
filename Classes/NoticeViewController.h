@@ -25,6 +25,8 @@ protected:
     void viewDidLoad();
     
     void viewDidUnload();
+    
+    virtual void viewDidAppear();
 
     void initMsgTableView();
     
@@ -49,7 +51,7 @@ private:
 
 	DSize													m_winSize;
     std::vector<LocalNoticeMsg>         m_msgList;
-	std::vector<LocalNoticeMsg>                                  m_msg;
+	std::vector<sessionMsg>*								m_msg;
 	CATableView*											m_msgTableView;
 
     CAView*													p_alertView;

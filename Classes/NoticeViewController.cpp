@@ -13,6 +13,19 @@ NoticeViewController::NoticeViewController()
 , p_pLoading(NULL)
 , m_msgTableView(NULL)
 {
+    
+}
+
+NoticeViewController::~NoticeViewController()
+{
+//    for (int i = 0; i < m_msgList.size(); i++)
+//    {
+//        FNoticeManager::sharedFNoticeManager()->readNotice(atoi(m_msgList[i].nid.c_str()));
+//    }
+}
+
+void NoticeViewController::viewDidAppear()
+{
     std::vector<FNotice>& notices = FNoticeManager::sharedFNoticeManager()->getNotices();
     m_msgList.clear();
     for (int i = 0; i < notices.size(); i++)
@@ -29,13 +42,9 @@ NoticeViewController::NoticeViewController()
         tmp.readed = notices[i].readed;
         m_msgList.push_back(tmp);
     }
-}
-
-NoticeViewController::~NoticeViewController()
-{
-    for (int i = 0; i < m_msgList.size(); i++)
+    if (m_msgTableView)
     {
-        FNoticeManager::sharedFNoticeManager()->readNotice(atoi(m_msgList[i].nid.c_str()));
+        m_msgTableView->reloadData();
     }
 }
 
@@ -43,6 +52,8 @@ void NoticeViewController::viewDidLoad()
 {
     // Do any additional setup after loading the view from its nib.
     m_winSize = this->getView()->getBounds().size;
+    
+    m_msg = FDataManager::getInstance()->getSessionMsgs();
     
     CAScale9ImageView* sView = CAScale9ImageView::createWithImage(CAImage::create("common/sky_bg.png"));
     sView->setFrame(DRect(_px(0), _px(0), m_winSize.width, _px(120)));
@@ -208,7 +219,9 @@ CATableViewCell* NoticeViewController::tableCellAtIndex(CATableView* table, cons
 {
     DSize _size = cellSize;
     
-    CATableViewCell* cell = dynamic_cast<CATableViewCell*>(table->dequeueReusableCellWithIdentifier("CrossApp"));
+    table->dequeueReusableCellWithIdentifier("CrossApp");
+    
+    CATableViewCell* cell = NULL;
     if (cell == NULL)
     {
         cell = MainViewTableCell::create("CrossApp", DRect(0, 0, _size.width, _size.height));
@@ -226,7 +239,7 @@ CATableViewCell* NoticeViewController::tableCellAtIndex(CATableView* table, cons
 			cell->addSubview(imageView);
 		}
 
-		CALabel* label = CALabel::createWithFrame(DRect(_px(160), _px(20), _px(200), _px(40)));
+		CALabel* label = CALabel::createWithFrame(DRect(_px(160), _px(20), m_winSize.width - _px(200), _px(40)));
 		label->setText(m_msgList[row].title);
 		label->setFontSize(_px(35));
 		label->setColor(CAColor_black);
@@ -270,7 +283,24 @@ unsigned int NoticeViewController::tableViewHeightForRowAtIndexPath(CATableView*
 
 void NoticeViewController::tableViewDidSelectRowAtIndexPath(CATableView* table, unsigned int section, unsigned int row)
 {
-
+    if (m_msgList[row].type == notice_session)
+    {
+        for (int i = 0; i < m_msg->size(); i++)
+        {
+            if (m_msg->at(i).m_sessionId == atoi(m_msgList[row].nid.c_str()))
+            {
+                SessionDetailViewController* vc = new SessionDetailViewController(m_msg->at(i));
+                vc->init();
+                vc->autorelease();
+                RootWindow::getInstance()->getRootNavigationController()->pushViewController(vc, true);
+                
+                FNoticeManager::sharedFNoticeManager()->readNotice(atoi(m_msgList[row].nid.c_str()));
+                break;
+            }
+        }
+        
+    }
+    
 }
 
 void NoticeViewController::tableViewDidDeselectRowAtIndexPath(CATableView* table, unsigned int section, unsigned int row)
