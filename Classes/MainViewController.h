@@ -40,6 +40,10 @@ public:
     
     void initPageView();
     
+    bool checkPageStatusIsChanged();
+    
+    void adjustPageViewContent();
+    
 //    void requestIconMsg();
 
 	void showAlert();
@@ -74,27 +78,40 @@ public:
 	virtual void tableViewDidSelectRowAtIndexPath(CATableView* table, unsigned int section, unsigned int row);
     virtual void tableViewDidDeselectRowAtIndexPath(CATableView* table, unsigned int section, unsigned int row);
 private:
+    enum
+    {
+        MAP_ALL_MAP,
+        MAP_PRE_EVENT,
+        MAP_MORNING,
+        MAP_AFTERNOON,
+        MAP_EVENING,
+        
+        MAP_MAX,
+    };
+    // page view relative member
+    int                                                     m_pageStatus;
+    std::vector<newsPage>									m_page;
+    std::vector<newsPage>                                   m_pageAllMapVec;
+    CAPageView*												m_pageView;
+    CAPageControl*											m_pageControl;
+    CAView*                                                 m_pageControlBG;
+    //	CALabel*												m_pageViewTitle;
     
 	std::vector<sessionMsg>*								m_msg;
     std::vector<sessionMsg*>								m_filterMsg;
-	std::vector<newsPage>									m_page;
 
     CAImageView*                                            m_timeNoticeImageView;
     CAImageView*                                            m_sessionNoticeImageView;
 //    CAPageView*                                             m_totalView;
 //    CAVector<CAView*>                                       m_totalViewList;
 	CATableView*											m_msgTableView;
-	CAPageView*												m_pageView;
-	CAPageControl*											m_pageControl;
-    CAView*                                                 m_pageControlBG;
-	CALabel*												m_pageViewTitle;
 	CAView*													p_alertView;
 	CAActivityIndicatorView*								p_pLoading;
 //    int														m_pastSection;
 //	int														m_nextSection;
     time_t                                                  m_timeForPageView;
 
-	DSize													m_winSize;
+    DSize													m_winSize;
     CAViewController*                                       m_sustainbilitySurvey;
     CAViewController*                                       m_monent;
     CAViewController*                                       m_vote;

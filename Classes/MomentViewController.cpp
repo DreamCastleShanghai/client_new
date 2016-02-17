@@ -68,7 +68,7 @@ void MomentViewController::viewDidLoad()
         this->getView()->addSubview(bkBtn);
     }
 
-	CAButton*  tagbutton = CAButton::createWithFrame(DRect((m_winSize.width - (200)) / 2, (30), (200), (100)), CAButtonTypeCustom);
+	CAButton*  tagbutton = CAButton::createWithFrame(DRect((m_winSize.width - (200)) / 2, (30), (250), (100)), CAButtonTypeCustom);
     if (tagbutton) {
         tagbutton->setTitleForState(CAControlStateAll, "Moments");
         tagbutton->setTitleFontName(SAP_FONT_ARIAL);
@@ -83,13 +83,13 @@ void MomentViewController::viewDidLoad()
         CAImageView* imageView = CAImageView::createWithImage(CAImage::create("session/down.png"));
         if (imageView) {
             imageView->setImageViewScaleType(CAImageViewScaleTypeFitImageXY);
-            imageView->setFrame(DRect((180), (15), (60), (60)));
+            imageView->setFrame(DRect((190), (25), (55), (55)));
             tagbutton->addSubview(imageView);
         }
     }
 
 
-	CAButton* uploadbutton = CAButton::createWithFrame(DRect(m_winSize.width - (100), (30), (70), (70)), CAButtonTypeCustom);
+	CAButton* uploadbutton = CAButton::createWithFrame(DRect(m_winSize.width - (100), (35), (70), (70)), CAButtonTypeCustom);
     if (uploadbutton) {
         CAImageView* imageView = CAImageView::createWithImage(CAImage::create("moments/upload_icon_white.png"));
         if (imageView) {

@@ -31,7 +31,7 @@ MainViewController::MainViewController()
 , m_pageView(NULL)
 , m_pageControl(NULL)
 , m_pageControlBG(NULL)
-, m_pageViewTitle(NULL)
+//, m_pageViewTitle(NULL)
 , p_alertView(NULL)
 , p_pLoading(NULL)
 //, m_pastSection(0)
@@ -43,9 +43,11 @@ MainViewController::MainViewController()
 , m_map(NULL)
 , m_session(NULL)
 , m_my(NULL)
+, m_pageStatus(MAP_ALL_MAP)
 {
     m_filterMsg.clear();
     m_page.clear();
+    m_pageAllMapVec.clear();
 //    m_msg(FDataManager::getInstance()->getSessionMsgs())
 }
 
@@ -62,13 +64,16 @@ void MainViewController::update(float dt)
 void MainViewController::updatePageView(float dt)
 {
     if (m_pageView) {
+        if (checkPageStatusIsChanged()) {
+            adjustPageViewContent();
+        }
         int pageCnt = m_pageView->getPageCount();
         if (pageCnt > 1) {
             int nowPage = m_pageView->getCurrPage();
             nowPage = (nowPage + 1) % pageCnt;
-//            if (nowPage == 0) {
-//                m_pageView->setCurrPage(nowPage, false);
-//            }
+            if (nowPage == 0) {
+                m_pageView->setCurrPage(nowPage, false);
+            }
             m_pageView->setCurrPage(nowPage, true);
             if  (m_pageControl)
             {
@@ -553,16 +558,18 @@ void MainViewController::onRequestFinished(const HttpResponseStatus& status, con
         m_msg->clear();
         m_filterMsg.clear();
         m_page.clear();
+        m_pageAllMapVec.clear();
 //        FDataManager::getInstance()->setDiffServerTime(value["stime"].asInt64());
         for (int i = 0; i < length; i++) {
             newsPage temp_page;
-			temp_page.m_type = value["bar"][i]["ResType"].asString();
+			//temp_page.m_type = value["bar"][i]["ResType"].asString();
 			temp_page.m_imageUrl = crossapp_format_string("%s%s", imgPreUrl.c_str(), value["bar"][i]["Resource"].asCString());
-            temp_page.m_resDetail = value["bar"][i]["ResLable"].asString();
+            temp_page.m_lable = value["bar"][i]["ResLable"].asString();
 
             CCLog("m_imageUrl== %s",temp_page.m_imageUrl .c_str());
             //temp_page.m_titleId = value["bar"][i]["tid"].asInt();
             //temp_page.m_title = value["bar"][i]["til"].asString();
+            m_pageAllMapVec.push_back(temp_page);
             m_page.push_back(temp_page);
         }
         
@@ -806,7 +813,7 @@ void MainViewController::pageViewDidSelectPageAtIndex(CAPageView* pageView, unsi
 {
     CCLog("click %d", index);
     if (index < m_page.size()) {
-        if (!m_page.at(index).m_resDetail.empty())
+        if (!m_page.at(index).m_lable.empty())
         {
             m_sustainbilitySurvey = new FirstSurveyViewController();
             m_sustainbilitySurvey->init();
@@ -837,53 +844,127 @@ void MainViewController::tableViewDidDeselectRowAtIndexPath(CATableView* table, 
     
 }
 
+bool MainViewController::checkPageStatusIsChanged()
+{
+    time_t nowTime = getTimeSecond();
+    struct tm * timeinfo;
+    timeinfo = localtime(&nowTime);
+    string timeStr = "";
+    int statusShouldbe = MAP_ALL_MAP;
+    if (timeinfo->tm_hour >= 7 && timeinfo->tm_hour < 9) {
+        statusShouldbe = MAP_PRE_EVENT;
+    }
+    else if (timeinfo->tm_hour >= 9 && timeinfo->tm_hour < 12) {
+        statusShouldbe = MAP_MORNING;
+    }
+    else if (timeinfo->tm_hour >= 12 && timeinfo->tm_hour < 17) {
+        statusShouldbe = MAP_AFTERNOON;
+    }
+    else if (timeinfo->tm_hour >= 17 && timeinfo->tm_hour < 21) {
+        statusShouldbe = MAP_EVENING;
+    }
+    if (m_pageStatus != statusShouldbe) {
+        m_pageStatus = statusShouldbe;
+        return true;
+    }
+    return false;
+}
+
+void MainViewController::adjustPageViewContent()
+{
+    m_page.clear();
+    switch (m_pageStatus) {
+        case MAP_PRE_EVENT:
+            m_page.push_back(m_pageAllMapVec.at(0));
+            m_page.push_back(m_pageAllMapVec.at(2));
+            m_page.push_back(m_pageAllMapVec.at(3));
+            m_page.push_back(m_pageAllMapVec.at(4));
+            m_page.push_back(m_pageAllMapVec.at(7));
+            break;
+        case MAP_MORNING:
+            m_page.push_back(m_pageAllMapVec.at(0));
+            m_page.push_back(m_pageAllMapVec.at(4));
+            m_page.push_back(m_pageAllMapVec.at(5));
+            m_page.push_back(m_pageAllMapVec.at(6));
+            m_page.push_back(m_pageAllMapVec.at(7));
+            break;
+        case MAP_AFTERNOON:
+            m_page.push_back(m_pageAllMapVec.at(1));
+            m_page.push_back(m_pageAllMapVec.at(3));
+            m_page.push_back(m_pageAllMapVec.at(5));
+            m_page.push_back(m_pageAllMapVec.at(2));
+            m_page.push_back(m_pageAllMapVec.at(7));
+            break;
+        case MAP_EVENING:
+            m_page.push_back(m_pageAllMapVec.at(1));
+            m_page.push_back(m_pageAllMapVec.at(3));
+            m_page.push_back(m_pageAllMapVec.at(2));
+            m_page.push_back(m_pageAllMapVec.at(6));
+            m_page.push_back(m_pageAllMapVec.at(7));
+            break;
+        default:
+            m_page.push_back(m_pageAllMapVec.at(0));
+            m_page.push_back(m_pageAllMapVec.at(1));
+            m_page.push_back(m_pageAllMapVec.at(2));
+            m_page.push_back(m_pageAllMapVec.at(3));
+            m_page.push_back(m_pageAllMapVec.at(4));
+            m_page.push_back(m_pageAllMapVec.at(5));
+            m_page.push_back(m_pageAllMapVec.at(6));
+            m_page.push_back(m_pageAllMapVec.at(7));
+            break;
+    }
+    initPageView();
+}
+
 void MainViewController::initPageView()
 {
     int pageViewHeight = m_winSize.height * 0.3;
     int headerHeight = (120);
     // Page view
-    if (!m_pageView)
+    if (m_pageView == NULL)
     {
         m_pageView = CAPageView::createWithFrame(DRect(0, headerHeight, m_winSize.width, pageViewHeight), CAPageViewDirectionHorizontal);
-        if (m_pageView) {
-            m_pageView->setPageViewDelegate(this);
-            m_pageView->setTouchEnabled(true);
-            
-            CAVector<CAView* > viewList;
-            for (int i = 0; i<m_page.size(); i++)
-            {
-                CommonUrlImageView* temImage = CommonUrlImageView::createWithFrame(DRect(0, (0), m_winSize.width, pageViewHeight - headerHeight));
-                temImage->setImageViewScaleType(CAImageViewScaleTypeFitImageCrop);
-                temImage->setImage(CAImage::create("common/bg.png"));
-                temImage->setUrl(m_page[i].m_imageUrl);
-                temImage->setTouchEnabled(true);
-                temImage->setTag(500 + i);
-                viewList.pushBack(temImage);
-            }
-            m_pageView->setViews(viewList);
-            m_pageView->setCurrPage(0, false);
-            this->getView()->addSubview(m_pageView);
-            //headView->addSubview(m_pageView);
-            
-            // to : animate the page view
-            CAScheduler::schedule(schedule_selector(MainViewController::updatePageView), this, 5);//, true, 3000);
+        m_pageView->setPageViewDelegate(this);
+        m_pageView->setTouchEnabled(true);
+        this->getView()->addSubview(m_pageView);
+    }
+    
+    if (m_pageView) {
+        CAVector<CAView* > viewList;
+        for (int i = 0; i<m_page.size(); i++)
+        {
+            CommonUrlImageView* temImage = CommonUrlImageView::createWithFrame(DRect(0, (0), m_winSize.width, pageViewHeight - headerHeight));
+            temImage->setImageViewScaleType(CAImageViewScaleTypeFitImageCrop);
+            temImage->setImage(CAImage::create("common/bg.png"));
+            temImage->setUrl(m_page[i].m_imageUrl);
+            temImage->setTouchEnabled(true);
+            temImage->setTag(500 + i);
+            viewList.pushBack(temImage);
         }
+        m_pageView->setViews(viewList);
+        m_pageView->setCurrPage(0, false);
     }
     
     // picture dots bg in page view
-    m_pageControlBG = CAView::createWithColor(ccc4(0, 0, 0, 20));
-    m_pageControlBG->setFrame(DRect(0, pageViewHeight + headerHeight - (50), m_winSize.width, (50)));
-    m_pageControlBG->setTouchEnabled(false);
-    this->getView()->addSubview(m_pageControlBG);
-    //headView->addSubview(bg);
+    if (m_pageControlBG == NULL) {
+        m_pageControlBG = CAView::createWithColor(ccc4(0, 0, 0, 20));
+        m_pageControlBG->setFrame(DRect(0, pageViewHeight + headerHeight - (50), m_winSize.width, (50)));
+        m_pageControlBG->setTouchEnabled(false);
+        this->getView()->addSubview(m_pageControlBG);
+    }
     
     // picture dots
-    m_pageControl = CAPageControl::createWithCenter(DRect(m_winSize.width / 2, pageViewHeight + headerHeight - (25), (120), (50)));
-    if (m_pageControl) {
-        m_pageControl->setNumberOfPages((int)m_page.size());
-        m_pageControl->setTag(200);
-        m_pageControl->setTouchEnabled(false);
-        m_pageControl->addTarget(this, CAControl_selector(MainViewController::buttonCallBack));
-        this->getView()->addSubview(m_pageControl);
+    if (m_pageControl != NULL) {
+        this->getView()->removeSubview(m_pageControl);
+        m_pageControl = NULL;
     }
+    m_pageControl = CAPageControl::createWithCenter(DRect(m_winSize.width / 2, pageViewHeight + headerHeight - (25), (200), (50)));
+    m_pageControl->setTag(200);
+    m_pageControl->setTouchEnabled(false);
+    m_pageControl->addTarget(this, CAControl_selector(MainViewController::buttonCallBack));
+    m_pageControl->setNumberOfPages((int)m_page.size());
+    this->getView()->addSubview(m_pageControl);
+    
+    // to : animate the page view
+    CAScheduler::schedule(schedule_selector(MainViewController::updatePageView), this, 5);//, true, 3000);
 }

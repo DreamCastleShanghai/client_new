@@ -74,9 +74,9 @@ struct pointMsg
 
 struct newsPage
 {
-	std::string m_type;
+//	std::string m_type;
 	std::string m_imageUrl;
-    std::string m_resDetail;
+    std::string m_lable;
 //    int         m_titleId;
 };
 

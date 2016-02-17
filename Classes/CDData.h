@@ -102,7 +102,7 @@ static const char* scoreHistoryTag[2] =
 
 static const CHAR* mainShort[3] =
 {
-    _T("Moments"), _T("Vote"), _T("On-site Guide")
+    _T("Moments"), _T("Vote"), _T("Onsite Guide")
 };
 
 static const CHAR* mainBar[3] =

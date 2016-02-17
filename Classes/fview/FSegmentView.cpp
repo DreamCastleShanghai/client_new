@@ -28,7 +28,7 @@ FSegmentView* FSegmentView::createWithFrame(const DRect &rect, int num)
     {
         for (int i = 0; i < num; i++)
         {
-            DRect r((i + (1)) +  (rect.size.width - num - (1)) * i / num, (1), (rect.size.width - num) / num, rect.size.height - (2));
+            DRect r((i + (1)) +  (rect.size.width - num - (1)) * i / num, (1), (rect.size.width - num) / num - (1), rect.size.height - (2));
             CAButton* button = CAButton::createWithFrame(r, CAButtonTypeCustom);
             button->setAllowsSelected(true);
             CAScale9ImageView* sView = CAScale9ImageView::createWithImage(CAImage::create("source_material/dsky_bg.png"));
