@@ -244,6 +244,95 @@ void SessionsViewController::requestMsg()
 
 void SessionsViewController::buttonCallBack(CAControl* btn, DPoint point)
 {
+    if(btn->getTag() == 20)
+    {
+        SessionsSearchViewController* vc = new SessionsSearchViewController(0);
+        vc->init();
+        vc->autorelease();
+        RootWindow::getInstance()->getRootNavigationController()->pushViewController(vc, true);
+    }
+    else if (btn->getTag() == 100)
+    {
+        this->getView()->removeSubview(p_alertView);
+        p_alertView = NULL;
+        requestMsg();
+        {
+            p_pLoading = CAActivityIndicatorView::createWithCenter(DRect(m_winSize.width / 2, m_winSize.height / 2, 50, 50));
+            this->getView()->insertSubview(p_pLoading, CAWindowZOderTop);
+            p_pLoading->setLoadingMinTime(0.5f);
+            //p_pLoading->setTargetOnCancel(this, callfunc_selector(SessionsViewController::initMsgTableView));
+        }
+        initMsgTableView();
+    }
+    else if (btn->getTag() == 200)
+    {
+        if(m_navType == 0) return;
+        m_navType = 0;
+        for (int i = 0; i < m_filterViewVec.size(); i++)
+        {
+            m_filterViewVec[i]->setVisible(false);
+        }
+        m_listView->setVisible(true);
+        if (m_msgTableView)
+        {
+            refreshTableByTime(m_navTimeType);
+        }
+        
+    }
+    else if (btn->getTag() == 201)
+    {
+        if(m_navType == 1) return;
+        m_navType = 1;
+        m_listView->setVisible(false);
+        m_filterView->setVisible(true);
+        m_downView[0]->setVisible(false);
+        m_downView[0]->setVisible(false);
+        if (m_msgTableView)
+        {
+            refreshTableByFormat(m_navTrackType, m_navFormatType);
+        }
+    }
+    else if (btn->getTag() >= 400 && btn->getTag() < 500)
+    {
+        if (btn->getControlState() == CAControlStateNormal)
+        {
+            m_navTrackType = 0;
+            refreshTableByFormat(m_navTrackType, m_navFormatType);
+        }
+        else if (btn->getControlState() == CAControlStateSelected)
+        {
+            for (int i = 0; i < TrackNum; i++)
+            {
+                if (m_trackButtonVec[i] == btn)
+                    continue;
+                m_trackButtonVec[i]->setControlState(CAControlStateNormal);
+            }
+            m_navTrackType = btn->getTag() - 400;
+            refreshTableByFormat(m_navTrackType, m_navFormatType);
+        }
+        
+    }
+    else if (btn->getTag() >= 500 && btn->getTag() < 600)
+    {
+        if (btn->getControlState() == CAControlStateNormal)
+        {
+            m_navFormatType = 0;
+            refreshTableByFormat(m_navTrackType, m_navFormatType);
+        }
+        else if (btn->getControlState() == CAControlStateSelected)
+        {
+            for (int i = 0; i < TrackNum; i++)
+            {
+                if (m_formatButtonVec[i] == btn)
+                    continue;
+                m_formatButtonVec[i]->setControlState(CAControlStateNormal);
+            }
+            m_navFormatType = btn->getTag() - 500;
+            refreshTableByFormat(m_navTrackType, m_navFormatType);
+        }
+    }
+
+    
 	if (btn->getTag() == 300)
 	{
 		if (btn->getControlState() == CAControlStateSelected)
@@ -286,93 +375,6 @@ void SessionsViewController::buttonCallBack(CAControl* btn, DPoint point)
 		m_downView[1]->setVisible(false);
 	}
 
-    if(btn->getTag() == 20)
-    {
-        SessionsSearchViewController* vc = new SessionsSearchViewController(0);
-        vc->init();
-        vc->autorelease();
-        RootWindow::getInstance()->getRootNavigationController()->pushViewController(vc, true);
-    }
-    else if (btn->getTag() == 100)
-    {
-        this->getView()->removeSubview(p_alertView);
-        p_alertView = NULL;
-        requestMsg();
-        {
-            p_pLoading = CAActivityIndicatorView::createWithCenter(DRect(m_winSize.width / 2, m_winSize.height / 2, 50, 50));
-            this->getView()->insertSubview(p_pLoading, CAWindowZOderTop);
-            p_pLoading->setLoadingMinTime(0.5f);
-            //p_pLoading->setTargetOnCancel(this, callfunc_selector(SessionsViewController::initMsgTableView));
-        }
-        initMsgTableView();
-    }
-    else if (btn->getTag() == 200)
-    {
-        if(m_navType == 0) return;
-        m_navType = 0;
-		for (int i = 0; i < m_filterViewVec.size(); i++)
-		{
-			m_filterViewVec[i]->setVisible(false);
-		}
-        m_listView->setVisible(true);
-        if (m_msgTableView) 
-		{
-            refreshTableByTime(m_navTimeType);
-        }
-        
-    }
-    else if (btn->getTag() == 201)
-    {
-        if(m_navType == 1) return;
-        m_navType = 1;
-        m_listView->setVisible(false);
-		m_filterView->setVisible(true);
-		m_downView[0]->setVisible(false);
-		m_downView[0]->setVisible(false);
-        if (m_msgTableView) 
-		{
-			refreshTableByFormat(m_navTrackType, m_navFormatType);
-        }
-    }
-    else if (btn->getTag() >= 400 && btn->getTag() < 500)
-    {
-        if (btn->getControlState() == CAControlStateNormal)
-        {
-            m_navTrackType = 0;
-			refreshTableByFormat(m_navTrackType, m_navFormatType);
-        }
-        else if (btn->getControlState() == CAControlStateSelected)
-        {
-            for (int i = 0; i < TrackNum; i++)
-            {
-				if (m_trackButtonVec[i] == btn) 
-					continue;
-				m_trackButtonVec[i]->setControlState(CAControlStateNormal);
-            }
-			m_navTrackType = btn->getTag() - 400;
-			refreshTableByFormat(m_navTrackType, m_navFormatType);
-        }
-        
-    }
-	else if (btn->getTag() >= 500 && btn->getTag() < 600)
-	{
-		if (btn->getControlState() == CAControlStateNormal)
-		{
-			m_navFormatType = 0;
-			refreshTableByFormat(m_navTrackType, m_navFormatType);
-		}
-		else if (btn->getControlState() == CAControlStateSelected)
-		{
-			for (int i = 0; i < TrackNum; i++)
-			{
-				if (m_formatButtonVec[i] == btn)
-					continue;
-				m_formatButtonVec[i]->setControlState(CAControlStateNormal);
-			}
-			m_navFormatType = btn->getTag() - 500;
-			refreshTableByFormat(m_navTrackType, m_navFormatType);
-		}
-	}
 }
 
 void SessionsViewController::onRequestFinished(const HttpResponseStatus& status, const CSJson::Value& json)
@@ -522,17 +524,17 @@ void SessionsViewController::showAlert()
         p_alertView = NULL;
     }
     
-    p_alertView = CAView::createWithFrame(DRect((0), (120), m_winSize.width, m_winSize.height - (220)));
+    p_alertView = CAView::createWithFrame(DRect((0), (120), m_winSize.width, m_winSize.height - (120)));
     this->getView()->addSubview(p_alertView);
     
-    CAImageView* bg = CAImageView::createWithFrame(DRect((0), (0), m_winSize.width, m_winSize.height - (220)));
-    bg->setImageViewScaleType(CAImageViewScaleTypeFitImageCrop);
+    CAImageView* bg = CAImageView::createWithFrame(DRect((0), (0), m_winSize.width, m_winSize.height - (120)));
+    bg->setImageViewScaleType(CAImageViewScaleTypeFitImageXY);
     bg->setImage(CAImage::create("common/bg.png"));
     bg->setTouchEnabled(false);
     
     CAButton* btn5 = CAButton::create(CAButtonTypeSquareRect);
     btn5->setTag(100);
-    btn5->setFrame(DRect((0), (0), m_winSize.width, m_winSize.height - (220)));
+    btn5->setFrame(DRect((0), (0), m_winSize.width, m_winSize.height - (120)));
     btn5->setTitleColorForState(CAControlStateNormal, CAColor_white);
     btn5->setBackgroundViewForState(CAControlStateNormal, bg);
     btn5->setBackgroundViewForState(CAControlStateHighlighted, bg);

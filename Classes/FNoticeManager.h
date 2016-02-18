@@ -11,6 +11,7 @@
 typedef enum {
     notice_session=0,
     notice_news,
+    notice_prize,
 }NoticeType;
 
 typedef struct
@@ -42,6 +43,8 @@ public:
     void sendNoticeToken(unsigned char* token);
     
     void onSendNoticeToken(const HttpResponseStatus& status, const CSJson::Value& json);
+    
+    void playNoticeVoice();
     
 protected:
     

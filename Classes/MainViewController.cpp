@@ -496,7 +496,7 @@ void MainViewController::showAlert()
     this->getView()->addSubview(p_alertView);
     
     CAImageView* bg = CAImageView::createWithFrame(DRect((0), (0), m_winSize.width, m_winSize.height - (220)));
-    bg->setImageViewScaleType(CAImageViewScaleTypeFitImageCrop);
+    bg->setImageViewScaleType(CAImageViewScaleTypeFitImageXY);
     bg->setImage(CAImage::create("common/bg.png"));
     bg->setTouchEnabled(false);
     
@@ -952,7 +952,7 @@ void MainViewController::initPageView()
         for (int i = 0; i<m_page.size(); i++)
         {
             CommonUrlImageView* temImage = CommonUrlImageView::createWithFrame(DRect(0, (0), m_winSize.width, pageViewHeight - headerHeight));
-            temImage->setImageViewScaleType(CAImageViewScaleTypeFitImageCrop);
+            temImage->setImageViewScaleType(CAImageViewScaleTypeFitImageXY);
             temImage->setImage(CAImage::create("common/bg.png"));
             temImage->setUrl(m_page[i].m_imageUrl);
             temImage->setTouchEnabled(true);

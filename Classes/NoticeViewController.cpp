@@ -231,6 +231,14 @@ CATableViewCell* NoticeViewController::tableCellAtIndex(CATableView* table, cons
 		imageView->setImageViewScaleType(CAImageViewScaleTypeFitImageXY);
 		imageView->setFrame(DRect((40), (20), (80), (80)));
 		cell->addSubview(imageView);
+        
+        CommonUrlImageView* urlImageView = CommonUrlImageView::createWithImage(CAImage::create("common/head_bg.png"));
+        if (urlImageView) {
+            urlImageView->setFrame(DRect((40), (20), (80), (80)));
+            urlImageView->setImageViewScaleType(CAImageViewScaleTypeFitImageCrop);
+            urlImageView->setUrl(crossapp_format_string("%s%s", imgPreUrl.c_str(), noticeIcon[m_msgList[row].type]));
+            cell->addSubview(urlImageView);
+        }
 
 		if (m_msgList[row].readed == false)
 		{
@@ -301,7 +309,7 @@ void NoticeViewController::tableViewDidSelectRowAtIndexPath(CATableView* table, 
         }
         
     }
-    else if (m_msgList[row].type == notice_news)
+    else
     {
         NoticeDetailViewController* vc = new NoticeDetailViewController(m_msgList[row].title);
         vc->init();

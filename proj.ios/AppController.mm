@@ -104,15 +104,46 @@ static AppDelegate s_sharedApplication;
 {
     //CrossApp::CCApplication::sharedApplication()->didReceiveRemoteNotification();
     NSString *id = [userInfo objectForKey:@"id"];
+    NSString *type = [userInfo objectForKey:@"tp"];
     NSString *content = [[[userInfo objectForKey:@"aps"] objectForKey:@"alert"] objectForKey:@"body"];
     
     std::string str = [content UTF8String];
-    FNoticeManager::sharedFNoticeManager()->addNotice([id intValue], 1, str, 0, 0, true);
-    NSLog(@"didReceiveRemoteNotification %@ %@", id, content);
+    FNoticeManager::sharedFNoticeManager()->playNoticeVoice();
+    FNoticeManager::sharedFNoticeManager()->addNotice([id intValue], [type intValue], str, 0, 0, true);
+    NSLog(@"didReceiveRemoteNotification %@ %@ %@", id, type,content);
+    
+    UIApplication *app = [UIApplication sharedApplication];
+    NSArray *localArr = [app scheduledLocalNotifications];
+    UILocalNotification *localNotice = nil;
+    if (localArr) {
+        for (UILocalNotification *noti in localArr) {
+            NSDictionary *dict = noti.userInfo;
+            if (dict) {
+                NSString *inKey = [dict objectForKey:@"key"];
+                NSLog(@"notice %@", inKey);
+                if ([inKey isEqualToString:id]) {
+                    if (localNotice){
+                        [localNotice release];
+                        localNotice = nil;
+                    }
+                    localNotice = [noti retain];
+                    break;
+                }
+            }
+        }
+        
+        if (localNotice) {
+            //不推送 取消推送
+            [app cancelLocalNotification:localNotice];
+            [localNotice release];
+            return;
+        }
+    }
 }
 
 - (void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification
 {
+    FNoticeManager::sharedFNoticeManager()->playNoticeVoice();
     //CrossApp::CCApplication::sharedApplication()->didReceiveLocalNotification();
     NSDictionary *dict = notification.userInfo;
     if (dict) {

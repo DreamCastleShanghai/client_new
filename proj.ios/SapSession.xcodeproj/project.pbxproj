@@ -1131,6 +1131,9 @@
 					1D6058900D05DD3D006BFB54 = {
 						DevelopmentTeam = 65J6U7BL8K;
 						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
 							com.apple.Push = {
 								enabled = 1;
 							};
@@ -1370,8 +1373,8 @@
 				ARCHS = "$(ARCHS_STANDARD)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				CODE_SIGN_IDENTITY = "iPhone Developer: coostein@hotmail.com (L9PXP42W58)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				ENABLE_BITCODE = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -1410,8 +1413,8 @@
 				OTHER_CFLAGS = "-O2";
 				PRODUCT_BUNDLE_IDENTIFIER = com.dc.app.sap2015ap;
 				PRODUCT_NAME = "d-kom 2016";
-				PROVISIONING_PROFILE = "48ebd7b5-5a61-49dd-9052-6277b959a428";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "48ebd7b5-5a61-49dd-9052-6277b959a428";
+				PROVISIONING_PROFILE = "";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "8dc218bd-2a97-401b-a95d-cb7ea787e986";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 1;
 				USER_HEADER_SEARCH_PATHS = "";
@@ -1426,8 +1429,8 @@
 				ARCHS = "$(ARCHS_STANDARD)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer: zheng min (N67Y5Y7TVF)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Dream Castle Co., Ltd. (65J6U7BL8K)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: coostein@hotmail.com (L9PXP42W58)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
 				ENABLE_BITCODE = NO;
 				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
@@ -1463,8 +1466,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.dc.app.sap2015ap;
 				PRODUCT_NAME = "d-kom 2016";
-				PROVISIONING_PROFILE = "48ebd7b5-5a61-49dd-9052-6277b959a428";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "48ebd7b5-5a61-49dd-9052-6277b959a428";
+				PROVISIONING_PROFILE = "";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "8dc218bd-2a97-401b-a95d-cb7ea787e986";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 1;
 				USER_HEADER_SEARCH_PATHS = "";

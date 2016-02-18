@@ -30,6 +30,10 @@ static const char* loginTag = "L0";
 
 #define DKOM_SURVEY_LINK    ("https://surveys.sap.com/SE/?SID=SV_cOYQMsNXeLGjo7H")
 
+static const char* meViewTag[2] =
+{
+    "I0", "I1",
+};
 
 static const char* noticeTokenTag[2] =
 {
@@ -109,6 +113,11 @@ static const char* rankViewTag[2] =
 static const char* scoreHistoryTag[2] =
 {
     "SH0", "SH1"
+};
+
+static const char* noticeIcon[3] =
+{
+    "notification/favorite.png", "notification/event.png", "notification/prize.png"
 };
 
 static const CHAR* mainShort[3] =
