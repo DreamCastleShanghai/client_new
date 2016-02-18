@@ -662,7 +662,7 @@ void SessionDetailViewController::adjustSurveyBtn(float dt)
             // not start yet
             if (m_surveyBtn) m_surveyBtn->setControlState(CAControlStateDisabled);
             if (m_surveyBtnLabel1) {
-                m_surveyBtnLabel1->setText("Click to win points");
+                m_surveyBtnLabel1->setText("Click to win credits");
 //                m_surveyBtnLabel1->setColor(CAColor_blue);
             }
             if (m_surveyBtnLabel2) {
@@ -700,7 +700,7 @@ void SessionDetailViewController::adjustSurveyBtn(float dt)
                 m_surveyBtnLabel2->setVisible(false);
             }
             if (m_surveyBtnLabel3) {
-                m_surveyBtnLabel3->setText("Click to win point");
+                m_surveyBtnLabel3->setText("Click to win credits");
                 m_surveyBtnLabel3->setVisible(true);
             }
         }

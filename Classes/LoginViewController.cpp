@@ -88,7 +88,7 @@ void LoginViewController::viewDidLoad()
     m_pPassword->setBackgroundImage(CAImage::create("common/white_bg.png"));
     m_pPassword->setTextColor(CAColor_black);
     m_pPassword->setSecureTextEntry(true);
-    m_pPassword->setPlaceHolderText("Registration code");
+    m_pPassword->setPlaceHolderText("Confirmation number");
 	loginView->addSubview(m_pPassword);
 
     CAScale9ImageView* sView = CAScale9ImageView::createWithImage(CAImage::create("common/gray_bg.png"));

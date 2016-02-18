@@ -101,7 +101,7 @@ void MyStatusViewController::viewDidLoad()
     if (m_navSegmentView) {
         m_navSegmentView->addTarget(this, CAControl_selector(MyStatusViewController::buttonCallBack), CAControlEventTouchUpInSide);
         m_navSegmentView->setItemTile("My Agenda", 0);
-        m_navSegmentView->setItemTile("Points", 1);
+        m_navSegmentView->setItemTile("Credits", 1);
         m_navSegmentView->setTag(200, 0);
         m_navSegmentView->setTag(201, 1);
         this->getView()->addSubview(m_navSegmentView);
@@ -208,7 +208,7 @@ void MyStatusViewController::viewDidLoad()
             }
         }
         
-        if (m_rankLabel[0])     m_rankLabel[0]->setText("Points");
+        if (m_rankLabel[0])     m_rankLabel[0]->setText("Credits");
         if (m_rankLabel[1])     m_rankLabel[1]->setText("Ranking");
         if (m_pointLabel[0])    m_pointLabel[0]->setColor(ccc4(0xce, 0xea, 0xfd, 0xff));
         if (m_rankLabel[0])     m_rankLabel[0]->setColor(ccc4(0xce, 0xea, 0xfd, 0xff));

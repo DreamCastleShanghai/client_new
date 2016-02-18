@@ -241,7 +241,7 @@ void SurveyViewController::viewDidLoad()
 	imageView = CAImageView::createWithImage(CAImage::create("common/sky_bg.png"));
 	imageView->setImageViewScaleType(CAImageViewScaleTypeFitImageXY);
 	button->setBackgroundViewForState(CAControlStateAll, imageView);
-	button->setTitleForState(CAControlStateAll, "Submit and Get Session Points");
+	button->setTitleForState(CAControlStateAll, "Submit and Get Session Credits");
 	button->setTitleFontSize((35));
 	button->setTitleColorForState(CAControlStateAll, CAColor_white);
 	button->addTarget(this, CAControl_selector(SurveyViewController::buttonCallBack), CAControlEventTouchUpInSide);
