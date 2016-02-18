@@ -4,6 +4,7 @@
 
 #include <iostream>
 #include "CrossApp.h"
+#include "CommonHttpManager.h"
 
 #define PRETIME (5 * 60)
 
@@ -23,7 +24,7 @@ typedef struct
     
 } FNotice;
 
-class FNoticeManager
+class FNoticeManager : public CAObject
 {
 public:
     
@@ -33,12 +34,15 @@ public:
     
     static FNoticeManager* sharedFNoticeManager();
     
-    bool addNotice(int sid, int type, std::string &title, time_t start = 0, time_t end = 0);
+    bool addNotice(int sid, int type, std::string &title, time_t start = 0, time_t end = 0, bool remote = false);
     bool deleteNotice(int sid);
     std::vector<FNotice>& getNotices();
     bool readNotice(int sid);
 
-
+    void sendNoticeToken(unsigned char* token);
+    
+    void onSendNoticeToken(const HttpResponseStatus& status, const CSJson::Value& json);
+    
 protected:
     
     sqlite3_stmt *_sqlite_stmt_delete;
@@ -47,6 +51,7 @@ protected:
     sqlite3_stmt *_sqlite_stmt_read;
 
     std::vector<FNotice> m_notices;
+    
 };
 
 #endif /* defined(__FNoticeManager__) */

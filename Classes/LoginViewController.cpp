@@ -5,6 +5,7 @@
 #include "RootWindow.h"
 #include "ConstData/ConstFunc.h"
 #include "FUserManager.h"
+#include "FNoticeManager.h"
 
 LoginViewController::LoginViewController()
 : m_pAccount(NULL)
@@ -183,6 +184,8 @@ void LoginViewController::onRequestLoginFinished(const HttpResponseStatus& statu
                 user.uid = json["result"]["UserId"].asInt();
                 user.loginname = m_loginName;
                 FUserManager::sharedFUserManager()->userLogin(user);
+                
+                FNoticeManager::sharedFNoticeManager()->sendNoticeToken((unsigned char*)FDataManager::getInstance()->getUserToken().c_str());
             }
             else
             {

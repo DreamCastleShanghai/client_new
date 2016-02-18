@@ -128,6 +128,7 @@
 		5C31C85F1C47388000542BF3 /* FDataManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5C31C85D1C47388000542BF3 /* FDataManager.cpp */; };
 		5C31C8641C47FA0800542BF3 /* SurveyViewController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5C31C8621C47FA0800542BF3 /* SurveyViewController.cpp */; };
 		5C38F63B1C71BBDC002C4124 /* FNoticeManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5C38F6391C71BBDC002C4124 /* FNoticeManager.cpp */; };
+		5C38F64D1C7587CA002C4124 /* NoticeDetailViewController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5C38F64B1C7587C9002C4124 /* NoticeDetailViewController.cpp */; };
 		5C432C2B1C60EAB7008B55A0 /* ConstFunc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5C432C211C60EAB7008B55A0 /* ConstFunc.cpp */; };
 		5C432C2C1C60EAB7008B55A0 /* ConstId.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5C432C231C60EAB7008B55A0 /* ConstId.cpp */; };
 		5C432C2D1C60EAB7008B55A0 /* ConstRect.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5C432C251C60EAB7008B55A0 /* ConstRect.cpp */; };
@@ -452,6 +453,8 @@
 		5C31C8631C47FA0800542BF3 /* SurveyViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SurveyViewController.h; path = ../Classes/SurveyViewController.h; sourceTree = "<group>"; };
 		5C38F6391C71BBDC002C4124 /* FNoticeManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = FNoticeManager.cpp; path = ../Classes/FNoticeManager.cpp; sourceTree = "<group>"; };
 		5C38F63A1C71BBDC002C4124 /* FNoticeManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FNoticeManager.h; path = ../Classes/FNoticeManager.h; sourceTree = "<group>"; };
+		5C38F64B1C7587C9002C4124 /* NoticeDetailViewController.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = NoticeDetailViewController.cpp; path = ../Classes/NoticeDetailViewController.cpp; sourceTree = "<group>"; };
+		5C38F64C1C7587CA002C4124 /* NoticeDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NoticeDetailViewController.h; path = ../Classes/NoticeDetailViewController.h; sourceTree = "<group>"; };
 		5C432C211C60EAB7008B55A0 /* ConstFunc.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ConstFunc.cpp; path = ../Classes/ConstData/ConstFunc.cpp; sourceTree = "<group>"; };
 		5C432C221C60EAB7008B55A0 /* ConstFunc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ConstFunc.h; path = ../Classes/ConstData/ConstFunc.h; sourceTree = "<group>"; };
 		5C432C231C60EAB7008B55A0 /* ConstId.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ConstId.cpp; path = ../Classes/ConstData/ConstId.cpp; sourceTree = "<group>"; };
@@ -667,10 +670,10 @@
 				5C31C85E1C47388000542BF3 /* FDataManager.h */,
 				5C432C301C60EB54008B55A0 /* FirstSurveyViewController.cpp */,
 				5C432C311C60EB54008B55A0 /* FirstSurveyViewController.h */,
-				5CE620431C65AE1E00435EF0 /* FUserManager.cpp */,
-				5CE620441C65AE1E00435EF0 /* FUserManager.h */,
 				5C38F6391C71BBDC002C4124 /* FNoticeManager.cpp */,
 				5C38F63A1C71BBDC002C4124 /* FNoticeManager.h */,
+				5CE620431C65AE1E00435EF0 /* FUserManager.cpp */,
+				5CE620441C65AE1E00435EF0 /* FUserManager.h */,
 				5CFCF7001C3E512600DE4410 /* fview */,
 				5C5B69491C55DE28000C9AA4 /* IconUploadViewController.cpp */,
 				5C5B694A1C55DE28000C9AA4 /* IconUploadViewController.h */,
@@ -691,6 +694,8 @@
 				5C5B694C1C55DE28000C9AA4 /* MomentViewController.h */,
 				5CFA82841C282B730025C9B5 /* MyStatusViewController.cpp */,
 				5CFA82851C282B730025C9B5 /* MyStatusViewController.h */,
+				5C38F64B1C7587C9002C4124 /* NoticeDetailViewController.cpp */,
+				5C38F64C1C7587CA002C4124 /* NoticeDetailViewController.h */,
 				5CFCF7041C3EAE0F00DE4410 /* NoticeViewController.cpp */,
 				5CFCF7051C3EAE0F00DE4410 /* NoticeViewController.h */,
 				5CFA82901C2831260025C9B5 /* PhotoViewController.cpp */,
@@ -1213,6 +1218,7 @@
 				3E02A4F91B85AD6000328E71 /* gameswf_listener.cpp in Sources */,
 				3E02A4BA1B85AD6000328E71 /* triangulate_float.cpp in Sources */,
 				5C5DE7CA1C3035A900D9A8BC /* bitstream.c in Sources */,
+				5C38F64D1C7587CA002C4124 /* NoticeDetailViewController.cpp in Sources */,
 				5CFCF7061C3EAE0F00DE4410 /* NoticeViewController.cpp in Sources */,
 				3E02A4E41B85AD6000328E71 /* as_string.cpp in Sources */,
 				3E02A5091B85AD6000328E71 /* gameswf_tesselate.cpp in Sources */,
@@ -1364,8 +1370,8 @@
 				ARCHS = "$(ARCHS_STANDARD)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer: zheng min (N67Y5Y7TVF)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Dream Castle Co., Ltd. (65J6U7BL8K)";
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				COPY_PHASE_STRIP = NO;
 				ENABLE_BITCODE = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -1404,8 +1410,8 @@
 				OTHER_CFLAGS = "-O2";
 				PRODUCT_BUNDLE_IDENTIFIER = com.dc.app.sap2015ap;
 				PRODUCT_NAME = "d-kom 2016";
-				PROVISIONING_PROFILE = "775aead5-203b-4936-b1fb-a408a262505a";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "a5df8166-9819-4f58-bbee-af03ba5548f6";
+				PROVISIONING_PROFILE = "48ebd7b5-5a61-49dd-9052-6277b959a428";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "48ebd7b5-5a61-49dd-9052-6277b959a428";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 1;
 				USER_HEADER_SEARCH_PATHS = "";
@@ -1457,8 +1463,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.dc.app.sap2015ap;
 				PRODUCT_NAME = "d-kom 2016";
-				PROVISIONING_PROFILE = "775aead5-203b-4936-b1fb-a408a262505a";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "a5df8166-9819-4f58-bbee-af03ba5548f6";
+				PROVISIONING_PROFILE = "48ebd7b5-5a61-49dd-9052-6277b959a428";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "48ebd7b5-5a61-49dd-9052-6277b959a428";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 1;
 				USER_HEADER_SEARCH_PATHS = "";

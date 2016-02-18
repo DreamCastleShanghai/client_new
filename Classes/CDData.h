@@ -30,6 +30,12 @@ static const char* loginTag = "L0";
 
 #define DKOM_SURVEY_LINK    ("https://surveys.sap.com/SE/?SID=SV_cOYQMsNXeLGjo7H")
 
+
+static const char* noticeTokenTag[2] =
+{
+    "T0", "T1"
+};
+
 static const char* momentsTag[4] =
 {
 	"PL0", "PML0", "PV0", "PD0"

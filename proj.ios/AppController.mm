@@ -1,6 +1,8 @@
 #import "AppController.h"
 #import "AppDelegate.h"
 #import "RootViewController.h"
+#import "FNoticeManager.h"
+#import "FDataManager.h"
 
 @implementation AppController
 
@@ -40,8 +42,23 @@ static AppDelegate s_sharedApplication;
     
     [[UIApplication sharedApplication] setStatusBarHidden:NO];
     
+    if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 8.0) {
+        
+        [[UIApplication sharedApplication]registerUserNotificationSettings:[UIUserNotificationSettings
+                                                                            settingsForTypes:(UIUserNotificationTypeSound|UIUserNotificationTypeAlert|UIUserNotificationTypeBadge)
+                                                                            categories:nil]];
+        [[UIApplication sharedApplication]registerForRemoteNotifications];
+        
+    } else {
+        
+        UIRemoteNotificationType myTypes = UIRemoteNotificationTypeBadge|UIRemoteNotificationTypeAlert|UIRemoteNotificationTypeSound;
+        
+        [[UIApplication sharedApplication] registerForRemoteNotificationTypes:myTypes];
+    }
+    
     CrossApp::CCApplication::sharedApplication()->run();
-
+        
+    
     return YES;
 }
 
@@ -86,11 +103,38 @@ static AppDelegate s_sharedApplication;
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
 {
     //CrossApp::CCApplication::sharedApplication()->didReceiveRemoteNotification();
+    NSString *id = [userInfo objectForKey:@"id"];
+    NSString *content = [[[userInfo objectForKey:@"aps"] objectForKey:@"alert"] objectForKey:@"body"];
+    
+    std::string str = [content UTF8String];
+    FNoticeManager::sharedFNoticeManager()->addNotice([id intValue], 1, str, 0, 0, true);
+    NSLog(@"didReceiveRemoteNotification %@ %@", id, content);
 }
 
 - (void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification
 {
     //CrossApp::CCApplication::sharedApplication()->didReceiveLocalNotification();
+    NSDictionary *dict = notification.userInfo;
+    if (dict) {
+        NSString *inKey = [dict objectForKey:@"key"];
+        NSLog(@"My token is: %@", inKey);
+    }
+    NSLog(@"didReceiveLocalNotification");
+}
+
+- (void)application:(UIApplication*)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData*)deviceToken
+{
+    NSString *deviceTokenStr = [NSString stringWithFormat:@"%@",deviceToken];
+    deviceTokenStr = [[deviceTokenStr substringWithRange:NSMakeRange(0, 72)] substringWithRange:NSMakeRange(1, 71)];
+    deviceTokenStr = [deviceTokenStr stringByReplacingOccurrencesOfString:@" " withString:@""];
+    FNoticeManager::sharedFNoticeManager()->sendNoticeToken((unsigned char*)[deviceTokenStr UTF8String]);
+    FDataManager::getInstance()->setUserToken(crossapp_format_string("%s", (unsigned char*)[deviceTokenStr UTF8String]));
+    NSLog(@"My token is: %@", deviceToken);
+}
+
+- (void)application:(UIApplication*)application didFailToRegisterForRemoteNotificationsWithError:(NSError*)error
+{
+    NSLog(@"Failed to get token, error: %@", error);
 }
 
 #pragma mark -

@@ -7,6 +7,7 @@
 #include "SessionDetailViewController.h"
 #include "FServerTime.h"
 #include "FNoticeManager.h"
+#include "NoticeDetailViewController.h"
 
 NoticeViewController::NoticeViewController()
 : p_alertView(NULL)
@@ -299,6 +300,15 @@ void NoticeViewController::tableViewDidSelectRowAtIndexPath(CATableView* table, 
             }
         }
         
+    }
+    else if (m_msgList[row].type == notice_news)
+    {
+        NoticeDetailViewController* vc = new NoticeDetailViewController(m_msgList[row].title);
+        vc->init();
+        vc->autorelease();
+        RootWindow::getInstance()->getRootNavigationController()->pushViewController(vc, true);
+        
+        FNoticeManager::sharedFNoticeManager()->readNotice(atoi(m_msgList[row].nid.c_str()));
     }
     
 }

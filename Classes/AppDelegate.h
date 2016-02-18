@@ -36,6 +36,8 @@ public:
     virtual void didReceiveRemoteNotification();
     
     virtual void didReceiveLocalNotification();
+    
+    virtual void didRegisterForRemoteNotificationsWithDeviceToken(std::string token);
 };
 
 #endif // _APP_DELEGATE_H_

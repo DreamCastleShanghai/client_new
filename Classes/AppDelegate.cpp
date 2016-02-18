@@ -57,4 +57,10 @@ void AppDelegate::didReceiveRemoteNotification()
 void AppDelegate::didReceiveLocalNotification()
 {
     RootWindow::getInstance()->didReceiveLocalNotification();
+    CCLog("didReceiveLocalNotification");
+}
+
+void AppDelegate::didRegisterForRemoteNotificationsWithDeviceToken(std::string token)
+{
+    
 }

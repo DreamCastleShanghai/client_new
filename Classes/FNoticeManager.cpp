@@ -51,11 +51,19 @@ FNoticeManager::~FNoticeManager()
     sqlite3_finalize(_sqlite_stmt_get);
 }
 
-bool FNoticeManager::addNotice(int sid, int type, std::string &title, time_t start, time_t end)
+bool FNoticeManager::addNotice(int sid, int type, std::string &title, time_t start, time_t end, bool remote)
 {
     deleteNotice(sid);
     
-    CADevice::sendLocalNotification("session", title.c_str(), start - getTimeSecond() - PRETIME, crossapp_format_string("%d", sid).c_str());
+    if (!remote)
+    {
+        CADevice::sendLocalNotification("session", title.c_str(), start - getTimeSecond() - PRETIME, crossapp_format_string("%d", sid).c_str());
+    }
+    else
+    {
+        start = getTimeSecond();
+    }
+    
 
     int ok = sqlite3_bind_text(_sqlite_stmt_add, 1, crossapp_format_string("%d", sid).c_str(), -1, SQLITE_TRANSIENT);
     ok |= sqlite3_bind_text(_sqlite_stmt_add, 2, title.c_str(), -1, SQLITE_TRANSIENT);
@@ -133,4 +141,21 @@ bool FNoticeManager::deleteNotice(int sid)
     return true;
 }
 
+void FNoticeManager::sendNoticeToken(unsigned char* token)
+{
+    std::map<std::string, std::string> key_value;
+    key_value["tag"] = noticeTokenTag[0];
+    key_value["uid"] = crossapp_format_string("%d", FDataManager::getInstance()->getUserId());
+    key_value["tk"] = crossapp_format_string("%s", token);
+    CommonHttpManager::getInstance()->send_post(httpUrl, key_value, this, CommonHttpJson_selector(FNoticeManager::onSendNoticeToken));
+}
 
+void FNoticeManager::onSendNoticeToken(const HttpResponseStatus& status, const CSJson::Value& json)
+{
+    if (status == HttpResponseSucceed)
+    {
+        CSJson::FastWriter writer;
+        string tempjson = writer.write(json);
+        CCLog("receive json == %s",tempjson.c_str());
+    }
+}

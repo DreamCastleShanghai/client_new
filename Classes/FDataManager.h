@@ -173,6 +173,9 @@ public:
     int getUserId() { return m_userInfo.m_userId; }
     void setUserId(int id) { assert(id >= 0); m_userInfo.m_userId = id; }
 
+    std::string getUserToken() { return m_token; }
+    void setUserToken(std::string token) { m_token = token; }
+    
 	bool isTimeNotice() { return m_timeNotice; }
 	void setTimeNotice(bool notice) { m_timeNotice = notice; }
 
@@ -197,6 +200,8 @@ private:
     time_t                      m_diffServerTime;
     vector<sessionMsg>          m_sessionMsgs;
     userInfo                    m_userInfo;
+    
+    std::string m_token;
 };
 
 
