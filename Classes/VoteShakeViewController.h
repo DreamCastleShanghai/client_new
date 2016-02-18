@@ -45,7 +45,7 @@ private:
         Vote_Start,
         Vote_End,
         
-        SHAKE_CNT = 30,
+        SHAKE_CNT = 10,
     };
 	DSize                                       m_winSize;
     CAView*                                     m_view;

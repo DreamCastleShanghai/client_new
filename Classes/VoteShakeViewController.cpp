@@ -135,7 +135,7 @@ void VoteShakeViewController::initView()
         m_shakeNumLabel->setTextAlignment(CATextAlignmentCenter);
         m_shakeNumLabel->setColor(CAColor_gray);
         m_shakeNumLabel->setFontSize((50));
-        m_shakeNumLabel->setText(crossapp_format_string("Shake Number: %d", m_shakeNum));
+        m_shakeNumLabel->setText(crossapp_format_string("Shake Number: %d", SHAKE_CNT - m_shakeNum));
         m_shakeNumLabel->setFontName(SAP_FONT_ARIAL);
         m_shakeView->addSubview(m_shakeNumLabel);
         
@@ -229,9 +229,9 @@ void VoteShakeViewController::onRequestFinished(const HttpResponseStatus& status
 {
     if (status == HttpResponseSucceed)
     {
-//        CSJson::FastWriter writer;
-//        string tempjson = writer.write(json);
-//        CCLog("receive json == %s",tempjson.c_str());
+        CSJson::FastWriter writer;
+        string tempjson = writer.write(json);
+        CCLog("receive json == %s",tempjson.c_str());
         
         const CSJson::Value& value = json["result"];
         
@@ -293,9 +293,9 @@ void VoteShakeViewController::onRequestVoteFinished(const HttpResponseStatus& st
 {
     if (status == HttpResponseSucceed)
     {
-//        CSJson::FastWriter writer;
-//        string tempjson = writer.write(json);
-//        CCLog("receive json == %s",tempjson.c_str());
+        CSJson::FastWriter writer;
+        string tempjson = writer.write(json);
+        CCLog("receive json == %s",tempjson.c_str());
         
         const CSJson::Value& value = json["result"];
         if(value["r"].asInt() == 1)
@@ -315,11 +315,16 @@ void VoteShakeViewController::onRequestVoteFinished(const HttpResponseStatus& st
                 uInfo->m_voiceVoteIdVec.push_back(m_voiceMsg->m_projectId);
             }
         }
-
+        else
+        {
+            m_shakeNum = SHAKE_CNT - 5;
+            if(m_shakeNumLabel)
+                m_shakeNumLabel->setText(crossapp_format_string("Shake Number: %d", SHAKE_CNT - m_shakeNum));
+        }
     }
     else
     {
-        m_shakeNum = 29;
+        m_shakeNum = SHAKE_CNT - 5;
         if(m_shakeNumLabel)
             m_shakeNumLabel->setText(crossapp_format_string("Shake Number: %d", SHAKE_CNT - m_shakeNum));
     }
@@ -342,7 +347,7 @@ void VoteShakeViewController::didAccelerate(CCAcceleration* pAccelerationValue)
     float nowGX = (pAccelerationValue->x)*9.81f;
     float nowGY = (pAccelerationValue->y)*9.81f;
     
-    float dt = 30.f;
+    float dt = 20.f;
     if(m_voteStatus == Vote_Start && !m_voted && m_canVote && (nowGX<-dt || nowGY<-dt))
     {
         m_shakeNum++;
@@ -352,9 +357,9 @@ void VoteShakeViewController::didAccelerate(CCAcceleration* pAccelerationValue)
         }
         if(m_shakeNumLabel)
             m_shakeNumLabel->setText(crossapp_format_string("Shake Number: %d", SHAKE_CNT - m_shakeNum));
-        if (m_shakeNum >= 30)
+        if (m_shakeNum >= SHAKE_CNT)
         {
-            m_shakeNum = 30;
+            m_shakeNum = SHAKE_CNT;
             m_canVote = false;
             requestMsg(1);
         }

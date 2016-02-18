@@ -740,6 +740,10 @@ CATableViewCell* MyStatusViewController::tableCellAtIndex(CATableView* table, co
                  label->setColor(ccc4(0x3f, 0x3f, 0x3f, 0xff));
                  cell->addSubview(label);*/
                 //for (vector<scoreHistory>::iterator it = m_shMsg.begin(); it != m_shMsg.end(); it++) {
+                if (m_shMsg.size() <= row)
+                {
+                    return NULL;
+                }
                 scoreHistory it = m_shMsg[row];
                 int sessionId = atoi(it.m_scoreDetail.c_str());
                 table->dequeueReusableCellWithIdentifier(crossapp_format_string("1%d", sessionId).c_str());

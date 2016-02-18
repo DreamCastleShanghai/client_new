@@ -250,13 +250,13 @@ CATableViewCell* NoticeViewController::tableCellAtIndex(CATableView* table, cons
 
 		CALabel* label = CALabel::createWithFrame(DRect((160), (20), m_winSize.width - (200), (40)));
 		label->setText(m_msgList[row].title);
-		label->setFontSize((35));
+		label->setFontSize((30));
 		label->setColor(CAColor_black);
 		cell->addSubview(label);
 
 		label = CALabel::createWithFrame(DRect((160), (70), (200), (30)));
 		label->setText(crossapp_format_string("%s", timeToString(m_msgList[row].startTime).c_str()));
-		label->setFontSize((28));
+		label->setFontSize((25));
 		label->setColor(CAColor_gray);
 		cell->addSubview(label);
 

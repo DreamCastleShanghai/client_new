@@ -222,6 +222,7 @@ void VoteViewController::initMsgTableView()
         
         button->setTitleFontName(SAP_FONT_ARIAL);
         button->setTitleColorForState(CAControlStateAll, CAColor_white);
+        button->setTitleColorForState(CAControlStateDisabled, CAColor_gray);
         button->setBackgroundViewForState(CAControlStateAll, imageView);
         button->addTarget(this, CAControl_selector(VoteViewController::buttonCallBack), CAControlEventTouchUpInSide);
         button->setTag(400 + i);
@@ -283,6 +284,7 @@ void VoteViewController::initMsgTableView()
         }
         button->setTitleFontName(SAP_FONT_ARIAL);
         button->setTitleColorForState(CAControlStateAll, CAColor_white);
+        button->setTitleColorForState(CAControlStateDisabled, CAColor_gray);
         button->setBackgroundViewForState(CAControlStateAll, imageView);
         button->addTarget(this, CAControl_selector(VoteViewController::buttonCallBack), CAControlEventTouchUpInSide);
         button->setTag(500 + i);

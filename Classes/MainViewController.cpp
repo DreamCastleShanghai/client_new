@@ -550,8 +550,8 @@ void MainViewController::onRequestFinished(const HttpResponseStatus& status, con
 {
     if (status == HttpResponseSucceed)
     {
-        CSJson::FastWriter writer;
-        string tempjson = writer.write(json);
+        //CSJson::FastWriter writer;
+        //string tempjson = writer.write(json);
         //CCLog("receive json == %s",tempjson.c_str());
         
         const CSJson::Value& value = json["result"];
@@ -624,7 +624,12 @@ void MainViewController::onRequestFinished(const HttpResponseStatus& status, con
             temp_msg.m_point = v1[index]["Point"].asInt();
             m_msg->push_back(temp_msg);
         }
+        
         const CSJson::Value& v2 = json["result"]["usr"];
+        CSJson::FastWriter writer;
+        string tempjson = writer.write(v2);
+        CCLog("receive json == %s",tempjson.c_str());
+        
         userInfo* uInfo = FDataManager::getInstance()->getUserInfo();
 		uInfo->m_loginName = v2["LoginName"].asString();
         uInfo->m_userId = FDataManager::getInstance()->getUserId();

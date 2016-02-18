@@ -217,7 +217,7 @@ void CommonHttpManager::send_post(const std::string& url,
         }
         while (1);
     }
-    //CCLog("---%s %s",url.c_str(), postData.c_str());
+    CCLog("---%s %s",url.c_str(), postData.c_str());
 
     CAHttpRequest* httpRequest = new CAHttpRequest();
     httpRequest->setUrl(url.c_str());
