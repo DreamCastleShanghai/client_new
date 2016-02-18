@@ -57,9 +57,9 @@ private:
     
     // body
     CAScrollView*               m_bodyScrollView;
-    CALabel*                    m_bodyContext;
-    CAButton*                   m_submitBtn;
-    CAImageView*                m_submitBtnBG;
+//    CALabel*                    m_bodyContext;
+//    CAButton*                   m_submitBtn;
+//    CAImageView*                m_submitBtnBG;
 };
 
 #endif /* MeInfoViewController_hpp */

@@ -21,11 +21,11 @@ MeInfoViewController::MeInfoViewController()
 , m_backBtnBG(NULL)
 , m_headerTitle(NULL)
 , m_bodyScrollView(NULL)
-, m_bodyContext(NULL)
-, m_submitBtn(NULL)
-, m_submitBtnBG(NULL)
+//, m_bodyContext(NULL)
+//, m_submitBtn(NULL)
+//, m_submitBtnBG(NULL)
 {
-    
+    requestSubmit();
 }
 
 MeInfoViewController::~MeInfoViewController()
@@ -86,6 +86,7 @@ void MeInfoViewController::viewDidLoad()
         m_headerView->addSubview(m_headerTitle);
     }
     
+    /*
     // body scroll view
     m_bodyScrollView = CAScrollView::createWithFrame(DRect((0), (120), m_winSize.width, m_winSize.height - (240)));
     if (m_bodyScrollView) {
@@ -113,6 +114,7 @@ void MeInfoViewController::viewDidLoad()
             m_bodyScrollView->addSubview(m_bodyContext);
         }
     }
+     */
     
     /*
     m_submitBtn = CAButton::createWithFrame(DRect((40), m_winSize.height - (120), m_winSize.width - (80), (100)), CAButtonTypeCustom);
@@ -142,8 +144,7 @@ void MeInfoViewController::viewDidUnload()
 void MeInfoViewController::requestSubmit()
 {
     std::map<std::string, std::string> key_value;
-    key_value["tag"] = firstSurveySubmitTag[0];
-    key_value["uid"] = crossapp_format_string("%d", FDataManager::getInstance()->getUserId());
+    key_value["tag"] = meViewTag[0];
     CommonHttpManager::getInstance()->send_post(httpUrl, key_value, this, CommonHttpJson_selector(MeInfoViewController::onRequestSubmitFinished));
     
     if (!m_pLoading) {
@@ -159,9 +160,55 @@ void MeInfoViewController::onRequestSubmitFinished(const HttpResponseStatus& sta
 {
     if (status == HttpResponseSucceed)
     {
-//        CSJson::FastWriter writer;
-//        string tempjson = writer.write(json);
-//        CCLog("receive json == %s",tempjson.c_str());
+        CSJson::FastWriter writer;
+        string tempjson = writer.write(json);
+        CCLog("receive maps == %s",tempjson.c_str());
+        
+        const CSJson::Value& value = json["result"];
+        int isSucceed = value["r"].asInt();
+        std::string tag = value["i"].asString();
+        if (tag == meViewTag[0] && isSucceed == 1) {
+            const CSJson::Value& map = value["me"];
+            int length = map.size();
+            int headHight = 120;
+            if (m_bodyScrollView == NULL) {
+                m_bodyScrollView = CAScrollView::createWithFrame(DRect((0), headHight, m_winSize.width, (m_winSize.height - headHight) * length));
+            }
+            if (m_bodyScrollView) {
+                //scrollView->setViewSize(DSize(m_winSize.width - (40), (m_imageHeight));
+                m_bodyScrollView->setHorizontalScrollEnabled(false);
+                m_bodyScrollView->setVerticalScrollEnabled(true);
+                m_bodyScrollView->setBounceHorizontal(false);
+                m_bodyScrollView->setBounds(DRect(0, 0, m_winSize.width, m_winSize.height - headHight));
+                m_bodyScrollView->setAnchorPoint(DPoint(0.f, 0.f));
+                m_bodyScrollView->setShowsHorizontalScrollIndicator(false);
+                m_bodyScrollView->setShowsVerticalScrollIndicator(true);
+                m_bodyScrollView->setBackgroundColor(CAColor_clear);
+                this->getView()->addSubview(m_bodyScrollView);
+            }
+            for (int i = 0; i < length; ++i) {
+                newsPage mapRes;
+                mapRes.m_imageUrl = crossapp_format_string("%s%s", imgPreUrl.c_str(), map[i]["Resource"].asCString());
+                //map[i]["Resource"].asString();
+                mapRes.m_lable = map[i]["ResLable"].asString();
+                
+                CommonUrlImageView* content = CommonUrlImageView::createWithFrame(DRect(0, (m_winSize.height - headHight) * i, m_winSize.width, m_winSize.height - 120));
+                if (content) {
+                    content->setImageViewScaleType(CAImageViewScaleTypeFitImageXY);
+                    content->setImage(CAImage::create("common/bg.png"));
+                    content->setUrl(mapRes.m_imageUrl);
+                }
+                if (m_bodyScrollView) {
+                    m_bodyScrollView->addSubview(content);
+                }
+                //m_maps.push_back(mapRes);
+            }
+        }
+        /*
+        CSJson::FastWriter writer;
+        string tempjson = writer.write(json);
+        CCLog("receive json == %s",tempjson.c_str());
+        
         const CSJson::Value& value = json["result"];
         if (value["r"] == 1)
         {
@@ -177,6 +224,7 @@ void MeInfoViewController::onRequestSubmitFinished(const HttpResponseStatus& sta
             alertView->show();
         }
         back();
+         */
     }
     else
     {
