@@ -44,23 +44,24 @@ private:
         ID_INSIDE,
     };
 	DSize													m_winSize;
-
-    std::vector<sessionMsg>									m_msg;
+    //std::vector<newsPage>                                   m_maps;
+    CAScrollView*                                           m_bodyScrollView;
+//    std::vector<sessionMsg>									m_msg;
     
 //    CAView*													p_alertView;
     CAActivityIndicatorView*								m_pLoading;
     
 //    FSegmentView*                                           m_segView;
-    CAButton*                                               m_leftBtn;
-    CAButton*                                               m_rightBtn;
+//    CAButton*                                               m_leftBtn;
+//    CAButton*                                               m_rightBtn;
     
-    CAScrollView*                                           m_pageOne;
-    CAScrollView*                                           m_pageTwo;
+//    CAScrollView*                                           m_pageOne;
+//    CAScrollView*                                           m_pageTwo;
     
-    CALabel*                                                m_pageOneAddressLabel;
-    CommonUrlImageView*                                     m_pageOneImage;
+//    CALabel*                                                m_pageOneAddressLabel;
+//    CommonUrlImageView*                                     m_pageOneImage;
     
-    CommonUrlImageView*                                     m_pageTwoImage;
+//    CommonUrlImageView*                                     m_pageTwoImage;
     
 };
 

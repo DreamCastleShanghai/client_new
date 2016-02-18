@@ -405,9 +405,15 @@ void SurveyViewController::onSurveyInfoFinished(const HttpResponseStatus& status
         p_pLoading->stopAnimating();
     }
     if (!isSucceed) {
-        CAAlertView *alertView = CAAlertView::createWithText("Network error", "Please try again!", "OK", NULL);
+        CAAlertView *alertView = CAAlertView::createWithText("Error", "Please try again!", "OK", NULL);
+        alertView->setTarget(this, CAAlertView_selector(SurveyViewController::onAlert));
         alertView->show();
     }
+}
+
+void SurveyViewController::onAlert(int bid)
+{
+    RootWindow::getInstance()->getRootNavigationController()->popViewControllerAnimated(true);
 }
 
 void SurveyViewController::onRequestFinished(const HttpResponseStatus& status, const CSJson::Value& json)

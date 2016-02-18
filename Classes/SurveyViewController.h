@@ -34,6 +34,8 @@ protected:
 	void requestMsg();
     
     void getSurveyInfo();
+    
+    void onAlert(int bid);
 
     void onSurveyInfoFinished(const HttpResponseStatus& status, const CSJson::Value& json);
     

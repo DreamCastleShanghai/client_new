@@ -8,20 +8,22 @@
 
 MapViewController::MapViewController()
 : m_pLoading(NULL)
-, m_leftBtn(NULL)
-, m_rightBtn(NULL)
-, m_pageOne(NULL)
-, m_pageTwo(NULL)
-, m_pageOneAddressLabel(NULL)
-, m_pageOneImage(NULL)
-, m_pageTwoImage(NULL)
+, m_bodyScrollView(NULL)
+//, m_leftBtn(NULL)
+//, m_rightBtn(NULL)
+//, m_pageOne(NULL)
+//, m_pageTwo(NULL)
+//, m_pageOneAddressLabel(NULL)
+//, m_pageOneImage(NULL)
+//, m_pageTwoImage(NULL)
 {
+    //m_maps.clear();
     requestInsideguideMsg();
 }
 
 MapViewController::~MapViewController()
 {
-
+    //m_maps.clear();
 }
 
 void MapViewController::viewDidLoad()
@@ -54,8 +56,25 @@ void MapViewController::viewDidLoad()
     button->setTag(ID_BACK);
     this->getView()->addSubview(button);
     
-    int btnHight = (60);
+    /*
+    m_bodyScrollView = CAScrollView::createWithFrame(DRect((0), hight, m_winSize.width, m_winSize.height - hight));
+    if (m_bodyScrollView) {
+        //scrollView->setViewSize(DSize(m_winSize.width - (40), (m_imageHeight));
+        m_bodyScrollView->setHorizontalScrollEnabled(false);
+        m_bodyScrollView->setVerticalScrollEnabled(true);
+        m_bodyScrollView->setBounceHorizontal(false);
+        m_bodyScrollView->setBounds(DRect(0, 0, m_winSize.width, m_winSize.height - hight));
+        m_bodyScrollView->setAnchorPoint(DPoint(0.f, 0.f));
+        m_bodyScrollView->setShowsHorizontalScrollIndicator(false);
+        m_bodyScrollView->setShowsVerticalScrollIndicator(true);
+        m_bodyScrollView->setBackgroundColor(CAColor_clear);
+        this->getView()->addSubview(m_bodyScrollView);
+    }
+     */
     
+    /*
+    int btnHight = (60);
+     
     // left btn
     if (m_leftBtn == NULL)
     {
@@ -100,7 +119,7 @@ void MapViewController::viewDidLoad()
     }
     
     hight += btnHight;
-    
+    */
     
     
     /*
@@ -127,6 +146,7 @@ void MapViewController::viewDidLoad()
     this->getView()->addSubview(button);
     */
     
+    /*
     // page one
     m_pageOne = CAScrollView::createWithFrame(DRect(0, hight, m_winSize.width, m_winSize.height - hight));
     if (m_pageOne) {
@@ -196,6 +216,7 @@ void MapViewController::viewDidLoad()
         temp->setFrame(DRect(0, 0, m_winSize.width, m_winSize.height - hight));
         m_pageTwo->addSubview(temp);
     }
+     */
     
     //requestMsg();
     
@@ -231,10 +252,10 @@ void MapViewController::requestInsideguideMsg()
      */
     
     std::map<std::string, std::string> key_value;
-    key_value["tag"] = sessionViewTag[0];
-    key_value["page"] = "1";
-    key_value["limit"] = "20";
-    key_value["sign"] = getSign(key_value);
+    key_value["tag"] = mapViewTag[0];
+//    key_value["page"] = "1";
+//    key_value["limit"] = "20";
+//    key_value["sign"] = getSign(key_value);
     CommonHttpManager::getInstance()->send_post(httpUrl, key_value, this, CommonHttpJson_selector(MapViewController::onRequestFinished));
     
     if (m_pLoading) {
@@ -254,6 +275,7 @@ void MapViewController::buttonCallBack(CAControl* btn, DPoint point)
         case ID_BACK:
             RootWindow::getInstance()->getRootNavigationController()->popViewControllerAnimated(true);
             break;
+            /*
         case ID_OUTSIDE:
             m_pageOne->setVisible(true);
             m_pageTwo->setVisible(false);
@@ -266,6 +288,7 @@ void MapViewController::buttonCallBack(CAControl* btn, DPoint point)
             m_rightBtn->setControlState(CAControlStateSelected);
             m_leftBtn->setControlState(CAControlStateNormal);
             break;
+             */
         default:
             break;
     }
@@ -275,9 +298,50 @@ void MapViewController::onRequestFinished(const HttpResponseStatus& status, cons
 {
     if (status == HttpResponseSucceed)
     {
+        CSJson::FastWriter writer;
+        string tempjson = writer.write(json);
+        CCLog("receive maps == %s",tempjson.c_str());
+        
         const CSJson::Value& value = json["result"];
-        int length = value.size();
-        m_msg.clear();
+        int isSucceed = value["r"].asInt();
+        std::string tag = value["i"].asString();
+        if (tag == mapViewTag[0] && isSucceed == 1) {
+            const CSJson::Value& map = value["map"];
+            int length = map.size();
+            int headHight = 120;
+            if (m_bodyScrollView == NULL) {
+                m_bodyScrollView = CAScrollView::createWithFrame(DRect((0), headHight, m_winSize.width, (m_winSize.height - headHight) * length));
+            }
+            if (m_bodyScrollView) {
+                //scrollView->setViewSize(DSize(m_winSize.width - (40), (m_imageHeight));
+                m_bodyScrollView->setHorizontalScrollEnabled(false);
+                m_bodyScrollView->setVerticalScrollEnabled(true);
+                m_bodyScrollView->setBounceHorizontal(false);
+                m_bodyScrollView->setBounds(DRect(0, 0, m_winSize.width, m_winSize.height - headHight));
+                m_bodyScrollView->setAnchorPoint(DPoint(0.f, 0.f));
+                m_bodyScrollView->setShowsHorizontalScrollIndicator(false);
+                m_bodyScrollView->setShowsVerticalScrollIndicator(true);
+                m_bodyScrollView->setBackgroundColor(CAColor_clear);
+                this->getView()->addSubview(m_bodyScrollView);
+            }
+            for (int i = 0; i < length; ++i) {
+                newsPage mapRes;
+                mapRes.m_imageUrl = crossapp_format_string("%s%s", imgPreUrl.c_str(), map[i]["Resource"].asCString());
+                //map[i]["Resource"].asString();
+                mapRes.m_lable = map[i]["ResLable"].asString();
+                
+                CommonUrlImageView* content = CommonUrlImageView::createWithFrame(DRect(0, (m_winSize.height - headHight) * i, m_winSize.width, m_winSize.height - 120));
+                if (content) {
+                    content->setImageViewScaleType(CAImageViewScaleTypeFitImageXY);
+                    content->setImage(CAImage::create("common/bg.png"));
+                    content->setUrl(mapRes.m_imageUrl);
+                }
+                if (m_bodyScrollView) {
+                    m_bodyScrollView->addSubview(content);
+                }
+                //m_maps.push_back(mapRes);
+            }
+        }
     }
     /*
     else

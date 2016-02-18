@@ -70,6 +70,11 @@ static const char* sessionViewTag[3] =
 	"SL0", "SC0", "SV0"
 };
 
+static const char* mapViewTag[2] =
+{
+    "MP0", "MP1",
+};
+
 static const char* sessionDetailViewTag[2] =
 {
 	"SD0", "SD1"

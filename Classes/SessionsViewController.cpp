@@ -729,6 +729,7 @@ CAListViewCell* SessionsViewController::listViewCellAtIndex(CAListView *listView
             test->setText(crossapp_format_string("%2d:00", index + 8));
         }
     }
+    /*
     else if(listView->getTag() == 2)
     {
         DSize _size = cellSize;
@@ -785,7 +786,7 @@ CAListViewCell* SessionsViewController::listViewCellAtIndex(CAListView *listView
                             
         }
         
-    }
+    }*/
     return cell;
 }
 
