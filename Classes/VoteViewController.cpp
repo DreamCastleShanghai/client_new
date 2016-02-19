@@ -445,7 +445,7 @@ void VoteViewController::setTitleDetailView(int type, int index)
         m_titleLabel[type]->setText(m_demoMsg[index].m_teamName.c_str());
         m_detailLabel[type]->setText(m_demoMsg[index].m_teamDetail.c_str());
     } else if (type == 1){
-        m_titleLabel[type]->setText(m_voiceMsg[index].m_playerName.c_str());
+        m_titleLabel[type]->setText(m_voiceMsg[index].m_projectName.c_str());
         m_detailLabel[type]->setText(m_voiceMsg[index].m_teamDetail.c_str());
     } else if (type == 2) {
         m_titleLabel[type]->setText(m_hikMsg[index].m_title.c_str());
@@ -572,7 +572,7 @@ void VoteViewController::buttonCallBack(CAControl* btn, DPoint point)
     else if (btn->getTag() >= 600 && btn->getTag() < 700)
     {
         userInfo* uInfo = FDataManager::getInstance()->getUserInfo();
-        if (uInfo->m_voiceVoteIdVec.size() >= 2)
+        if (uInfo->m_eggVoted)
         {
             return;
         }

@@ -895,6 +895,7 @@ bool MainViewController::checkPageStatusIsChanged()
 
 void MainViewController::adjustPageViewContent()
 {
+    if(m_pageAllMapVec.empty()) return;
     m_page.clear();
     switch (m_pageStatus) {
         case MAP_PRE_EVENT:

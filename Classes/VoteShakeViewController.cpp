@@ -153,8 +153,9 @@ void VoteShakeViewController::initView()
         
         CALabel* label = CALabel::createWithFrame(DRect((40), (450), m_winSize.width - (80), (80)));
         label->setTextAlignment(CATextAlignmentCenter);
+        label->setWordWrap(true);
         label->setColor(CAColor_red);
-        label->setFontSize((35));
+        label->setFontSize((25));
         switch (m_tye) {
             case TYPE_DJ:
                 //urlImageVIew->setUrl(((demoJamMsg*)m_msg)->m_imageUrl);
@@ -181,7 +182,6 @@ void VoteShakeViewController::initView()
             label->setText(crossapp_format_string("Shake your phone, Vote for %s", m_voiceMsg->m_playerName.c_str()));
         }
          */
-        label->setFontName(SAP_FONT_ARIAL);
         m_shakeView->addSubview(label);
         
         m_shakeNumLabel = CALabel::createWithFrame(DRect((40), (550), m_winSize.width - (80), (80)));
@@ -189,13 +189,13 @@ void VoteShakeViewController::initView()
         m_shakeNumLabel->setColor(CAColor_gray);
         m_shakeNumLabel->setFontSize((50));
         m_shakeNumLabel->setText(crossapp_format_string("Shake Number: %d", SHAKE_CNT -  m_shakeNum));
-        m_shakeNumLabel->setFontName(SAP_FONT_ARIAL);
         m_shakeView->addSubview(m_shakeNumLabel);
         
         label = CALabel::createWithFrame(DRect((40), (300), m_winSize.width - (80), (80)));
         label->setTextAlignment(CATextAlignmentCenter);
         label->setColor(CAColor_white);
-        label->setFontSize((35));
+        label->setWordWrap(true);
+        label->setFontSize((25));
         /*
         if (m_demoMsg)
         {
@@ -206,19 +206,18 @@ void VoteShakeViewController::initView()
             label->setText(crossapp_format_string("You have been voted for %s, thank you!", m_voiceMsg->m_playerName.c_str()));
         }
          */
-        label->setFontName(SAP_FONT_ARIAL);
         m_shakeEndView->addSubview(label);
         switch (m_tye) {
             case TYPE_DJ:
                 //urlImageVIew->setUrl(((demoJamMsg*)m_msg)->m_imageUrl);
-                label->setText(crossapp_format_string("Shake your phone, Vote for %s", ((demoJamMsg*)m_msg)->m_teamName.c_str()));
+                label->setText(crossapp_format_string("You have been voted for %s, thank you!", ((demoJamMsg*)m_msg)->m_teamName.c_str()));
                 break;
             case TYPE_VOICE:
                 //urlImageVIew->setUrl(((voiceMsg*)m_msg)->m_imageUrl);
-                label->setText(crossapp_format_string("Shake your phone, Vote for %s", ((voiceMsg*)m_msg)->m_playerName.c_str()));
+                label->setText(crossapp_format_string("You have been voted for %s, thank you!", ((voiceMsg*)m_msg)->m_playerName.c_str()));
                 break;
             case TYPE_EH:
-                label->setText(crossapp_format_string("Shake your phone, Vote for hiking"));
+                label->setText(crossapp_format_string("You have been voted for hiking, thank you!"));
                 //urlImageVIew->setUrl(((eggHikingMsg*)m_msg)->m_imageUrl);
                 break;
             default:
@@ -309,28 +308,18 @@ void VoteShakeViewController::onRequestFinished(const HttpResponseStatus& status
     if (status == HttpResponseSucceed)
     {
 
-#ifdef LOCAL_DEBUG
+//#ifdef LOCAL_DEBUG
         CSJson::FastWriter writer;
         string tempjson = writer.write(json);
         CCLog("receive json == %s",tempjson.c_str());
-#endif
+//#endif
         bool canVote = false;
         const CSJson::Value& value = json["result"];
         
         if (m_tye == TYPE_EH)
         {
             m_voteStatus = value["r"].asInt();
-            if (m_voteStatus == 1)
-            {
-                if (value["e"].asInt() == 1)
-                {
-                    canVote = true;
-                }
-                else
-                {
-                    canVote = false;
-                }
-            }
+            canVote = true;
         }
         else
         {

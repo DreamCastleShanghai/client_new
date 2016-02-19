@@ -195,26 +195,15 @@ void SessionDetailViewController::initView()
     tempRect.size.width = m_winSize.width - (80);
     tempRect.origin.y = yHight;
 	CALabel* m_lectureDetailLabel = CALabel::createWithFrame(tempRect);
-	m_lectureDetailLabel->setColor(ccc4(0xa1, 0xa1, 0xa1, 0xff));
 	m_lectureDetailLabel->setTextAlignment(CATextAlignmentLeft);
 	m_lectureDetailLabel->setFontSize((24));
 	m_lectureDetailLabel->setText(m_detailMsg.m_detail);
+    m_lectureDetailLabel->setColor(ccc4(0xa1, 0xa1, 0xa1, 0xff));
 	scrollView->addSubview(m_lectureDetailLabel);
     
-    int returnCnt = 0;
-    int pos = 0;
-    while (pos != std::string::npos) {
-        pos = m_detailMsg.m_detail.find("\n", pos);
-        if(pos != string::npos)
-        {
-            ++returnCnt;
-            pos += 2;
-        }
-    }
+    yHight += m_lectureDetailLabel->getLabelSize().height;
     
-    yHight += (m_detailMsg.m_detail.size() / 40 + returnCnt) * (35);//(250);// * (m_detailMsg.m_detail.size() / 40);
-    
-    yHight = yHight + (40);
+    //yHight = yHight + (40);
     
     size_t speakerCnt = m_detailMsg.m_speaker.size();
     if (speakerCnt > 0) {
