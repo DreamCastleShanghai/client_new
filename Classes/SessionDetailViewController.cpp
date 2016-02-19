@@ -115,9 +115,9 @@ void SessionDetailViewController::initView()
     // header title
     yHight = (40);
     CALabel* m_titleLabel = CALabel::createWithFrame(DRect((40), yHight, m_winSize.width - (80), (120)));
-    if (m_msg->m_title.size() >= 80) {
+    if (m_msg->m_title.size() >= 60) {
         yHight += 120;
-    } else if (m_msg->m_title.size() >= 40) {
+    } else if (m_msg->m_title.size() >= 30) {
         yHight += 80;
     } else {
         yHight += 40;
@@ -151,7 +151,7 @@ void SessionDetailViewController::initView()
     scrollView->addSubview(sessionidView);
     
     // session id button label
-    CALabel* btnLabel = CALabel::createWithFrame(DRect((5), (5), (150), (35)));
+    CALabel* btnLabel = CALabel::createWithFrame(DRect((0), (0), (150), (35)));
     btnLabel->setColor(CAColor_white);
     btnLabel->setTextAlignment(CATextAlignmentCenter);
     btnLabel->setFontSize((25));
@@ -212,7 +212,7 @@ void SessionDetailViewController::initView()
         }
     }
     
-    yHight += (m_detailMsg.m_detail.size() / 50 + returnCnt) * (35);//(250);// * (m_detailMsg.m_detail.size() / 40);
+    yHight += (m_detailMsg.m_detail.size() / 40 + returnCnt) * (35);//(250);// * (m_detailMsg.m_detail.size() / 40);
     
     yHight = yHight + (40);
     
@@ -310,12 +310,12 @@ void SessionDetailViewController::initView()
 	}
 	sView->addSubview(likeBtn);
 
-	m_likeNumLabel = CALabel::createWithFrame(DRect((230), (40), (50), (35)));
+	m_likeNumLabel = CALabel::createWithFrame(DRect((230), (35), (50), (35)));
 	m_likeNumLabel->setColor(CAColor_blue);
 	m_likeNumLabel->setTextAlignment(CATextAlignmentLeft);
 	m_likeNumLabel->setVerticalTextAlignmet(CAVerticalTextAlignmentCenter);
 	m_likeNumLabel->setFontSize((25));
-	m_likeNumLabel->setText(crossapp_format_string("%d", m_msg->m_likeNum));
+    m_likeNumLabel->setText(crossapp_format_string("%d", m_msg->m_likeNum));
 	m_likeNumLabel->setTouchEnabled(false);
 	sView->addSubview(m_likeNumLabel);
 
@@ -355,7 +355,8 @@ void SessionDetailViewController::initView()
     }
     
     if (m_surveyBtnLabel3 == NULL) {
-        m_surveyBtnLabel3 = CALabel::createWithFrame(DRect((0), (40), m_winSize.width - (300), (35)));
+        m_surveyBtnLabel3 = CALabel::createWithFrame(DRect((0), (30), m_winSize.width - (300), (35)));
+        //m_surveyBtnLabel3 = CALabel::createWithFrame(DRect(m_winSize.width - (300), (0), (300), (100)));
         m_surveyBtnLabel3->setTextAlignment(CATextAlignmentCenter);
         m_surveyBtnLabel3->setVerticalTextAlignmet(CAVerticalTextAlignmentCenter);
         m_surveyBtnLabel3->setColor(CAColor_white);

@@ -6,7 +6,7 @@
 #define _T(x) L##x
 #define CHAR    wchar_t
 
-#define LOCAL_DEBUG
+//#define LOCAL_DEBUG
 
 #ifdef LOCAL_DEBUG
 static const std::string httpUrl = "http://localhost:8080/sap";

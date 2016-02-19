@@ -15,7 +15,7 @@ DRect gRect[] = {
     DRect((140), (120), 0, (30)),          // session table cell : time
     DRect((140), (165), 0, (30)),          // session table cell : location
     DRect(0, (165), (100), (50)),          // session table cell : like btn
-    DRect(0, (183), (50), (30)),           // session table cell : like lable
+    DRect(0, (173), (50), (30)),           // session table cell : like lable
     DRect(0, (165), (50), (50)),           // session table cell : collection btn
     DRect(0, (100), (50), (50)),           // session table cell : detal arrow
 
