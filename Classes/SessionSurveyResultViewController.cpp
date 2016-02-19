@@ -146,35 +146,41 @@ void SessionSurveyResultViewController::viewDidLoad()
         m_bodyScrollView->setHorizontalScrollEnabled(false);
         m_bodyScrollView->setVerticalScrollEnabled(true);
         m_bodyScrollView->setBounceHorizontal(false);
-        m_bodyScrollView->setBounds(DRect(0, 0, m_winSize.width, m_winSize.height - upHight - (120)));
+        m_bodyScrollView->setBounds(DRect(0, 0, m_winSize.width, m_winSize.height - upHight));
         m_bodyScrollView->setAnchorPoint(DPoint(0.f, 0.f));
         m_bodyScrollView->setShowsHorizontalScrollIndicator(false);
         m_bodyScrollView->setShowsVerticalScrollIndicator(false);
         m_bodyScrollView->setBackgroundColor(CAColor_clear);
         this->getView()->addSubview(m_bodyScrollView);
         
-        hight = (40);
+        //hight = (40);
         
-        m_ruleChTitle = CALabel::createWithFrame(DRect((40), hight, m_winSize.width - (80), (30)));
-        if (m_ruleChTitle) {
-            m_ruleChTitle->setColor(CAColor_black);
-            m_ruleChTitle->setFontSize((30));
-            m_ruleChTitle->setBold(true);
-            m_ruleChTitle->setText("Game Rule");
-            m_ruleChTitle->setFontName(SAP_FONT_ARIAL);
-            m_bodyScrollView->addSubview(m_ruleChTitle);
-        }
+        CommonUrlImageView* temImage = CommonUrlImageView::createWithFrame(DRect(0, 0, m_winSize.width, m_winSize.height - upHight));
+        temImage->setImageViewScaleType(CAImageViewScaleTypeFitViewByHorizontal);
+        temImage->setImage(CAImage::create("common/bg.png"));
+        temImage->setUrl(crossapp_format_string("%s/gr/gr.jpg", imgPreUrl.c_str()));
+        m_bodyScrollView->addSubview(temImage);
         
-        hight += (30) + (30);
-        m_ruleChContent = CALabel::createWithFrame(DRect((40), hight, m_winSize.width - (80), (120)));
-        if (m_ruleChContent) {
-            m_ruleChContent->setColor(CAColor_black);
-            m_ruleChContent->setFontSize((30));
-            m_ruleChContent->setBold(true);
-            m_ruleChContent->setText(gameRuleContent);
-            m_ruleChContent->setFontName(SAP_FONT_ARIAL);
-            m_bodyScrollView->addSubview(m_ruleChContent);
-        }
+//        m_ruleChTitle = CALabel::createWithFrame(DRect((40), hight, m_winSize.width - (80), (30)));
+//        if (m_ruleChTitle) {
+//            m_ruleChTitle->setColor(CAColor_black);
+//            m_ruleChTitle->setFontSize((30));
+//            m_ruleChTitle->setBold(true);
+//            m_ruleChTitle->setText("Game Rule");
+//            m_ruleChTitle->setFontName(SAP_FONT_ARIAL);
+//            m_bodyScrollView->addSubview(m_ruleChTitle);
+//        }
+//        
+//        hight += (30) + (30);
+//        m_ruleChContent = CALabel::createWithFrame(DRect((40), hight, m_winSize.width - (80), (120)));
+//        if (m_ruleChContent) {
+//            m_ruleChContent->setColor(CAColor_black);
+//            m_ruleChContent->setFontSize((30));
+//            m_ruleChContent->setBold(true);
+//            m_ruleChContent->setText(gameRuleContent);
+//            m_ruleChContent->setFontName(SAP_FONT_ARIAL);
+//            m_bodyScrollView->addSubview(m_ruleChContent);
+//        }
         
         /*
         hight += (120) + (30);
