@@ -330,9 +330,9 @@ void MapViewController::onRequestFinished(const HttpResponseStatus& status, cons
                 //map[i]["Resource"].asString();
                 mapRes.m_lable = map[i]["ResLable"].asString();
                 
-                CommonUrlImageView* content = CommonUrlImageView::createWithFrame(DRect(0, (m_winSize.height - headHight) * i, m_winSize.width, m_winSize.height - 120));
+                CommonUrlImageView* content = CommonUrlImageView::createWithFrame(DRect(0, (m_winSize.height - headHight - 150) * i, m_winSize.width, m_winSize.height - 120));
                 if (content) {
-                    content->setImageViewScaleType(CAImageViewScaleTypeFitImageXY);
+                    content->setImageViewScaleType(CAImageViewScaleTypeFitViewByVertical);
                     content->setImage(CAImage::create("common/bg.png"));
                     content->setUrl(mapRes.m_imageUrl);
                 }

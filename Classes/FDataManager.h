@@ -146,6 +146,13 @@ struct voiceMsg
     time_t      m_playEndTime;
 };
 
+struct eggHikingMsg
+{
+    std::string m_title;
+    std::string m_imageUrl;
+    std::string m_eggDetail;
+};
+
 struct newsImage
 {
     std::string m_title;

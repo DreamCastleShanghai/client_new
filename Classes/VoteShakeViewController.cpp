@@ -6,7 +6,8 @@
 #include "utils/HttpConnect.h"
 #include "SimpleAudioEngine.h"
 
-VoteShakeViewController::VoteShakeViewController(demoJamMsg* dMsg, voiceMsg* vMsg)
+/*
+VoteShakeViewController::VoteShakeViewController(demoJamMsg* dMsg, voiceMsg* vMsg, eggHikingMsg* eMsg)
 : m_view(NULL)
 , m_shakeView(NULL)
 , m_shakeEndView(NULL)
@@ -23,6 +24,25 @@ VoteShakeViewController::VoteShakeViewController(demoJamMsg* dMsg, voiceMsg* vMs
     {
         m_projectType = 1;
     }
+}
+ */
+
+VoteShakeViewController::VoteShakeViewController(void* msg, int type)
+: m_view(NULL)
+, m_shakeView(NULL)
+, m_shakeEndView(NULL)
+//, m_demoMsg(dMsg)
+//, m_voiceMsg(vMsg)
+, p_alertView(NULL)
+, p_pLoading(NULL)
+, m_shakeNumLabel(NULL)
+, m_projectType(0)
+, m_shakeNum(Vote_NotStart)
+, m_voted(false)
+, m_tye(type)
+, m_msg(msg)
+{
+    
 }
 
 VoteShakeViewController::~VoteShakeViewController()
@@ -65,6 +85,20 @@ void VoteShakeViewController::viewDidLoad()
     urlImageVIew->setColor(ccc4(128, 128, 128, 255));
     urlImageVIew->setTouchEnabled(false);
     m_view->addSubview(urlImageVIew);
+    switch (m_tye) {
+        case TYPE_DJ:
+            urlImageVIew->setUrl(((demoJamMsg*)m_msg)->m_imageUrl);
+            break;
+        case TYPE_VOICE:
+            urlImageVIew->setUrl(((voiceMsg*)m_msg)->m_imageUrl);
+            break;
+        case TYPE_EH:
+            urlImageVIew->setUrl(((eggHikingMsg*)m_msg)->m_imageUrl);
+            break;
+        default:
+            break;
+    }
+    /*
     if(m_demoMsg)
     {
         urlImageVIew->setUrl(m_demoMsg->m_imageUrl);
@@ -73,6 +107,7 @@ void VoteShakeViewController::viewDidLoad()
     {
         urlImageVIew->setUrl(m_voiceMsg->m_imageUrl);
     }
+     */
 
     m_shakeView = CAView::createWithFrame(DRect(0, 0, m_winSize.width, m_winSize.height - (120)));
     m_shakeView->setColor(CAColor_clear);
@@ -120,6 +155,23 @@ void VoteShakeViewController::initView()
         label->setTextAlignment(CATextAlignmentCenter);
         label->setColor(CAColor_red);
         label->setFontSize((35));
+        switch (m_tye) {
+            case TYPE_DJ:
+                //urlImageVIew->setUrl(((demoJamMsg*)m_msg)->m_imageUrl);
+                label->setText(crossapp_format_string("Shake your phone, Vote for %s", ((demoJamMsg*)m_msg)->m_teamName.c_str()));
+                break;
+            case TYPE_VOICE:
+                //urlImageVIew->setUrl(((voiceMsg*)m_msg)->m_imageUrl);
+                label->setText(crossapp_format_string("Shake your phone, Vote for %s", ((voiceMsg*)m_msg)->m_playerName.c_str()));
+                break;
+            case TYPE_EH:
+                label->setText(crossapp_format_string("Shake your phone, Vote for hiking"));
+                //urlImageVIew->setUrl(((eggHikingMsg*)m_msg)->m_imageUrl);
+                break;
+            default:
+                break;
+        }
+        /*
         if (m_demoMsg)
         {
             label->setText(crossapp_format_string("Shake your phone, Vote for %s", m_demoMsg->m_teamName.c_str()));
@@ -128,6 +180,7 @@ void VoteShakeViewController::initView()
         {
             label->setText(crossapp_format_string("Shake your phone, Vote for %s", m_voiceMsg->m_playerName.c_str()));
         }
+         */
         label->setFontName(SAP_FONT_ARIAL);
         m_shakeView->addSubview(label);
         
@@ -135,7 +188,7 @@ void VoteShakeViewController::initView()
         m_shakeNumLabel->setTextAlignment(CATextAlignmentCenter);
         m_shakeNumLabel->setColor(CAColor_gray);
         m_shakeNumLabel->setFontSize((50));
-        m_shakeNumLabel->setText(crossapp_format_string("Shake Number: %d", m_shakeNum));
+        m_shakeNumLabel->setText(crossapp_format_string("Shake Number: %d", SHAKE_CNT -  m_shakeNum));
         m_shakeNumLabel->setFontName(SAP_FONT_ARIAL);
         m_shakeView->addSubview(m_shakeNumLabel);
         
@@ -143,6 +196,7 @@ void VoteShakeViewController::initView()
         label->setTextAlignment(CATextAlignmentCenter);
         label->setColor(CAColor_white);
         label->setFontSize((35));
+        /*
         if (m_demoMsg)
         {
             label->setText(crossapp_format_string("You have been voted for %s, thank you!", m_demoMsg->m_teamName.c_str()));
@@ -151,8 +205,25 @@ void VoteShakeViewController::initView()
         {
             label->setText(crossapp_format_string("You have been voted for %s, thank you!", m_voiceMsg->m_playerName.c_str()));
         }
+         */
         label->setFontName(SAP_FONT_ARIAL);
         m_shakeEndView->addSubview(label);
+        switch (m_tye) {
+            case TYPE_DJ:
+                //urlImageVIew->setUrl(((demoJamMsg*)m_msg)->m_imageUrl);
+                label->setText(crossapp_format_string("Shake your phone, Vote for %s", ((demoJamMsg*)m_msg)->m_teamName.c_str()));
+                break;
+            case TYPE_VOICE:
+                //urlImageVIew->setUrl(((voiceMsg*)m_msg)->m_imageUrl);
+                label->setText(crossapp_format_string("Shake your phone, Vote for %s", ((voiceMsg*)m_msg)->m_playerName.c_str()));
+                break;
+            case TYPE_EH:
+                label->setText(crossapp_format_string("Shake your phone, Vote for hiking"));
+                //urlImageVIew->setUrl(((eggHikingMsg*)m_msg)->m_imageUrl);
+                break;
+            default:
+                break;
+        }
     }
     else if(m_voteStatus == Vote_End)
     {
@@ -171,13 +242,17 @@ void VoteShakeViewController::requestMsg(int type)
     std::map<std::string, std::string> key_value;
     if (type == 0)
     {
-        if (m_demoMsg)
+        if (m_tye == TYPE_DJ)
         {
             key_value["tag"] = voteSubmitTag[0];
         }
-        else
+        else if (m_tye == TYPE_VOICE)
         {
             key_value["tag"] = voteSubmitTag[1];
+        }
+        else if (m_tye == TYPE_EH)
+        {
+            key_value["tag"] = voteSubmitTag[2];
         }
         
         key_value["uid"] = crossapp_format_string("%d", FDataManager::getInstance()->getUserId());
@@ -186,15 +261,19 @@ void VoteShakeViewController::requestMsg(int type)
     }
     else if(type == 1)
     {
-        if (m_demoMsg)
-        {
-            key_value["tag"] = voteSubmitTag[2];
-            key_value["vid"] = crossapp_format_string("%d", m_demoMsg->m_projectId);
-        }
-        else
+        if (m_tye == TYPE_DJ)
         {
             key_value["tag"] = voteSubmitTag[3];
-            key_value["vid"] = crossapp_format_string("%d", m_voiceMsg->m_projectId);
+            key_value["vid"] = crossapp_format_string("%d", ((demoJamMsg*)m_msg)->m_projectId);
+        }
+        else if (m_tye == TYPE_VOICE)
+        {
+            key_value["tag"] = voteSubmitTag[4];
+            key_value["vid"] = crossapp_format_string("%d", ((voiceMsg*)m_msg)->m_projectId);
+        }
+        else if (m_tye == TYPE_EH)
+        {
+            key_value["tag"] = voteSubmitTag[5];
         }
         
         key_value["uid"] = crossapp_format_string("%d", FDataManager::getInstance()->getUserId());
@@ -229,34 +308,59 @@ void VoteShakeViewController::onRequestFinished(const HttpResponseStatus& status
 {
     if (status == HttpResponseSucceed)
     {
-//        CSJson::FastWriter writer;
-//        string tempjson = writer.write(json);
-//        CCLog("receive json == %s",tempjson.c_str());
-        
+#ifdef LOCAL_DEBUG
+        CSJson::FastWriter writer;
+        string tempjson = writer.write(json);
+        CCLog("receive json == %s",tempjson.c_str());
+#endif
+        bool canVote = false;
         const CSJson::Value& value = json["result"];
         
-        if (value["r"].asInt() == 0)
+        if (m_tye == TYPE_EH)
         {
-            m_voteStatus = Vote_NotStart;
-        }
-        else if (value["r"].asInt() == 1)
-        {
-            m_voteStatus = Vote_Start;
-        }
-        else if (value["r"].asInt() == 2)
-        {
-            m_voteStatus = Vote_End;
-        }
-        int pId = 0;
-        if (m_demoMsg)
-        {
-            pId = m_demoMsg->m_projectId;
+            m_voteStatus = value["r"].asInt();
+            if (m_voteStatus == 1)
+            {
+                if (value["e"].asInt() == 1)
+                {
+                    canVote = true;
+                }
+                else
+                {
+                    canVote = false;
+                }
+            }
         }
         else
         {
-            pId = m_voiceMsg->m_projectId;
+            if (value["r"].asInt() == 0)
+            {
+                m_voteStatus = Vote_NotStart;
+            }
+            else if (value["r"].asInt() == 1)
+            {
+                m_voteStatus = Vote_Start;
+            }
+            else if (value["r"].asInt() == 2)
+            {
+                m_voteStatus = Vote_End;
+            }
+            int pId = 0;
+            if (m_tye == TYPE_DJ)
+            {
+                pId = ((demoJamMsg*)m_msg)->m_projectId;
+            }
+            else if (m_tye == TYPE_VOICE)
+            {
+                pId = ((voiceMsg*)m_msg)->m_projectId;
+            }
+            if (value["fv"].asInt() == pId || value["sv"].asInt() == pId)
+                canVote = false;
+            else
+                canVote = true;
         }
-        if (value["fv"].asInt() == pId || value["sv"].asInt() == pId)
+        
+        if (!canVote)
         {
             m_voted = true;
             m_shakeView->setVisible(false);
@@ -268,6 +372,7 @@ void VoteShakeViewController::onRequestFinished(const HttpResponseStatus& status
             m_shakeView->setVisible(true);
             m_shakeEndView->setVisible(false);
         }
+        
         
         initView();
     }
@@ -293,9 +398,11 @@ void VoteShakeViewController::onRequestVoteFinished(const HttpResponseStatus& st
 {
     if (status == HttpResponseSucceed)
     {
-//        CSJson::FastWriter writer;
-//        string tempjson = writer.write(json);
-//        CCLog("receive json == %s",tempjson.c_str());
+#ifdef LOCAL_DEBUG
+        CSJson::FastWriter writer;
+        string tempjson = writer.write(json);
+        CCLog("receive json == %s",tempjson.c_str());
+#endif
         
         const CSJson::Value& value = json["result"];
         if(value["r"].asInt() == 1)
@@ -304,22 +411,27 @@ void VoteShakeViewController::onRequestVoteFinished(const HttpResponseStatus& st
             
             m_shakeView->setVisible(false);
             m_shakeEndView->setVisible(true);
-            if (m_demoMsg)
+            if (m_tye == TYPE_DJ)
             {
                 userInfo* uInfo = FDataManager::getInstance()->getUserInfo();
-                uInfo->m_demoVoteIdVec.push_back(m_demoMsg->m_projectId);
+                uInfo->m_demoVoteIdVec.push_back(((demoJamMsg*)m_msg)->m_projectId);
             }
-            else
+            else if (m_tye == TYPE_VOICE)
             {
                 userInfo* uInfo = FDataManager::getInstance()->getUserInfo();
-                uInfo->m_voiceVoteIdVec.push_back(m_voiceMsg->m_projectId);
+                uInfo->m_voiceVoteIdVec.push_back(((voiceMsg*)m_msg)->m_projectId);
+            }
+            else if (m_tye == TYPE_EH)
+            {
+                userInfo* uInfo = FDataManager::getInstance()->getUserInfo();
+                uInfo->m_eggVoted = true;
             }
         }
 
     }
     else
     {
-        m_shakeNum = 29;
+        m_shakeNum = SHAKE_CNT;
         if(m_shakeNumLabel)
             m_shakeNumLabel->setText(crossapp_format_string("Shake Number: %d", SHAKE_CNT - m_shakeNum));
     }
@@ -352,9 +464,9 @@ void VoteShakeViewController::didAccelerate(CCAcceleration* pAccelerationValue)
         }
         if(m_shakeNumLabel)
             m_shakeNumLabel->setText(crossapp_format_string("Shake Number: %d", SHAKE_CNT - m_shakeNum));
-        if (m_shakeNum >= 30)
+        if (m_shakeNum >= SHAKE_CNT)
         {
-            m_shakeNum = 30;
+            m_shakeNum = SHAKE_CNT;
             m_canVote = false;
             requestMsg(1);
         }

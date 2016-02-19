@@ -37,7 +37,7 @@ protected:
     
     void refreshPageView(int index);
     
-    void setDetailView(int type, int index);
+    void setTitleDetailView(int type, int index);
 
 	void onRequestFinished(const HttpResponseStatus& status, const CSJson::Value& json);
     
@@ -57,12 +57,15 @@ private:
     int                                         m_navType;
     std::vector<demoJamMsg>                     m_demoMsg;
     std::vector<voiceMsg>                       m_voiceMsg;
-    std::vector<voiceMsg>                       m_hikMsg;
+    std::vector<eggHikingMsg>                   m_hikMsg;
     
+    CALabel*                                    m_titleLabel[SEG_PAGE];
+    CALabel*                                    m_detailLabel[SEG_PAGE];
     CAView*                                     m_segView[SEG_PAGE];
     CAPageView*                                 m_pageView[SEG_PAGE];
     CAPageControl*								m_pageControl[SEG_PAGE];
-    CAView*                                     m_detailView[SEG_PAGE];
+    //CALabel*                                    m_titleView[SEG_PAGE];
+    //CAView*                                     m_detailView[SEG_PAGE];
     CAImageView*                                m_segBgView[SEG_PAGE];
     int                                         m_currentPage[SEG_PAGE];
     

@@ -15,10 +15,19 @@ class VoteShakeViewController
     
 public:
 
-	VoteShakeViewController(demoJamMsg* dMsg, voiceMsg* vMsg);
+//	VoteShakeViewController(demoJamMsg* dMsg, voiceMsg* vMsg);
+    
+    VoteShakeViewController(void* msg, int type);
     
 	virtual ~VoteShakeViewController();
     
+    enum
+    {
+        TYPE_DJ,
+        TYPE_VOICE,
+        TYPE_EH,
+        TYPE_MAX
+    };
 protected:
     
     void viewDidLoad();
@@ -45,14 +54,16 @@ private:
         Vote_Start,
         Vote_End,
         
-        SHAKE_CNT = 30,
+        SHAKE_CNT = 20,
     };
 	DSize                                       m_winSize;
+    void*                                       m_msg;
+    int                                         m_tye;
     CAView*                                     m_view;
     CAView*                                     m_shakeView;
     CAView*                                     m_shakeEndView;
-	demoJamMsg*                                 m_demoMsg;
-    voiceMsg*                                   m_voiceMsg;
+//	demoJamMsg*                                 m_demoMsg;
+//    voiceMsg*                                   m_voiceMsg;
     bool                                        m_canVote;
     bool                                        m_voted;
     int                                         m_voteStatus;

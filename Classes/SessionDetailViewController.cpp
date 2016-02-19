@@ -201,7 +201,18 @@ void SessionDetailViewController::initView()
 	m_lectureDetailLabel->setText(m_detailMsg.m_detail);
 	scrollView->addSubview(m_lectureDetailLabel);
     
-    yHight += (m_detailMsg.m_detail.size() / 50) * (35);//(250);// * (m_detailMsg.m_detail.size() / 40);
+    int returnCnt = 0;
+    int pos = 0;
+    while (pos != std::string::npos) {
+        pos = m_detailMsg.m_detail.find("\n", pos);
+        if(pos != string::npos)
+        {
+            ++returnCnt;
+            pos += 2;
+        }
+    }
+    
+    yHight += (m_detailMsg.m_detail.size() / 50 + returnCnt) * (35);//(250);// * (m_detailMsg.m_detail.size() / 40);
     
     yHight = yHight + (40);
     

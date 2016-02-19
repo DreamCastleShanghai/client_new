@@ -19,7 +19,7 @@ DRect gRect[] = {
     DRect(0, (165), (50), (50)),           // session table cell : collection btn
     DRect(0, (100), (50), (50)),           // session table cell : detal arrow
 
-    DRect((40), (470), 0, (300)),          // session detail : session description
+    DRect((40), (470), 0, (600)),          // session detail : session description
     DRect(0, (870), (80), (80)),           // session detail : speaker logo
     DRect(0, (960), (200), (30)),          // session detail : speaker name lable
 };

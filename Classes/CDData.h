@@ -81,6 +81,11 @@ static const char* mapViewTag[2] =
     "MP0", "MP1",
 };
 
+static const char* meViewTag[2] =
+{
+    "I0", "I1",
+};
+
 static const char* sessionDetailViewTag[2] =
 {
 	"SD0", "SD1"
@@ -91,9 +96,9 @@ static const char* voteViewTag[2] =
     "DVL0", "VL0"
 };
 
-static const char* voteSubmitTag[4] =
+static const char* voteSubmitTag[6] =
 {
-    "DE0", "VE0","DV0","VV0"
+    "DE0", "VE0", "EE0", "DV0", "VV0", "EV0",
 };
 
 static const char* userInfoTag[2] =

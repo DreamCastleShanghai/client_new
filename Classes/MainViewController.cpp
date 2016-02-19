@@ -944,6 +944,7 @@ void MainViewController::initPageView()
         m_pageView = CAPageView::createWithFrame(DRect(0, headerHeight, m_winSize.width, pageViewHeight), CAPageViewDirectionHorizontal);
         m_pageView->setPageViewDelegate(this);
         m_pageView->setTouchEnabled(true);
+        m_pageView->setSpacing(0);
         this->getView()->addSubview(m_pageView);
     }
     
