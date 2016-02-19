@@ -268,6 +268,15 @@ void VoteViewController::initMsgTableView()
 //        {
 //            button->setTitleForState(CAControlStateAll, "Vote");
 //        }
+        /*
+        button->setTitleFontName(SAP_FONT_ARIAL);
+        button->setTitleColorForState(CAControlStateAll, CAColor_white);
+        button->setTitleColorForState(CAControlStateDisabled, CAColor_gray);
+        button->setBackgroundViewForState(CAControlStateAll, imageView);
+        button->addTarget(this, CAControl_selector(VoteViewController::buttonCallBack), CAControlEventTouchUpInSide);
+        button->setTag(400 + i);
+        temImage->addSubview(button);
+         */
         
         viewList.pushBack(temImage);
 
@@ -330,10 +339,21 @@ void VoteViewController::initMsgTableView()
                 break;
             }
         }
+
 //        if (cVote)
 //        {
 //            button->setTitleForState(CAControlStateAll, "Vote");
 //        }
+
+        /*
+        button->setTitleFontName(SAP_FONT_ARIAL);
+        button->setTitleColorForState(CAControlStateAll, CAColor_white);
+        button->setTitleColorForState(CAControlStateDisabled, CAColor_gray);
+        button->setBackgroundViewForState(CAControlStateAll, imageView);
+        button->addTarget(this, CAControl_selector(VoteViewController::buttonCallBack), CAControlEventTouchUpInSide);
+        button->setTag(500 + i);
+        temImage->addSubview(button);
+         */
         
         viewList.pushBack(temImage);
     }

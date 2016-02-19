@@ -496,7 +496,7 @@ void MainViewController::showAlert()
     this->getView()->addSubview(p_alertView);
     
     CAImageView* bg = CAImageView::createWithFrame(DRect((0), (0), m_winSize.width, m_winSize.height - (220)));
-    bg->setImageViewScaleType(CAImageViewScaleTypeFitImageCrop);
+    bg->setImageViewScaleType(CAImageViewScaleTypeFitImageXY);
     bg->setImage(CAImage::create("common/bg.png"));
     bg->setTouchEnabled(false);
     
@@ -550,8 +550,8 @@ void MainViewController::onRequestFinished(const HttpResponseStatus& status, con
 {
     if (status == HttpResponseSucceed)
     {
-        CSJson::FastWriter writer;
-        string tempjson = writer.write(json);
+        //CSJson::FastWriter writer;
+        //string tempjson = writer.write(json);
         //CCLog("receive json == %s",tempjson.c_str());
         
         const CSJson::Value& value = json["result"];
@@ -624,7 +624,12 @@ void MainViewController::onRequestFinished(const HttpResponseStatus& status, con
             temp_msg.m_point = v1[index]["Point"].asInt();
             m_msg->push_back(temp_msg);
         }
+        
         const CSJson::Value& v2 = json["result"]["usr"];
+        CSJson::FastWriter writer;
+        string tempjson = writer.write(v2);
+        CCLog("receive json == %s",tempjson.c_str());
+        
         userInfo* uInfo = FDataManager::getInstance()->getUserInfo();
 		uInfo->m_loginName = v2["LoginName"].asString();
         uInfo->m_userId = FDataManager::getInstance()->getUserId();
@@ -953,7 +958,7 @@ void MainViewController::initPageView()
         for (int i = 0; i<m_page.size(); i++)
         {
             CommonUrlImageView* temImage = CommonUrlImageView::createWithFrame(DRect(0, (0), m_winSize.width, pageViewHeight - headerHeight));
-            temImage->setImageViewScaleType(CAImageViewScaleTypeFitImageCrop);
+            temImage->setImageViewScaleType(CAImageViewScaleTypeFitImageXY);
             temImage->setImage(CAImage::create("common/bg.png"));
             temImage->setUrl(m_page[i].m_imageUrl);
             temImage->setTouchEnabled(true);

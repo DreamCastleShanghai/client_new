@@ -6,7 +6,7 @@
 #define _T(x) L##x
 #define CHAR    wchar_t
 
-//#define LOCAL_DEBUG
+#define LOCAL_DEBUG
 
 #ifdef LOCAL_DEBUG
 static const std::string httpUrl = "http://localhost:8080/sap";
@@ -114,6 +114,11 @@ static const char* rankViewTag[2] =
 static const char* scoreHistoryTag[2] =
 {
     "SH0", "SH1"
+};
+
+static const char* noticeIcon[3] =
+{
+    "notification/favorite.png", "notification/event.png", "notification/prize.png"
 };
 
 static const CHAR* mainShort[3] =

@@ -30,6 +30,11 @@
 	<string>CrossApp</string>
 	<key>UIAppFonts</key>
 	<array/>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>fetch</string>
+		<string>remote-notification</string>
+	</array>
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>

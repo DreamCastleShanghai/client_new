@@ -161,7 +161,7 @@ void SessionDetailViewController::initView()
     yHight += (30) + (20);
     
     // format
-    CALabel* fromatLabel = CALabel::createWithFrame(DRect((40), yHight, m_winSize.width - (80), (25)));
+    CALabel* fromatLabel = CALabel::createWithFrame(DRect((40), yHight, m_winSize.width - (80), (28)));
     fromatLabel->setColor(ccc4(0x5f, 0x5f, 0x5f, 0xff));
     fromatLabel->setTextAlignment(CATextAlignmentLeft);
     fromatLabel->setFontSize((24));
@@ -171,7 +171,7 @@ void SessionDetailViewController::initView()
     yHight += (25) + (20);
     
     // track
-    CALabel* trackLabel = CALabel::createWithFrame(DRect((40), yHight, m_winSize.width - (80), (25)));
+    CALabel* trackLabel = CALabel::createWithFrame(DRect((40), yHight, m_winSize.width - (80), (28)));
     trackLabel->setColor(ccc4(0x5f, 0x5f, 0x5f, 0xff));
     trackLabel->setTextAlignment(CATextAlignmentLeft);
     trackLabel->setFontSize((24));
@@ -355,7 +355,7 @@ void SessionDetailViewController::initView()
     }
     
     if (m_surveyBtnLabel3 == NULL) {
-        m_surveyBtnLabel3 = CALabel::createWithFrame(DRect((0), (40), m_winSize.width - (300), (30)));
+        m_surveyBtnLabel3 = CALabel::createWithFrame(DRect((0), (40), m_winSize.width - (300), (35)));
         m_surveyBtnLabel3->setTextAlignment(CATextAlignmentCenter);
         m_surveyBtnLabel3->setVerticalTextAlignmet(CAVerticalTextAlignmentCenter);
         m_surveyBtnLabel3->setColor(CAColor_white);

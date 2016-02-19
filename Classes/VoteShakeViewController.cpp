@@ -308,6 +308,7 @@ void VoteShakeViewController::onRequestFinished(const HttpResponseStatus& status
 {
     if (status == HttpResponseSucceed)
     {
+
 #ifdef LOCAL_DEBUG
         CSJson::FastWriter writer;
         string tempjson = writer.write(json);
@@ -403,7 +404,6 @@ void VoteShakeViewController::onRequestVoteFinished(const HttpResponseStatus& st
         string tempjson = writer.write(json);
         CCLog("receive json == %s",tempjson.c_str());
 #endif
-        
         const CSJson::Value& value = json["result"];
         if(value["r"].asInt() == 1)
         {
@@ -427,11 +427,17 @@ void VoteShakeViewController::onRequestVoteFinished(const HttpResponseStatus& st
                 uInfo->m_eggVoted = true;
             }
         }
-
+        else
+        {
+            m_shakeNum = SHAKE_CNT - 5;
+            if(m_shakeNumLabel)
+                m_shakeNumLabel->setText(crossapp_format_string("Shake Number: %d", SHAKE_CNT - m_shakeNum));
+        }
     }
     else
     {
-        m_shakeNum = SHAKE_CNT;
+        m_shakeNum = SHAKE_CNT - 5;
+
         if(m_shakeNumLabel)
             m_shakeNumLabel->setText(crossapp_format_string("Shake Number: %d", SHAKE_CNT - m_shakeNum));
     }
@@ -454,7 +460,7 @@ void VoteShakeViewController::didAccelerate(CCAcceleration* pAccelerationValue)
     float nowGX = (pAccelerationValue->x)*9.81f;
     float nowGY = (pAccelerationValue->y)*9.81f;
     
-    float dt = 30.f;
+    float dt = 20.f;
     if(m_voteStatus == Vote_Start && !m_voted && m_canVote && (nowGX<-dt || nowGY<-dt))
     {
         m_shakeNum++;

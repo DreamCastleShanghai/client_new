@@ -3,6 +3,7 @@
 #include "FNoticeManager.h"
 #include "FServerTime.h"
 #include "RootWindow.h"
+#include "SimpleAudioEngine.h"
 
 static FNoticeManager* _noticeManager = NULL;
 
@@ -158,4 +159,9 @@ void FNoticeManager::onSendNoticeToken(const HttpResponseStatus& status, const C
         string tempjson = writer.write(json);
         CCLog("receive json == %s",tempjson.c_str());
     }
+}
+
+void FNoticeManager::playNoticeVoice()
+{
+    CocosDenshion::SimpleAudioEngine::sharedEngine()->playEffect("sound/notice.wav");
 }
