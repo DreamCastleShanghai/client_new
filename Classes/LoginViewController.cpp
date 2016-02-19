@@ -160,7 +160,7 @@ void LoginViewController::btnCallBack(CAControl* btn, DPoint point)
     }
     else if(btn->getTag() == 200)
     {
-        CAAlertView *alertView = CAAlertView::createWithText("Nothing !", "Process later !", "OK", NULL);
+        CAAlertView *alertView = CAAlertView::createWithText("Check it", "Your confirmation number is printed on your badge.", "OK", NULL);
         alertView->show();
     }
 }
