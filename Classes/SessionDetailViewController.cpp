@@ -181,7 +181,7 @@ void SessionDetailViewController::initView()
     yHight += (25) + (20);
     
     // location
-	CALabel* timeLabel = CALabel::createWithFrame(DRect((40), yHight, m_winSize.width - (80), (30)));
+	CALabel* timeLabel = CALabel::createWithFrame(DRect((40), yHight, m_winSize.width - (80), (35)));
 	timeLabel->setColor(ccc4(0x5f, 0x5f, 0x5f, 0xff));
 	timeLabel->setTextAlignment(CATextAlignmentLeft);
 	timeLabel->setFontSize((24));

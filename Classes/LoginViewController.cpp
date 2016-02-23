@@ -144,7 +144,7 @@ void LoginViewController::btnCallBack(CAControl* btn, DPoint point)
         ConstFunc::trim(account);
         ConstFunc::trim(passwd);
         if (account.length() == 0 || passwd.length() == 0) {
-            CAAlertView *alertView = CAAlertView::createWithText("Waining !", "Email adress or confirmation number cannot be null.", "OK", NULL);
+            CAAlertView *alertView = CAAlertView::createWithText("Warning !", "Email adress or confirmation number cannot be null.", "OK", NULL);
             alertView->show();
             return;
         }
@@ -160,7 +160,7 @@ void LoginViewController::btnCallBack(CAControl* btn, DPoint point)
     }
     else if(btn->getTag() == 200)
     {
-        CAAlertView *alertView = CAAlertView::createWithText("Check it", "Your confirmation number is printed on your badge.", "OK", NULL);
+        CAAlertView *alertView = CAAlertView::createWithText("Check your badge", "Your confirmation number is printed on your badge.", "OK", NULL);
         alertView->show();
     }
 }

@@ -82,7 +82,7 @@ void FirstSurveyViewController::viewDidLoad()
     }
     
     // body content
-    m_bodyScrollView = CAScrollView::createWithFrame(DRect((0), (120), m_winSize.width, m_winSize.height - (240)));
+    m_bodyScrollView = CAScrollView::createWithFrame(DRect((0), (120), m_winSize.width, m_winSize.height));
     if (m_bodyScrollView) {
         //scrollView->setViewSize(DSize(m_winSize.width - (40), (m_imageHeight));
         m_bodyScrollView->setHorizontalScrollEnabled(false);

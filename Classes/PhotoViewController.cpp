@@ -202,9 +202,8 @@ void PhotoViewController::buttonCallBack(CAControl* btn, DPoint point)
             CCLog("path : %s", imagePath.c_str());
             requestPhotoSubmit(imagePath);
             
-            FDataManager::getInstance()->setUserDirty(true);
         }
-        
+        FDataManager::getInstance()->setUserDirty(true);
     }
     else if (btn->getTag() == 500) // cancle
     {
