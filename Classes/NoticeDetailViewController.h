@@ -14,7 +14,7 @@ class NoticeDetailViewController
     
 public:
 
-    NoticeDetailViewController(std::string &detail);
+    NoticeDetailViewController(std::string &title, std::string &detail);
     
 	virtual ~NoticeDetailViewController();
     
@@ -30,6 +30,7 @@ private:
 
     DSize m_winSize;
     std::string m_detail;
+    std::string m_title;
 };
 
 

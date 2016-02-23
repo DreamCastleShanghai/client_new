@@ -105,11 +105,13 @@ static AppDelegate s_sharedApplication;
     //CrossApp::CCApplication::sharedApplication()->didReceiveRemoteNotification();
     NSString *id = [userInfo objectForKey:@"id"];
     NSString *type = [userInfo objectForKey:@"tp"];
+    NSString *title = [userInfo objectForKey:@"title"];
     NSString *content = [[[userInfo objectForKey:@"aps"] objectForKey:@"alert"] objectForKey:@"body"];
     
-    std::string str = [content UTF8String];
+    std::string strTitle = [title UTF8String];
+    std::string strDetail = [content UTF8String];
     FNoticeManager::sharedFNoticeManager()->playNoticeVoice();
-    FNoticeManager::sharedFNoticeManager()->addNotice([id intValue], [type intValue], str, 0, 0, true);
+    FNoticeManager::sharedFNoticeManager()->addNotice([id intValue], [type intValue], strTitle, strDetail, 0, 0, true);
     NSLog(@"didReceiveRemoteNotification %@ %@ %@", id, type,content);
     
     UIApplication *app = [UIApplication sharedApplication];

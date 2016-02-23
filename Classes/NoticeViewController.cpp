@@ -39,6 +39,7 @@ void NoticeViewController::viewDidAppear()
         tmp.nid = crossapp_format_string("%d", notices[i].sid);
         tmp.type = notices[i].type;
         tmp.title = notices[i].title;
+        tmp.detail = notices[i].detail;
         tmp.startTime = notices[i].startTime;
         tmp.readed = notices[i].readed;
         m_msgList.push_back(tmp);
@@ -311,7 +312,7 @@ void NoticeViewController::tableViewDidSelectRowAtIndexPath(CATableView* table, 
     }
     else
     {
-        NoticeDetailViewController* vc = new NoticeDetailViewController(m_msgList[row].title);
+        NoticeDetailViewController* vc = new NoticeDetailViewController(m_msgList[row].title, m_msgList[row].detail);
         vc->init();
         vc->autorelease();
         RootWindow::getInstance()->getRootNavigationController()->pushViewController(vc, true);

@@ -19,6 +19,7 @@ typedef struct
     int type;
     int sid;
     std::string title;
+    std::string detail;
     bool readed;
     time_t startTime;
     time_t endTime;
@@ -35,7 +36,7 @@ public:
     
     static FNoticeManager* sharedFNoticeManager();
     
-    bool addNotice(int sid, int type, std::string &title, time_t start = 0, time_t end = 0, bool remote = false);
+    bool addNotice(int sid, int type, std::string &title, std::string &detail, time_t start = 0, time_t end = 0, bool remote = false);
     bool deleteNotice(int sid);
     std::vector<FNotice>& getNotices();
     bool readNotice(int sid);

@@ -255,7 +255,7 @@ void MainViewTableCell::onStoreRequestFinished(const HttpResponseStatus& status,
         const CSJson::Value& value = json["result"];
         if (value["r"].asBool() == true)
         {
-            FNoticeManager::sharedFNoticeManager()->addNotice(m_msg->m_sessionId, notice_session, m_msg->m_title, m_msg->m_startTime, m_msg->m_endTime);
+            FNoticeManager::sharedFNoticeManager()->addNotice(m_msg->m_sessionId, notice_session, m_msg->m_title, m_msg->m_title, m_msg->m_startTime, m_msg->m_endTime);
             m_msg->m_stored = true;
             m_storeBtnImage->setImage(CAImage::create("common/btn_collect_pre.png"));
         }

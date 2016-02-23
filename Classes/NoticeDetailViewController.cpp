@@ -6,8 +6,9 @@
 #include "utils/HttpConnect.h"
 #include "SessionDetailViewController.h"
 
-NoticeDetailViewController::NoticeDetailViewController(std::string &detail)
+NoticeDetailViewController::NoticeDetailViewController(std::string &title, std::string &detail)
 : m_detail(detail)
+, m_title(title)
 {
  
 }
@@ -49,7 +50,7 @@ void NoticeDetailViewController::viewDidLoad()
     label->setColor(CAColor_gray);
     label->setTouchEnabled(false);
     label->setFontSize((40));
-    label->setText("New message!");
+    label->setText(m_title);
     label->setFontName(SAP_FONT_ARIAL);
     this->getView()->addSubview(label);
     
