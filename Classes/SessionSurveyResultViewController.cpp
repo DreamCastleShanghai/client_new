@@ -310,5 +310,6 @@ void SessionSurveyResultViewController::buttonCallBack(CAControl* btn, DPoint po
 void SessionSurveyResultViewController::back()
 {
     RootWindow::getInstance()->getRootNavigationController()->popToRootViewControllerAnimated(true);
+    FDataManager::getInstance()->setUserDirty(true);
     //RootWindow::getInstance()->getRootNavigationController()->popViewControllerAnimated(false);
 }
