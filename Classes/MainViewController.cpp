@@ -90,7 +90,7 @@ void MainViewController::refreshTable()
     m_filterMsg.clear();
     for (std::vector<sessionMsg>::iterator it = m_msg->begin(); it != m_msg->end(); it++)
     {
-        if(it->m_stored && it->m_endTime > getTimeSecond())
+        if(it->m_stored)
         {
             m_filterMsg.push_back(&(*it));
         }

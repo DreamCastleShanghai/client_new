@@ -142,22 +142,12 @@
 		5C5B695A1C566EBE000C9AA4 /* VoteDetailViewController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5C5B69581C566EBE000C9AA4 /* VoteDetailViewController.cpp */; };
 		5C5B695F1C568ADD000C9AA4 /* vote in Resources */ = {isa = PBXBuildFile; fileRef = 5C5B695E1C568ADD000C9AA4 /* vote */; };
 		5C5DE7291C2F9E2300D9A8BC /* sound in Resources */ = {isa = PBXBuildFile; fileRef = 5C5DE7281C2F9E2300D9A8BC /* sound */; };
-		5C5DE7CA1C3035A900D9A8BC /* bitstream.c in Sources */ = {isa = PBXBuildFile; fileRef = 5C5DE7B61C3035A900D9A8BC /* bitstream.c */; };
-		5C5DE7CB1C3035A900D9A8BC /* mask.c in Sources */ = {isa = PBXBuildFile; fileRef = 5C5DE7B81C3035A900D9A8BC /* mask.c */; };
-		5C5DE7CC1C3035A900D9A8BC /* mmask.c in Sources */ = {isa = PBXBuildFile; fileRef = 5C5DE7BA1C3035A900D9A8BC /* mmask.c */; };
-		5C5DE7CD1C3035A900D9A8BC /* mqrspec.c in Sources */ = {isa = PBXBuildFile; fileRef = 5C5DE7BC1C3035A900D9A8BC /* mqrspec.c */; };
-		5C5DE7CF1C3035A900D9A8BC /* qrencode.c in Sources */ = {isa = PBXBuildFile; fileRef = 5C5DE7C01C3035A900D9A8BC /* qrencode.c */; };
-		5C5DE7D01C3035A900D9A8BC /* qrinput.c in Sources */ = {isa = PBXBuildFile; fileRef = 5C5DE7C21C3035A900D9A8BC /* qrinput.c */; };
-		5C5DE7D11C3035A900D9A8BC /* qrspec.c in Sources */ = {isa = PBXBuildFile; fileRef = 5C5DE7C41C3035A900D9A8BC /* qrspec.c */; };
-		5C5DE7D21C3035A900D9A8BC /* rscode.c in Sources */ = {isa = PBXBuildFile; fileRef = 5C5DE7C61C3035A900D9A8BC /* rscode.c */; };
-		5C5DE7D31C3035A900D9A8BC /* split.c in Sources */ = {isa = PBXBuildFile; fileRef = 5C5DE7C81C3035A900D9A8BC /* split.c */; };
 		5C6CEB9F1C1E7058000AE9D2 /* MainViewTableCell.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5C6CEB9D1C1E7058000AE9D2 /* MainViewTableCell.cpp */; };
 		5C6CEBA21C1E709C000AE9D2 /* login in Resources */ = {isa = PBXBuildFile; fileRef = 5C6CEBA01C1E709C000AE9D2 /* login */; };
 		5C6CEBA31C1E709C000AE9D2 /* main in Resources */ = {isa = PBXBuildFile; fileRef = 5C6CEBA11C1E709C000AE9D2 /* main */; };
 		5C723CEC1C152BA200B28BF3 /* LoginViewController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5C723CEA1C152BA200B28BF3 /* LoginViewController.cpp */; };
 		5C723CF51C15381300B28BF3 /* CommonHttpManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5C723CF31C15381300B28BF3 /* CommonHttpManager.cpp */; };
 		5CC19D2F1C40BAC900594653 /* FServerTime.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5CC19D2D1C40BAC900594653 /* FServerTime.cpp */; };
-		5CCDA52C1C420953006AEC61 /* map in Resources */ = {isa = PBXBuildFile; fileRef = 5CCDA52B1C420953006AEC61 /* map */; };
 		5CE620451C65AE1E00435EF0 /* FUserManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5CE620431C65AE1E00435EF0 /* FUserManager.cpp */; };
 		5CE620471C65B1A500435EF0 /* notice in Resources */ = {isa = PBXBuildFile; fileRef = 5CE620461C65B1A500435EF0 /* notice */; };
 		5CF668391C194EB0009994C0 /* MainViewController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5CF668371C194EB0009994C0 /* MainViewController.cpp */; };
@@ -174,7 +164,6 @@
 		5CFCF7061C3EAE0F00DE4410 /* NoticeViewController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5CFCF7041C3EAE0F00DE4410 /* NoticeViewController.cpp */; };
 		5CFD0D941C20711000AD0C21 /* common in Resources */ = {isa = PBXBuildFile; fileRef = 5CFD0D931C20711000AD0C21 /* common */; };
 		B01F71671951682600BA07A6 /* source_material in Resources */ = {isa = PBXBuildFile; fileRef = B01F71661951682600BA07A6 /* source_material */; };
-		B0621BE51AC3B871005EBCA7 /* fonts in Resources */ = {isa = PBXBuildFile; fileRef = B0621BDB1AC3B871005EBCA7 /* fonts */; };
 		B0621E221AC3ECB0005EBCA7 /* RootWindow.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B0621E1F1AC3ECB0005EBCA7 /* RootWindow.cpp */; };
 		B0A030081A8E071D0005CB8F /* CoreBluetooth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B0A030071A8E071D0005CB8F /* CoreBluetooth.framework */; };
 		B0CA5A2B1A77A79900BECD89 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B0CA5A2A1A77A79900BECD89 /* SystemConfiguration.framework */; };
@@ -478,25 +467,6 @@
 		5C5B69591C566EBE000C9AA4 /* VoteDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VoteDetailViewController.h; path = ../Classes/VoteDetailViewController.h; sourceTree = "<group>"; };
 		5C5B695E1C568ADD000C9AA4 /* vote */ = {isa = PBXFileReference; lastKnownFileType = folder; path = vote; sourceTree = "<group>"; };
 		5C5DE7281C2F9E2300D9A8BC /* sound */ = {isa = PBXFileReference; lastKnownFileType = folder; path = sound; sourceTree = "<group>"; };
-		5C5DE7B61C3035A900D9A8BC /* bitstream.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = bitstream.c; path = ../Classes/libqrencode/bitstream.c; sourceTree = "<group>"; };
-		5C5DE7B71C3035A900D9A8BC /* bitstream.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = bitstream.h; path = ../Classes/libqrencode/bitstream.h; sourceTree = "<group>"; };
-		5C5DE7B81C3035A900D9A8BC /* mask.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = mask.c; path = ../Classes/libqrencode/mask.c; sourceTree = "<group>"; };
-		5C5DE7B91C3035A900D9A8BC /* mask.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = mask.h; path = ../Classes/libqrencode/mask.h; sourceTree = "<group>"; };
-		5C5DE7BA1C3035A900D9A8BC /* mmask.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = mmask.c; path = ../Classes/libqrencode/mmask.c; sourceTree = "<group>"; };
-		5C5DE7BB1C3035A900D9A8BC /* mmask.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = mmask.h; path = ../Classes/libqrencode/mmask.h; sourceTree = "<group>"; };
-		5C5DE7BC1C3035A900D9A8BC /* mqrspec.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = mqrspec.c; path = ../Classes/libqrencode/mqrspec.c; sourceTree = "<group>"; };
-		5C5DE7BD1C3035A900D9A8BC /* mqrspec.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = mqrspec.h; path = ../Classes/libqrencode/mqrspec.h; sourceTree = "<group>"; };
-		5C5DE7BF1C3035A900D9A8BC /* qrencode_inner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = qrencode_inner.h; path = ../Classes/libqrencode/qrencode_inner.h; sourceTree = "<group>"; };
-		5C5DE7C01C3035A900D9A8BC /* qrencode.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = qrencode.c; path = ../Classes/libqrencode/qrencode.c; sourceTree = "<group>"; };
-		5C5DE7C11C3035A900D9A8BC /* qrencode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = qrencode.h; path = ../Classes/libqrencode/qrencode.h; sourceTree = "<group>"; };
-		5C5DE7C21C3035A900D9A8BC /* qrinput.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = qrinput.c; path = ../Classes/libqrencode/qrinput.c; sourceTree = "<group>"; };
-		5C5DE7C31C3035A900D9A8BC /* qrinput.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = qrinput.h; path = ../Classes/libqrencode/qrinput.h; sourceTree = "<group>"; };
-		5C5DE7C41C3035A900D9A8BC /* qrspec.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = qrspec.c; path = ../Classes/libqrencode/qrspec.c; sourceTree = "<group>"; };
-		5C5DE7C51C3035A900D9A8BC /* qrspec.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = qrspec.h; path = ../Classes/libqrencode/qrspec.h; sourceTree = "<group>"; };
-		5C5DE7C61C3035A900D9A8BC /* rscode.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = rscode.c; path = ../Classes/libqrencode/rscode.c; sourceTree = "<group>"; };
-		5C5DE7C71C3035A900D9A8BC /* rscode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = rscode.h; path = ../Classes/libqrencode/rscode.h; sourceTree = "<group>"; };
-		5C5DE7C81C3035A900D9A8BC /* split.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = split.c; path = ../Classes/libqrencode/split.c; sourceTree = "<group>"; };
-		5C5DE7C91C3035A900D9A8BC /* split.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = split.h; path = ../Classes/libqrencode/split.h; sourceTree = "<group>"; };
 		5C6CEB9D1C1E7058000AE9D2 /* MainViewTableCell.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MainViewTableCell.cpp; path = ../Classes/MainViewTableCell.cpp; sourceTree = "<group>"; };
 		5C6CEB9E1C1E7058000AE9D2 /* MainViewTableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MainViewTableCell.h; path = ../Classes/MainViewTableCell.h; sourceTree = "<group>"; };
 		5C6CEBA01C1E709C000AE9D2 /* login */ = {isa = PBXFileReference; lastKnownFileType = folder; path = login; sourceTree = "<group>"; };
@@ -508,7 +478,6 @@
 		5C723CF41C15381300B28BF3 /* CommonHttpManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CommonHttpManager.h; path = ../Classes/CommonHttpManager.h; sourceTree = "<group>"; };
 		5CC19D2D1C40BAC900594653 /* FServerTime.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = FServerTime.cpp; path = ../Classes/utils/FServerTime.cpp; sourceTree = "<group>"; };
 		5CC19D2E1C40BAC900594653 /* FServerTime.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FServerTime.h; path = ../Classes/utils/FServerTime.h; sourceTree = "<group>"; };
-		5CCDA52B1C420953006AEC61 /* map */ = {isa = PBXFileReference; lastKnownFileType = folder; path = map; sourceTree = "<group>"; };
 		5CE620431C65AE1E00435EF0 /* FUserManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = FUserManager.cpp; path = ../Classes/FUserManager.cpp; sourceTree = "<group>"; };
 		5CE620441C65AE1E00435EF0 /* FUserManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FUserManager.h; path = ../Classes/FUserManager.h; sourceTree = "<group>"; };
 		5CE620461C65B1A500435EF0 /* notice */ = {isa = PBXFileReference; lastKnownFileType = folder; path = notice; sourceTree = "<group>"; };
@@ -539,7 +508,6 @@
 		B00CC60D19792FF800A62E4C /* CrossAppExt.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CrossAppExt.h; sourceTree = "<group>"; };
 		B01F71661951682600BA07A6 /* source_material */ = {isa = PBXFileReference; lastKnownFileType = folder; path = source_material; sourceTree = "<group>"; };
 		B056375B195276CF00C63FAA /* CrossApp.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = CrossApp.xcodeproj; path = ../../../CrossApp/proj.ios/CrossApp.xcodeproj; sourceTree = "<group>"; };
-		B0621BDB1AC3B871005EBCA7 /* fonts */ = {isa = PBXFileReference; lastKnownFileType = folder; path = fonts; sourceTree = "<group>"; };
 		B0621E1F1AC3ECB0005EBCA7 /* RootWindow.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = RootWindow.cpp; path = ../Classes/RootWindow.cpp; sourceTree = "<group>"; };
 		B0621E201AC3ECB0005EBCA7 /* RootWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RootWindow.h; path = ../Classes/RootWindow.h; sourceTree = "<group>"; };
 		B0A030071A8E071D0005CB8F /* CoreBluetooth.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreBluetooth.framework; path = System/Library/Frameworks/CoreBluetooth.framework; sourceTree = SDKROOT; };
@@ -677,7 +645,6 @@
 				5CFCF7001C3E512600DE4410 /* fview */,
 				5C5B69491C55DE28000C9AA4 /* IconUploadViewController.cpp */,
 				5C5B694A1C55DE28000C9AA4 /* IconUploadViewController.h */,
-				5C5DE7B51C30359700D9A8BC /* libqrencode */,
 				5C723CEA1C152BA200B28BF3 /* LoginViewController.cpp */,
 				5C723CEB1C152BA200B28BF3 /* LoginViewController.h */,
 				5CF668371C194EB0009994C0 /* MainViewController.cpp */,
@@ -1023,32 +990,6 @@
 			name = ConstData;
 			sourceTree = "<group>";
 		};
-		5C5DE7B51C30359700D9A8BC /* libqrencode */ = {
-			isa = PBXGroup;
-			children = (
-				5C5DE7B61C3035A900D9A8BC /* bitstream.c */,
-				5C5DE7B71C3035A900D9A8BC /* bitstream.h */,
-				5C5DE7B81C3035A900D9A8BC /* mask.c */,
-				5C5DE7B91C3035A900D9A8BC /* mask.h */,
-				5C5DE7BA1C3035A900D9A8BC /* mmask.c */,
-				5C5DE7BB1C3035A900D9A8BC /* mmask.h */,
-				5C5DE7BC1C3035A900D9A8BC /* mqrspec.c */,
-				5C5DE7BD1C3035A900D9A8BC /* mqrspec.h */,
-				5C5DE7BF1C3035A900D9A8BC /* qrencode_inner.h */,
-				5C5DE7C01C3035A900D9A8BC /* qrencode.c */,
-				5C5DE7C11C3035A900D9A8BC /* qrencode.h */,
-				5C5DE7C21C3035A900D9A8BC /* qrinput.c */,
-				5C5DE7C31C3035A900D9A8BC /* qrinput.h */,
-				5C5DE7C41C3035A900D9A8BC /* qrspec.c */,
-				5C5DE7C51C3035A900D9A8BC /* qrspec.h */,
-				5C5DE7C61C3035A900D9A8BC /* rscode.c */,
-				5C5DE7C71C3035A900D9A8BC /* rscode.h */,
-				5C5DE7C81C3035A900D9A8BC /* split.c */,
-				5C5DE7C91C3035A900D9A8BC /* split.h */,
-			);
-			name = libqrencode;
-			sourceTree = "<group>";
-		};
 		5CF668361C194AD0009994C0 /* utils */ = {
 			isa = PBXGroup;
 			children = (
@@ -1075,11 +1016,9 @@
 			isa = PBXGroup;
 			children = (
 				5CFD0D931C20711000AD0C21 /* common */,
-				B0621BDB1AC3B871005EBCA7 /* fonts */,
 				026964B01BEB433600C8BCD7 /* Images.xcassets */,
 				5C6CEBA01C1E709C000AE9D2 /* login */,
 				5C6CEBA11C1E709C000AE9D2 /* main */,
-				5CCDA52B1C420953006AEC61 /* map */,
 				5C5B69531C56047F000C9AA4 /* moments */,
 				5CE620461C65B1A500435EF0 /* notice */,
 				5CFA82821C2825F90025C9B5 /* session */,
@@ -1183,7 +1122,6 @@
 			files = (
 				5C5B69541C56047F000C9AA4 /* moments in Resources */,
 				5C5DE7291C2F9E2300D9A8BC /* sound in Resources */,
-				5CCDA52C1C420953006AEC61 /* map in Resources */,
 				026964B31BEB435100C8BCD7 /* CrossApp.xib in Resources */,
 				5CFA82831C2825F90025C9B5 /* session in Resources */,
 				5C6CEBA31C1E709C000AE9D2 /* main in Resources */,
@@ -1195,7 +1133,6 @@
 				026964B11BEB433600C8BCD7 /* Images.xcassets in Resources */,
 				B01F71671951682600BA07A6 /* source_material in Resources */,
 				5CFD0D941C20711000AD0C21 /* common in Resources */,
-				B0621BE51AC3B871005EBCA7 /* fonts in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1220,14 +1157,12 @@
 				5C432C321C60EB54008B55A0 /* FirstSurveyViewController.cpp in Sources */,
 				3E02A4F91B85AD6000328E71 /* gameswf_listener.cpp in Sources */,
 				3E02A4BA1B85AD6000328E71 /* triangulate_float.cpp in Sources */,
-				5C5DE7CA1C3035A900D9A8BC /* bitstream.c in Sources */,
 				5C38F64D1C7587CA002C4124 /* NoticeDetailViewController.cpp in Sources */,
 				5CFCF7061C3EAE0F00DE4410 /* NoticeViewController.cpp in Sources */,
 				3E02A4E41B85AD6000328E71 /* as_string.cpp in Sources */,
 				3E02A5091B85AD6000328E71 /* gameswf_tesselate.cpp in Sources */,
 				3E02A4EA1B85AD6000328E71 /* gameswf_avm2_jit.cpp in Sources */,
 				5C432C2D1C60EAB7008B55A0 /* ConstRect.cpp in Sources */,
-				5C5DE7D31C3035A900D9A8BC /* split.c in Sources */,
 				3E02A5021B85AD6000328E71 /* gameswf_root.cpp in Sources */,
 				5CFA828C1C282B730025C9B5 /* MyStatusViewController.cpp in Sources */,
 				3E02A4D01B85AD6000328E71 /* as_color_transform.cpp in Sources */,
@@ -1260,7 +1195,6 @@
 				5C38F63B1C71BBDC002C4124 /* FNoticeManager.cpp in Sources */,
 				3E02A4F31B85AD6000328E71 /* gameswf_fontlib.cpp in Sources */,
 				5C5B694E1C55DE28000C9AA4 /* MomentViewController.cpp in Sources */,
-				5C5DE7D01C3035A900D9A8BC /* qrinput.c in Sources */,
 				3E02A50A1B85AD6000328E71 /* gameswf_text.cpp in Sources */,
 				3E02A4FF1B85AD6000328E71 /* gameswf_player.cpp in Sources */,
 				15A3DAED1682F8A6002FB0C5 /* CocosDenshion.m in Sources */,
@@ -1268,15 +1202,12 @@
 				3E02A4BE1B85AD6000328E71 /* tu_gc_singlethreaded_marksweep.cpp in Sources */,
 				15A3DAEE1682F8A6002FB0C5 /* SimpleAudioEngine.mm in Sources */,
 				3E02A4ED1B85AD6000328E71 /* gameswf_character.cpp in Sources */,
-				5C5DE7CB1C3035A900D9A8BC /* mask.c in Sources */,
-				5C5DE7D21C3035A900D9A8BC /* rscode.c in Sources */,
 				3E02A4B01B85AD6000328E71 /* container.cpp in Sources */,
 				2150400D1C66062B005AB8B7 /* SessionSurveyResultViewController.cpp in Sources */,
 				15A3DAEF1682F8A6002FB0C5 /* SimpleAudioEngine_objc.m in Sources */,
 				5CFA82801C2824550025C9B5 /* SessionsSearchViewController.cpp in Sources */,
 				3E02A5041B85AD6000328E71 /* gameswf_sound.cpp in Sources */,
 				3E02A4D21B85AD6000328E71 /* as_event.cpp in Sources */,
-				5C5DE7D11C3035A900D9A8BC /* qrspec.c in Sources */,
 				3E02A4C01B85AD6000328E71 /* tu_loadlib.cpp in Sources */,
 				3E02A4CA1B85AD6000328E71 /* gameswf_action.cpp in Sources */,
 				3E02A4F01B85AD6000328E71 /* gameswf_environment.cpp in Sources */,
@@ -1284,7 +1215,6 @@
 				1AFAF8B716D35DE700DB1158 /* AppDelegate.cpp in Sources */,
 				3E02A4B11B85AD6000328E71 /* dlmalloc.c in Sources */,
 				3E02A4CC1B85AD6000328E71 /* as_boolean.cpp in Sources */,
-				5C5DE7CF1C3035A900D9A8BC /* qrencode.c in Sources */,
 				3E02A4BC1B85AD6000328E71 /* tu_file.cpp in Sources */,
 				5CF668391C194EB0009994C0 /* MainViewController.cpp in Sources */,
 				3E02A4DB1B85AD6000328E71 /* as_mouse.cpp in Sources */,
@@ -1311,7 +1241,6 @@
 				1AC3624B16D4A1E8000847F2 /* main.m in Sources */,
 				3E02A4EC1B85AD6000328E71 /* gameswf_canvas.cpp in Sources */,
 				5CFCF7031C3E51C100DE4410 /* FSegmentView.cpp in Sources */,
-				5C5DE7CD1C3035A900D9A8BC /* mqrspec.c in Sources */,
 				3E02A4B61B85AD6000328E71 /* image_filters.cpp in Sources */,
 				5CFA82921C2831260025C9B5 /* PhotoViewController.cpp in Sources */,
 				3E02A50C1B85AD6000328E71 /* gameswf_value.cpp in Sources */,
@@ -1335,7 +1264,6 @@
 				3E02A4D31B85AD6000328E71 /* as_flash.cpp in Sources */,
 				3E02A4C31B85AD6000328E71 /* tu_types.cpp in Sources */,
 				3E02A4AF1B85AD6000328E71 /* configvars.cpp in Sources */,
-				5C5DE7CC1C3035A900D9A8BC /* mmask.c in Sources */,
 				1AFCDA8216D4A25900906EA6 /* RootViewController.mm in Sources */,
 				3E02A4B41B85AD6000328E71 /* file_util.cpp in Sources */,
 				5CFA828F1C282B730025C9B5 /* VoteViewController.cpp in Sources */,

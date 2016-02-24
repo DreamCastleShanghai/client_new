@@ -68,17 +68,17 @@ void MyStatusViewController::viewDidLoad()
     }
     
     // search btn in header
-    m_searchButton = CAButton::createWithFrame(DRect((0), (20), (100), (100)), CAButtonTypeCustom);
-    if (m_searchButton) {
-        m_searchButton->addTarget(this, CAControl_selector(MyStatusViewController::buttonCallBack), CAControlEventTouchUpInSide);
-        m_searchButton->setTag(20);
-        this->getView()->addSubview(m_searchButton);
-        CAImageView* imageView = CAImageView::createWithImage(CAImage::create("common/nav_search.png"));
-        if (imageView) {
-            imageView->setImageViewScaleType(CAImageViewScaleTypeFitImageXY);
-            m_searchButton->setBackgroundViewForState(CAControlStateAll, imageView);
-        }
-    }
+//    m_searchButton = CAButton::createWithFrame(DRect((0), (20), (100), (100)), CAButtonTypeCustom);
+//    if (m_searchButton) {
+//        m_searchButton->addTarget(this, CAControl_selector(MyStatusViewController::buttonCallBack), CAControlEventTouchUpInSide);
+//        m_searchButton->setTag(20);
+//        this->getView()->addSubview(m_searchButton);
+//        CAImageView* imageView = CAImageView::createWithImage(CAImage::create("common/nav_search.png"));
+//        if (imageView) {
+//            imageView->setImageViewScaleType(CAImageViewScaleTypeFitImageXY);
+//            m_searchButton->setBackgroundViewForState(CAControlStateAll, imageView);
+//        }
+//    }
     
     // information btn
     m_pointButton = CAButton::createWithFrame(DRect(m_winSize.width - (120), (20), (100), (100)), CAButtonTypeCustom);
@@ -521,6 +521,7 @@ void MyStatusViewController::onRequestRankFinished(const HttpResponseStatus& sta
             tmpInfo.m_pointRank = i + 1;
             tmpInfo.m_point = v2[i]["Score"].asInt();
             tmpInfo.m_greenAmb = v2[i]["GreenAmb"].asBool();
+            tmpInfo.m_imageUrl = crossapp_format_string("%s%s", imgPreUrl.c_str(), v2[i]["Icon"].asString().c_str());
             m_rankMsg.push_back(tmpInfo);
         }
         int myRank = json["result"]["urk"].asInt() + 1;
@@ -573,7 +574,7 @@ void MyStatusViewController::switchNavType()
     if (m_navType == MY_CALANDER_VIEW)
     {
         m_myCalanderView->setVisible(true);
-        m_searchButton->setVisible(true);
+        //m_searchButton->setVisible(true);
 
         m_pointView->setVisible(false);
         m_msgTableView->setVisible(false);
@@ -601,7 +602,7 @@ void MyStatusViewController::switchNavType()
         m_pointButton->setVisible(true);
         m_msgTableView->setVisible(true);
         
-        m_searchButton->setVisible(false);
+        //m_searchButton->setVisible(false);
         m_myCalanderView->setVisible(false);
         
         if (m_pointType == MY_INFO_SCORE_HISTORY) {
@@ -814,6 +815,7 @@ CATableViewCell* MyStatusViewController::tableCellAtIndex(CATableView* table, co
                 urlImageView->setImageViewScaleType(CAImageViewScaleTypeFitImageCrop);
                 //urlImageView->setImage(CAImage::create("common/bg.png"));
                 urlImageView->setUrl(m_rankMsg[row].m_imageUrl);
+                
                 cell->addSubview(urlImageView);
                 cell->setTouchEnabled(false);
                 

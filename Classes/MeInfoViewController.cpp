@@ -80,7 +80,7 @@ void MeInfoViewController::viewDidLoad()
         m_headerTitle->setTextAlignment(CATextAlignmentCenter);
         m_headerTitle->setColor(CAColor_white);
         m_headerTitle->setFontSize(SAP_TITLE_FONT_SIZE);
-        m_headerTitle->setText("Information");
+        m_headerTitle->setText("Rules of Credits");
         m_headerTitle->setFontName(SAP_FONT_ARIAL);
         m_headerTitle->setTouchEnabled(false);
         m_headerView->addSubview(m_headerTitle);
