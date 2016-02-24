@@ -7,7 +7,6 @@
 //
 
 #include "HttpConnect.h"
-#include "qrencode.h"
 
 #define QRCODE_TEXT					"http://www.ultramundum.org/index.htm";		// Text to encode into QRCode
 #define OUT_FILE					"Resources/test.bmp"								// Output file name
@@ -62,53 +61,53 @@ string getSign(std::map<std::string,std::string> key_value)
 CAImage* createQRImage(std::string code, int width, int height)
 {
     CAImage* image = NULL;
-
-    QRcode* _qrcode = QRcode_encodeString(code.c_str(), 2, QR_ECLEVEL_L, QR_MODE_8, 0);
-    if (_qrcode != nullptr) {
-        int wScale = width / _qrcode->width, hScale = height / _qrcode->width;
-        unsigned char*	pData;
-        int length = wScale * _qrcode->width * hScale * _qrcode->width;
-        if (!(pData = (unsigned char*)malloc(length)))
-        {
-            CCLog("Out of memory");
-            QRcode_free(_qrcode);
-            return NULL;
-        }
-        memset(pData, 0xff, length);
-        
-        for (int i =0; i<_qrcode->width; ++i)
-        {
-            for (int j = 0; j<_qrcode->width; ++j)
-            {
-                if(_qrcode->data[i * _qrcode->width +j] & 1)
-                {
-                    for (int n = 0; n < hScale; n++)
-                    {
-                        for (int m = 0; m < wScale; m++)
-                        {
-                            pData[i * _qrcode->width * hScale * wScale + n * _qrcode->width * wScale + j * wScale + m] = 0;
-                        }
-                        
-                    }
-
-                }
-                else
-                {
-                    for (int n = 0; n < hScale; n++)
-                    {
-                        for (int m = 0; m < wScale; m++)
-                        {
-                            pData[i * _qrcode->width * hScale * wScale + n * _qrcode->width * wScale + j * wScale + m] = 255;
-                        }
-                        
-                    }
-                }
-            }
-        }
-        
-        image = CAImage::createWithRawDataNoCache(pData, CrossApp::CAImage::PixelFormat_A8, wScale * _qrcode->width, hScale * _qrcode->width);
-        QRcode_free(_qrcode);
-        free(pData);
-    }
+//
+//    QRcode* _qrcode = QRcode_encodeString(code.c_str(), 2, QR_ECLEVEL_L, QR_MODE_8, 0);
+//    if (_qrcode != nullptr) {
+//        int wScale = width / _qrcode->width, hScale = height / _qrcode->width;
+//        unsigned char*	pData;
+//        int length = wScale * _qrcode->width * hScale * _qrcode->width;
+//        if (!(pData = (unsigned char*)malloc(length)))
+//        {
+//            CCLog("Out of memory");
+//            QRcode_free(_qrcode);
+//            return NULL;
+//        }
+//        memset(pData, 0xff, length);
+//        
+//        for (int i =0; i<_qrcode->width; ++i)
+//        {
+//            for (int j = 0; j<_qrcode->width; ++j)
+//            {
+//                if(_qrcode->data[i * _qrcode->width +j] & 1)
+//                {
+//                    for (int n = 0; n < hScale; n++)
+//                    {
+//                        for (int m = 0; m < wScale; m++)
+//                        {
+//                            pData[i * _qrcode->width * hScale * wScale + n * _qrcode->width * wScale + j * wScale + m] = 0;
+//                        }
+//                        
+//                    }
+//
+//                }
+//                else
+//                {
+//                    for (int n = 0; n < hScale; n++)
+//                    {
+//                        for (int m = 0; m < wScale; m++)
+//                        {
+//                            pData[i * _qrcode->width * hScale * wScale + n * _qrcode->width * wScale + j * wScale + m] = 255;
+//                        }
+//                        
+//                    }
+//                }
+//            }
+//        }
+//        
+//        image = CAImage::createWithRawDataNoCache(pData, CrossApp::CAImage::PixelFormat_A8, wScale * _qrcode->width, hScale * _qrcode->width);
+//        QRcode_free(_qrcode);
+//        free(pData);
+//    }
     return image;
 }
