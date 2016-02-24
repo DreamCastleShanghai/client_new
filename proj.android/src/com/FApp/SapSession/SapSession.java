@@ -21,6 +21,6 @@ public class SapSession extends Cocos2dxActivity{
     }
 
     static {
-        System.loadLibrary("CrossApp_cpp");
+        System.loadLibrary("FApp_cpp");
     }     
 }

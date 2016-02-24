@@ -4,7 +4,7 @@ include $(CLEAR_VARS)
 
 LOCAL_MODULE := CrossApp_cpp_shared
 #LOCAL_SHARED_LIBRARIES += cocos_ffmpeg_shared
-LOCAL_MODULE_FILENAME := libCrossApp_cpp
+LOCAL_MODULE_FILENAME := libFApp_cpp
 
 MY_FILES_PATH := $(LOCAL_PATH) \
                  $(LOCAL_PATH)/../../Classes
