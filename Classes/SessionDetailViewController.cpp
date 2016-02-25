@@ -190,24 +190,10 @@ void SessionDetailViewController::initView()
 
     yHight += (30) + (50);
 
-    // description
-    tempRect = ConstRect::getSessionDetailDescriptionRect();
-    tempRect.size.width = m_winSize.width - (80);
-    tempRect.origin.y = yHight;
-	CALabel* m_lectureDetailLabel = CALabel::createWithFrame(tempRect);
-	m_lectureDetailLabel->setTextAlignment(CATextAlignmentLeft);
-	m_lectureDetailLabel->setFontSize((24));
-	m_lectureDetailLabel->setText(m_detailMsg.m_detail);
-    m_lectureDetailLabel->setColor(ccc4(0xa1, 0xa1, 0xa1, 0xff));
-	scrollView->addSubview(m_lectureDetailLabel);
-    
-    yHight += m_lectureDetailLabel->getLabelSize().height;
-    
-    //yHight = yHight + (40);
-    
+    // speaker
     size_t speakerCnt = m_detailMsg.m_speaker.size();
     if (speakerCnt > 0) {
-        CALabel* label = CALabel::createWithFrame(DRect(tempRect.origin.x, yHight, m_winSize.width - (80), (35)));
+        CALabel* label = CALabel::createWithFrame(DRect((40), yHight, m_winSize.width - (80), (35)));
         label->setColor(ccc4(0x5f, 0x5f, 0x5f, 0xff));
         label->setTextAlignment(CATextAlignmentLeft);
         label->setFontSize((30));
@@ -237,11 +223,11 @@ void SessionDetailViewController::initView()
             tempRect.origin.x += tempRect.size.width / 2;
             tempRect.origin.y = tempRect.origin.y + (100);
             /*
-            if (speakerCnt > 3) {
-                tempRect.origin.x = (30) + speakWidth * i + (speakWidth - tempRect.size.width) / 2;
-            } else {
-                tempRect.origin.x = (30) + speakWidth * i + (50) * (i + 1);
-            }*/
+             if (speakerCnt > 3) {
+             tempRect.origin.x = (30) + speakWidth * i + (speakWidth - tempRect.size.width) / 2;
+             } else {
+             tempRect.origin.x = (30) + speakWidth * i + (50) * (i + 1);
+             }*/
             label = CALabel::createWithCenter(DRect(tempRect.origin.x, tempRect.origin.y, (200), (30)));
             label->setColor(CAColor_gray);
             label->setTextAlignment(CATextAlignmentCenter);
@@ -249,8 +235,24 @@ void SessionDetailViewController::initView()
             label->setText(m_detailMsg.m_speaker[i].name);
             scrollView->addSubview(label);
         }
+        yHight += (100) + (50);
     }
-
+    
+    // description
+    tempRect = ConstRect::getSessionDetailDescriptionRect();
+    tempRect.size.width = m_winSize.width - (80);
+    tempRect.origin.y = yHight;
+	CALabel* m_lectureDetailLabel = CALabel::createWithFrame(tempRect);
+	m_lectureDetailLabel->setTextAlignment(CATextAlignmentLeft);
+	m_lectureDetailLabel->setFontSize((24));
+	m_lectureDetailLabel->setText(m_detailMsg.m_detail);
+    m_lectureDetailLabel->setColor(ccc4(0xa1, 0xa1, 0xa1, 0xff));
+	scrollView->addSubview(m_lectureDetailLabel);
+    
+    //yHight += m_lectureDetailLabel->getLabelSize().height;
+    
+    //yHight = yHight + (40);
+    
 
 	// tail
 	CAScale9ImageView* sView = CAScale9ImageView::createWithImage(CAImage::create("common/gray_bg.png"));

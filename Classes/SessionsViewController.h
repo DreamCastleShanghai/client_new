@@ -90,6 +90,7 @@ private:
     CAListView*                                             m_listView;
     CAView*													m_filterView;
 	CAView*													m_downView[2];
+    CAButton*                                               m_filterBtn[2];
 	std::vector<CAView*>									m_filterViewVec;
 
 	std::vector<CAButton*>                                  m_trackButtonVec;

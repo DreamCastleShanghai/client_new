@@ -5,6 +5,7 @@
 #include "SessionsSearchViewController.h"
 #include "utils/HttpConnect.h"
 #include "SimpleAudioEngine.h"
+#include "MomentViewController.h"
 
 MomentsDetailViewController::MomentsDetailViewController(photoMsg& msg, int type)
 : p_pLoading(NULL)
@@ -16,6 +17,7 @@ MomentsDetailViewController::MomentsDetailViewController(photoMsg& msg, int type
 , m_likeBtnImage(NULL)
 , m_scrollView(NULL)
 , m_urlImageVIew(NULL)
+, m_parent(NULL)
 {
     
 }
@@ -155,6 +157,10 @@ void MomentsDetailViewController::buttonCallBack(CAControl* btn, DPoint point)
     if (btn->getTag() == 20)
     {
         RootWindow::getInstance()->getRootNavigationController()->popViewControllerAnimated(true);
+        if (m_parent) {
+            ((MomentViewController*)m_parent)->requestMsg();
+        }
+        //((MomentViewController*)RootWindow::getInstance()->getRootNavigationController()->getBackViewController())->requestMsg();
     }
     else if(btn->getTag() == 300) // like btn
     {

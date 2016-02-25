@@ -203,6 +203,18 @@ void MainViewController::viewDidLoad()
             button->setBackgroundViewForState(CAControlStateAll, imageView);
         }
     }
+    
+    // survey lable
+    CALabel * surveylable = CALabel::createWithFrame(DRect(m_winSize.width - (75), (100), (100), (25)));
+    if (surveylable) {
+        surveylable->setTextAlignment(CATextAlignmentLeft);
+        surveylable->setColor(CAColor_white);
+        surveylable->setFontSize(15);
+        surveylable->setText("Survey");
+        surveylable->setFontName(SAP_FONT_ARIAL);
+        surveylable->setTouchEnabled(false);
+        this->getView()->addSubview(surveylable);
+    }
 	
     int pageViewHeight = m_winSize.height * 0.3;
     int butViewHeight = m_winSize.height * 0.15;
@@ -959,7 +971,7 @@ void MainViewController::initPageView()
         for (int i = 0; i<m_page.size(); i++)
         {
             CommonUrlImageView* temImage = CommonUrlImageView::createWithFrame(DRect(0, (0), m_winSize.width, pageViewHeight - headerHeight));
-            temImage->setImageViewScaleType(CAImageViewScaleTypeFitImageXY);
+            temImage->setImageViewScaleType(CAImageViewScaleTypeFitImageCrop);
             temImage->setImage(CAImage::create("common/bg.png"));
             temImage->setUrl(m_page[i].m_imageUrl);
             temImage->setTouchEnabled(true);

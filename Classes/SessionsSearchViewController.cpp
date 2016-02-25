@@ -24,6 +24,8 @@ SessionsSearchViewController::SessionsSearchViewController(int type)
 {
     m_downView[0] = NULL;
     m_downView[1] = NULL;
+    m_filterBtn[0] = NULL;
+    m_filterBtn[1] = NULL;
     m_trackButtonVec.clear();
     m_formatButtonVec.clear();
     m_msg = FDataManager::getInstance()->getSessionMsgs();
@@ -86,15 +88,15 @@ void SessionsSearchViewController::viewDidLoad()
 
 	for (int i = 0; i < 2; i++)
 	{
-		CAButton* button = CAButton::createWithFrame(DRect(i * m_winSize.width / 2, 0, m_winSize.width / 2, (60)), CAButtonTypeCustom);
-		button->setTitleForState(CAControlStateAll, filterItem[i]);
-		button->setTitleFontName(SAP_FONT_ARIAL);
-        button->setTitleFontSize((30));
-		button->setTitleColorForState(CAControlStateAll, CAColor_gray);
- 		button->addTarget(this, CAControl_selector(SessionsSearchViewController::buttonCallBack), CAControlEventTouchUpInSide);
-		button->setTag(300 + i);
-		button->setAllowsSelected(true);
-		m_filterView->addSubview(button);
+		m_filterBtn[i] = CAButton::createWithFrame(DRect(i * m_winSize.width / 2, 0, m_winSize.width / 2, (60)), CAButtonTypeCustom);
+		m_filterBtn[i]->setTitleForState(CAControlStateAll, filterItem[i]);
+		m_filterBtn[i]->setTitleFontName(SAP_FONT_ARIAL);
+        m_filterBtn[i]->setTitleFontSize((30));
+		m_filterBtn[i]->setTitleColorForState(CAControlStateAll, CAColor_gray);
+ 		m_filterBtn[i]->addTarget(this, CAControl_selector(SessionsSearchViewController::buttonCallBack), CAControlEventTouchUpInSide);
+		m_filterBtn[i]->setTag(300 + i);
+		m_filterBtn[i]->setAllowsSelected(true);
+		m_filterView->addSubview(m_filterBtn[i]);
 
 		m_downView[i] = CAView::createWithFrame(DRect(i * m_winSize.width / 2, (180), m_winSize.width / 2, (50) * TrackNum + (20)));
 		CAScale9ImageView* imageView = CAScale9ImageView::createWithImage(CAImage::create("common/gray_bg.png"));
@@ -250,6 +252,12 @@ void SessionsSearchViewController::buttonCallBack(CAControl* btn, DPoint point)
 			m_navTrackType = btn->getTag() - 400;
 			refreshTableByFormat(m_navTrackType, m_navFormatType);
 		}
+        if (m_filterBtn[0]) {
+            if (btn->getTag() == 400)
+                m_filterBtn[0]->setTitleForState(CAControlStateAll, filterItem[0]);
+            else
+                m_filterBtn[0]->setTitleForState(CAControlStateAll, trackFilterItem[btn->getTag() - 400]);
+        }
 	}
 	else if (btn->getTag() >= 500 && btn->getTag() < 600)
 	{
@@ -260,7 +268,7 @@ void SessionsSearchViewController::buttonCallBack(CAControl* btn, DPoint point)
 		}
 		else if (btn->getControlState() == CAControlStateSelected)
 		{
-			for (int i = 0; i < TrackNum; i++)
+			for (int i = 0; i < FormatNum; i++)
 			{
 				if (m_formatButtonVec[i] == btn)
 					continue;
@@ -269,6 +277,12 @@ void SessionsSearchViewController::buttonCallBack(CAControl* btn, DPoint point)
 			m_navFormatType = btn->getTag() - 500;
 			refreshTableByFormat(m_navTrackType, m_navFormatType);
 		}
+        if (m_filterBtn[1]) {
+            if (btn->getTag() == 500)
+                m_filterBtn[1]->setTitleForState(CAControlStateAll, filterItem[1]);
+            else
+                m_filterBtn[1]->setTitleForState(CAControlStateAll, formatFilterItem[btn->getTag() - 500]);
+        }
 	}
 }
 

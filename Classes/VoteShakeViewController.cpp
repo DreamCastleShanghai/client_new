@@ -210,14 +210,14 @@ void VoteShakeViewController::initView()
         switch (m_tye) {
             case TYPE_DJ:
                 //urlImageVIew->setUrl(((demoJamMsg*)m_msg)->m_imageUrl);
-                label->setText(crossapp_format_string("You have been voted for %s, thank you!", ((demoJamMsg*)m_msg)->m_teamName.c_str()));
+                label->setText(crossapp_format_string("You have voted for %s, thank you!", ((demoJamMsg*)m_msg)->m_teamName.c_str()));
                 break;
             case TYPE_VOICE:
                 //urlImageVIew->setUrl(((voiceMsg*)m_msg)->m_imageUrl);
-                label->setText(crossapp_format_string("You have been voted for %s, thank you!", ((voiceMsg*)m_msg)->m_playerName.c_str()));
+                label->setText(crossapp_format_string("You have voted for %s, thank you!", ((voiceMsg*)m_msg)->m_playerName.c_str()));
                 break;
             case TYPE_EH:
-                label->setText(crossapp_format_string("You have been voted for hiking, thank you!"));
+                label->setText(crossapp_format_string("You have voted for hiking, thank you!"));
                 //urlImageVIew->setUrl(((eggHikingMsg*)m_msg)->m_imageUrl);
                 break;
             default:

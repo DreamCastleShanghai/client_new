@@ -23,6 +23,8 @@ public:
     
 	virtual ~MomentViewController();
     
+    void requestMsg();
+    
 protected:
     
     virtual void viewDidAppear();
@@ -34,7 +36,9 @@ protected:
 	void buttonCallBack(CAControl* btn, DPoint point);
 
 	void showAlert();
-
+    
+    void onDeleteAlert(int bid);
+    
 	void requestMsg(int type);
 
 	void requestLike(int index);
@@ -103,7 +107,8 @@ private:
     CAButton*                                               m_leftBtn;
     CAButton*                                               m_rightBtn;
     
-
+    CAButton*                                               m_tagBtn;
+    int                                                     m_deleteId;
 };
 
 

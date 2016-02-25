@@ -113,7 +113,7 @@ void PhotoViewController::buttonCallBack(CAControl* btn, DPoint point)
     {
         if (m_type == 1 && m_currentCategory == "")
         {
-            CAAlertView *alertView = CAAlertView::createWithText("Warning !", "Select  one photo tag !", "OK", NULL);
+            CAAlertView *alertView = CAAlertView::createWithText("", "Select one photo tag !", "OK", NULL);
             alertView->show();
             return;
         }

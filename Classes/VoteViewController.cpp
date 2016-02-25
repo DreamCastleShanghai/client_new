@@ -202,7 +202,7 @@ void VoteViewController::initMsgTableView()
         }
         if (m_detailLabel[i]) {
             m_detailLabel[i]->setColor(CAColor_white);
-            m_detailLabel[i]->setTextAlignment(CATextAlignmentLeft);
+            m_detailLabel[i]->setTextAlignment(CATextAlignmentCenter);//CATextAlignmentLeft);
             m_detailLabel[i]->setVerticalTextAlignmet(CAVerticalTextAlignmentTop);
             m_detailLabel[i]->setFontSize((30));
             m_detailLabel[i]->setText("");
@@ -234,7 +234,7 @@ void VoteViewController::initMsgTableView()
         temImage->addSubview(label);
          */
         
-        CAButton* button = CAButton::createWithCenter(DRect(m_winSize.width / 2,  m_imageHeight - (350), (200), (60)), CAButtonTypeCustom);
+        CAButton* button = CAButton::createWithCenter(DRect(m_winSize.width / 2,  m_imageHeight - (300), (200), (60)), CAButtonTypeCustom);
         button->setTitleForState(CAControlStateAll, "Vote");
         button->setTitleForState(CAControlStateDisabled, "Voted");
         button->setTitleFontName(SAP_FONT_ARIAL);
@@ -308,7 +308,7 @@ void VoteViewController::initMsgTableView()
          */
         
         // vote button
-        CAButton* button = CAButton::createWithCenter(DRect(m_winSize.width / 2,  m_imageHeight - (350), (200), (60)), CAButtonTypeCustom);
+        CAButton* button = CAButton::createWithCenter(DRect(m_winSize.width / 2,  m_imageHeight - (300), (200), (60)), CAButtonTypeCustom);
         button->setTitleForState(CAControlStateAll, "Vote");
         button->setTitleForState(CAControlStateDisabled, "Voted");
         button->setTitleFontName(SAP_FONT_ARIAL);
@@ -384,7 +384,7 @@ void VoteViewController::initMsgTableView()
          */
         
         // vote button
-        CAButton* button = CAButton::createWithCenter(DRect(m_winSize.width / 2,  m_imageHeight - (350), (200), (60)), CAButtonTypeCustom);
+        CAButton* button = CAButton::createWithCenter(DRect(m_winSize.width / 2,  m_imageHeight - (300), (200), (60)), CAButtonTypeCustom);
         button->setTitleForState(CAControlStateAll, "Vote");
         button->setTitleForState(CAControlStateDisabled, "Voted");
         button->setTitleFontName(SAP_FONT_ARIAL);
@@ -548,6 +548,8 @@ void VoteViewController::buttonCallBack(CAControl* btn, DPoint point)
         userInfo* uInfo = FDataManager::getInstance()->getUserInfo();
         if (uInfo->m_demoVoteIdVec.size() >= 2)
         {
+            CAAlertView *alertView = CAAlertView::createWithText("Sorry", "Everyone has only 2 votes.", "OK", NULL);
+            alertView->show();
             return;
         }
         //VoteShakeViewController* vc = new VoteShakeViewController(&m_demoMsg[btn->getTag() - 400], NULL);
@@ -561,6 +563,8 @@ void VoteViewController::buttonCallBack(CAControl* btn, DPoint point)
         userInfo* uInfo = FDataManager::getInstance()->getUserInfo();
         if (uInfo->m_voiceVoteIdVec.size() >= 2)
         {
+            CAAlertView *alertView = CAAlertView::createWithText("Sorry", "Everyone has only 2 votes.", "OK", NULL);
+            alertView->show();
             return;
         }
         //VoteShakeViewController* vc = new VoteShakeViewController(NULL, &m_voiceMsg[btn->getTag() - 500]);
@@ -574,6 +578,8 @@ void VoteViewController::buttonCallBack(CAControl* btn, DPoint point)
         userInfo* uInfo = FDataManager::getInstance()->getUserInfo();
         if (uInfo->m_eggVoted)
         {
+            CAAlertView *alertView = CAAlertView::createWithText("Sorry", "You have already voted.", "OK", NULL);
+            alertView->show();
             return;
         }
         //VoteShakeViewController* vc = new VoteShakeViewController(NULL, NULL, &m_hikMsg[btn->getTag() - 600]);

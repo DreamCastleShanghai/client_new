@@ -19,6 +19,8 @@ public:
     
 	virtual ~MomentsDetailViewController();
     
+    void setParent(CAViewController* pt)    { m_parent = pt; }
+    
 protected:
     
     void viewDidLoad();
@@ -48,6 +50,8 @@ private:
     CommonUrlImageView*                     m_urlImageVIew;
 //    bool                                    m_canLike;
     CAActivityIndicatorView*                p_pLoading;
+    
+    CAViewController*                       m_parent;
 };
 
 

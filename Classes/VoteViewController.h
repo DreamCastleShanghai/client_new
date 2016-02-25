@@ -79,7 +79,6 @@ private:
     //CAListView*												m_detailListView;
     CALabel*                                    m_voteLabel;
     
-    
     CAView*                                     p_alertView;
     CAActivityIndicatorView*					p_pLoading;
 };

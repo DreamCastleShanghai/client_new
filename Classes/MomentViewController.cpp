@@ -23,6 +23,8 @@ MomentViewController::MomentViewController()
 , m_filterView(NULL)
 , m_leftBtn(NULL)
 , m_rightBtn(NULL)
+, m_tagBtn(NULL)
+, m_deleteId(-1)
 {
     m_allMsg.clear();
     m_allFilterMsg.clear();
@@ -68,23 +70,23 @@ void MomentViewController::viewDidLoad()
         this->getView()->addSubview(bkBtn);
     }
 
-	CAButton*  tagbutton = CAButton::createWithFrame(DRect((m_winSize.width - (200)) / 2, (30), (250), (100)), CAButtonTypeCustom);
-    if (tagbutton) {
-        tagbutton->setTitleForState(CAControlStateAll, "Moments");
-        tagbutton->setTitleFontName(SAP_FONT_ARIAL);
-        tagbutton->setTitleFontSize(SAP_TITLE_FONT_SIZE);
-        tagbutton->setTitleColorForState(CAControlStateAll, CAColor_white);
+	m_tagBtn = CAButton::createWithFrame(DRect((m_winSize.width - (200)) / 2, (30), (250), (100)), CAButtonTypeCustom);
+    if (m_tagBtn) {
+        m_tagBtn->setTitleForState(CAControlStateAll, "Moments");
+        m_tagBtn->setTitleFontName(SAP_FONT_ARIAL);
+        m_tagBtn->setTitleFontSize(SAP_TITLE_FONT_SIZE);
+        m_tagBtn->setTitleColorForState(CAControlStateAll, CAColor_white);
         
-        tagbutton->addTarget(this, CAControl_selector(MomentViewController::buttonCallBack), CAControlEventTouchUpInSide);
-        tagbutton->setTag(30);
-        this->getView()->addSubview(tagbutton);
+        m_tagBtn->addTarget(this, CAControl_selector(MomentViewController::buttonCallBack), CAControlEventTouchUpInSide);
+        m_tagBtn->setTag(30);
+        this->getView()->addSubview(m_tagBtn);
         
         // down arrow
         CAImageView* imageView = CAImageView::createWithImage(CAImage::create("session/down.png"));
         if (imageView) {
             imageView->setImageViewScaleType(CAImageViewScaleTypeFitImageXY);
             imageView->setFrame(DRect((190), (25), (55), (55)));
-            tagbutton->addSubview(imageView);
+            m_tagBtn->addSubview(imageView);
         }
     }
 
@@ -231,6 +233,12 @@ void MomentViewController::viewDidUnload()
 {
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
+}
+void MomentViewController::requestMsg()
+{
+    CCLog("segtype : %d", m_segType);
+    if  (m_segType == Type_all)
+        requestMsg(m_segType);
 }
 
 void MomentViewController::requestMsg(int type)
@@ -415,6 +423,10 @@ void MomentViewController::buttonCallBack(CAControl* btn, DPoint point)
 	else if (btn->getTag() >= 400 && btn->getTag() < 500)
 	{
 		if (!m_canDelete) return;
+        //CAAlertView *alertView = CAAlertView::createWithText("", "Delete this photo?", "Yes", "No");
+        //alertView->setTarget(this, CAAlertView_selector(MomentViewController::onDeleteAlert));
+        //alertView->show();
+        //m_deleteId = btn->getTag() - 400;
 		requestDelete(btn->getTag() - 400);
 	}
 	else // filter button
@@ -428,8 +440,27 @@ void MomentViewController::buttonCallBack(CAControl* btn, DPoint point)
 				m_msgTableView->reloadData();
 			}
 		}
+        if (m_tagBtn) {
+            if (strcmp(filterMoments[0], m_currentCategory.c_str()))
+                m_tagBtn->setTitleForState(CAControlStateAll, m_currentCategory);
+            else
+                m_tagBtn->setTitleForState(CAControlStateAll, "Moments");
+        }
 		m_filterView->setVisible(false);
 	}
+}
+
+void MomentViewController::onDeleteAlert(int bid)
+{
+    switch (bid) {
+        case 0:
+            requestDelete(m_deleteId);
+            //requestDelete(btn->getTag() - 400);
+            break;
+        default:
+            break;
+    }
+    m_deleteId = -1;
 }
 
 void MomentViewController::refreshAllFilterMsg(const char* category)
@@ -705,6 +736,7 @@ void MomentViewController::tableViewDidSelectRowAtIndexPath(CATableView* table, 
     
     MomentsDetailViewController* vc = new MomentsDetailViewController(*(m_allFilterMsg.at(row)), 0);
     vc->init();
+    vc->setParent(this);
     vc->autorelease();
     RootWindow::getInstance()->getRootNavigationController()->pushViewController(vc, true);
 }
@@ -719,6 +751,7 @@ void MomentViewController::collectionViewDidSelectCellAtIndexPath(CACollectionVi
 {
     MomentsDetailViewController* vc = new MomentsDetailViewController(m_myMsg[row * 2 + item], 1);
     vc->init();
+    vc->setParent(this);
     vc->autorelease();
     RootWindow::getInstance()->getRootNavigationController()->pushViewController(vc, true);
 }

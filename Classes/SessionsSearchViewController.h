@@ -54,6 +54,7 @@ private:
 	CATableView*											m_msgTableView;
 	CAView*													m_filterView;
 	CAView*													m_downView[2];
+    CAButton*                                               m_filterBtn[2];
 	std::vector<CAButton*>                                  m_trackButtonVec;
 	std::vector<CAButton*>                                  m_formatButtonVec;
 
