@@ -102,7 +102,7 @@ void SessionDetailViewController::initView()
     int yHight = (120);
     
     // scroll view
-    CAScrollView* scrollView = CAScrollView::createWithFrame(DRect(0, yHight, m_winSize.width, m_winSize.height * 1.5));
+    CAScrollView* scrollView = CAScrollView::createWithFrame(DRect(0, yHight, m_winSize.width, 2000));//m_winSize.height * 1.5));
     scrollView->setHorizontalScrollEnabled(false);
     scrollView->setVerticalScrollEnabled(true);
     scrollView->setBounceHorizontal(false);
@@ -114,7 +114,7 @@ void SessionDetailViewController::initView()
 
     // header title
     yHight = (40);
-    CALabel* m_titleLabel = CALabel::createWithFrame(DRect((40), yHight, m_winSize.width - (80), (300)));
+    CALabel* m_titleLabel = CALabel::createWithFrame(DRect((40), yHight, m_winSize.width - (80), (500)));
     /*
     if (m_msg->m_title.size() >= 60) {
         yHight += 120;
@@ -124,15 +124,17 @@ void SessionDetailViewController::initView()
         yHight += 40;
     }
      */
-    yHight += (m_msg->m_title.size() / 30) * 40;
-
 	m_titleLabel->setColor(ccc4(0x5f, 0x5f, 0x5f, 0xff));
 	m_titleLabel->setTextAlignment(CATextAlignmentLeft);
 	m_titleLabel->setVerticalTextAlignmet(CAVerticalTextAlignmentTop);
+    m_titleLabel->setTextAlignment(CATextAlignmentLeft);
 	m_titleLabel->setFontSize((30));
 	m_titleLabel->setText(m_msg->m_title);
 	scrollView->addSubview(m_titleLabel);
     
+    //CCLog("session line : %d", m_msg->m_title.size() / 30);
+    yHight += (m_msg->m_title.size() / 30) * (50);
+                                              
     yHight += (60);
 
     // time
@@ -248,6 +250,7 @@ void SessionDetailViewController::initView()
     tempRect.origin.y = yHight;
 	CALabel* m_lectureDetailLabel = CALabel::createWithFrame(tempRect);
 	m_lectureDetailLabel->setTextAlignment(CATextAlignmentLeft);
+    m_lectureDetailLabel->setVerticalTextAlignmet(CAVerticalTextAlignmentTop);
 	m_lectureDetailLabel->setFontSize((24));
 	m_lectureDetailLabel->setText(m_detailMsg.m_detail);
     m_lectureDetailLabel->setColor(ccc4(0xa1, 0xa1, 0xa1, 0xff));

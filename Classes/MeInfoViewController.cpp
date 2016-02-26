@@ -176,14 +176,19 @@ void MeInfoViewController::onRequestSubmitFinished(const HttpResponseStatus& sta
             }
             if (m_bodyScrollView) {
                 //scrollView->setViewSize(DSize(m_winSize.width - (40), (m_imageHeight));
-                m_bodyScrollView->setHorizontalScrollEnabled(false);
+                m_bodyScrollView->setHorizontalScrollEnabled(true);
                 m_bodyScrollView->setVerticalScrollEnabled(true);
-                m_bodyScrollView->setBounceHorizontal(false);
-                m_bodyScrollView->setBounds(DRect(0, 0, m_winSize.width, m_winSize.height - headHight));
-                m_bodyScrollView->setAnchorPoint(DPoint(0.f, 0.f));
-                m_bodyScrollView->setShowsHorizontalScrollIndicator(false);
+                //m_bodyScrollView->setBounceHorizontal(false);
+                m_bodyScrollView->setBounces(false);
+                m_bodyScrollView->setBounds(DRect(0, headHight, m_winSize.width, m_winSize.height - headHight));
+                m_bodyScrollView->setAnchorPoint(DPoint(0.f, headHight));
+                m_bodyScrollView->setShowsHorizontalScrollIndicator(true);
                 m_bodyScrollView->setShowsVerticalScrollIndicator(true);
                 m_bodyScrollView->setBackgroundColor(CAColor_clear);
+                m_bodyScrollView->setMinimumZoomScale(1.0f);
+                m_bodyScrollView->setMaximumZoomScale(4.0f);
+                m_bodyScrollView->setDisplayRange(true);
+                m_bodyScrollView->setMultitouchGesture(CAScrollView::Zoom);
                 this->getView()->addSubview(m_bodyScrollView);
             }
             for (int i = 0; i < length; ++i) {

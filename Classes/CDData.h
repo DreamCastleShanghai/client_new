@@ -123,7 +123,7 @@ static const char* noticeIcon[3] =
 
 static const CHAR* mainShort[3] =
 {
-    _T("Moments"), _T("Vote"), _T("Onsite Guide")
+    _T("Survey"), _T("Vote"), _T("Onsite Guide")
 };
 
 static const CHAR* mainBar[3] =

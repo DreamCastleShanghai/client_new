@@ -61,7 +61,7 @@ void SurveyViewController::viewDidLoad()
     this->getView()->addSubview(button);
     
     // header title
-    CALabel* label = CALabel::createWithCenter(DRect(m_winSize.width / 2, (70), m_winSize.width, (40)));
+    CALabel* label = CALabel::createWithCenter(DRect(m_winSize.width / 2, (70), m_winSize.width, (50)));
     label->setTextAlignment(CATextAlignmentCenter);
     label->setColor(CAColor_white);
     label->setFontSize(SAP_TITLE_FONT_SIZE);
@@ -393,7 +393,7 @@ void SurveyViewController::onSurveyInfoFinished(const HttpResponseStatus& status
                 }
                 
                 yHight += (tmp.size() / 35) * 30;
-                yHight += yGap * 1.5;
+                yHight += yGap * 2;
                 
                 // options one label
                 for (int i = 0; i < OPTN_CNT; i++)
@@ -416,7 +416,7 @@ void SurveyViewController::onSurveyInfoFinished(const HttpResponseStatus& status
                     }
                     if (m_option1[i] == NULL)
                     {
-                        m_option1[i] = CALabel::createWithFrame(DRect((50) + (60), yHight + 10, m_winSize.width - (80) - (60), (200)));
+                        m_option1[i] = CALabel::createWithFrame(DRect((50) + (60), yHight + 5, m_winSize.width - (80) - (60), (200)));
                         m_option1[i]->setColor(CAColor_gray);
                         m_option1[i]->setFontSize((27));
                         switch (i) {
@@ -437,10 +437,11 @@ void SurveyViewController::onSurveyInfoFinished(const HttpResponseStatus& status
                         }
                         m_option1[i]->setText(tmp);
                         m_option1[i]->setVerticalTextAlignmet(CAVerticalTextAlignmentTop);
+                        m_option1[i]->setLineSpacing(-15);
                         m_option1[i]->setFontName(SAP_FONT_ARIAL);
                         m_bodyScrollView->addSubview(m_option1[i]);
                     }
-                    yHight += (tmp.size() / 35) * 30 + yGap;
+                    yHight += (tmp.size() / 35) * 35 + yGap;
                 }
                 
                 
@@ -464,7 +465,7 @@ void SurveyViewController::onSurveyInfoFinished(const HttpResponseStatus& status
                 }
                 
                 yHight += (tmp.size() / 35) * 30;
-                yHight += yGap * 1.5;
+                yHight += yGap * 2;
                 
                 // options two label
                 for (int i = 0; i < OPTN_CNT; i++)
@@ -487,7 +488,7 @@ void SurveyViewController::onSurveyInfoFinished(const HttpResponseStatus& status
                     }
                     if (m_option2[i] == NULL)
                     {
-                        m_option2[i] = CALabel::createWithFrame(DRect((50) + (60), yHight + 10, m_winSize.width - (80) - (60), (200)));
+                        m_option2[i] = CALabel::createWithFrame(DRect((50) + (60), yHight + 5, m_winSize.width - (80) - (60), (200)));
                         m_option2[i]->setColor(CAColor_gray);
                         m_option2[i]->setFontSize((27));
                         switch (i) {
@@ -509,10 +510,11 @@ void SurveyViewController::onSurveyInfoFinished(const HttpResponseStatus& status
                         m_option2[i]->setText(tmp);
                         m_option2[i]->setVerticalTextAlignmet(CAVerticalTextAlignmentTop);
                         //m_option2[i]->setText(crossapp_format_string("option 2 test %d", i));
+                        m_option2[i]->setLineSpacing(-15);
                         m_option2[i]->setFontName(SAP_FONT_ARIAL);
                         m_bodyScrollView->addSubview(m_option2[i]);
                     }
-                    yHight += (tmp.size() / 35) * 30 + yGap;
+                    yHight += (tmp.size() / 35) * 35 + yGap;
                 }
                 
                 yHight += 80;

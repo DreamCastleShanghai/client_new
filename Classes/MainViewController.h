@@ -22,6 +22,8 @@ public:
     
 public:
     
+    void onNotice();
+    
     void viewDidLoad();
     
     void viewDidUnload();
@@ -75,6 +77,7 @@ public:
 	virtual void scrollViewHeaderBeginRefreshing(CAScrollView* view);
 	virtual void scrollViewFooterBeginRefreshing(CAScrollView* view);
 
+    CAView* tableViewSectionViewForHeaderInSection(CATableView* table, const DSize& viewSize, unsigned int section);
 	virtual CATableViewCell* tableCellAtIndex(CATableView* table, const DSize& cellSize, unsigned int section, unsigned int row);
 	virtual unsigned int numberOfRowsInSection(CATableView *table, unsigned int section);
 	virtual unsigned int numberOfSections(CATableView *table);
@@ -87,6 +90,9 @@ public:
     
 	virtual void tableViewDidSelectRowAtIndexPath(CATableView* table, unsigned int section, unsigned int row);
     virtual void tableViewDidDeselectRowAtIndexPath(CATableView* table, unsigned int section, unsigned int row);
+    unsigned int tableViewHeightForHeaderInSection(CATableView* table, unsigned int section);
+    
+    void refreshNoticeRedPoint();
 private:
     enum
     {

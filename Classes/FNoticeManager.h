@@ -26,6 +26,10 @@ typedef struct
     
 } FNotice;
 
+
+typedef void (CAObject::*SEL_FNoticeEvent)();
+#define FNotice_selector(_SELECTOR) (SEL_FNoticeEvent)(&_SELECTOR)
+
 class FNoticeManager : public CAObject
 {
 public:
@@ -35,6 +39,8 @@ public:
     virtual ~FNoticeManager();
     
     static FNoticeManager* sharedFNoticeManager();
+    
+    void setTarget(CAObject* target, SEL_FNoticeEvent selector);
     
     bool addNotice(int sid, int type, std::string &title, std::string &detail, time_t start = 0, time_t end = 0, bool remote = false);
     bool deleteNotice(int sid);
@@ -56,6 +62,8 @@ protected:
 
     std::vector<FNotice> m_notices;
     
+    CAObject*           m_pFNoticeTarget;
+    SEL_FNoticeEvent    m_pFNoticeEvent;
 };
 
 #endif /* defined(__FNoticeManager__) */

@@ -8,6 +8,7 @@
 #include "FServerTime.h"
 #include "FNoticeManager.h"
 #include "NoticeDetailViewController.h"
+#include "MainViewController.h"
 
 NoticeViewController::NoticeViewController()
 : p_alertView(NULL)
@@ -138,6 +139,9 @@ void NoticeViewController::buttonCallBack(CAControl* btn, DPoint point)
     if (btn->getTag() == 20)
     {
         RootWindow::getInstance()->getRootNavigationController()->popViewControllerAnimated(true);
+        MainViewController* mv = (MainViewController*)(RootWindow::getInstance()->getHomeView());
+        if (mv)
+            mv->refreshNoticeRedPoint();
     }
     else if (btn->getTag() == 30)
     {
@@ -245,7 +249,7 @@ CATableViewCell* NoticeViewController::tableCellAtIndex(CATableView* table, cons
 		{
 			imageView = CAImageView::createWithImage(CAImage::create("notice/icon_reddot.png"));
 			imageView->setImageViewScaleType(CAImageViewScaleTypeFitImageXY);
-			imageView->setFrame(DRect((100), (20), (10), (10)));
+			imageView->setFrame(DRect((100), (20), (30), (30)));
 			cell->addSubview(imageView);
 		}
 

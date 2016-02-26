@@ -196,7 +196,7 @@ void MyStatusViewController::viewDidLoad()
                 m_pointView->addSubview(m_pointLabel[i]);
             }
             
-            m_rankLabel[i] = CALabel::createWithFrame(DRect(i * m_winSize.width / 2, (260), m_winSize.width / 2, (35)));
+            m_rankLabel[i] = CALabel::createWithFrame(DRect(i * m_winSize.width / 2, (260), m_winSize.width / 2, (40)));
             if (m_rankLabel[i]) {
                 m_rankLabel[i]->setTextAlignment(CATextAlignmentCenter);
                 m_rankLabel[i]->setVerticalTextAlignmet(CAVerticalTextAlignmentCenter);
@@ -865,16 +865,37 @@ CAView* MyStatusViewController::tableViewSectionViewForHeaderInSection(CATableVi
     CAView* view = NULL;
     if (table == m_myCalanderView)
     {
-        view = CAView::createWithColor(ccc4(0xf3, 0xf3, 0xf3, 0xf3));
-        
-        CALabel* label = CALabel::createWithFrame(DRect((40), (0), (300), (50)));
-        int hour = m_rowNumOfSection[section].hour;
-        label->setText(crossapp_format_string("%02d:00 - %02d:00", hour, hour + 1));
-        CCLog("head %d %d", section, hour);
-        label->setFontSize((25));
-        label->setColor(ccc4(0, 0xa8, 0xfc, 0xff));
-        label->setVerticalTextAlignmet(CAVerticalTextAlignmentCenter);
-        view->addSubview(label);
+        if(!m_filterMsg.empty())
+        {
+            view = CAView::createWithColor(ccc4(0xf3, 0xf3, 0xf3, 0xf3));
+            
+            CALabel* label = CALabel::createWithFrame(DRect((40), (0), (300), (50)));
+            int hour = m_rowNumOfSection[section].hour;
+            label->setText(crossapp_format_string("%02d:00 - %02d:00", hour, hour + 1));
+            CCLog("head %d %d", section, hour);
+            label->setFontSize((25));
+            label->setColor(ccc4(0, 0xa8, 0xfc, 0xff));
+            label->setVerticalTextAlignmet(CAVerticalTextAlignmentCenter);
+            view->addSubview(label);
+        }
+        else
+        {
+            // lable
+            view = CAView::createWithFrame(DRect(0, 0, m_winSize.width, m_winSize.height));
+            CALabel* label = CALabel::createWithCenter(DRect((m_winSize.width / 2), (m_winSize.height / 2), (640 - 80), (240)));
+            label->setText("Click         to add sessions to your agenda.");
+            label->setFontSize((40));
+            label->setColor(ccc4(0, 0xa8, 0xfc, 0xff));
+            label->setVerticalTextAlignmet(CAVerticalTextAlignmentCenter);
+            label->setTextAlignment(CATextAlignmentCenter);
+            view->addSubview(label);
+            
+            // star image
+            CAImageView* starImage = CAImageView::createWithImage(CAImage::create("common/btn_collect.png"));
+            starImage->setImageViewScaleType(CAImageViewScaleTypeFitImageInside);
+            starImage->setFrame(DRect((m_winSize.width / 2 - 150), (m_winSize.height / 2 - 80), (80), (80)));
+            view->addSubview(starImage);
+        }
     }
     return view;
 }
@@ -916,10 +937,10 @@ unsigned int MyStatusViewController::numberOfSections(CATableView *table)
         }
         else
         {
-            secVec sv;
-            sv.rowNum = 1;
-            sv.hour = 8;
-            m_rowNumOfSection.push_back(sv);
+            //secVec sv;
+            //sv.rowNum = 1;
+            //sv.hour = 8;
+            //m_rowNumOfSection.push_back(sv);
         }
     }
 
@@ -932,7 +953,8 @@ unsigned int MyStatusViewController::numberOfRowsInSection(CATableView *table, u
     if (table == m_myCalanderView)
     {
         CCLog("s:%d", section);
-        num = m_rowNumOfSection[section].rowNum;
+        if(!m_filterMsg.empty())
+            num = m_rowNumOfSection[section].rowNum;
     }
     else if(table == m_msgTableView)
     {
@@ -958,7 +980,10 @@ unsigned int MyStatusViewController::tableViewHeightForHeaderInSection(CATableVi
     int hight = 0;
     if (table == m_myCalanderView)
     {
-        hight = (50);
+        if(!m_filterMsg.empty())
+            hight = (50);
+        else
+            hight = m_winSize.height;
     }
     return hight;
 }

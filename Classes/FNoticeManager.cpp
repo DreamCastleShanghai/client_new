@@ -82,6 +82,10 @@ bool FNoticeManager::addNotice(int sid, int type, std::string &title, std::strin
         return false;
     }
     
+    if (m_pFNoticeEvent && m_pFNoticeTarget)
+    {
+        ((CAObject*)m_pFNoticeTarget->*m_pFNoticeEvent)();
+    }
     return true;
 }
 
@@ -161,6 +165,12 @@ void FNoticeManager::onSendNoticeToken(const HttpResponseStatus& status, const C
         string tempjson = writer.write(json);
         CCLog("receive json == %s",tempjson.c_str());
     }
+}
+
+void FNoticeManager::setTarget(CAObject* target, SEL_FNoticeEvent selector)
+{
+    m_pFNoticeTarget = target;
+    m_pFNoticeEvent = selector;
 }
 
 void FNoticeManager::playNoticeVoice()

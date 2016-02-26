@@ -36,7 +36,7 @@ void NoticeDetailViewController::viewDidLoad()
     button->setTag(20);
     sView->addSubview(button);
     
-    CALabel* label = CALabel::createWithCenter(DRect(m_winSize.width / 2, (70), m_winSize.width, (40)));
+    CALabel* label = CALabel::createWithCenter(DRect(m_winSize.width / 2, (70), m_winSize.width, (50)));
     label->setTextAlignment(CATextAlignmentCenter);
     label->setColor(CAColor_white);
     label->setTouchEnabled(false);
@@ -45,7 +45,7 @@ void NoticeDetailViewController::viewDidLoad()
     label->setFontName(SAP_FONT_ARIAL);
     sView->addSubview(label);
     
-    label = CALabel::createWithFrame(DRect(0, (200), m_winSize.width, (50)));
+    label = CALabel::createWithFrame(DRect(0, (200), m_winSize.width, (60)));
     label->setTextAlignment(CATextAlignmentCenter);
     label->setColor(CAColor_gray);
     label->setTouchEnabled(false);

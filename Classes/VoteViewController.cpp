@@ -184,7 +184,7 @@ void VoteViewController::initMsgTableView()
         
         // title label
         if (m_titleLabel[i] == NULL) {
-            m_titleLabel[i] = CALabel::createWithCenter(DRect(m_winSize.width / 2, 70, m_winSize.width - 80, (50)));
+            m_titleLabel[i] = CALabel::createWithCenter(DRect(m_winSize.width / 2, 70, m_winSize.width - 80, (60)));
             scrollView->addSubview(m_titleLabel[i]);
         }
         if (m_titleLabel[i]) {

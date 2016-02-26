@@ -17,6 +17,7 @@
 #include "MomentViewController.h"
 #include "FirstSurveyViewController.h"
 #include "MeInfoViewController.h"
+#include "FNoticeManager.h"
 
 #define REFRESH_STEP 5
 
@@ -50,11 +51,20 @@ MainViewController::MainViewController()
     m_page.clear();
     m_pageAllMapVec.clear();
 //    m_msg(FDataManager::getInstance()->getSessionMsgs())
+    
+    FNoticeManager::sharedFNoticeManager()->setTarget(this, FNotice_selector(MainViewController::onNotice));
 }
 
 MainViewController::~MainViewController()
 {
+}
 
+void MainViewController::onNotice()
+{
+    if (m_timeNoticeImageView) {
+        m_timeNoticeImageView->setDirty(true);
+        m_timeNoticeImageView->setVisible(true);
+    }
 }
 
 void MainViewController::update(float dt)
@@ -143,6 +153,23 @@ void MainViewController::viewDidAppear()
     }*/
 }
 
+void MainViewController::refreshNoticeRedPoint()
+{
+    // message unread cnt
+    int unreadCnt = 0;
+    std::vector<FNotice>& notices = FNoticeManager::sharedFNoticeManager()->getNotices();
+    for (int i = 0; i < notices.size(); i++)
+    {
+        if (!notices[i].readed)
+            unreadCnt++;
+    }
+    if (unreadCnt == 0) {
+        m_timeNoticeImageView->setVisible(false);
+    } else {
+        m_timeNoticeImageView->setVisible(true);
+    }
+}
+
 void MainViewController::viewDidLoad()
 {
     // Do any additional setup after loading the view from its nib.
@@ -181,17 +208,17 @@ void MainViewController::viewDidLoad()
             button->setBackGroundViewForState(CAControlStateAll, imageView);
         }
         
-        /*
-        m_timeNoticeImageView = CAImageView::createWithFrame(DRect((60), (30), (10), (10)));
+        m_timeNoticeImageView = CAImageView::createWithFrame(DRect((60), (30), (20), (20)));
         if (m_timeNoticeImageView) {
             m_timeNoticeImageView->setImage(CAImage::create("common/reddot.png"));
             button->addSubview(m_timeNoticeImageView);
         }
-         */
+        refreshNoticeRedPoint();
     }
     
     // notification alert point
 
+    /*
     // right survey button
 	button = CAButton::createWithFrame(DRect(m_winSize.width - (100), (20), (100), (100)), CAButtonTypeCustom);
     if (button) {
@@ -217,6 +244,7 @@ void MainViewController::viewDidLoad()
         surveylable->setTouchEnabled(false);
         this->getView()->addSubview(surveylable);
     }
+     */
 	
     int pageViewHeight = m_winSize.height * 0.3;
     int butViewHeight = m_winSize.height * 0.15;
@@ -585,10 +613,11 @@ void MainViewController::onRequestFinished(const HttpResponseStatus& status, con
             //temp_page.m_titleId = value["bar"][i]["tid"].asInt();
             //temp_page.m_title = value["bar"][i]["til"].asString();
             m_pageAllMapVec.push_back(temp_page);
-            m_page.push_back(temp_page);
+            //m_page.push_back(temp_page);
         }
+        adjustPageViewContent();
         
-        initPageView();
+//        initPageView();
         /*
 //        if (m_pageView)
 //        {
@@ -740,7 +769,8 @@ void MainViewController::buttonCallBack(CAControl* btn, DPoint point)
      */
     else if (btn->getTag() == 300)
     {
-        goUploadPhoto();
+        goDKomSurvey();
+        //goUploadPhoto();
         /*
         m_monent = (MomentViewController*)new MomentViewController();
         m_monent->init();
@@ -789,18 +819,38 @@ void MainViewController::buttonCallBack(CAControl* btn, DPoint point)
 //        vc->init();
         RootWindow::getInstance()->getRootNavigationController()->pushViewController(m_my, true);
     }
-    
+}
+
+CAView* MainViewController::tableViewSectionViewForHeaderInSection(CATableView* table, const DSize& viewSize, unsigned int section)
+{
+    CAView* view = NULL;
+    if(m_filterMsg.empty())
+    {
+        // lable
+        view = CAView::createWithFrame(DRect(0, 0, m_winSize.width, m_winSize.height));
+        CALabel* label = CALabel::createWithCenter(DRect((m_winSize.width / 2), (120), (640 - 80), (240)));
+        label->setText("My following sessions. (Avaliable on 2nd March)");
+        label->setFontSize((30));
+        label->setColor(ccc4(0, 0xa8, 0xfc, 0xff));
+        label->setVerticalTextAlignmet(CAVerticalTextAlignmentCenter);
+        label->setTextAlignment(CATextAlignmentCenter);
+        view->addSubview(label);
+    }
+    return view;
 }
 
 CATableViewCell* MainViewController::tableCellAtIndex(CATableView* table, const DSize& cellSize, unsigned int section, unsigned int row)
 {
     DSize _size = cellSize;
     MainViewTableCell* cell = NULL;//dynamic_cast<MainViewTableCell*>(table->dequeueReusableCellWithIdentifier("CrossApp"));
-    if (cell == NULL)
+    if (!m_filterMsg.empty())
     {
-        cell = MainViewTableCell::create("home", DRect(0, 0, _size.width, _size.height));
-		cell->initWithCell(*m_filterMsg[row]);
-        cell->autorelease();
+        if (cell == NULL)
+        {
+            cell = MainViewTableCell::create("home", DRect(0, 0, _size.width, _size.height));
+            cell->initWithCell(*m_filterMsg[row]);
+            cell->autorelease();
+        }
     }
     
     return cell;
@@ -819,6 +869,14 @@ unsigned int MainViewController::numberOfRowsInSection(CATableView *table, unsig
 unsigned int MainViewController::tableViewHeightForRowAtIndexPath(CATableView* table, unsigned int section, unsigned int row)
 {
     return (240);
+}
+
+unsigned int MainViewController::tableViewHeightForHeaderInSection(CATableView* table, unsigned int section)
+{
+    int hight = 0;
+    if(m_filterMsg.empty())
+        hight = 300;
+    return hight;
 }
 
 void MainViewController::pageViewDidBeginTurning(CAPageView* pageView)
@@ -923,7 +981,7 @@ void MainViewController::adjustPageViewContent()
             m_page.push_back(m_pageAllMapVec.at(0));
             m_page.push_back(m_pageAllMapVec.at(4));
             m_page.push_back(m_pageAllMapVec.at(5));
-            m_page.push_back(m_pageAllMapVec.at(6));
+            //m_page.push_back(m_pageAllMapVec.at(6));
             m_page.push_back(m_pageAllMapVec.at(7));
             break;
         case MAP_AFTERNOON:
@@ -937,7 +995,7 @@ void MainViewController::adjustPageViewContent()
             m_page.push_back(m_pageAllMapVec.at(1));
             m_page.push_back(m_pageAllMapVec.at(3));
             m_page.push_back(m_pageAllMapVec.at(2));
-            m_page.push_back(m_pageAllMapVec.at(6));
+            //m_page.push_back(m_pageAllMapVec.at(6));
             m_page.push_back(m_pageAllMapVec.at(7));
             break;
         default:
@@ -947,7 +1005,7 @@ void MainViewController::adjustPageViewContent()
             m_page.push_back(m_pageAllMapVec.at(3));
             m_page.push_back(m_pageAllMapVec.at(4));
             m_page.push_back(m_pageAllMapVec.at(5));
-            m_page.push_back(m_pageAllMapVec.at(6));
+            //m_page.push_back(m_pageAllMapVec.at(6));
             m_page.push_back(m_pageAllMapVec.at(7));
             break;
     }

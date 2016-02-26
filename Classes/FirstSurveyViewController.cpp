@@ -71,7 +71,7 @@ void FirstSurveyViewController::viewDidLoad()
             }
         }
     
-        m_headerTitle = CALabel::createWithCenter(DRect(m_winSize.width / 2, (70), m_winSize.width, (40)));
+        m_headerTitle = CALabel::createWithCenter(DRect(m_winSize.width / 2, (70), m_winSize.width, (50)));
         m_headerTitle->setTextAlignment(CATextAlignmentCenter);
         m_headerTitle->setColor(CAColor_white);
         m_headerTitle->setFontSize(SAP_TITLE_FONT_SIZE);
@@ -82,7 +82,7 @@ void FirstSurveyViewController::viewDidLoad()
     }
     
     // body content
-    m_bodyScrollView = CAScrollView::createWithFrame(DRect((0), (120), m_winSize.width, m_winSize.height));
+    m_bodyScrollView = CAScrollView::createWithFrame(DRect((0), (120), m_winSize.width, 2000));//m_winSize.height));
     if (m_bodyScrollView) {
         //scrollView->setViewSize(DSize(m_winSize.width - (40), (m_imageHeight));
         m_bodyScrollView->setHorizontalScrollEnabled(false);
@@ -95,7 +95,7 @@ void FirstSurveyViewController::viewDidLoad()
         m_bodyScrollView->setBackgroundColor(CAColor_clear);
         this->getView()->addSubview(m_bodyScrollView);
         
-        m_bodyContext = CALabel::createWithFrame(DRect((40), (40), m_winSize.width - (80), m_winSize.height - (240)));
+        m_bodyContext = CALabel::createWithFrame(DRect((40), (40), m_winSize.width - (80), 2000));//m_winSize.height - (240)));
         if (m_bodyContext) {
             m_bodyContext->setText(surveyDetail[0]);
             m_bodyContext->setVerticalScrollEnabled(true);
