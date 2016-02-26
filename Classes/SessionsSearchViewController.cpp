@@ -88,6 +88,12 @@ void SessionsSearchViewController::viewDidLoad()
 
 	for (int i = 0; i < 2; i++)
 	{
+        int cnt = 0;
+        if (i == 0) {
+            cnt = TrackNum;
+        } else if (i == 1) {
+            cnt = FormatNum;
+        }
 		m_filterBtn[i] = CAButton::createWithFrame(DRect(i * m_winSize.width / 2, 0, m_winSize.width / 2, (60)), CAButtonTypeCustom);
 		m_filterBtn[i]->setTitleForState(CAControlStateAll, filterItem[i]);
 		m_filterBtn[i]->setTitleFontName(SAP_FONT_ARIAL);
@@ -98,9 +104,9 @@ void SessionsSearchViewController::viewDidLoad()
 		m_filterBtn[i]->setAllowsSelected(true);
 		m_filterView->addSubview(m_filterBtn[i]);
 
-		m_downView[i] = CAView::createWithFrame(DRect(i * m_winSize.width / 2, (180), m_winSize.width / 2, (50) * TrackNum + (20)));
+		m_downView[i] = CAView::createWithFrame(DRect(i * m_winSize.width / 2, (180), m_winSize.width / 2, (50) * cnt + (20)));
 		CAScale9ImageView* imageView = CAScale9ImageView::createWithImage(CAImage::create("common/gray_bg.png"));
-		imageView->setFrame(DRect(0, 0, m_winSize.width / 2, (50) * TrackNum + (20)));
+		imageView->setFrame(DRect(0, 0, m_winSize.width / 2, (50) * cnt + (20)));
 		m_downView[i]->addSubview(imageView);
 		m_downView[i]->setVisible(false);
 		this->getView()->addSubview(m_downView[i]);
@@ -202,6 +208,7 @@ void SessionsSearchViewController::buttonCallBack(CAControl* btn, DPoint point)
 	else if (btn->getTag() == 30)
 	{
         m_msgFilter.clear();
+        m_msgSearchFilter.clear();
         string str = m_searchTextField->getText();
         if (str == "")
         {

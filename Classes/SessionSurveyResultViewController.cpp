@@ -311,5 +311,6 @@ void SessionSurveyResultViewController::back()
 {
     RootWindow::getInstance()->getRootNavigationController()->popToRootViewControllerAnimated(true);
     FDataManager::getInstance()->setUserDirty(true);
+    FDataManager::getInstance()->setRankDirty(true);
     //RootWindow::getInstance()->getRootNavigationController()->popViewControllerAnimated(false);
 }

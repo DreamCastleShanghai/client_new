@@ -102,7 +102,7 @@ void SessionDetailViewController::initView()
     int yHight = (120);
     
     // scroll view
-    CAScrollView* scrollView = CAScrollView::createWithFrame(DRect(0, yHight, m_winSize.width, m_winSize.height * 1.1));
+    CAScrollView* scrollView = CAScrollView::createWithFrame(DRect(0, yHight, m_winSize.width, m_winSize.height * 1.5));
     scrollView->setHorizontalScrollEnabled(false);
     scrollView->setVerticalScrollEnabled(true);
     scrollView->setBounceHorizontal(false);
@@ -114,7 +114,8 @@ void SessionDetailViewController::initView()
 
     // header title
     yHight = (40);
-    CALabel* m_titleLabel = CALabel::createWithFrame(DRect((40), yHight, m_winSize.width - (80), (120)));
+    CALabel* m_titleLabel = CALabel::createWithFrame(DRect((40), yHight, m_winSize.width - (80), (300)));
+    /*
     if (m_msg->m_title.size() >= 60) {
         yHight += 120;
     } else if (m_msg->m_title.size() >= 30) {
@@ -122,6 +123,9 @@ void SessionDetailViewController::initView()
     } else {
         yHight += 40;
     }
+     */
+    yHight += (m_msg->m_title.size() / 30) * 40;
+
 	m_titleLabel->setColor(ccc4(0x5f, 0x5f, 0x5f, 0xff));
 	m_titleLabel->setTextAlignment(CATextAlignmentLeft);
 	m_titleLabel->setVerticalTextAlignmet(CAVerticalTextAlignmentTop);
@@ -129,7 +133,7 @@ void SessionDetailViewController::initView()
 	m_titleLabel->setText(m_msg->m_title);
 	scrollView->addSubview(m_titleLabel);
     
-    yHight += (30);
+    yHight += (60);
 
     // time
 	CALabel* m_timeLabel = CALabel::createWithFrame(DRect((40), yHight, m_winSize.width - (80), (30)));
@@ -509,7 +513,6 @@ void SessionDetailViewController::requestStore()
 
 void SessionDetailViewController::onStoreRequestFinished(const HttpResponseStatus& status, const CSJson::Value& json)
 {
-    
     if (status == HttpResponseSucceed)
     {
         CSJson::FastWriter writer;
@@ -529,6 +532,7 @@ void SessionDetailViewController::onStoreRequestFinished(const HttpResponseStatu
             m_msg->m_stored = false;
             m_storeBtnImage->setImage(CAImage::create("common/btn_collect.png"));
         }
+        MainViewTableCell::updateTable();
     }
 //    m_canStore = true;
 }
@@ -584,6 +588,7 @@ void SessionDetailViewController::onLikeRequestFinished(const HttpResponseStatus
             m_likeBtnImage->setImage(CAImage::create("common/btn_like.png"));
         }
         m_likeNumLabel->setText(crossapp_format_string("%d", m_msg->m_likeNum));
+        MainViewTableCell::updateTable();
 	}
     /*
 	else

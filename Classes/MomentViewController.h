@@ -72,7 +72,7 @@ protected:
 	virtual unsigned int numberOfItemsInRowsInSection(CACollectionView *collectionView, unsigned int section, unsigned int row);
 	virtual unsigned int collectionViewHeightForRowAtIndexPath(CACollectionView* collectionView, unsigned int section, unsigned int row);
 
-	virtual void scrollViewFooterBeginRefreshing(CAScrollView* view);
+	virtual void scrollViewHeaderBeginRefreshing(CAScrollView* view);
     
 private:
 	enum

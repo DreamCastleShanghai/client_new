@@ -139,7 +139,7 @@ static const char* filterItem[2] =
 #define TrackNum 12
 static const char* trackFilterItem[TrackNum] =
 {
-    "all",
+    "All",
     "HANA, HCP & Cloud Infrastructure",
     "User Experience",
     "Analytics",
@@ -153,27 +153,28 @@ static const char* trackFilterItem[TrackNum] =
     "Industry Applications"
 };
 
-#define FormatNum 12
+#define FormatNum 13
 static const char* formatFilterItem[FormatNum] =
 {
-	"all",
+	"All",
+    "Keynote",
     "SAP Talk",
     "Downtown Block",
-    "Developer Faire Booth",
+    "Developer Faire",
     "Interactive Zone",
+    "Digital Zone",
     "Customer Talk",
-    "People & SLN Booth",
-    "Fiori Cafe",
+    "Ecosystem Talk",
+    "Customer Round Table",
     "Cloud Innovation Kitchen",
-	"SAP Development University",
+    "People Booth",
     "Quality Booth",
-    "Digital Zone"
 };
 
 #define MOMENTSFILTERNUM 9
 static const char* filterMoments[MOMENTSFILTERNUM] =
 {
-	"all",
+	"All",
     "Keynote",
     "Session",
     "Evening Party",

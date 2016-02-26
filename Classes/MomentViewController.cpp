@@ -15,7 +15,7 @@ MomentViewController::MomentViewController()
 , m_segType(0)
 , m_currentAllNum(0)
 , m_currentMyNum(0)
-, m_currentCategory("all")
+, m_currentCategory(filterMoments[0])
 , m_canDelete(true)
 //, m_browView(NULL)
 , m_msgTableView(NULL)
@@ -42,8 +42,24 @@ MomentViewController::~MomentViewController()
 
 void MomentViewController::viewDidAppear()
 {
+    /*
+    if (FDataManager::getInstance()->isUserDirty()) {
+        FDataManager::getInstance()->setUserDirty(false);
+    }
+    if (FDataManager::getInstance()->isRankDirty()) {
+        FDataManager::getInstance()->setRankDirty(false);
+    }
+     */
+    //requestMsg(Type_me);
+    CCLog("appear ------------------------------------- ");
+    CCLog("segtype : %d", m_segType);
+    CCLog("m_currentCategory : %s", m_currentCategory.c_str());
+//    if (FDataManager::getInstance()->isPhotoDirty()) {
+//        FDataManager::getInstance()->setPhotoDirty(false);
+//        requestMsg(Type_all);
+//    }
     
-    requestMsg(Type_me);
+    requestMsg(m_segType);
 }
 
 void MomentViewController::viewDidLoad()
@@ -188,9 +204,9 @@ void MomentViewController::viewDidLoad()
 	m_msgTableView->setSeparatorColor(CAColor_clear);
 	m_segView[0]->addSubview(m_msgTableView);
 
-	CAPullToRefreshView* footerRefreshView = CAPullToRefreshView::create(CAPullToRefreshView::CAPullToRefreshTypeFooter);
-	footerRefreshView->setTag(0);
-	m_msgTableView->setFooterRefreshView(footerRefreshView);
+	CAPullToRefreshView* headerRefreshView = CAPullToRefreshView::create(CAPullToRefreshView::CAPullToRefreshTypeHeader);
+	headerRefreshView->setTag(0);
+	m_msgTableView->setHeaderRefreshView(headerRefreshView);
 
 	m_myCollectionView = CACollectionView::createWithFrame(DRect(0, 0, m_winSize.width, m_winSize.height - (180)));
 	m_myCollectionView->setAllowsSelection(true);
@@ -202,9 +218,9 @@ void MomentViewController::viewDidLoad()
 	//m_myCollectionView->setVertInterval((0));
 	m_segView[1]->addSubview(m_myCollectionView);
 
-	footerRefreshView = CAPullToRefreshView::create(CAPullToRefreshView::CAPullToRefreshTypeFooter);
-	footerRefreshView->setTag(1);
-	m_myCollectionView->setFooterRefreshView(footerRefreshView);
+	headerRefreshView = CAPullToRefreshView::create(CAPullToRefreshView::CAPullToRefreshTypeHeader);
+	headerRefreshView->setTag(1);
+	m_myCollectionView->setHeaderRefreshView(headerRefreshView);
 
 	m_filterView = CAView::createWithFrame(DRect((m_winSize.width - (200)) / 2, (100), (240), (80) * MOMENTSFILTERNUM));
 	m_filterView->setColor(ccc4(0, 0, 0, 128));
@@ -465,10 +481,12 @@ void MomentViewController::onDeleteAlert(int bid)
 
 void MomentViewController::refreshAllFilterMsg(const char* category)
 {
+    CCLog("refresh all filter msg ------------------------------------- %d", m_allMsg.size());
 	m_allFilterMsg.clear();
 	for (int i = 0; i < m_allMsg.size(); i++)
 	{
-		if (!(strcmp(m_allMsg[i].caterory.c_str(), category)) || !(strcmp("all", category)))
+        CCLog("cat : %s", m_allMsg[i].caterory.c_str());
+		if (!(strcmp(m_allMsg[i].caterory.c_str(), category)) || !(strcmp(filterMoments[0], category)))
 		{
 			m_allFilterMsg.push_back(&(m_allMsg[i]));
 		}
@@ -477,12 +495,12 @@ void MomentViewController::refreshAllFilterMsg(const char* category)
 
 void MomentViewController::onRequestAllFinished(const HttpResponseStatus& status, const CSJson::Value& json)
 {
+    CCLog("onRequestAllFinished ------------------------------------- ");
     if (status == HttpResponseSucceed)
     {
         CSJson::FastWriter writer;
         string tempjson = writer.write(json);
         CCLog("receive json == %s",tempjson.c_str());
-        
 		const CSJson::Value& value = json["result"];
 		int length = value["pl"].size();
 		for (int i = 0; i < length; i++)
@@ -526,6 +544,7 @@ void MomentViewController::onRequestAllFinished(const HttpResponseStatus& status
 		m_currentAllNum += 5;
     }
 #endif
+    //refreshAllFilterMsg(m_currentCategory.c_str());
 	m_msgTableView->reloadData();
 
     if (p_pLoading)
@@ -629,8 +648,10 @@ void MomentViewController::showAlert()
 CATableViewCell* MomentViewController::tableCellAtIndex(CATableView* table, const DSize& cellSize, unsigned int section, unsigned int row)
 {
     DSize _size = cellSize;
-    
+    CCLog("row : %d", row);
+    CCLog("m_allFilterMsg : %d", m_allFilterMsg.size());
 	std::string picId = crossapp_format_string("%d", m_allFilterMsg.at(row)->picId);
+    CCLog("picId : %s", picId.c_str());
     table->dequeueReusableCellWithIdentifier(picId.c_str());
     CATableViewCell* cell = NULL;//dynamic_cast<CATableViewCell*>();
     if (cell == NULL)
@@ -702,10 +723,10 @@ CATableViewCell* MomentViewController::tableCellAtIndex(CATableView* table, cons
     
 }
 
-void MomentViewController::scrollViewFooterBeginRefreshing(CAScrollView* view)
+void MomentViewController::scrollViewHeaderBeginRefreshing(CAScrollView* view)
 {
 	CATableView* tableView = (CATableView*)view;
-	CAView* headView = tableView->getFooterRefreshView();
+	CAView* headView = tableView->getHeaderRefreshView();
 	if (headView->getTag() == 0)
 	{
 		requestMsg(Type_all);

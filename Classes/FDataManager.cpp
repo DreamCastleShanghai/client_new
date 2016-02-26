@@ -16,6 +16,8 @@ FDataManager::FDataManager()
 , m_sessionNotice(false)
 , m_diffServerTime(0)
 , m_userDirty(true)
+, m_rankDirty(true)
+, m_photoDirty(true)
 {
     m_sessionMsgs.clear();
 //    m_userId = 1;

@@ -44,7 +44,7 @@ protected:
 private:
 
 	DSize													m_winSize;
-	struct surveyDetail                                            m_surveyDetail;
+	struct surveyDetail                                     m_surveyDetail;
 //	int														m_score;
 	int														m_sessionId;
     CAView*													p_alertView;
@@ -63,6 +63,8 @@ private:
     
     CAButton*                                               m_optionBtn1[OPTN_CNT];
     CAButton*                                               m_optionBtn2[OPTN_CNT];
+    
+    CAScrollView*                                           m_bodyScrollView;
     
     int                                                     m_choose1;
     int                                                     m_choose2;

@@ -181,11 +181,13 @@ void MainViewController::viewDidLoad()
             button->setBackGroundViewForState(CAControlStateAll, imageView);
         }
         
+        /*
         m_timeNoticeImageView = CAImageView::createWithFrame(DRect((60), (30), (10), (10)));
         if (m_timeNoticeImageView) {
             m_timeNoticeImageView->setImage(CAImage::create("common/reddot.png"));
             button->addSubview(m_timeNoticeImageView);
         }
+         */
     }
     
     // notification alert point

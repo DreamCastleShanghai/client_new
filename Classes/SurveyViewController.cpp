@@ -19,6 +19,7 @@ SurveyViewController::SurveyViewController(int sessionId)
 , m_choose1(0)
 , m_choose2(0)
 , m_chooseStar(0)
+, m_bodyScrollView(NULL)
 {
     for (int i = 0; i < STAR_CNT; i++) {
         m_stars[i] = NULL;
@@ -69,32 +70,39 @@ void SurveyViewController::viewDidLoad()
     header->addSubview(label);
     
     // scroll view
-    CAScrollView* scrollView = CAScrollView::createWithFrame(DRect(0, yHight, m_winSize.width, m_winSize.height));
-    scrollView->setHorizontalScrollEnabled(false);
-    scrollView->setVerticalScrollEnabled(true);
-    scrollView->setBounceHorizontal(false);
-    scrollView->setBounds(DRect(0, 0, m_winSize.width, m_winSize.height - yHight * 2));
-    scrollView->setAnchorPoint(DPoint(0.f, 0.f));
-    scrollView->setShowsHorizontalScrollIndicator(false);
-    scrollView->setShowsVerticalScrollIndicator(true);
-    this->getView()->addSubview(scrollView);
+    if (m_bodyScrollView == NULL) {
+        m_bodyScrollView = CAScrollView::createWithFrame(DRect(0, yHight, m_winSize.width, m_winSize.height * 1.5f));
+    }
+    if (m_bodyScrollView) {
+        m_bodyScrollView->setHorizontalScrollEnabled(false);
+        m_bodyScrollView->setVerticalScrollEnabled(true);
+        m_bodyScrollView->setBounceHorizontal(false);
+        m_bodyScrollView->setBounds(DRect(0, 0, m_winSize.width, m_winSize.height - yHight * 2));
+        m_bodyScrollView->setAnchorPoint(DPoint(0.f, 0.f));
+        m_bodyScrollView->setShowsHorizontalScrollIndicator(false);
+        m_bodyScrollView->setShowsVerticalScrollIndicator(true);
+        this->getView()->addSubview(m_bodyScrollView);
+    }
 
-    yHight = 0;
+    //yHight = 0;
 
     // part one : 4 - 1
-    CAView* partOne = CAView::createWithFrame(DRect(0, yHight, m_winSize.width, m_winSize.height * 0.3));
-    yHight += m_winSize.height * 0.3;
-    scrollView->addSubview(partOne);
+    //CAView* partOne = CAView::createWithFrame(DRect(0, yHight, m_winSize.width, m_winSize.height * 0.3));
+    //yHight += m_winSize.height * 0.3;
+    //scrollView->addSubview(partOne);
+    
+    /*
+    yHight = 30;
     
     // question one label
     if (m_question1 == NULL) {
-        m_question1 = CALabel::createWithFrame(DRect((50), (30), m_winSize.width - (80), (60)));
+        m_question1 = CALabel::createWithFrame(DRect((50), (yHight), m_winSize.width - (80), (200)));
         //label->setTextAlignment(CATextAlignmentCenter);
         m_question1->setColor(CAColor_gray);
         m_question1->setFontSize((28));
         m_question1->setText("Question 1");
         m_question1->setFontName(SAP_FONT_ARIAL);
-        partOne->addSubview(m_question1);
+        scrollView->addSubview(m_question1);
     }
     
     // options one label
@@ -212,31 +220,6 @@ void SurveyViewController::viewDidLoad()
 		partThree->addSubview(button);
 	}
 
-    /*
-	label = CALabel::createWithFrame(DRect((40), (240), m_winSize.width - (80), (80)));
-	//label->setTextAlignment(CATextAlignmentCenter);
-	label->setColor(CAColor_gray);
-	label->setFontSize((35));
-	label->setText("Fadeback to the speaker:");
-	label->setFontName("fonts/arial.ttf");
-	view->addSubview(label);
-*/
-    /*
-	m_feedBackTextView = CATextView::createWithFrame(DRect((40), (330), m_winSize.width - (80), (300)));
-	m_feedBackTextView->setFontSize((35));
-	m_feedBackTextView->setFontName("fonts/arial.ttf");
-	m_feedBackTextView->setColor(ccc4(0xf6, 0xf6, 0xf6, 0xff));
-	m_feedBackTextView->setBackgroundColor(CAColor_gray);
-	view->addSubview(m_feedBackTextView);
-
-	m_alertLabel = CALabel::createWithFrame(DRect((40), (640), m_winSize.width - (80), (40)));
-	m_alertLabel->setText("*Feedback failed, please try again!");
-	m_alertLabel->setColor(CAColor_red);
-	m_alertLabel->setFontSize((35));
-	m_alertLabel->setFontName("fonts/arial.ttf");
-	m_alertLabel->setVisible(false);
-	view->addSubview(m_alertLabel);
-*/
 	button = CAButton::createWithFrame(DRect((40), m_winSize.height - (120), m_winSize.width - (80), (100)), CAButtonTypeCustom);
 	imageView = CAImageView::createWithImage(CAImage::create("common/sky_bg.png"));
 	imageView->setImageViewScaleType(CAImageViewScaleTypeFitImageXY);
@@ -248,7 +231,7 @@ void SurveyViewController::viewDidLoad()
 	button->setTag(200);
     button->setAllowsSelected(true);
     this->getView()->addSubview(button);
-    
+    */
     CCLog("%f", CAApplication::getApplication()->getWinSize().width);
 }
 
@@ -377,6 +360,7 @@ void SurveyViewController::onSurveyInfoFinished(const HttpResponseStatus& status
         {
             const CSJson::Value& value = json["result"]["q"];
             
+            /*
             m_surveyDetail.m_question1 = value[0]["QContent1"].asString();
             m_surveyDetail.m_question2 = value[0]["QContent2"].asString();
             
@@ -389,15 +373,214 @@ void SurveyViewController::onSurveyInfoFinished(const HttpResponseStatus& status
             m_surveyDetail.m_question_option2.push_back(value[0]["Q22"].asString());
             m_surveyDetail.m_question_option2.push_back(value[0]["Q23"].asString());
             m_surveyDetail.m_question_option2.push_back(value[0]["Q24"].asString());
+            */
             
+            {
+                int yHight = 30;
+                int yGap = 50;
+                std::string tmp;
+                
+                // question one label
+                if (m_question1 == NULL) {
+                    m_question1 = CALabel::createWithFrame(DRect((50), (yHight), m_winSize.width - (80), (200)));
+                    //label->setTextAlignment(CATextAlignmentCenter);
+                    m_question1->setColor(CAColor_gray);
+                    m_question1->setFontSize((28));
+                    tmp = value[0]["QContent1"].asString();
+                    m_question1->setText(tmp);
+                    m_question1->setFontName(SAP_FONT_ARIAL);
+                    m_bodyScrollView->addSubview(m_question1);
+                }
+                
+                yHight += (tmp.size() / 35) * 30;
+                yHight += yGap * 1.5;
+                
+                // options one label
+                for (int i = 0; i < OPTN_CNT; i++)
+                {
+                    if (m_optionBtn1[i] == NULL)
+                    {
+                        m_optionBtn1[i] = CAButton::createWithFrame(DRect((50), yHight, (50), (50)), CAButtonTypeSquareRect);
+                        CAImageView* imageView = CAImageView::createWithImage(CAImage::create("common/checkbox_nochecked.png"));
+                        imageView->setImageViewScaleType(CAImageViewScaleTypeFitImageInside);
+                        imageView->setFrame(DRect((0), (0), (40), (40)));
+                        m_optionBtn1[i]->setBackgroundViewForState(CAControlStateAll, imageView);
+                        imageView = CAImageView::createWithImage(CAImage::create("common/checkbox_checked.png"));
+                        imageView->setImageViewScaleType(CAImageViewScaleTypeFitImageInside);
+                        imageView->setFrame(DRect((0), (0), (40), (40)));
+                        m_optionBtn1[i]->setBackgroundViewForState(CAControlStateSelected, imageView);
+                        m_optionBtn1[i]->setAllowsSelected(true);
+                        m_optionBtn1[i]->setTag(400 + i);
+                        m_optionBtn1[i]->addTarget(this, CAControl_selector(SurveyViewController::buttonCallBack), CAControlEventTouchUpInSide);
+                        m_bodyScrollView->addSubview(m_optionBtn1[i]);
+                    }
+                    if (m_option1[i] == NULL)
+                    {
+                        m_option1[i] = CALabel::createWithFrame(DRect((50) + (60), yHight + 10, m_winSize.width - (80) - (60), (200)));
+                        m_option1[i]->setColor(CAColor_gray);
+                        m_option1[i]->setFontSize((27));
+                        switch (i) {
+                            case 0:
+                                tmp = value[0]["Q11"].asString();
+                                break;
+                            case 1:
+                                tmp = value[0]["Q12"].asString();
+                                break;
+                            case 2:
+                                tmp = value[0]["Q13"].asString();
+                                break;
+                            case 3:
+                                tmp = value[0]["Q14"].asString();
+                                break;
+                            default:
+                                break;
+                        }
+                        m_option1[i]->setText(tmp);
+                        m_option1[i]->setVerticalTextAlignmet(CAVerticalTextAlignmentTop);
+                        m_option1[i]->setFontName(SAP_FONT_ARIAL);
+                        m_bodyScrollView->addSubview(m_option1[i]);
+                    }
+                    yHight += (tmp.size() / 35) * 30 + yGap;
+                }
+                
+                
+                // part two : 4 - 1
+                //CAView* partTwo = CAView::createWithFrame(DRect(0, yHight, m_winSize.width, m_winSize.height * 0.3));
+                //yHight += m_winSize.height * 0.3;
+                //scrollView->addSubview(partTwo);
+                
+                yHight += yGap * 2;
+                
+                // question two label
+                if (m_question2 == NULL) {
+                    m_question2 = CALabel::createWithFrame(DRect((50), (yHight), m_winSize.width - (60), (200)));
+                    //label->setTextAlignment(CATextAlignmentCenter);
+                    m_question2->setColor(CAColor_gray);
+                    m_question2->setFontSize((28));
+                    tmp = value[0]["QContent1"].asString();
+                    m_question2->setText(tmp);
+                    m_question2->setFontName(SAP_FONT_ARIAL);
+                    m_bodyScrollView->addSubview(m_question2);
+                }
+                
+                yHight += (tmp.size() / 35) * 30;
+                yHight += yGap * 1.5;
+                
+                // options two label
+                for (int i = 0; i < OPTN_CNT; i++)
+                {
+                    if (m_optionBtn2[i] == NULL)
+                    {
+                        m_optionBtn2[i] = CAButton::createWithFrame(DRect((50), yHight, (50), (50)), CAButtonTypeSquareRect);
+                        CAImageView* imageView = CAImageView::createWithImage(CAImage::create("common/checkbox_nochecked.png"));
+                        imageView->setImageViewScaleType(CAImageViewScaleTypeFitImageInside);
+                        imageView->setFrame(DRect((0), (0), (40), (40)));
+                        m_optionBtn2[i]->setBackgroundViewForState(CAControlStateAll, imageView);
+                        imageView = CAImageView::createWithImage(CAImage::create("common/checkbox_checked.png"));
+                        imageView->setImageViewScaleType(CAImageViewScaleTypeFitImageInside);
+                        imageView->setFrame(DRect((0), (0), (40), (40)));
+                        m_optionBtn2[i]->setBackgroundViewForState(CAControlStateSelected, imageView);
+                        m_optionBtn2[i]->setAllowsSelected(true);
+                        m_optionBtn2[i]->setTag(500 + i);
+                        m_optionBtn2[i]->addTarget(this, CAControl_selector(SurveyViewController::buttonCallBack), CAControlEventTouchUpInSide);
+                        m_bodyScrollView->addSubview(m_optionBtn2[i]);
+                    }
+                    if (m_option2[i] == NULL)
+                    {
+                        m_option2[i] = CALabel::createWithFrame(DRect((50) + (60), yHight + 10, m_winSize.width - (80) - (60), (200)));
+                        m_option2[i]->setColor(CAColor_gray);
+                        m_option2[i]->setFontSize((27));
+                        switch (i) {
+                            case 0:
+                                tmp = value[0]["Q21"].asString();
+                                break;
+                            case 1:
+                                tmp = value[0]["Q22"].asString();
+                                break;
+                            case 2:
+                                tmp = value[0]["Q23"].asString();
+                                break;
+                            case 3:
+                                tmp = value[0]["Q24"].asString();
+                                break;
+                            default:
+                                break;
+                        }
+                        m_option2[i]->setText(tmp);
+                        m_option2[i]->setVerticalTextAlignmet(CAVerticalTextAlignmentTop);
+                        //m_option2[i]->setText(crossapp_format_string("option 2 test %d", i));
+                        m_option2[i]->setFontName(SAP_FONT_ARIAL);
+                        m_bodyScrollView->addSubview(m_option2[i]);
+                    }
+                    yHight += (tmp.size() / 35) * 30 + yGap;
+                }
+                
+                yHight += 80;
+                
+                // part three : 5 stars
+                //CAView* partThree = CAView::createWithFrame(DRect(0, yHight, m_winSize.width, m_winSize.height * 0.2));
+                //yHight += m_winSize.height * 0.2;
+                //m_bodyScrollView->addSubview(partThree);
+                
+                //    CAView* view = CAView::createWithFrame(DRect(0, yHight, m_winSize.width, m_winSize.height - (120)));
+                //	this->getView()->addSubview(view);
+                
+                CALabel* label = CALabel::createWithFrame(DRect((30), (yHight), m_winSize.width - (60), (60)));
+                label->setColor(CAColor_gray);
+                label->setFontSize((28));
+                label->setText("How do you like this session?");
+                label->setFontName(SAP_FONT_ARIAL);
+                m_bodyScrollView->addSubview(label);
+                
+                yHight += 50;
+                
+                for (int i = 0; i < STAR_CNT; i++)
+                {
+                    CAButton* button = CAButton::createWithFrame(DRect((50) + i * (100), (yHight), (80), (80)), CAButtonTypeSquareRect);
+                    CAImageView* imageView = CAImageView::createWithImage(CAImage::create(crossapp_format_string("session/face%d_btn.png", i + 1)));
+                    imageView->setImageViewScaleType(CAImageViewScaleTypeFitImageInside);
+                    imageView->setFrame(DRect((20), (20), (80), (80)));
+                    button->setBackgroundViewForState(CAControlStateAll, imageView);
+                    //button->setImageForState(CAControlStateAll, CAImage::create(crossapp_format_string("session/face%d_btn.png", i + 1)));
+                    if (m_stars[i] == NULL) {
+                        m_stars[i] = CAImage::create(crossapp_format_string("session/face%d_btn_pre.png", i + 1));//CAImageView::createWithImage(CAImage::create(crossapp_format_string("session/face%d_btn_pre.png", i + 1)));
+                        //m_stars[i]->setFrame(DRect((20), (20), (80), (80)));
+                        //m_stars[i]->setImageViewScaleType(CAImageViewScaleTypeFitImageInside);
+                    }
+                    //imageView = CAImageView::createWithImage(CAImage::create(crossapp_format_string("session/face%d_btn_pre.png", i + 1)));
+                    imageView = CAImageView::createWithImage(m_stars[i]);
+                    imageView->setImageViewScaleType(CAImageViewScaleTypeFitImageInside);
+                    imageView->setFrame(DRect((20), (20), (80), (80)));
+                    button->setBackgroundViewForState(CAControlStateSelected, imageView);
+                    button->setAllowsSelected(true);
+                    button->setTag(300 + i);
+                    button->addTarget(this, CAControl_selector(SurveyViewController::buttonCallBack), CAControlEventTouchUpInSide);
+                    m_scoreButtonVec.push_back(button);
+                    m_bodyScrollView->addSubview(button);
+                }
+                
+                //yHight += 60;
+                
+                CAButton* button = CAButton::createWithFrame(DRect((40), m_winSize.height - (120), m_winSize.width - (80), (100)), CAButtonTypeCustom);
+                CAImageView* imageView = CAImageView::createWithImage(CAImage::create("common/sky_bg.png"));
+                imageView->setImageViewScaleType(CAImageViewScaleTypeFitImageXY);
+                button->setBackgroundViewForState(CAControlStateAll, imageView);
+                button->setTitleForState(CAControlStateAll, "Submit and Get Session Credits");
+                button->setTitleFontSize((35));
+                button->setTitleColorForState(CAControlStateAll, CAColor_white);
+                button->addTarget(this, CAControl_selector(SurveyViewController::buttonCallBack), CAControlEventTouchUpInSide);
+                button->setTag(200);
+                button->setAllowsSelected(true);
+                this->getView()->addSubview(button);
+            }
             isSucceed = true;
             
-            if (m_question1)    m_question1->setText(m_surveyDetail.m_question1);
-            if (m_question2)    m_question2->setText(m_surveyDetail.m_question2);
-            for (int i = 0; i < OPTN_CNT; i++) {
-                if (m_option1[i])    m_option1[i]->setText(m_surveyDetail.m_question_option1[i]);
-                if (m_option2[i])    m_option2[i]->setText(m_surveyDetail.m_question_option2[i]);
-            }
+            //if (m_question1)    m_question1->setText(m_surveyDetail.m_question1);
+            //if (m_question2)    m_question2->setText(m_surveyDetail.m_question2);
+            //for (int i = 0; i < OPTN_CNT; i++) {
+            //    if (m_option1[i])    m_option1[i]->setText(m_surveyDetail.m_question_option1[i]);
+            //    if (m_option2[i])    m_option2[i]->setText(m_surveyDetail.m_question_option2[i]);
+            //}
         }
     }
     if (p_pLoading)
@@ -405,7 +588,7 @@ void SurveyViewController::onSurveyInfoFinished(const HttpResponseStatus& status
         p_pLoading->stopAnimating();
     }
     if (!isSucceed) {
-        CAAlertView *alertView = CAAlertView::createWithText("Error", "Please try again!", "OK", NULL);
+        CAAlertView *alertView = CAAlertView::createWithText("Sorry", "Speaker didn't provide the questions!", "OK", NULL);
         alertView->setTarget(this, CAAlertView_selector(SurveyViewController::onAlert));
         alertView->show();
     }
@@ -433,7 +616,7 @@ void SurveyViewController::onRequestFinished(const HttpResponseStatus& status, c
             //            CAAlertView *alertView = CAAlertView::createWithText("Succeed !", "Thanks for take this survey !", "OK", NULL);
             //            alertView->show();
             FDataManager::getInstance()->setRankDirty(true);
-            //FDataManager::getInstance()->setUserDirty(true);
+            FDataManager::getInstance()->setUserDirty(true);
             //            userInfo* info = FDataManager::getInstance()->getUserInfo();
             //            info->m_greenAmb = true;
             srv->setCorrect(true);

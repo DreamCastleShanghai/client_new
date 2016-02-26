@@ -204,6 +204,7 @@ void PhotoViewController::buttonCallBack(CAControl* btn, DPoint point)
             
         }
         FDataManager::getInstance()->setUserDirty(true);
+        FDataManager::getInstance()->setRankDirty(true);
     }
     else if (btn->getTag() == 500) // cancle
     {
@@ -244,11 +245,9 @@ void PhotoViewController::onRequestFinished(const HttpResponseStatus& status, co
             this->getView()->removeSubview(m_photoView);
             m_photoView = NULL;
             RootWindow::getInstance()->getRootNavigationController()->popViewControllerAnimated(true);
-            if (m_type == 0) {
-                FDataManager::getInstance()->setUserDirty(true);
-            } else if (m_type == 1) {
-                FDataManager::getInstance()->setRankDirty(true);
-            }
+
+            FDataManager::getInstance()->setUserDirty(true);
+            FDataManager::getInstance()->setRankDirty(true);
         }
         else
         {

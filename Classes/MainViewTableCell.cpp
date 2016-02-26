@@ -85,6 +85,7 @@ void MainViewTableCell::initWithCell(sessionMsg &msg)
     if (m_titleLabel) {
         m_titleLabel->setColor(ccc4(0x5f, 0x5f, 0x5f, 0xff));
         m_titleLabel->setTextAlignment(CATextAlignmentLeft);
+        m_titleLabel->setVerticalTextAlignmet(CAVerticalTextAlignmentCenter);
         m_titleLabel->setFontSize((27));
         m_titleLabel->setText(m_msg->m_title);
         this->getContentView()->addSubview(m_titleLabel);

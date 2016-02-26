@@ -198,6 +198,7 @@ public:
     
     CC_SYNTHESIZE_IS(bool, m_userDirty, UserDirty);
     CC_SYNTHESIZE_IS(bool, m_rankDirty, RankDirty);
+    CC_SYNTHESIZE_IS(bool, m_photoDirty, PhotoDirty);
     
 private:
     

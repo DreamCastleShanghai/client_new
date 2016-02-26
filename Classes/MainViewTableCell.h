@@ -27,7 +27,7 @@ public:
 
 	void onLikeRequestFinished(const HttpResponseStatus& status, const CSJson::Value& json);
     
-    void updateTable();
+    static void updateTable();
 
 private:
 

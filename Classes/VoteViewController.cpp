@@ -548,7 +548,7 @@ void VoteViewController::buttonCallBack(CAControl* btn, DPoint point)
         userInfo* uInfo = FDataManager::getInstance()->getUserInfo();
         if (uInfo->m_demoVoteIdVec.size() >= 2)
         {
-            CAAlertView *alertView = CAAlertView::createWithText("Sorry", "Everyone has only 2 votes.", "OK", NULL);
+            CAAlertView *alertView = CAAlertView::createWithText("", "Everyone has only 2 votes.", "OK", NULL);
             alertView->show();
             return;
         }
@@ -563,7 +563,7 @@ void VoteViewController::buttonCallBack(CAControl* btn, DPoint point)
         userInfo* uInfo = FDataManager::getInstance()->getUserInfo();
         if (uInfo->m_voiceVoteIdVec.size() >= 2)
         {
-            CAAlertView *alertView = CAAlertView::createWithText("Sorry", "Everyone has only 2 votes.", "OK", NULL);
+            CAAlertView *alertView = CAAlertView::createWithText("", "Everyone has only 2 votes.", "OK", NULL);
             alertView->show();
             return;
         }
@@ -578,7 +578,7 @@ void VoteViewController::buttonCallBack(CAControl* btn, DPoint point)
         userInfo* uInfo = FDataManager::getInstance()->getUserInfo();
         if (uInfo->m_eggVoted)
         {
-            CAAlertView *alertView = CAAlertView::createWithText("Sorry", "You have already voted.", "OK", NULL);
+            CAAlertView *alertView = CAAlertView::createWithText("", "You have already voted.", "OK", NULL);
             alertView->show();
             return;
         }
