@@ -19,6 +19,7 @@ FNoticeManager* FNoticeManager::sharedFNoticeManager()
 FNoticeManager::FNoticeManager()
 {
     
+    m_hasNewMessage = false;
     int ret = 0;
 
     const char *sql_createtable = "CREATE TABLE IF NOT EXISTS notice(id int auto_increment, sid int, title VARCHAR(256), detail VARCHAR(256), readed int, start_time int64, end_time int64, type int);";
@@ -41,6 +42,10 @@ FNoticeManager::FNoticeManager()
     
     const char* sql_stmt_get =" SELECT sid, title, detail, readed ,start_time, end_time, type FROM notice ORDER BY start_time DESC;";
     ret |= sqlite3_prepare_v2(RootWindow::getInstance()->getSqlite3(), sql_stmt_get, -1, &_sqlite_stmt_get, NULL);
+    
+    const char* sql_stmt_getunread =" SELECT sid FROM notice WHERE readed = 0;";
+    ret |= sqlite3_prepare_v2(RootWindow::getInstance()->getSqlite3(), sql_stmt_getunread, -1, &_sqlite_stmt_getunread, NULL);
+    
 }
 
 FNoticeManager::~FNoticeManager()
@@ -50,6 +55,22 @@ FNoticeManager::~FNoticeManager()
     sqlite3_finalize(_sqlite_stmt_add);
     sqlite3_finalize(_sqlite_stmt_read);
     sqlite3_finalize(_sqlite_stmt_get);
+    sqlite3_finalize(_sqlite_stmt_getunread);
+}
+
+void FNoticeManager::refreshMessage()
+{
+    int ok = SQLITE_OK;
+    while(sqlite3_step(_sqlite_stmt_getunread) == SQLITE_ROW)
+    {
+        m_hasNewMessage = true;
+        ok |= sqlite3_reset(_sqlite_stmt_getunread);
+        return;
+    }
+    ok |= sqlite3_reset(_sqlite_stmt_getunread);
+    if( ok != SQLITE_OK && ok != SQLITE_DONE)
+        CCLog("Error in FNoticeManager::getNotices");
+    m_hasNewMessage = false;
 }
 
 bool FNoticeManager::addNotice(int sid, int type, std::string &title, std::string &detail, time_t start, time_t end, bool remote)

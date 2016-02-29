@@ -1,4 +1,4 @@
-APPNAME="SapSession"
+APPNAME="dkom"
 
 # options
 

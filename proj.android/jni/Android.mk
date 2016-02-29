@@ -9,7 +9,7 @@ LOCAL_MODULE_FILENAME := libFApp_cpp
 MY_FILES_PATH := $(LOCAL_PATH) \
                  $(LOCAL_PATH)/../../Classes
 
-MY_FILES_SUFFIX := %.cpp %.c
+MY_FILES_SUFFIX := %.cpp
 
 rwildcard=$(wildcard $1$2) $(foreach d,$(wildcard $1*),$(call rwildcard,$d/,$2))
 

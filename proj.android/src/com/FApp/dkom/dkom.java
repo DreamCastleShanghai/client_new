@@ -1,12 +1,12 @@
 
-package com.FApp.SapSession;
+package com.FApp.dkom;
 
 import org.CrossApp.lib.Cocos2dxActivity;
 import org.CrossApp.lib.Cocos2dxGLSurfaceView;
 
 import android.os.Bundle;
 
-public class SapSession extends Cocos2dxActivity{
+public class dkom extends Cocos2dxActivity{
 	
     protected void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);	
@@ -14,7 +14,7 @@ public class SapSession extends Cocos2dxActivity{
 
     public Cocos2dxGLSurfaceView onCreateView() {
     	Cocos2dxGLSurfaceView glSurfaceView = new Cocos2dxGLSurfaceView(this);
-    	// SapSession should create stencil buffer
+    	// dkom should create stencil buffer
     	glSurfaceView.setEGLConfigChooser(5, 6, 5, 0, 16, 8);
     	
     	return glSurfaceView;

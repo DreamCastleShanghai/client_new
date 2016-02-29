@@ -53,17 +53,22 @@ public:
     
     void playNoticeVoice();
     
+    void refreshMessage();
+    bool hasNewMessage() { return m_hasNewMessage; }
+    
 protected:
     
     sqlite3_stmt *_sqlite_stmt_delete;
     sqlite3_stmt *_sqlite_stmt_add;
     sqlite3_stmt *_sqlite_stmt_get;
     sqlite3_stmt *_sqlite_stmt_read;
+    sqlite3_stmt *_sqlite_stmt_getunread;
 
     std::vector<FNotice> m_notices;
     
     CAObject*           m_pFNoticeTarget;
     SEL_FNoticeEvent    m_pFNoticeEvent;
+    bool m_hasNewMessage;
 };
 
 #endif /* defined(__FNoticeManager__) */

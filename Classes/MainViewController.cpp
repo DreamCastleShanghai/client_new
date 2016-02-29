@@ -53,6 +53,7 @@ MainViewController::MainViewController()
 //    m_msg(FDataManager::getInstance()->getSessionMsgs())
     
     FNoticeManager::sharedFNoticeManager()->setTarget(this, FNotice_selector(MainViewController::onNotice));
+    CAScheduler::schedule(schedule_selector(MainViewController::refreshNoticeRedPoint), this, 1);
 }
 
 MainViewController::~MainViewController()
@@ -156,17 +157,16 @@ void MainViewController::viewDidAppear()
 void MainViewController::refreshNoticeRedPoint()
 {
     // message unread cnt
-    int unreadCnt = 0;
-    std::vector<FNotice>& notices = FNoticeManager::sharedFNoticeManager()->getNotices();
-    for (int i = 0; i < notices.size(); i++)
-    {
-        if (!notices[i].readed)
-            unreadCnt++;
-    }
-    if (unreadCnt == 0) {
-        m_timeNoticeImageView->setVisible(false);
+    
+    FNoticeManager::sharedFNoticeManager()->refreshMessage();
+    if (FNoticeManager::sharedFNoticeManager()->hasNewMessage()) {
+        if (m_timeNoticeImageView) {
+            m_timeNoticeImageView->setVisible(true);
+        }
     } else {
-        m_timeNoticeImageView->setVisible(true);
+        if (m_timeNoticeImageView) {
+            m_timeNoticeImageView->setVisible(false);
+        }
     }
 }
 
@@ -213,7 +213,7 @@ void MainViewController::viewDidLoad()
             m_timeNoticeImageView->setImage(CAImage::create("common/reddot.png"));
             button->addSubview(m_timeNoticeImageView);
         }
-        refreshNoticeRedPoint();
+        //refreshNoticeRedPoint();
     }
     
     // notification alert point
@@ -403,6 +403,7 @@ void MainViewController::viewDidLoad()
     {
     //    this->initMsgTableView();
     }
+
 }
 
 void MainViewController::viewDidUnload()
