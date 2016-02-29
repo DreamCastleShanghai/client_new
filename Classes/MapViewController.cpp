@@ -57,10 +57,14 @@ void MapViewController::viewDidLoad()
     this->getView()->addSubview(button);
     
     
-    m_webView = CAWebView::createWithFrame(DRect(0,120,m_winSize.width,m_winSize.height - 120));
-    m_webView->loadURL("http://139.196.195.185:8080/guide/guide.htm");
-    m_webView->setScalesPageToFit(true);
-    this->getView()->addSubview(m_webView);
+//    CAWebView* web = CAWebView::createWithCenter(DRect(m_winSize.width/2,m_winSize.height/2,m_winSize.width,m_winSize.height/2));
+//    web->loadURL("http://139.196.195.185:8080/guide/guide.htm");
+//    this->getView()->addSubview(web);
+    
+    CAWebView* webView = CAWebView::createWithFrame(DRect(0,120,m_winSize.width,m_winSize.height - 120));
+    webView->loadURL("http://139.196.195.185:8080/guide/guide.htm");
+    webView->setScalesPageToFit(true);
+    this->getView()->addSubview(webView);
 
     /*
     m_bodyScrollView = CAScrollView::createWithFrame(DRect((0), hight, m_winSize.width, m_winSize.height - hight));
