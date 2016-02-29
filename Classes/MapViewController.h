@@ -63,6 +63,8 @@ private:
     
 //    CommonUrlImageView*                                     m_pageTwoImage;
     
+    CAWebView* m_webView;
+    
 };
 
 

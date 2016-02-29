@@ -18,7 +18,7 @@ MapViewController::MapViewController()
 //, m_pageTwoImage(NULL)
 {
     //m_maps.clear();
-    requestInsideguideMsg();
+    //requestInsideguideMsg();
 }
 
 MapViewController::~MapViewController()
@@ -56,6 +56,12 @@ void MapViewController::viewDidLoad()
     button->setTag(ID_BACK);
     this->getView()->addSubview(button);
     
+    
+    m_webView = CAWebView::createWithFrame(DRect(0,120,m_winSize.width,m_winSize.height - 120));
+    m_webView->loadURL("http://139.196.195.185:8080/guide/guide.htm");
+    m_webView->setScalesPageToFit(true);
+    this->getView()->addSubview(m_webView);
+
     /*
     m_bodyScrollView = CAScrollView::createWithFrame(DRect((0), hight, m_winSize.width, m_winSize.height - hight));
     if (m_bodyScrollView) {
