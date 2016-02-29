@@ -828,21 +828,21 @@ CATableViewCell* MyStatusViewController::tableCellAtIndex(CATableView* table, co
                     urlImageView->addSubview(greenAmbIcon);
                 }
                 
-                CALabel* label = CALabel::createWithFrame(DRect((200), (10), (300), (30)));
+                CALabel* label = CALabel::createWithFrame(DRect((200), (10), (300), (35)));
                 label->setText(m_rankMsg[row].m_userName);
                 label->setFontSize((25));
                 label->setVerticalTextAlignmet(CAVerticalTextAlignmentCenter);
                 label->setColor(ccc4(0x3f, 0x3f, 0x3f, 0xff));
                 cell->addSubview(label);
                 
-                label = CALabel::createWithFrame(DRect(m_winSize.width * 0.75, (10), (300), (30)));
+                label = CALabel::createWithFrame(DRect(m_winSize.width * 0.75, (10), (300), (35)));
                 label->setText(crossapp_format_string("%d", m_rankMsg[row].m_point));
                 label->setFontSize((25));
                 label->setVerticalTextAlignmet(CAVerticalTextAlignmentCenter);
                 label->setColor(ccc4(0x3f, 0x3f, 0x3f, 0xff));
                 cell->addSubview(label);
                 
-                label = CALabel::createWithFrame(DRect((60), (10), (300), (30)));
+                label = CALabel::createWithFrame(DRect((60), (10), (300), (35)));
                 label->setText(crossapp_format_string("%d", m_rankMsg[row].m_pointRank));
                 label->setFontSize((25));
                 label->setBold(true);

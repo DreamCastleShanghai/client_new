@@ -199,7 +199,7 @@ void MeInfoViewController::onRequestSubmitFinished(const HttpResponseStatus& sta
                 
                 CommonUrlImageView* content = CommonUrlImageView::createWithFrame(DRect(0, (m_winSize.height - headHight) * i, m_winSize.width, m_winSize.height - 120));
                 if (content) {
-                    content->setImageViewScaleType(CAImageViewScaleTypeFitImageXY);
+                    content->setImageViewScaleType(CAImageViewScaleTypeFitImageInside);
                     content->setImage(CAImage::create("common/bg.png"));
                     content->setUrl(mapRes.m_imageUrl);
                 }
