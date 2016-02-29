@@ -168,9 +168,14 @@ void FirstSurveyViewController::onRequestSubmitFinished(const HttpResponseStatus
             FDataManager::getInstance()->setUserDirty(true);
             FDataManager::getInstance()->setRankDirty(true);
         }
-        else
+        else if (value["r"] == 0)
         {
             CAAlertView *alertView = CAAlertView::createWithText("Sorry !", "You have taken this survey !", "OK", NULL);
+            alertView->show();
+        }
+        else if (value["r"] == 2)
+        {
+            CAAlertView *alertView = CAAlertView::createWithText("Sorry !", "Time error !", "OK", NULL);
             alertView->show();
         }
         back();
