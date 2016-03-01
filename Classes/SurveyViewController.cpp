@@ -609,28 +609,40 @@ void SurveyViewController::onRequestFinished(const HttpResponseStatus& status, c
         string tempjson = writer.write(json);
         CCLog("receive json == %s",tempjson.c_str());
         const CSJson::Value& value = json["result"];
-        SessionSurveyResultViewController* srv = new SessionSurveyResultViewController();
-        srv->setAddedPoint(value["add"].asInt());
-        srv->setRank(value["rank"].asInt() + 1);
-        srv->setPoint(value["points"].asInt());
-        if (value["r"] == 1)
+        if (value["r"] == 0) {
+            CAAlertView *alertView = CAAlertView::createWithText("Sorry !", "You have taken this survey !", "OK", NULL);
+            alertView->show();
+        }
+        else if (value["r"] == 3)
         {
-            //            CAAlertView *alertView = CAAlertView::createWithText("Succeed !", "Thanks for take this survey !", "OK", NULL);
-            //            alertView->show();
-            FDataManager::getInstance()->setRankDirty(true);
-            FDataManager::getInstance()->setUserDirty(true);
-            //            userInfo* info = FDataManager::getInstance()->getUserInfo();
-            //            info->m_greenAmb = true;
-            srv->setCorrect(true);
+            CAAlertView *alertView = CAAlertView::createWithText("", "Submission time DO NOT match server time. Please make sure your phone time correct !", "OK", NULL);
+            alertView->show();
         }
         else
         {
-            //            CAAlertView *alertView = CAAlertView::createWithText("Sorry !", "You have taken this survey !", "OK", NULL);
-            //            alertView->show();
-            srv->setCorrect(false);
+            SessionSurveyResultViewController* srv = new SessionSurveyResultViewController();
+            srv->setAddedPoint(value["add"].asInt());
+            srv->setRank(value["rank"].asInt() + 1);
+            srv->setPoint(value["points"].asInt());
+            if (value["r"] == 1)
+            {
+                //            CAAlertView *alertView = CAAlertView::createWithText("Succeed !", "Thanks for take this survey !", "OK", NULL);
+                //            alertView->show();
+                FDataManager::getInstance()->setRankDirty(true);
+                FDataManager::getInstance()->setUserDirty(true);
+                //            userInfo* info = FDataManager::getInstance()->getUserInfo();
+                //            info->m_greenAmb = true;
+                srv->setCorrect(true);
+            }
+            else if (value["r"] == 2)
+            {
+                //            CAAlertView *alertView = CAAlertView::createWithText("Sorry !", "You have taken this survey !", "OK", NULL);
+                //            alertView->show();
+                srv->setCorrect(false);
+            }
+            srv->autorelease();
+            RootWindow::getInstance()->getRootNavigationController()->pushViewController(srv, true);
         }
-        srv->autorelease();
-        RootWindow::getInstance()->getRootNavigationController()->pushViewController(srv, true);
 
         /*
         const CSJson::Value& value = json["result"];

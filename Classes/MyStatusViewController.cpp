@@ -304,10 +304,12 @@ void MyStatusViewController::scrollViewHeaderBeginRefreshing(CAScrollView* view)
 {
     if (m_pointType == MY_INFO_SCORE_HISTORY)
     {
+        requestUserMsg();
         requestScoreHistoryMsg();
     }
     else if(m_pointType == MY_INFO_RANK)
     {
+        requestUserMsg();
         requestRankMsg();
     }
 }
@@ -780,7 +782,7 @@ CATableViewCell* MyStatusViewController::tableCellAtIndex(CATableView* table, co
                     scorelabel->setColor(ccc4(0x3f, 0x3f, 0x3f, 0xff));
                     cell->addSubview(scorelabel);
                 }
-                if (it.m_scoreType == 0 || it.m_scoreType == 6)
+                if (it.m_scoreType == 0)// || it.m_scoreType == 6)
                 {
                     // show score reason
                     CALabel* typelabel = CALabel::createWithFrame(DRect((120), (10), m_winSize.width - (120) - (40), (30)));

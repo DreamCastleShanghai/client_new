@@ -112,7 +112,8 @@ void MainViewTableCell::initWithCell(sessionMsg &msg)
         m_locationLabel->setColor(ccc4(0xa1, 0xa1, 0xa1, 0xff));
         m_locationLabel->setTextAlignment(CATextAlignmentLeft);
         m_locationLabel->setFontSize((25));
-        m_locationLabel->setText(crossapp_format_string("Location: %s", m_msg->m_location.c_str()));
+        m_locationLabel->setText(m_msg->m_location.c_str());
+        //m_locationLabel->setText(crossapp_format_string("Location: %s", m_msg->m_location.c_str()));
         this->getContentView()->addSubview(m_locationLabel);
     }
 
