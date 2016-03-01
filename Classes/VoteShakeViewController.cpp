@@ -415,6 +415,8 @@ void VoteShakeViewController::onRequestVoteFinished(const HttpResponseStatus& st
                 userInfo* uInfo = FDataManager::getInstance()->getUserInfo();
                 uInfo->m_eggVoted = true;
             }
+            FDataManager::getInstance()->setUserDirty(true);
+            FDataManager::getInstance()->setRankDirty(true);
         }
         else
         {
