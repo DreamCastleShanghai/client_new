@@ -76,6 +76,8 @@ protected:
     
     unsigned int tableViewHeightForHeaderInSection(CATableView* table, unsigned int section);
     
+    virtual void scrollViewHeaderBeginRefreshing(CAScrollView* view);
+    
     
 private:
     enum {
@@ -106,6 +108,7 @@ private:
     CAView*													p_alertView;
     CAActivityIndicatorView*								p_pLoading;
 	CATableView*											m_msgTableView;
+    CAPullToRefreshView*                                    m_headPullView;
     CATableView*                                            m_myCalanderView;
     int                                                     m_navType;
     int                                                     m_pointType;

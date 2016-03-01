@@ -13,6 +13,7 @@
 
 MyStatusViewController::MyStatusViewController()
 : m_msgTableView(NULL)
+, m_headPullView(NULL)
 , m_myCalanderView(NULL)
 , p_alertView(NULL)
 , p_pLoading(NULL)
@@ -132,6 +133,12 @@ void MyStatusViewController::viewDidLoad()
         m_msgTableView->setSeparatorColor(ccc4(200, 200, 200, 80));
         //m_msgTableView->setSeparatorViewHeight((2));
         this->getView()->addSubview(m_msgTableView);
+        
+        m_headPullView = CAPullToRefreshView::create(CAPullToRefreshView::CAPullToRefreshTypeHeader);
+        if (m_headPullView) {
+            m_headPullView->setLabelColor(CAColor_black);
+            m_msgTableView->setHeaderRefreshView(m_headPullView);
+        }
     }
 
     m_pointView = CAView::createWithFrame(DRect(0, (120), m_winSize.width, (300)));
@@ -292,6 +299,18 @@ void MyStatusViewController::requestMsg()
     CommonHttpManager::getInstance()->send_post(httpUrl, key_value, this, CommonHttpJson_selector(MyStatusViewController::onRequestFinished));
 }
 */
+
+void MyStatusViewController::scrollViewHeaderBeginRefreshing(CAScrollView* view)
+{
+    if (m_pointType == MY_INFO_SCORE_HISTORY)
+    {
+        requestScoreHistoryMsg();
+    }
+    else if(m_pointType == MY_INFO_RANK)
+    {
+        requestRankMsg();
+    }
+}
 
 void MyStatusViewController::buttonCallBack(CAControl* btn, DPoint point)
 {
