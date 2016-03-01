@@ -450,7 +450,7 @@ void VoteShakeViewController::didAccelerate(CCAcceleration* pAccelerationValue)
     float nowGY = (pAccelerationValue->y)*9.81f;
     float nowGZ = (pAccelerationValue->z)*9.81f;
     
-    float dt = 10.f;
+    float dt = 20.f;
     CCLog("m_voteStatus  :  %d", m_voteStatus);
     CCLog("nowGX : %f", nowGX);
     CCLog("nowGY : %f", nowGY);
@@ -461,7 +461,6 @@ void VoteShakeViewController::didAccelerate(CCAcceleration* pAccelerationValue)
         CCLog("enter accelerate");
         if (!CocosDenshion::SimpleAudioEngine::sharedEngine()->isBackgroundMusicPlaying())
         {
-            m_shakeNum++;
             CocosDenshion::SimpleAudioEngine::sharedEngine()->playBackgroundMusic("sound/vote.wav");
         }
         
@@ -471,6 +470,7 @@ void VoteShakeViewController::didAccelerate(CCAcceleration* pAccelerationValue)
             CCLog("play sound");
             CocosDenshion::SimpleAudioEngine::sharedEngine()->playBackgroundMusic("sound/vote.wav");
         }*/
+        m_shakeNum++;
         if(m_shakeNumLabel)
             m_shakeNumLabel->setText(crossapp_format_string("Shake Number: %d", SHAKE_CNT - m_shakeNum));
         if (m_shakeNum >= SHAKE_CNT)
