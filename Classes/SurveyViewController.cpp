@@ -458,7 +458,7 @@ void SurveyViewController::onSurveyInfoFinished(const HttpResponseStatus& status
                     //label->setTextAlignment(CATextAlignmentCenter);
                     m_question2->setColor(CAColor_gray);
                     m_question2->setFontSize((28));
-                    tmp = value[0]["QContent1"].asString();
+                    tmp = value[0]["QContent2"].asString();
                     m_question2->setText(tmp);
                     m_question2->setFontName(SAP_FONT_ARIAL);
                     m_bodyScrollView->addSubview(m_question2);
